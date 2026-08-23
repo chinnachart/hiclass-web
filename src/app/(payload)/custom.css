@@ -1,0 +1,11 @@
+/* ปรับหน้าตาหลังบ้านให้อ่านภาษาไทยสบายตา */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap");
+
+body {
+  --font-body: 'IBM Plex Sans Thai', -apple-system, sans-serif;
+}
+
+.field-description {
+  line-height: 1.6;
+  opacity: 0.85;
+}
