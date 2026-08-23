@@ -1,7 +1,14 @@
 # เว็บไซต์ Hi-Class EV Car
 
-เว็บใหม่แทน WordPress + Elementor — สร้างด้วย **Next.js 16 + Payload CMS 3** โฮสต์บน **Vercel**
+เว็บใหม่แทน WordPress + Elementor — สร้างด้วย **Next.js 16 + Payload CMS 3**
 เนื้อหาเก็บใน Supabase project `hiclass-ev-car` schema `cms` (แยกจากตาราง CRM ที่อยู่ใน `public`)
+
+**โฮสต์ได้ 2 ทาง โค้ดชุดเดียวกัน**
+
+| ทาง | ค่าใช้จ่ายเพิ่ม | เหมาะกับ |
+|---|---|---|
+| **Plesk ที่ hostatom** (ดู [PLESK-DEPLOY.md](./PLESK-DEPLOY.md)) | **0 บาท** | ใช้โฮสต์ที่จ่ายอยู่แล้ว ลูกค้าอยู่ในไทย รูปเก็บบนดิสก์ได้เลย |
+| Vercel Pro | ~700 ฿/เดือน | อยากได้ deploy อัตโนมัติ CDN ทั่วโลก และ preview ก่อนขึ้นจริง |
 
 ---
 
@@ -52,9 +59,18 @@ npm run dev
 | `PAYLOAD_SECRET` | กุญแจเข้ารหัส session หลังบ้าน — สุ่มใหม่ด้วย `openssl rand -base64 32` |
 | `CRM_SUPABASE_URL` | URL ของ Supabase project เดียวกัน สำหรับส่งลีด |
 | `CRM_SUPABASE_SERVICE_KEY` | service_role key — **ฝั่งเซิร์ฟเวอร์เท่านั้น** |
+| `MEDIA_DIR` | โฟลเดอร์เก็บรูปที่อัปโหลด — ต้องอยู่**นอก**โฟลเดอร์โปรแกรม ไม่งั้นรูปหายตอนอัปเดตเว็บ (ใช้เฉพาะตอนโฮสต์บนเซิร์ฟเวอร์ที่มีดิสก์ถาวร) |
 | `NEXT_PUBLIC_SITE_URL` | โดเมนจริง ใช้สำหรับ meta tag |
 
 ถ้าไม่ใส่ค่า `CRM_*` ระบบจะบันทึกลีดลง log แทนการเขียนจริง — สะดวกตอนทดสอบ
+
+### deploy ขึ้น Plesk (ไม่มีค่าใช้จ่ายเพิ่ม)
+
+```bash
+npm run build && npm run package     # ได้ไฟล์ hiclass-web-deploy.zip
+```
+
+ขั้นตอนละเอียดอยู่ใน **[PLESK-DEPLOY.md](./PLESK-DEPLOY.md)**
 
 ### deploy ขึ้น Vercel
 
@@ -88,6 +104,7 @@ src/
   lib/             crm.ts (ส่งลีด) · data.ts (ดึงเนื้อหา) · types.ts
   migrations/      สคริปต์สร้างตาราง
   scripts/seed.ts  ข้อมูลตั้งต้น
+scripts/package-plesk.mjs   รวมไฟล์เป็น zip สำหรับอัปโหลดขึ้น Plesk
   app/(site)/      หน้าเว็บที่ลูกค้าเห็น
   app/(payload)/   หลังบ้าน
 ```

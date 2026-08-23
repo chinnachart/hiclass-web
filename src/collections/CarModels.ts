@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateSite } from '../lib/revalidate'
 
 export const CarModels: CollectionConfig = {
   slug: 'car-models',
@@ -10,6 +11,10 @@ export const CarModels: CollectionConfig = {
     description: 'แก้ราคาและสเปกรถทุกรุ่นที่นี่ — แก้แล้วเว็บอัปเดตทันที',
   },
   access: { read: () => true },
+  hooks: {
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
+  },
   defaultSort: 'sortOrder',
   fields: [
     {

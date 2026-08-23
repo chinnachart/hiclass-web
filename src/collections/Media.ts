@@ -1,3 +1,4 @@
+import path from 'path'
 import type { CollectionConfig } from 'payload'
 
 export const Media: CollectionConfig = {
@@ -6,6 +7,11 @@ export const Media: CollectionConfig = {
   admin: { group: 'เนื้อหาเว็บ', description: 'อัปโหลดรูปครั้งเดียว นำไปใช้ซ้ำได้ทุกหน้า' },
   access: { read: () => true },
   upload: {
+    // เก็บไฟล์ไว้นอกโฟลเดอร์โปรแกรม ตั้งค่าผ่าน MEDIA_DIR
+    // สำคัญมากตอน deploy บน Plesk — ไม่งั้นรูปที่อัปโหลดจะหายทุกครั้งที่อัปเดตเว็บ
+    staticDir: process.env.MEDIA_DIR
+      ? path.resolve(process.env.MEDIA_DIR)
+      : path.resolve(process.cwd(), 'media'),
     mimeTypes: ['image/*'],
     // ระบบย่อขนาดและแปลงเป็น WebP ให้อัตโนมัติ — อัปโหลดไฟล์ใหญ่มาได้เลย
     formatOptions: { format: 'webp', options: { quality: 82 } },

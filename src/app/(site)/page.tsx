@@ -6,7 +6,7 @@ import PaymentCalculator from '@/components/PaymentCalculator'
 import { getSiteData } from '@/lib/data'
 import { telHref } from '@/lib/format'
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
 const SERVICES = [
   { no: '01', title: 'จองคิวศูนย์บริการ', body: 'เลือกสาขา วันเวลา และเรื่องที่จะเข้า จองออนไลน์ได้เอง ไม่ต้องโทรรอสาย', href: '/service', cta: 'จองคิวเลย' },

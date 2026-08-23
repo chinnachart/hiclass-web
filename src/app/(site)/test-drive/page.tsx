@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: 'เลือกรุ่น เลือกสาขา และวันเวลาที่สะดวก ทีมขายยืนยันกลับภายใน 1 ชั่วโมงในเวลาทำการ',
 }
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
 export default async function TestDrivePage({
   searchParams,

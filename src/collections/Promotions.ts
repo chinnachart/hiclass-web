@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateSite } from '../lib/revalidate'
 
 export const Promotions: CollectionConfig = {
   slug: 'promotions',
@@ -10,6 +11,10 @@ export const Promotions: CollectionConfig = {
     description: 'โปรฯ ที่เลยวันสิ้นสุดจะหายจากเว็บเองอัตโนมัติ ไม่ต้องมาลบ',
   },
   access: { read: () => true },
+  hooks: {
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
+  },
   fields: [
     { name: 'title', type: 'text', required: true, label: 'หัวข้อโปรโมชัน' },
     {

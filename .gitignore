@@ -6,3 +6,5 @@ media/
 *.log
 .DS_Store
 next-env.d.ts
+deploy/
+hiclass-web-deploy.zip

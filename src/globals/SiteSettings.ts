@@ -1,10 +1,12 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateSite } from '../lib/revalidate'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'ตั้งค่าเว็บไซต์',
   admin: { group: 'ตั้งค่าระบบ', description: 'ข้อความและตัวเลขที่ใช้ร่วมกันทั้งเว็บ' },
   access: { read: () => true },
+  hooks: { afterChange: [revalidateSite] },
   fields: [
     {
       type: 'tabs',

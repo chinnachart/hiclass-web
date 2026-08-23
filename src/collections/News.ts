@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateSite } from '../lib/revalidate'
 
 export const News: CollectionConfig = {
   slug: 'news',
@@ -9,6 +10,10 @@ export const News: CollectionConfig = {
     defaultColumns: ['title', 'category', 'publishedAt', '_status'],
   },
   access: { read: () => true },
+  hooks: {
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
+  },
   versions: { drafts: true },
   defaultSort: '-publishedAt',
   fields: [

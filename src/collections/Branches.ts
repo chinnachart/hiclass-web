@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateSite } from '../lib/revalidate'
 
 export const Branches: CollectionConfig = {
   slug: 'branches',
@@ -10,6 +11,10 @@ export const Branches: CollectionConfig = {
     description: 'ข้อมูลสาขาที่แสดงบนเว็บ — รหัสสาขาต้องตรงกับในระบบ CRM',
   },
   access: { read: () => true },
+  hooks: {
+    afterChange: [revalidateSite],
+    afterDelete: [revalidateSite],
+  },
   defaultSort: 'sortOrder',
   fields: [
     {
