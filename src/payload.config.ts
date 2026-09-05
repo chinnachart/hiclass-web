@@ -65,24 +65,25 @@ export default buildConfig({
   upload: { limits: { fileSize: 20_000_000 } },
   plugins: [
     // เก็บรูปไว้บน Supabase Storage เมื่อ deploy ขึ้น Vercel (ซึ่งไม่มีดิสก์ถาวร)
-    // ถ้าไม่ได้ตั้งค่า S3_* ไว้ ระบบจะเก็บลงดิสก์ตาม MEDIA_DIR เหมือนเดิม
-    ...(process.env.S3_BUCKET
-      ? [
-          s3Storage({
-            collections: { media: true },
-            bucket: process.env.S3_BUCKET,
-            config: {
-              endpoint: process.env.S3_ENDPOINT,
-              region: process.env.S3_REGION || 'ap-southeast-1',
-              forcePathStyle: true,
-              credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
-              },
-            },
-          }),
-        ]
-      : []),
+    // ถ้าไม่ได้ตั้งค่า S3_* ไว้ ปลั๊กอินจะปิดตัวเอง แล้วเก็บลงดิสก์ตาม MEDIA_DIR เหมือนเดิม
+    //
+    // สำคัญ: ต้องใส่ปลั๊กอินไว้เสมอ (ไม่ใช่ใส่แบบมีเงื่อนไข) ไม่งั้นตอนสร้าง importMap
+    // บนเครื่อง dev ที่ไม่มี S3_* จะไม่มีคอมโพเนนต์ของปลั๊กอินอยู่ในไฟล์
+    // แล้วหลังบ้านบน production จะจอขาวเพราะหาคอมโพเนนต์ไม่เจอ
+    s3Storage({
+      enabled: Boolean(process.env.S3_BUCKET),
+      collections: { media: true },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        endpoint: process.env.S3_ENDPOINT,
+        region: process.env.S3_REGION || 'ap-southeast-1',
+        forcePathStyle: true,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+        },
+      },
+    }),
   ],
   sharp: (await import('sharp')).default,
 })
