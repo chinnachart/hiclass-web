@@ -33,7 +33,7 @@ export default function Footer({
               <Link href="/test-drive">สนใจทดลองขับ</Link>
               <Link href="/service">จองคิวศูนย์บริการ</Link>
               <Link href="/rental">บริการรถให้เช่า</Link>
-              <Link href="/#calc">คำนวณค่างวด</Link>
+              <Link href="/price">ราคาและตารางผ่อน</Link>
               <Link href="/trade-in">เทิร์นรถเก่า</Link>
             </div>
             <div className="f-col">

@@ -59,3 +59,28 @@ export const getSiteData = unstable_cache(loadSiteData, ['site-data'], {
   revalidate: 300,
   tags: [SITE_CACHE_TAG],
 })
+
+/** ดึงรุ่นรถรายคัน สำหรับหน้ารายละเอียด */
+export async function getModelBySlug(slug: string) {
+  const payload = await getPayload({ config })
+  const res = await payload.find({
+    collection: 'car-models',
+    where: { and: [{ slug: { equals: slug } }, { published: { equals: true } }] },
+    limit: 1,
+    depth: 1,
+  })
+  return (res.docs[0] as unknown as CarModel) || null
+}
+
+/** รายชื่อ slug ทั้งหมด สำหรับสร้างหน้าล่วงหน้าและ sitemap */
+export async function getAllModelSlugs() {
+  const payload = await getPayload({ config })
+  const res = await payload.find({
+    collection: 'car-models',
+    where: { published: { equals: true } },
+    limit: 100,
+    depth: 0,
+    select: { slug: true, updatedAt: true } as never,
+  })
+  return res.docs as unknown as { slug: string; updatedAt: string }[]
+}

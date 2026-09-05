@@ -225,11 +225,15 @@ footer{border-top:1px solid var(--line);background:var(--stage);padding:52px 0 0
   justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--dimmer)}
 .mbar{display:none}
 
-@media (max-width:1180px){
-  .nav-item>a{padding:8px 8px;font-size:13.5px}
-  .tel{display:none}
+/* เมนูยาวขึ้นหลังเพิ่มหน้าราคา — ย่อให้เร็วขึ้นกันปุ่ม CTA ตกขอบ */
+@media (max-width:1440px){
+  .nav-item>a{padding:8px 9px;font-size:13.5px}
 }
-@media (max-width:1040px){
+@media (max-width:1330px){
+  .tel{display:none}
+  .nav-item>a{padding:8px 7px;font-size:13px}
+}
+@media (max-width:1160px){
   nav{display:none}
   .menu-btn{display:block}
   .hero-grid{grid-template-columns:1fr;gap:34px}
@@ -255,4 +259,136 @@ footer{border-top:1px solid var(--line);background:var(--stage);padding:52px 0 0
     font-family:"Chakra Petch",sans-serif;font-weight:600;font-size:15px}
   .mbar .call{background:transparent;border:1px solid var(--line-2);color:var(--chalk)}
   .mbar .book{background:var(--red);color:#fff}
+}
+
+/* ---------- หน้าย่อย (ราคา · เช่ารถ · รายละเอียดรุ่น) ---------- */
+.pagehead{padding-top:52px;border-top:none}
+.pagetitle{
+  font-family:"Chakra Petch",sans-serif;font-weight:700;
+  font-size:clamp(28px,4.6vw,46px);line-height:1.1;letter-spacing:-.015em;
+  margin:0 0 14px;text-wrap:balance;
+}
+.pagelede{color:var(--dim);font-size:17px;max-width:60ch;margin:0 0 30px}
+.crumb{font-size:13.5px;color:var(--dimmer);margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap}
+.crumb a{color:var(--steel);text-decoration:none}
+.crumb a:hover{color:#A5CADD}
+
+.ctl{
+  display:flex;flex-wrap:wrap;align-items:flex-end;gap:22px 34px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:6px;
+}
+.ctl-item{display:flex;flex-direction:column;gap:8px;min-width:210px}
+.ctl-item label,.ctl-label{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--dimmer);
+}
+.ctl-item label b{
+  font-family:"Chakra Petch",sans-serif;font-size:15px;color:var(--chalk);
+  letter-spacing:0;margin-inline-start:6px;font-variant-numeric:tabular-nums;
+}
+.ctl-note{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--dimmer);
+  margin:0;align-self:flex-end;padding-bottom:4px;
+}
+.seg{display:flex;gap:6px}
+.seg-b{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;background:transparent;
+  border:1px solid var(--line-2);color:var(--dim);padding:7px 14px;border-radius:6px;
+  cursor:pointer;transition:.15s;font-variant-numeric:tabular-nums;
+}
+.seg-b:hover{border-color:var(--dim);color:var(--chalk)}
+.seg-b.on{background:var(--chalk);border-color:var(--chalk);color:var(--void);font-weight:500}
+
+table.price{width:100%;border-collapse:collapse;font-size:15px;min-width:620px}
+table.price th,table.price td{padding:13px 16px;text-align:start;border-top:1px solid var(--line)}
+table.price thead th{
+  border-top:none;background:var(--card-2);font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);
+  font-weight:500;white-space:nowrap;
+}
+table.price td.r,table.price th.r{text-align:end}
+table.price td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.price td.dim{color:var(--dim)}
+table.price td.hi{font-family:"Chakra Petch",sans-serif;font-weight:600;font-size:17px;color:var(--lime)}
+table.price tbody tr:hover{background:var(--card-2)}
+.mname{
+  display:block;font-family:"Chakra Petch",sans-serif;font-weight:600;font-size:16px;
+  color:var(--chalk);text-decoration:none;
+}
+.mname:hover{color:var(--steel)}
+.mtag{display:block;font-size:12px;color:var(--dimmer);margin-top:1px}
+.mini{
+  font-size:12.5px;color:var(--chalk);text-decoration:none;border:1px solid var(--line-2);
+  border-radius:5px;padding:5px 11px;white-space:nowrap;
+}
+.mini:hover{border-color:var(--dim);background:var(--card-2)}
+
+.fineprint-block{font-size:12.5px;color:var(--dimmer);margin:14px 0 0;max-width:62ch;line-height:1.6}
+.cta-row{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}
+
+.notice{
+  background:var(--card);border:1px solid var(--line);border-inline-start:3px solid var(--steel-dim);
+  border-radius:0 9px 9px 0;padding:18px 20px;margin:22px 0;
+}
+.notice p{margin:0;color:var(--dim);font-size:15px}
+
+.faq{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;background:var(--card)}
+.faq details{border-top:1px solid var(--line)}
+.faq details:first-child{border-top:none}
+.faq summary{
+  cursor:pointer;padding:16px 20px;font-family:"Chakra Petch",sans-serif;font-weight:600;
+  font-size:16.5px;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--steel);font-size:19px;line-height:1;flex-shrink:0}
+.faq details[open] summary::after{content:"–"}
+.faq summary:hover{background:var(--card-2)}
+.faq details p{margin:0;padding:0 20px 18px;color:var(--dim);font-size:15px;max-width:70ch}
+
+.model-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:36px;align-items:center}
+.mh-stage{
+  position:relative;aspect-ratio:16/11;border-radius:12px;overflow:hidden;
+  background:linear-gradient(170deg,#1D252B 0%,#12171B 62%,#0D1114 100%);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+}
+.mh-stage::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 42% at 50% 72%, rgba(132,174,196,.20), transparent 70%);
+}
+.mh-info .pagetitle{margin-bottom:20px}
+.keyfacts{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);padding-top:18px}
+.keyfacts div{padding-inline-end:20px}
+.keyfacts div+div{border-inline-start:1px solid var(--line);padding-inline-start:20px}
+.keyfacts b{
+  display:block;font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:24px;
+  line-height:1.15;font-variant-numeric:tabular-nums;
+}
+.keyfacts span{display:block;font-size:12px;color:var(--dimmer);margin-top:3px;max-width:16ch;line-height:1.45}
+
+table.spec{width:100%;border-collapse:collapse;font-size:15px;min-width:460px}
+table.spec th,table.spec td{padding:12px 18px;text-align:start;border-top:1px solid var(--line)}
+table.spec tr:first-child th,table.spec tr:first-child td{border-top:none}
+table.spec th{
+  width:38%;font-weight:500;color:var(--dim);background:var(--card-2);
+  font-family:"IBM Plex Sans Thai",sans-serif;font-size:14.5px;
+}
+table.spec td{color:var(--chalk)}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.gitem{position:relative;aspect-ratio:4/3;border-radius:9px;overflow:hidden;
+  border:1px solid var(--line);background:var(--card)}
+
+.calc-wrap{max-width:440px}
+
+@media (max-width:900px){
+  .model-hero{grid-template-columns:1fr;gap:26px}
+  .calc-wrap{max-width:none}
+}
+@media (max-width:620px){
+  .pagehead{padding-top:36px}
+  .ctl{gap:18px}
+  .ctl-item{min-width:100%}
+  .keyfacts div{flex:0 0 50%;padding-inline-end:12px;margin-bottom:12px}
+  .keyfacts div+div{border-inline-start:none;padding-inline-start:0}
 }

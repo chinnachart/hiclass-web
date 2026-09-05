@@ -49,6 +49,9 @@ export default function Header({
             </div>
           </div>
           <div className="nav-item">
+            <Link href="/price">ราคา/ผ่อน</Link>
+          </div>
+          <div className="nav-item">
             <Link href="/service">Service</Link>
           </div>
           <div className="nav-item">

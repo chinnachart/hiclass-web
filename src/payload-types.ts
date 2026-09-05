@@ -178,6 +178,22 @@ export interface CarModel {
       }[]
     | null;
   /**
+   * ติ๊กแล้วรุ่นนี้จะแสดงในหน้า "บริการรถให้เช่า"
+   */
+  rentalAvailable?: boolean | null;
+  rentalDaily?: number | null;
+  rentalMonthly?: number | null;
+  /**
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * เลขน้อยขึ้นก่อน
    */
   sortOrder?: number | null;
@@ -504,6 +520,16 @@ export interface CarModelsSelect<T extends boolean = true> {
     | {
         label?: T;
         value?: T;
+        id?: T;
+      };
+  rentalAvailable?: T;
+  rentalDaily?: T;
+  rentalMonthly?: T;
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
         id?: T;
       };
   sortOrder?: T;

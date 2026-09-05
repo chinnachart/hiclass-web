@@ -121,6 +121,39 @@ export const CarModels: CollectionConfig = {
       ],
     },
     {
+      type: 'collapsible',
+      label: 'บริการรถให้เช่า',
+      admin: { description: 'คนค้นหา "เช่ารถ BYD" เยอะแต่เรายังไม่มีหน้ารองรับ — กรอกค่าเช่าแล้วรุ่นนี้จะขึ้นหน้าเช่ารถอัตโนมัติ' },
+      fields: [
+        {
+          name: 'rentalAvailable',
+          type: 'checkbox',
+          label: 'รุ่นนี้มีให้เช่า',
+          admin: { description: 'ติ๊กแล้วรุ่นนี้จะแสดงในหน้า "บริการรถให้เช่า"' },
+        },
+        {
+          type: 'row',
+          fields: [
+            { name: 'rentalDaily', type: 'number', min: 0, label: 'ค่าเช่ารายวัน (บาท)', admin: { width: '50%' } },
+            { name: 'rentalMonthly', type: 'number', min: 0, label: 'ค่าเช่ารายเดือน (บาท)', admin: { width: '50%' } },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'faq',
+      type: 'array',
+      label: 'คำถามที่ลูกค้าถามบ่อยเกี่ยวกับรุ่นนี้',
+      labels: { singular: 'คำถาม', plural: 'คำถาม' },
+      admin: {
+        description: 'มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง',
+      },
+      fields: [
+        { name: 'question', type: 'text', required: true, label: 'คำถาม' },
+        { name: 'answer', type: 'textarea', required: true, label: 'คำตอบ' },
+      ],
+    },
+    {
       type: 'row',
       fields: [
         {

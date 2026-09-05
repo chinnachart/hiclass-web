@@ -16,7 +16,12 @@ export type CarModel = {
   rangeKm?: number | null
   colorsCount?: number | null
   heroImage?: Media | number | null
+  gallery?: (Media | number)[] | null
   specs?: { label: string; value: string }[] | null
+  rentalAvailable?: boolean | null
+  rentalDaily?: number | null
+  rentalMonthly?: number | null
+  faq?: { question: string; answer: string }[] | null
 }
 
 export type Branch = {

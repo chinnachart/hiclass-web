@@ -45,10 +45,29 @@ const run = async () => {
     console.log('สร้างผู้ใช้ admin@hiclassevcar.com / ChangeMe123!  <-- เปลี่ยนรหัสผ่านทันทีหลังล็อกอิน')
   }
 
+  // คำถามตั้งต้น — อิงจากคำที่คนค้นเจอเว็บจริงใน Search Console
+  const faqFor = (name: string, price: number) => [
+    {
+      question: `BYD ${name} ผ่อนเดือนละเท่าไหร่`,
+      answer: `ขึ้นอยู่กับเงินดาวน์และจำนวนงวดที่เลือก ใช้เครื่องคำนวณค่างวดในหน้านี้ปรับดูได้ทันที ราคาเริ่มต้นของรุ่นนี้อยู่ที่ ${price.toLocaleString('th-TH')} บาท ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับการอนุมัติของสถาบันการเงิน`,
+    },
+    {
+      question: `BYD ${name} มีสีอะไรบ้าง`,
+      answer: 'สีที่มีจำหน่ายเปลี่ยนแปลงตามรอบการผลิต สอบถามสาขาที่สะดวกเพื่อเช็คสีที่พร้อมส่งมอบได้เลย',
+    },
+    {
+      question: `ทดลองขับ BYD ${name} ได้ที่ไหน`,
+      answer: 'นัดทดลองขับฟรีได้ที่ทั้ง 5 สาขาในกรุงเทพฯ และปริมณฑล กรอกฟอร์มบนเว็บแล้วทีมขายติดต่อกลับเพื่อยืนยันวันเวลา',
+    },
+  ]
+
   for (const m of MODELS) {
     const found = await payload.find({ collection: 'car-models', where: { slug: { equals: m.slug } }, limit: 1 })
     if (found.totalDocs === 0) {
-      await payload.create({ collection: 'car-models', data: { ...m, published: true } as never })
+      await payload.create({
+        collection: 'car-models',
+        data: { ...m, published: true, faq: faqFor(m.name, m.priceFrom) } as never,
+      })
       console.log('เพิ่มรุ่น', m.name)
     }
   }
