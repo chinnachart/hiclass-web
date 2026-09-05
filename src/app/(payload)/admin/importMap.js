@@ -25,6 +25,7 @@ import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { AdminIcon as AdminIcon_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
 import { AdminLogo as AdminLogo_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
 import { AfterNavLinks as AfterNavLinks_efcc7fec2af44371f7fed5d0104659dd } from '@/components/admin/NavLinks'
+import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { Dashboard as Dashboard_0e7b23c75ea046975e1784ba01f82886 } from '@/components/admin/Dashboard'
 import { PricesView as PricesView_0b8fa8745d8981b18e3f680fec9d4af4 } from '@/components/admin/PricesView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -58,6 +59,7 @@ export const importMap = {
   "@/components/admin/Logo#AdminIcon": AdminIcon_a44df17d0fc3dcd873dae43dc3bf66bd,
   "@/components/admin/Logo#AdminLogo": AdminLogo_a44df17d0fc3dcd873dae43dc3bf66bd,
   "@/components/admin/NavLinks#AfterNavLinks": AfterNavLinks_efcc7fec2af44371f7fed5d0104659dd,
+  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/admin/Dashboard#Dashboard": Dashboard_0e7b23c75ea046975e1784ba01f82886,
   "@/components/admin/PricesView#PricesView": PricesView_0b8fa8745d8981b18e3f680fec9d4af4,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
