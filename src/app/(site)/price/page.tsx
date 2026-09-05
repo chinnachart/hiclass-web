@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Icon from '@/components/Icons'
+import { Faq } from '@/components/Cards'
 import PriceTable from '@/components/PriceTable'
 import Jsonld, { faqLd } from '@/components/Jsonld'
 import { getSiteData } from '@/lib/data'
@@ -40,49 +40,35 @@ const FAQ = [
 ]
 
 export default async function PricePage() {
-  const { models, branches, settings } = await getSiteData()
+  const { models, settings } = await getSiteData()
   const cheapest = models.reduce((a, b) => (a.priceFrom < b.priceFrom ? a : b), models[0])
 
   return (
     <>
       <Jsonld data={faqLd(FAQ)} />
-      <Header models={models} branches={branches} phone={settings.mainPhone} />
-
-      <main className="shell">
-        <section className="pagehead">
+      <section className="page-head">
+        <div className="container">
           <p className="kicker">ราคาและค่างวด</p>
-          <h1 className="pagetitle">ราคา BYD ทุกรุ่น พร้อมตารางผ่อน</h1>
-          <p className="pagelede">
-            ปรับเงินดาวน์และจำนวนงวดด้านล่าง ตัวเลขค่างวดขยับตามทันทีทุกรุ่น
-            {cheapest ? <> เริ่มต้นที่ <strong>{baht(cheapest.priceFrom)} บาท</strong> สำหรับ BYD {cheapest.name}</> : null}
+          <h1>ราคา BYD ทุกรุ่น พร้อมตารางผ่อน</h1>
+          <p className="lead">
+            ปรับเงินดาวน์และจำนวนงวด ตัวเลขค่างวดขยับตามทันทีทุกรุ่น
+            {cheapest ? <> เริ่มต้นที่ <strong style={{ color: 'var(--ink)' }}>{baht(cheapest.priceFrom)} บาท</strong> สำหรับ BYD {cheapest.name}</> : null}
           </p>
-
+        </div>
+      </section>
+      <main className="container">
+        <section className="section" style={{ paddingTop: 20 }}>
           <PriceTable models={models} settings={settings} />
-
-          <p className="fineprint-block">
-            {settings.financeNote}
-          </p>
-
-          <div className="cta-row">
-            <Link className="btn" href="/test-drive">ขอใบเสนอราคาจริง</Link>
-            <Link className="btn ghost" href="/car-model">ดูสเปกแต่ละรุ่น</Link>
+          <div className="grid-2" style={{ marginTop: 14 }}>
+            <Link className="btn btn-red btn-lg" href="/test-drive"><Icon name="wheel" size={20} color="#fff" />ขอใบเสนอราคาจริง</Link>
+            <Link className="btn btn-outline btn-lg" href="/car-model">ดูสเปกแต่ละรุ่น</Link>
           </div>
         </section>
-
-        <section>
+        <section className="section">
           <div className="sec-head"><div><h2>คำถามที่ถามบ่อยเรื่องราคาและค่างวด</h2></div></div>
-          <div className="faq">
-            {FAQ.map((f) => (
-              <details key={f.question}>
-                <summary>{f.question}</summary>
-                <p>{f.answer}</p>
-              </details>
-            ))}
-          </div>
+          <Faq items={FAQ} />
         </section>
       </main>
-
-      <Footer models={models} branches={branches} settings={settings} />
     </>
   )
 }

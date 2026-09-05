@@ -1,16 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import type { Branch, CarModel } from '@/lib/types'
+import Icon from './Icons'
+import { telHref } from '@/lib/format'
+import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
 type Props = {
   models: CarModel[]
   branches: Branch[]
+  settings: SiteSettings
   defaultModel?: string
+  defaultBranch?: string
   offerNote?: string
 }
 
-export default function TestDriveForm({ models, branches, defaultModel, offerNote }: Props) {
+const SLOTS = ['เช้า (09:00–12:00)', 'บ่าย (12:00–15:00)', 'เย็น (15:00–18:00)']
+
+/** ฟอร์มนัดทดลองขับ — เลือกรุ่นเป็นชิป เลือกสาขา ชื่อ เบอร์ วัน ช่วงเวลา แล้วส่งเข้า CRM */
+export default function TestDriveForm({ models, branches, settings, defaultModel, defaultBranch, offerNote }: Props) {
+  const initialModel = models.find((m) => m.name === defaultModel)?.name || models[0]?.name || ''
+  const [model, setModel] = useState(initialModel)
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const [message, setMessage] = useState('')
 
@@ -18,6 +27,11 @@ export default function TestDriveForm({ models, branches, defaultModel, offerNot
     e.preventDefault()
     setState('sending')
     const fd = new FormData(e.currentTarget)
+    const date = String(fd.get('date') || '')
+    const slot = String(fd.get('slot') || '')
+    const preferredTime = [date ? new Date(date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) : '', slot]
+      .filter(Boolean)
+      .join(' ')
     try {
       const res = await fetch('/api/test-drive', {
         method: 'POST',
@@ -25,9 +39,9 @@ export default function TestDriveForm({ models, branches, defaultModel, offerNot
         body: JSON.stringify({
           customerName: fd.get('customerName'),
           phone: fd.get('phone'),
-          model: fd.get('model'),
+          model,
           branch: fd.get('branch'),
-          preferredTime: fd.get('preferredTime'),
+          preferredTime,
           offerNote: offerNote || '',
         }),
       })
@@ -42,67 +56,100 @@ export default function TestDriveForm({ models, branches, defaultModel, offerNot
 
   if (state === 'done') {
     return (
-      <div className="td-form">
-        <h3 style={{ fontFamily: '"Chakra Petch",sans-serif', fontSize: 21, margin: '0 0 10px' }}>
-          รับคำขอเรียบร้อยแล้ว
-        </h3>
-        <p style={{ color: 'var(--dim)', fontSize: 15, margin: 0 }}>
-          ทีมขายสาขาที่คุณเลือกได้รับแจ้งแล้ว และจะติดต่อกลับเพื่อยืนยันวันเวลาภายใน 1 ชั่วโมงในเวลาทำการ
+      <div className="card" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <span className="branch-ico" style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--green-soft)', color: 'var(--green-dark)' }}>
+          <Icon name="check" size={26} sw={2.5} />
+        </span>
+        <h3 style={{ fontSize: 22 }}>รับนัดเรียบร้อยแล้ว</h3>
+        <p className="mute">
+          ทีมขายสาขาที่คุณเลือกได้รับแจ้งแล้ว จะโทรยืนยันวันเวลาให้ภายใน 1 ชั่วโมงในเวลาทำการ
+          ระหว่างนี้ถ้าอยากคุยเลย โทรหาเราได้ที่ {settings.mainPhone}
         </p>
+        {settings.lineUrl ? (
+          <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="chat" size={18} color="#fff" />แอด LINE ไว้คุยต่อ
+          </a>
+        ) : null}
       </div>
     )
   }
 
   return (
-    <form className="td-form" onSubmit={onSubmit}>
-      <div className="row">
-        <div className="field">
-          <label htmlFor="customerName">ชื่อ–นามสกุล</label>
-          <input id="customerName" name="customerName" type="text" required placeholder="ชื่อของคุณ" />
-        </div>
-        <div className="field">
-          <label htmlFor="phone">เบอร์โทร</label>
-          <input
-            id="phone" name="phone" type="tel" required
-            pattern="[0-9\-\s+]{9,20}" placeholder="08X-XXX-XXXX"
-          />
+    <form className="form" onSubmit={onSubmit}>
+      <div className="field">
+        <span style={{ fontSize: 13, fontWeight: 600 }}>รุ่นที่สนใจ</span>
+        <div className="chips" role="radiogroup" aria-label="รุ่นที่สนใจ">
+          {models.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              className={`chip${model === m.name ? ' on' : ''}`}
+              onClick={() => setModel(m.name)}
+              role="radio"
+              aria-checked={model === m.name}
+            >
+              {m.name}
+            </button>
+          ))}
         </div>
       </div>
-      <div className="row">
-        <div className="field">
-          <label htmlFor="model">รุ่นที่สนใจ</label>
-          <select id="model" name="model" defaultValue={defaultModel || models[0]?.name}>
-            {models.map((m) => (
-              <option key={m.id} value={m.name}>{m.name} — {m.tagline}</option>
-            ))}
-          </select>
-        </div>
-        <div className="field">
-          <label htmlFor="branch">สาขาที่สะดวก</label>
-          <select id="branch" name="branch">
-            {branches.map((b) => (
-              <option key={b.id} value={b.name}>{b.name}</option>
-            ))}
-          </select>
-        </div>
+
+      <div className="field">
+        <label htmlFor="branch">สาขาที่สะดวก</label>
+        <select id="branch" name="branch" defaultValue={defaultBranch || branches[0]?.name}>
+          {branches.map((b) => (
+            <option key={b.id} value={b.name}>BYD Hi-Class {b.name}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="field">
+        <label htmlFor="customerName">ชื่อ</label>
+        <input id="customerName" name="customerName" type="text" required placeholder="ชื่อ-นามสกุล" autoComplete="name" />
       </div>
       <div className="field">
-        <label htmlFor="preferredTime">วันที่สะดวก</label>
-        <input id="preferredTime" name="preferredTime" type="text" placeholder="เช่น เสาร์นี้ ช่วงบ่าย" />
+        <label htmlFor="phone">เบอร์โทร</label>
+        <input id="phone" name="phone" type="tel" required inputMode="tel" pattern="[0-9\-\s+]{9,20}" placeholder="08x-xxx-xxxx" autoComplete="tel" />
       </div>
 
-      <button className="btn" type="submit" disabled={state === 'sending'}
-        style={{ width: '100%', padding: 13 }}>
-        {state === 'sending' ? 'กำลังส่ง…' : 'ส่งคำขอนัดทดลองขับ'}
+      <div className="row">
+        <div className="field">
+          <label htmlFor="date">วันที่สะดวก</label>
+          <input id="date" name="date" type="date" min={new Date().toISOString().slice(0, 10)} />
+        </div>
+        <div className="field">
+          <label htmlFor="slot">ช่วงเวลา</label>
+          <select id="slot" name="slot" defaultValue={SLOTS[1]}>
+            {SLOTS.map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+      </div>
+
+      {offerNote ? <div className="notice ok">{offerNote}</div> : null}
+
+      <label className="check">
+        <input type="checkbox" required defaultChecked />
+        <span>ยินยอมให้ติดต่อกลับเพื่อยืนยันนัดทดลองขับ ข้อมูลใช้เพื่อการนี้เท่านั้น</span>
+      </label>
+
+      <button className="btn btn-red btn-lg btn-block" type="submit" disabled={state === 'sending'}>
+        {state === 'sending' ? 'กำลังส่ง…' : 'ยืนยันนัดทดลองขับ'}
+        {state !== 'sending' ? <Icon name="arrow" size={20} color="#fff" /> : null}
       </button>
 
-      {state === 'error' ? (
-        <p style={{ color: '#F2857E', fontSize: 13, margin: '10px 0 0' }}>
-          {message} — รบกวนลองใหม่อีกครั้ง หรือโทรหาสาขาโดยตรง
-        </p>
-      ) : null}
+      {state === 'error' ? <div className="notice err">{message} — รบกวนลองใหม่ หรือโทรหาสาขาโดยตรง</div> : null}
 
-      <p className="privacy">ข้อมูลของคุณใช้สำหรับติดต่อกลับเรื่องการนัดทดลองขับเท่านั้น</p>
+      <div className="divider">หรือคุยกับเราตอนนี้</div>
+      <div className="row" style={{ gridTemplateColumns: settings.lineUrl ? '1fr 1fr' : '1fr' }}>
+        {settings.lineUrl ? (
+          <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="chat" size={18} color="#fff" />แอด LINE
+          </a>
+        ) : null}
+        <a className="btn btn-outline" href={telHref(settings.mainPhone)}>
+          <Icon name="phone" size={18} />{settings.mainPhone}
+        </a>
+      </div>
     </form>
   )
 }

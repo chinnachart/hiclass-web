@@ -1,11 +1,114 @@
-/* ปรับหน้าตาหลังบ้านให้อ่านภาษาไทยสบายตา */
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap");
+/* ============================================================
+   หลังบ้าน Hi-Class EV Car — โทนเดียวกับหน้าเว็บ (ขาว / แดง BYD)
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@500;600&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap");
+
+:root {
+  --hc-red: #c8102e;
+  --hc-red-soft: #fdecef;
+  --hc-ink: #17181a;
+  --hc-mute: #6b6f76;
+  --hc-line: #e6e7ea;
+  --hc-soft: #f3f4f6;
+  --hc-green: #06c755;
+  --hc-green-soft: #eaf9f0;
+  --hc-amber: #e0a100;
+  --hc-amber-soft: #fff6e5;
+}
 
 body {
-  --font-body: 'IBM Plex Sans Thai', -apple-system, sans-serif;
+  --font-body: 'Noto Sans Thai', -apple-system, 'Segoe UI', sans-serif;
+  --theme-elevation-0: #ffffff;
+  --theme-success-500: var(--hc-green);
 }
+h1, h2, h3 { font-family: 'Kanit', 'Noto Sans Thai', sans-serif; }
+.field-description { line-height: 1.6; opacity: .85; }
 
-.field-description {
-  line-height: 1.6;
-  opacity: 0.85;
-}
+/* ปุ่มหลักของ Payload ให้เป็นแดง BYD */
+.btn--style-primary { background: var(--hc-red); border-color: var(--hc-red); color: #fff; }
+.btn--style-primary:hover { background: #a50d26; border-color: #a50d26; }
+.nav__link--active, .nav__link:hover { color: var(--hc-red); }
+
+/* ---------- ปุ่ม / ป้าย ที่ใช้ในหน้าเฉพาะของเรา ---------- */
+.hc-btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--hc-line); background: #fff; color: var(--hc-ink); font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; white-space: nowrap; }
+.hc-btn:hover { border-color: var(--hc-ink); }
+.hc-btn--red { background: var(--hc-red); border-color: var(--hc-red); color: #fff; }
+.hc-btn--red:hover { background: #a50d26; }
+.hc-btn--ghost { height: 34px; padding: 0 12px; font-size: 13px; font-weight: 500; }
+.hc-btn:disabled { opacity: .5; cursor: default; }
+.hc-muted { color: var(--hc-mute); font-size: 13px; }
+.hc-pill { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--hc-red-soft); color: var(--hc-red); font-size: 11px; font-weight: 600; vertical-align: middle; }
+.hc-check { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+.hc-check input { width: 18px; height: 18px; margin: 0; accent-color: var(--hc-red); }
+
+/* ---------- แดชบอร์ด ---------- */
+.hc-dash { padding-top: 24px; padding-bottom: 40px; }
+.hc-dash__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.hc-dash__title { font-size: 28px; font-weight: 600; margin: 0; }
+.hc-dash__sub { color: var(--hc-mute); font-size: 14px; margin: 4px 0 0; }
+.hc-tasks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 20px; }
+@media (max-width: 1100px) { .hc-tasks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.hc-task { display: flex; flex-direction: column; gap: 10px; padding: 20px; background: #fff; border: 1px solid var(--hc-line); border-radius: 16px; color: var(--hc-ink); text-decoration: none; transition: border-color .15s; }
+.hc-task:hover { border-color: var(--hc-ink); }
+.hc-task__ico { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: var(--hc-soft); }
+.hc-task__ico--hot { background: var(--hc-red-soft); color: var(--hc-red); }
+.hc-task__title { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 600; }
+.hc-task__desc { font-size: 13px; color: var(--hc-mute); line-height: 1.5; }
+.hc-cols { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+@media (max-width: 1100px) { .hc-cols { grid-template-columns: 1fr; } }
+.hc-panel { padding: 20px 22px; background: #fff; border: 1px solid var(--hc-line); border-radius: 16px; }
+.hc-panel__head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; }
+.hc-panel__head h2 { font-size: 17px; font-weight: 600; margin: 0; }
+.hc-panel__head a { font-size: 13px; font-weight: 600; color: var(--hc-red); text-decoration: none; }
+.hc-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--hc-line); }
+.hc-row__body { flex-grow: 1; min-width: 0; }
+.hc-row__title { font-size: 14px; font-weight: 600; }
+.hc-row__sub { font-size: 12px; color: var(--hc-mute); }
+.hc-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--hc-mute); flex-shrink: 0; }
+.hc-dot--green { background: var(--hc-green); }
+.hc-dot--amber { background: var(--hc-amber); }
+.hc-note { padding: 12px; border-radius: 10px; font-size: 13px; line-height: 1.5; margin-bottom: 10px; }
+.hc-note a { color: var(--hc-ink); font-weight: 600; }
+.hc-note--amber { background: var(--hc-amber-soft); }
+.hc-note--green { background: var(--hc-green-soft); }
+.hc-note--gray { background: var(--hc-soft); color: var(--hc-mute); }
+
+/* ---------- ตารางแก้ราคา ---------- */
+.hc-table { background: #fff; border: 1px solid var(--hc-line); border-radius: 16px; overflow: hidden; }
+.hc-tr { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr) 110px; gap: 14px; align-items: center; padding: 10px 20px; border-top: 1px solid var(--hc-line); }
+.hc-tr--rental { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, .8fr) minmax(0, .8fr) minmax(0, .8fr) minmax(0, 1.1fr) 110px; }
+.hc-tr--head { border-top: 0; padding: 12px 20px; font-size: 12px; font-weight: 600; color: var(--hc-mute); text-transform: uppercase; letter-spacing: .5px; }
+.hc-tr--dirty { background: #fff9f0; }
+.hc-td-name { display: flex; flex-direction: column; }
+.hc-td-name a { font-size: 15px; font-weight: 600; color: var(--hc-ink); text-decoration: none; }
+.hc-td-name a:hover { color: var(--hc-red); }
+.hc-td-name small { font-size: 12px; color: var(--hc-mute); }
+.hc-td-calc { font-size: 14px; color: var(--hc-mute); }
+.hc-td-calc strong { color: var(--hc-ink); }
+.hc-input { width: 100%; height: 42px; padding: 0 12px; border: 1px solid var(--hc-line); border-radius: 10px; font-size: 15px; background: #fff; }
+.hc-input:focus { outline: none; border-color: var(--hc-red); }
+.hc-input--num { font-family: 'Kanit', sans-serif; font-weight: 500; }
+.hc-tr--dirty .hc-input { border-color: var(--hc-red); }
+@media (max-width: 1000px) { .hc-tr, .hc-tr--rental { grid-template-columns: 1fr 1fr; } .hc-tr--head { display: none; } }
+
+/* ---------- ตัวอย่างโปรโมชั่น ---------- */
+.hc-preview { padding: 14px; background: #fff; border: 1px solid var(--hc-line); border-radius: 14px; }
+.hc-preview__label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.hc-preview__label span { font-size: 12px; color: var(--hc-mute); font-weight: 400; }
+.hc-promo { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--hc-line); border-radius: 16px; background: #fff; color: var(--hc-ink); }
+.hc-promo--lead { background: var(--hc-ink); border-color: var(--hc-ink); color: #fff; padding: 18px; }
+.hc-promo__badge { align-self: flex-start; padding: 4px 10px; border-radius: 999px; background: var(--hc-red-soft); color: var(--hc-red); font-size: 11px; font-weight: 600; }
+.hc-promo--lead .hc-promo__badge { background: var(--hc-red); color: #fff; }
+.hc-promo__title { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.25; }
+.hc-promo--lead .hc-promo__title { font-size: 22px; }
+.hc-promo__sum { font-size: 13px; line-height: 1.5; color: var(--hc-mute); margin: 0; }
+.hc-promo--lead .hc-promo__sum { color: rgba(255,255,255,.75); }
+.hc-promo__until { font-size: 12px; color: var(--hc-mute); }
+.hc-promo--lead .hc-promo__until { color: rgba(255,255,255,.6); }
+.hc-promo__more { font-size: 13px; font-weight: 600; }
+
+/* ---------- ทางลัดในเมนูซ้าย ---------- */
+.hc-navx { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--hc-line); display: flex; flex-direction: column; gap: 2px; }
+.hc-navx__label { font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--hc-mute); margin-bottom: 6px; }
+.hc-navx__link { display: flex; align-items: center; gap: 10px; padding: 8px 10px; margin: 0 -10px; border-radius: 8px; font-size: 14px; color: var(--hc-ink); text-decoration: none; }
+.hc-navx__link:hover { background: var(--hc-red-soft); color: var(--hc-red); }

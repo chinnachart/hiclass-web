@@ -1,10 +1,13 @@
 import Link from 'next/link'
+import Icon from './Icons'
+import MobileMenu from './MobileMenu'
 import { telHref } from '@/lib/format'
-import type { Branch, CarModel } from '@/lib/types'
+import { NAV } from '@/lib/nav'
+import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
 export function Logo() {
   return (
-    <Link className="logo" href="/">
+    <Link className="logo" href="/" aria-label="BYD Hi-Class EV Car หน้าแรก">
       <span className="byd">BYD</span>
       <span className="bar" />
       <span className="hc">
@@ -16,68 +19,62 @@ export function Logo() {
   )
 }
 
+
 export default function Header({
   models,
   branches,
-  phone,
+  settings,
 }: {
   models: CarModel[]
   branches: Branch[]
-  phone: string
+  settings: SiteSettings
 }) {
+  const phone = settings.mainPhone
   return (
     <header className="hdr">
-      <div className="hdr-in">
+      <div className="container hdr-in">
         <Logo />
-        <nav>
-          <div className="nav-item">
-            <Link href="/" className="on">Home</Link>
-          </div>
-          <div className="nav-item">
-            <Link href="/promotion">Promotion</Link>
-          </div>
-          <div className="nav-item">
-            <Link href="/car-model">
-              Car Model <span className="caret">▼</span>
-            </Link>
-            <div className="drop wide">
-              {models.map((m) => (
-                <Link key={m.id} href={`/car-model/${m.slug}`}>
-                  {m.name} <small>{m.tagline}</small>
-                </Link>
-              ))}
+        <nav className="nav" aria-label="เมนูหลัก">
+          {NAV.map((item) => (
+            <div className="nav-item" key={item.href}>
+              <Link href={item.href}>
+                {item.label}
+                {'drop' in item ? <Icon name="chevd" size={14} /> : null}
+              </Link>
+              {'drop' in item && item.drop === 'models' ? (
+                <div className="drop wide">
+                  {models.map((m) => (
+                    <Link key={m.id} href={`/car-model/${m.slug}`}>
+                      {m.name} <small>{m.tagline}</small>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+              {'drop' in item && item.drop === 'branches' ? (
+                <div className="drop">
+                  {branches.map((b) => (
+                    <Link key={b.id} href={`/branches/${b.code}`}>
+                      {b.name} <small>{b.nameEn || ''}</small>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
             </div>
-          </div>
-          <div className="nav-item">
-            <Link href="/price">ราคา/ผ่อน</Link>
-          </div>
-          <div className="nav-item">
-            <Link href="/service">Service</Link>
-          </div>
-          <div className="nav-item">
-            <Link href="/rental">บริการรถให้เช่า</Link>
-          </div>
-          <div className="nav-item">
-            <Link href="/branches">
-              สาขาของเรา <span className="caret">▼</span>
-            </Link>
-            <div className="drop">
-              {branches.map((b) => (
-                <Link key={b.id} href={`/branches/${b.code}`}>
-                  {b.name} <small>{b.nameEn || ''}</small>
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="nav-item">
-            <Link href="/contact">ติดต่อเรา</Link>
-          </div>
-          <div className="nav-item">
-            <Link href="/news">ข่าวสารและกิจกรรม</Link>
-          </div>
+          ))}
         </nav>
-        <a className="tel" href={telHref(phone)}>{phone}</a>
-        <Link className="btn" href="/test-drive">สนใจทดลองขับ</Link>
+        <div className="hdr-acts">
+          <a className="hdr-tel" href={telHref(phone)}>
+            <Icon name="phone" size={16} />
+            {phone}
+          </a>
+          <Link className="btn btn-red hdr-cta" href="/test-drive">
+            นัดทดลองขับ
+          </Link>
+          <a className="icon-btn tel" href={telHref(phone)} aria-label="โทรหาเรา">
+            <Icon name="phone" size={22} />
+          </a>
+          <MobileMenu models={models} branches={branches} settings={settings} />
+        </div>
       </div>
     </header>
   )

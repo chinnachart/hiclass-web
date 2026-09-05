@@ -28,7 +28,17 @@ export default buildConfig({
         Logo: '@/components/admin/Logo#AdminLogo',
         Icon: '@/components/admin/Logo#AdminIcon',
       },
+      // ทางลัดในเมนูซ้าย: แก้ราคา / เพิ่มโปร / อัปรูป / เปิดเว็บจริง
+      afterNavLinks: ['@/components/admin/NavLinks#AfterNavLinks'],
+      views: {
+        // หน้าแรกหลังบ้านแบบ "วันนี้อยากทำอะไร" สำหรับทีมการตลาด
+        dashboard: { Component: '@/components/admin/Dashboard#Dashboard' },
+        // แก้ราคาทุกรุ่นในหน้าเดียว
+        prices: { Component: '@/components/admin/PricesView#PricesView', path: '/prices', exact: true },
+      },
     },
+    // ไม่ต้องใช้รูปโปรไฟล์จากอินเทอร์เน็ต
+    avatar: 'default',
   },
   // หลังบ้านเป็นภาษาไทยโดยค่าเริ่มต้น สลับเป็นอังกฤษได้จากหน้าโปรไฟล์
   i18n: {
@@ -43,7 +53,14 @@ export default buildConfig({
   db: postgresAdapter({
     // เนื้อหาเว็บอยู่ใน schema ชื่อ cms — แยกออกจากตารางของ CRM ที่อยู่ใน public
     schemaName: 'cms',
-    pool: { connectionString: process.env.DATABASE_URI || '' },
+    // บน Vercel ทุก function เปิด pool ของตัวเอง → จำกัดให้เล็ก และใช้ Supabase pooler
+    // แบบ transaction mode (พอร์ต 6543) ไม่งั้นจะชน "max clients reached" ของ session mode
+    pool: {
+      connectionString: process.env.DATABASE_URI || '',
+      max: process.env.VERCEL ? 3 : 10,
+      idleTimeoutMillis: 10_000,
+      connectionTimeoutMillis: 10_000,
+    },
   }),
   upload: { limits: { fileSize: 20_000_000 } },
   plugins: [

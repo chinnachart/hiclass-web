@@ -1,171 +1,188 @@
 import Link from 'next/link'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Icon from '@/components/Icons'
+import CarImage from '@/components/CarImage'
 import ModelGrid from '@/components/ModelGrid'
 import PaymentCalculator from '@/components/PaymentCalculator'
+import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
+import Jsonld, { dealerLd } from '@/components/Jsonld'
 import { getSiteData } from '@/lib/data'
-import { telHref } from '@/lib/format'
 
 export const dynamic = 'force-dynamic'
 
-const SERVICES = [
-  { no: '01', title: 'จองคิวศูนย์บริการ', body: 'เลือกสาขา วันเวลา และเรื่องที่จะเข้า จองออนไลน์ได้เอง ไม่ต้องโทรรอสาย', href: '/service', cta: 'จองคิวเลย' },
-  { no: '02', title: 'บริการรถให้เช่า', body: 'รถเช่าระหว่างซ่อม และเช่าระยะสั้น–ยาว สำหรับลูกค้าบุคคลและองค์กร', href: '/rental', cta: 'ดูรายละเอียด' },
-  { no: '03', title: 'เทิร์นรถเก่า', body: 'ประเมินราคาให้ก่อนเข้าโชว์รูม ใช้เป็นเงินดาวน์คันใหม่ได้ทันที', href: '/trade-in', cta: 'ขอประเมินราคา' },
-  { no: '04', title: 'ประกันและต่อทะเบียน', body: 'ดูแลเรื่องเอกสารให้ครบ ตั้งแต่จดทะเบียนคันใหม่ไปจนถึงต่ออายุประกัน', href: '/contact', cta: 'สอบถามเพิ่มเติม' },
-]
-
-const CATEGORY_LABEL: Record<string, string> = {
-  news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ',
-}
+const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ' }
 
 export default async function HomePage() {
   const { models, branches, promotions, news, settings } = await getSiteData()
-  const featured = promotions.find((p) => p.featured)
-  const rest = promotions.filter((p) => !p.featured).slice(0, 2)
-  const ordered = [featured, ...rest].filter(Boolean) as typeof promotions
+  const heroModel = models[0]
 
   return (
     <>
-      <Header models={models} branches={branches} phone={settings.mainPhone} />
+      <Jsonld data={dealerLd(branches)} />
 
-      <div className="hero" id="top">
-        <div className="hero-light" />
-        <div className="hero-in">
-          <div className="hero-grid">
-            <div>
-              <p className="kicker">ผู้จำหน่าย BYD · {branches.length} สาขาในกรุงเทพฯ</p>
-              <h1>
-                {settings.heroHeadline}
-                {settings.heroHeadline2 ? <><br />{settings.heroHeadline2}</> : null}
-                {settings.heroSub ? <span className="sub">{settings.heroSub}</span> : null}
-              </h1>
-              {settings.heroBlurb ? <p className="blurb">{settings.heroBlurb}</p> : null}
-              <div className="hero-cta">
-                <Link className="btn" href="/test-drive">นัดทดลองขับฟรี</Link>
-                <Link className="btn ghost" href="/car-model">ดูรถทุกรุ่น</Link>
-              </div>
-              <div className="stats">
-                <div className="stat"><b>{branches.length}</b><span>สาขาในกรุงเทพฯ<br />และปริมณฑล</span></div>
-                <div className="stat"><b>{models.length}</b><span>รุ่นให้เลือก<br />ทั้ง EV และ DM-i</span></div>
-                <div className="stat"><b>ฟรี</b><span>ทดลองขับทุกรุ่น<br />ไม่มีข้อผูกมัด</span></div>
-              </div>
+      {/* ---------- Hero ---------- */}
+      <section className="hero">
+        <div className="container hero-in">
+          <div className="hero-copy">
+            <p className="kicker">
+              <Icon name="check" size={14} sw={3} />
+              ผู้จำหน่าย BYD อย่างเป็นทางการ · {branches.length} สาขา กรุงเทพฯ
+            </p>
+            <h1>
+              {settings.heroHeadline}
+              {settings.heroHeadline2 ? <><br />{settings.heroHeadline2}</> : null}
+            </h1>
+            {settings.heroSub ? <p className="lead">{settings.heroSub}</p> : null}
+            <div className="hero-cta">
+              <Link className="btn btn-red btn-lg" href="/test-drive">
+                <Icon name="wheel" size={20} color="#fff" />นัดทดลองขับฟรี
+              </Link>
+              {settings.lineUrl ? (
+                <a className="btn btn-green btn-lg" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
+                  <Icon name="chat" size={20} color="#fff" />แอด LINE
+                </a>
+              ) : null}
+              <Link className="btn btn-outline btn-lg" href="/branches">
+                <Icon name="pin" size={20} />เลือกสาขา
+              </Link>
             </div>
-
-            <div id="calc">
-              <PaymentCalculator models={models} settings={settings} />
-            </div>
+          </div>
+          <div className="hero-visual" style={{ position: 'relative' }}>
+            {heroModel ? (
+              <CarImage media={heroModel.heroImage} alt={`BYD ${heroModel.name}`} sizes="(max-width: 900px) 100vw, 640px" fallbackWidth={340} priority />
+            ) : null}
+          </div>
+          <div className="quick">
+            <Link className="q-red" href="/test-drive">
+              <Icon name="wheel" size={26} color="#fff" />นัดทดลองขับ<small>ฟรี ทุกรุ่น</small>
+            </Link>
+            {settings.lineUrl ? (
+              <a className="q-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="chat" size={26} color="#fff" />แอด LINE<small>ตอบไว ทุกวัน</small>
+              </a>
+            ) : (
+              <Link className="q-green" href="/contact">
+                <Icon name="chat" size={26} color="#fff" />ติดต่อเรา<small>ตอบไว ทุกวัน</small>
+              </Link>
+            )}
+            <Link className="q-out" href="/branches">
+              <Icon name="pin" size={26} />เลือกสาขา<small>{branches.length} สาขา กทม.</small>
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
 
-      <main>
-        <section id="models" className="shell">
-          <div className="sec-head">
-            <div>
-              <h2>Car Model</h2>
-              <p>เลือกดูตามประเภทตัวถัง หรือกดเข้าไปดูสเปกเต็มของแต่ละรุ่น</p>
-            </div>
-            <Link className="sec-link" href="/car-model">เทียบสเปกทุกรุ่น →</Link>
-          </div>
-          <ModelGrid models={models} />
-        </section>
-
-        {ordered.length > 0 ? (
-          <section id="promo" className="shell">
+      <main className="container">
+        {/* ---------- โปรโมชั่น ---------- */}
+        {promotions.length > 0 ? (
+          <section className="section" id="promotion">
             <div className="sec-head">
               <div>
-                <h2>Promotion</h2>
-                <p>โปรโมชันที่กำลังใช้ได้ในตอนนี้</p>
+                <h2>โปรโมชั่นเดือนนี้</h2>
+                <p>อัปเดตล่าสุดจากทีมการตลาด</p>
               </div>
-              <Link className="sec-link" href="/promotion">โปรโมชันทั้งหมด →</Link>
+              <Link className="sec-link" href="/promotion">ดูทั้งหมด <Icon name="chev" size={16} /></Link>
             </div>
-            <div className="promos">
-              {ordered.map((p) => (
-                <div className={`promo${p.featured ? ' lead' : ''}`} key={p.id}>
-                  {p.badge ? <span className="tagline">{p.badge}</span> : null}
-                  <h3>{p.title}</h3>
-                  <p>{p.summary}</p>
-                  <span className="until">
-                    {p.endDate
-                      ? `ถึง ${new Date(p.endDate).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' })}`
-                      : 'ไม่มีกำหนดสิ้นสุด'}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <PromoGrid promotions={promotions} limit={3} />
           </section>
         ) : null}
 
-        <section id="branches" className="shell">
+        {/* ---------- รุ่นรถ ---------- */}
+        <section className="section" id="models">
           <div className="sec-head">
             <div>
-              <h2>สาขาของเรา</h2>
-              <p>โทรหาสาขาที่สะดวกได้โดยตรง ไม่ต้องผ่านคอลเซ็นเตอร์แล้วรอโอนสาย</p>
+              <h2>เลือกรุ่นที่ใช่</h2>
+              <p>{models.length} รุ่น ทั้ง EV และ DM-i · ราคาเริ่มต้นและค่างวดอัปเดตล่าสุด</p>
             </div>
-            <Link className="sec-link" href="/branches">ดูแผนที่ทุกสาขา →</Link>
+            <Link className="sec-link" href="/car-model">ทุกรุ่น <Icon name="chev" size={16} /></Link>
+          </div>
+          <ModelGrid models={models} limit={8} />
+        </section>
+
+        {/* ---------- คำนวณค่างวด ---------- */}
+        <section className="section" id="calc">
+          <div className="sec-head">
+            <div>
+              <h2>คำนวณค่างวด</h2>
+              <p>เลือกรุ่น ปรับดาวน์และจำนวนงวด ดูค่างวดทันที</p>
+            </div>
+            <Link className="sec-link" href="/price">ตารางทุกรุ่น <Icon name="chev" size={16} /></Link>
+          </div>
+          <div className="grid-2" style={{ alignItems: 'start' }}>
+            <PaymentCalculator models={models} settings={settings} compact />
+            <div className="stats" style={{ gridTemplateColumns: '1fr', gap: 10 }}>
+              <div className="card stat"><b>{branches.length} สาขา</b><span>ในกรุงเทพฯ และปริมณฑล เลือกสาขาที่ใกล้บ้านได้เอง</span></div>
+              <div className="card stat"><b>1 ชั่วโมง</b><span>ทีมขายโทรยืนยันนัดทดลองขับกลับภายใน 1 ชั่วโมง (เวลาทำการ)</span></div>
+              <div className="card stat"><b>ฟรี</b><span>ทดลองขับทุกรุ่น ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</span></div>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- สาขา ---------- */}
+        <section className="section" id="branches">
+          <div className="sec-head">
+            <div>
+              <h2>สาขาใกล้คุณ</h2>
+              <p>โทรหาสาขาโดยตรง ไม่ต้องผ่านคอลเซ็นเตอร์</p>
+            </div>
+            <Link className="sec-link" href="/branches">ทุกสาขา <Icon name="chev" size={16} /></Link>
           </div>
           <div className="branches">
-            {branches.map((b) => (
-              <div className="br" key={b.id}>
-                <h3>{b.name}</h3>
-                <p className="area">{b.nameEn}</p>
-                <a className="ph-num" href={telHref(b.phone)}>{b.phone}</a>
-                <span className="open">{b.openHours}</span>
-                <div className="acts">
-                  {b.mapUrl ? <a href={b.mapUrl} target="_blank" rel="noopener noreferrer">เส้นทาง</a> : null}
-                  <Link href="/test-drive">นัดลองขับ</Link>
-                </div>
-              </div>
-            ))}
+            {branches.map((b) => <BranchRow key={b.id} b={b} />)}
           </div>
         </section>
 
-        <section id="service" className="shell">
+        {/* ---------- บริการ ---------- */}
+        <section className="section" id="service">
           <div className="sec-head">
             <div>
-              <h2>Service &amp; บริการรถให้เช่า</h2>
-              <p>บริการหลังการขายที่ทำให้ลูกค้ากลับมาซื้อคันที่สอง</p>
+              <h2>บริการหลังการขาย</h2>
+              <p>ดูแลต่อเนื่องหลังส่งมอบ</p>
             </div>
           </div>
-          <div className="svc">
-            {SERVICES.map((s) => (
-              <div className="svc-card" key={s.no}>
-                <span className="no">{s.no}</span>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-                <Link href={s.href}>{s.cta} →</Link>
-              </div>
-            ))}
+          <div className="grid-3">
+            <div className="card svc">
+              <span className="branch-ico"><Icon name="wrench" size={20} /></span>
+              <h3>ศูนย์บริการ</h3>
+              <p>เช็กระยะ ซ่อมตัวถัง อะไหล่แท้ ช่างที่ผ่านการอบรมจาก BYD ทุกสาขา</p>
+              <Link className="more" href="/service">จองคิว <Icon name="chev" size={14} /></Link>
+            </div>
+            <div className="card svc">
+              <span className="branch-ico"><Icon name="key" size={20} /></span>
+              <h3>บริการรถให้เช่า</h3>
+              <p>รถเช่าระหว่างซ่อม และเช่าระยะสั้น–ยาว สำหรับลูกค้าบุคคลและองค์กร</p>
+              <Link className="more" href="/rental">ดูรายละเอียด <Icon name="chev" size={14} /></Link>
+            </div>
+            <div className="card svc">
+              <span className="branch-ico"><Icon name="swap" size={20} /></span>
+              <h3>เทิร์นรถเก่า</h3>
+              <p>ประเมินราคาให้ก่อนเข้าโชว์รูม ใช้เป็นเงินดาวน์คันใหม่ได้ทันที</p>
+              <Link className="more" href="/contact">ขอประเมินราคา <Icon name="chev" size={14} /></Link>
+            </div>
           </div>
         </section>
 
+        {/* ---------- ข่าว ---------- */}
         {news.length > 0 ? (
-          <section id="news" className="shell">
+          <section className="section" id="news">
             <div className="sec-head">
               <div>
                 <h2>ข่าวสารและกิจกรรม</h2>
-                <p>อัปเดตจากทีมการตลาดโดยตรง</p>
               </div>
-              <Link className="sec-link" href="/news">ข่าวทั้งหมด →</Link>
+              <Link className="sec-link" href="/news">ทั้งหมด <Icon name="chev" size={16} /></Link>
             </div>
-            <div className="promos">
+            <div className="grid-3">
               {news.map((n) => (
-                <Link className="promo" href={`/news/${n.slug}`} key={n.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <span className="tagline">{CATEGORY_LABEL[n.category || 'news']}</span>
+                <Link className="card promo" href={`/news/${n.slug}`} key={n.id}>
+                  <span className="badge">{CATEGORY_LABEL[n.category || 'news']}</span>
                   <h3>{n.title}</h3>
                   <p>{n.excerpt}</p>
-                  <span className="until">
-                    {new Date(n.publishedAt).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
+                  <span className="until">{thDate(n.publishedAt)}</span>
                 </Link>
               ))}
             </div>
           </section>
         ) : null}
       </main>
-
-      <Footer models={models} branches={branches} settings={settings} />
     </>
   )
 }

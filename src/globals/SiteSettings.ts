@@ -14,9 +14,9 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'หน้าแรก',
           fields: [
-            { name: 'heroHeadline', type: 'text', required: true, label: 'พาดหัวใหญ่', defaultValue: 'Build Your Dream' },
-            { name: 'heroHeadline2', type: 'text', label: 'พาดหัวบรรทัดที่สอง', defaultValue: 'เริ่มที่คันที่ใช่' },
-            { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง', defaultValue: 'เลือกรุ่น ดูค่างวดจริง แล้วนัดลองขับที่สาขาใกล้บ้าน — จบได้ในหน้าเดียว' },
+            { name: 'heroHeadline', type: 'text', required: true, label: 'พาดหัวใหญ่', defaultValue: 'ลองขับ BYD ใกล้บ้าน' },
+            { name: 'heroHeadline2', type: 'text', label: 'พาดหัวบรรทัดที่สอง', defaultValue: 'วันนี้ ฟรี' },
+            { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง', defaultValue: '5 สาขาในกรุงเทพฯ นัดออนไลน์ 1 นาที ทีมขายโทรยืนยันภายใน 1 ชั่วโมง' },
             { name: 'heroBlurb', type: 'textarea', label: 'ย่อหน้าแนะนำบริษัท' },
           ],
         },
@@ -24,7 +24,7 @@ export const SiteSettings: GlobalConfig = {
           label: 'ติดต่อ',
           fields: [
             { name: 'mainPhone', type: 'text', required: true, label: 'เบอร์กลาง', defaultValue: '062-673-1999' },
-            { name: 'lineUrl', type: 'text', label: 'ลิงก์ LINE Official' },
+            { name: 'lineUrl', type: 'text', label: 'ลิงก์ LINE Official', admin: { description: 'สำคัญ — ปุ่ม "แอด LINE" ทุกหน้าใช้ลิงก์นี้ เช่น https://lin.ee/xxxxx (ถ้าเว้นว่างปุ่มจะกลายเป็น "ติดต่อเรา")' } },
             { name: 'facebookUrl', type: 'text', label: 'ลิงก์ Facebook' },
             { name: 'footerAbout', type: 'textarea', label: 'ข้อความแนะนำท้ายเว็บ' },
           ],

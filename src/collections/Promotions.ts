@@ -76,5 +76,10 @@ export const Promotions: CollectionConfig = {
       admin: { description: 'เว้นว่าง = แสดงทุกสาขา เลือกสาขา = แสดงเฉพาะเว็บสาขานั้น' },
     },
     { name: 'sortOrder', type: 'number', defaultValue: 100, label: 'ลำดับการแสดง' },
+    {
+      name: 'preview',
+      type: 'ui',
+      admin: { position: 'sidebar', components: { Field: '@/components/admin/PromoPreview#PromoPreview' } },
+    },
   ],
 }

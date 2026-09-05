@@ -1,4 +1,8 @@
 import type { Metadata } from 'next'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import MobileBar from '@/components/MobileBar'
+import { getSiteData } from '@/lib/data'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -12,7 +16,10 @@ export const metadata: Metadata = {
   openGraph: { type: 'website', locale: 'th_TH', siteName: 'BYD Hi-Class EV Car' },
 }
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export const dynamic = 'force-dynamic'
+
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const { models, branches, settings } = await getSiteData()
   return (
     <html lang="th">
       <head>
@@ -20,10 +27,16 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
         />
+        <meta name="theme-color" content="#ffffff" />
       </head>
-      <body>{children}</body>
+      <body>
+        <Header models={models} branches={branches} settings={settings} />
+        {children}
+        <Footer models={models} branches={branches} settings={settings} />
+        <MobileBar settings={settings} />
+      </body>
     </html>
   )
 }

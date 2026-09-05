@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Icon from '@/components/Icons'
+import { Faq } from '@/components/Cards'
 import Jsonld, { faqLd } from '@/components/Jsonld'
 import { getSiteData } from '@/lib/data'
 import { baht, telHref } from '@/lib/format'
@@ -44,75 +44,44 @@ export default async function RentalPage() {
   return (
     <>
       <Jsonld data={faqLd(FAQ)} />
-      <Header models={models} branches={branches} phone={settings.mainPhone} />
-
-      <main className="shell">
-        <section className="pagehead">
+      <section className="page-head">
+        <div className="container">
           <p className="kicker">บริการรถให้เช่า</p>
-          <h1 className="pagetitle">เช่ารถ BYD รายวันและรายเดือน</h1>
-          <p className="pagelede">
-            ขับรถไฟฟ้าก่อนตัดสินใจซื้อ หรือใช้เป็นรถประจำบริษัทโดยไม่ต้องลงทุนก้อนใหญ่
-            รับรถได้ที่ {branches.length} สาขาในกรุงเทพฯ และปริมณฑล
+          <h1>เช่ารถ BYD รายวันและรายเดือน</h1>
+          <p className="lead">
+            ขับรถไฟฟ้าก่อนตัดสินใจซื้อ หรือใช้เป็นรถประจำบริษัทโดยไม่ต้องลงทุนก้อนใหญ่ รับรถได้ที่ {branches.length} สาขาในกรุงเทพฯ และปริมณฑล
           </p>
-
+        </div>
+      </section>
+      <main className="container">
+        <section className="section" style={{ paddingTop: 20 }}>
           {rentals.length > 0 ? (
-            <div className="scroller">
-              <table className="price">
-                <thead>
-                  <tr>
-                    <th>รุ่น</th>
-                    <th className="r">รายวัน</th>
-                    <th className="r">รายเดือน</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rentals.map((m) => (
-                    <tr key={m.id}>
-                      <td>
-                        <Link href={`/car-model/${m.slug}`} className="mname">BYD {m.name}</Link>
-                        <span className="mtag">{m.tagline}</span>
-                      </td>
-                      <td className="r n">{m.rentalDaily ? `${baht(m.rentalDaily)} ฿` : '—'}</td>
-                      <td className="r n hi">{m.rentalMonthly ? `${baht(m.rentalMonthly)} ฿` : '—'}</td>
-                      <td className="r">
-                        <a className="mini" href={telHref(settings.mainPhone)}>สอบถาม</a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="grid-3">
+              {rentals.map((m) => (
+                <div className="card price-card" key={m.id} style={{ display: 'flex' }}>
+                  <Link href={`/car-model/${m.slug}`} className="display" style={{ fontSize: 18 }}>BYD {m.name}</Link>
+                  <span className="mute small">{m.tagline}</span>
+                  <div className="r"><span>รายวัน</span><b>{m.rentalDaily ? `${baht(m.rentalDaily)} ฿` : '—'}</b></div>
+                  <div className="r hi"><span>รายเดือน</span><b>{m.rentalMonthly ? `${baht(m.rentalMonthly)} ฿` : '—'}</b></div>
+                  <a className="btn btn-outline" href={telHref(settings.mainPhone)}><Icon name="phone" size={16} />สอบถามคันว่าง</a>
+                </div>
+              ))}
             </div>
           ) : (
-            <div className="notice">
-              <p>
-                <strong>ยังไม่ได้กรอกอัตราค่าเช่า</strong> — เข้าหลังบ้าน → รุ่นรถ → เลือกรุ่น →
-                หัวข้อ &ldquo;บริการรถให้เช่า&rdquo; ติ๊ก &ldquo;รุ่นนี้มีให้เช่า&rdquo; แล้วกรอกราคา
-                รุ่นนั้นจะขึ้นในตารางนี้ทันที
-              </p>
+            <div className="notice warn">
+              <strong>ยังไม่ได้กรอกอัตราค่าเช่า</strong> — เข้าหลังบ้าน → รุ่นรถ → เลือกรุ่น → หัวข้อ &ldquo;บริการรถให้เช่า&rdquo; ติ๊ก &ldquo;รุ่นนี้มีให้เช่า&rdquo; แล้วกรอกราคา รุ่นนั้นจะขึ้นในหน้านี้ทันที
             </div>
           )}
-
-          <div className="cta-row">
-            <a className="btn" href={telHref(settings.mainPhone)}>โทรสอบถามค่าเช่า</a>
-            <Link className="btn ghost" href="/branches">ดูสาขาที่รับรถได้</Link>
+          <div className="grid-2" style={{ marginTop: 14 }}>
+            <a className="btn btn-red btn-lg" href={telHref(settings.mainPhone)}><Icon name="phone" size={20} color="#fff" />โทรสอบถามค่าเช่า</a>
+            <Link className="btn btn-outline btn-lg" href="/branches"><Icon name="pin" size={20} />ดูสาขาที่รับรถได้</Link>
           </div>
         </section>
-
-        <section>
+        <section className="section">
           <div className="sec-head"><div><h2>คำถามที่ถามบ่อยเรื่องเช่ารถ</h2></div></div>
-          <div className="faq">
-            {FAQ.map((f) => (
-              <details key={f.question}>
-                <summary>{f.question}</summary>
-                <p>{f.answer}</p>
-              </details>
-            ))}
-          </div>
+          <Faq items={FAQ} />
         </section>
       </main>
-
-      <Footer models={models} branches={branches} settings={settings} />
     </>
   )
 }
