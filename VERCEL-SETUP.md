@@ -10,7 +10,7 @@ Vercel → โปรเจกต์ **hiclass-web** → Settings → Environment
 
 | ชื่อ | ค่า |
 |---|---|
-| `DATABASE_URI` | connection string จาก Supabase แบบ **Shared pooler** พอร์ต **5432** ใส่รหัสผ่านจริงแทน `[YOUR-PASSWORD]` |
+| `DATABASE_URI` | connection string จาก Supabase แบบ **Transaction pooler** พอร์ต **6543** (ห้ามใช้ 5432 บน Vercel — จะชน max clients 15) ใส่รหัสผ่านจริงแทน `[YOUR-PASSWORD]` |
 | `PAYLOAD_SECRET` | ข้อความสุ่มยาวๆ 40 ตัวอักษรขึ้นไป (ดูวิธีสร้างด้านล่าง) |
 | `NEXT_PUBLIC_SITE_URL` | `https://hiclassevcar.com` |
 | `CRM_SUPABASE_URL` | `https://bivrzphxfmudsvtkcnpl.supabase.co` |
