@@ -144,3 +144,31 @@ h1, h2, h3 { font-family: 'Kanit', 'Noto Sans Thai', sans-serif; }
 .hc-wp__meta { font-size: 11px; color: var(--hc-mute); }
 .hc-wp__tag { position: absolute; top: 12px; left: 12px; padding: 3px 8px; border-radius: 999px; background: var(--hc-ink); color: #fff; font-size: 11px; font-weight: 600; }
 .hc-wp__tick { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--hc-red); }
+
+/* ---------- รองรับธีมมืดของหลังบ้าน ----------
+   การ์ดและตารางของเราพื้นขาวเสมอ แต่ธีมมืดจะตั้งสีตัวอักษรเป็นสีขาว
+   ถ้าไม่บังคับสีตรงนี้ ตัวหนังสือจะกลายเป็นขาวบนขาว = มองไม่เห็น */
+.hc-panel,
+.hc-table,
+.hc-tr,
+.hc-tr--dirty,
+.hc-input,
+.hc-preview,
+.hc-note,
+.hc-note--amber,
+.hc-note--green,
+.hc-wp__item,
+.hc-wp__err,
+.hc-wp__bar,
+.hc-wp__done,
+.hc-wp__empty { color: var(--hc-ink); }
+.hc-note--gray { color: var(--hc-mute); }
+.hc-tr--head { color: var(--hc-mute); }
+.hc-input::placeholder { color: var(--hc-mute); opacity: 1; }
+.hc-input option { color: var(--hc-ink); background: #fff; }
+/* ตัวหนังสือที่อยู่บนพื้นหลังของหลังบ้าน (ไม่ใช่บนการ์ดขาว) ในธีมมืดต้องสว่างขึ้น */
+[data-theme="dark"] .hc-dash__sub,
+[data-theme="dark"] .hc-wp__head p,
+[data-theme="dark"] .hc-wp__count { color: #9aa0a6; }
+/* ทางลัดในเมนูซ้าย — เมนูเป็นพื้นเข้มได้ในบางธีม จึงผูกสีกับตัวแปรของ Payload */
+.hc-navx__link { color: var(--theme-elevation-800); }
