@@ -43,6 +43,12 @@ export const Branches: CollectionConfig = {
       ],
     },
     { name: 'address', type: 'textarea', label: 'ที่อยู่' },
+    {
+      name: 'lineUrl',
+      type: 'text',
+      label: 'ลิงก์ LINE ของสาขานี้',
+      admin: { description: 'เช่น https://line.me/R/ti/p/@bydhiclassladprao — ปุ่ม LINE บนหน้าสาขานี้จะไปหาสาขาโดยตรง ถ้าเว้นว่างจะใช้ LINE กลางจากตั้งค่าเว็บไซต์' },
+    },
     { name: 'mapUrl', type: 'text', label: 'ลิงก์ Google Maps', admin: { description: 'กดปุ่ม "แชร์" ใน Google Maps แล้ววางลิงก์ที่นี่' } },
     {
       name: 'domain',

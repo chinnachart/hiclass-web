@@ -21,6 +21,39 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'ความน่าเชื่อถือ',
+          description: 'ตัวเลขจริงของบริษัท ใส่แล้วขึ้นหน้าแรกอัตโนมัติ ช่องไหนเว้นว่างจะไม่แสดง',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                { name: 'deliveredCount', type: 'number', min: 0, label: 'ส่งมอบแล้ว (คัน)', admin: { width: '33%', description: 'เช่น 3500 — เว็บจะแสดงเป็น "3,500+ คัน"' } },
+                { name: 'yearsOpen', type: 'number', min: 0, label: 'เปิดมาแล้ว (ปี)', admin: { width: '33%' } },
+                { name: 'googleRating', type: 'number', min: 0, max: 5, label: 'คะแนนรีวิว Google (เช่น 4.8)', admin: { width: '34%', step: 0.1 } },
+              ],
+            },
+            { name: 'trustNote', type: 'text', label: 'ประโยคเสริมความมั่นใจ', admin: { description: 'เช่น ศูนย์บริการมาตรฐาน BYD ครบทั้ง 5 สาขา ช่างผ่านการอบรมจากโรงงาน' } },
+          ],
+        },
+        {
+          label: 'Google & การวัดผล',
+          description: 'ค่าจาก Google Analytics และ Search Console — ใส่ครั้งเดียว',
+          fields: [
+            {
+              name: 'gaMeasurementId',
+              type: 'text',
+              label: 'Google Analytics Measurement ID',
+              admin: { description: 'ขึ้นต้นด้วย G- เช่น G-ABC123XYZ (Analytics → Admin → Data Streams) — จะโหลดเฉพาะเมื่อผู้ใช้กดยอมรับคุกกี้ตาม PDPA' },
+            },
+            {
+              name: 'googleSiteVerification',
+              type: 'text',
+              label: 'รหัสยืนยัน Google Search Console',
+              admin: { description: 'เฉพาะค่าใน content="..." ของ meta tag ที่ Search Console ให้มา' },
+            },
+          ],
+        },
+        {
           label: 'ติดต่อ',
           fields: [
             { name: 'mainPhone', type: 'text', required: true, label: 'เบอร์กลาง', defaultValue: '062-673-1999' },

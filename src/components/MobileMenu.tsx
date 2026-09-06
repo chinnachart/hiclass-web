@@ -51,6 +51,7 @@ export default function MobileMenu({
                       <Icon name="chevd" size={18} />
                     </summary>
                     <Link href={item.href}>ดูทั้งหมด</Link>
+                    {item.drop === 'models' ? <Link href="/compare">เปรียบเทียบรุ่น</Link> : null}
                     {item.drop === 'models'
                       ? models.map((m) => <Link key={m.id} href={`/car-model/${m.slug}`}>{m.name}</Link>)
                       : branches.map((b) => <Link key={b.id} href={`/branches/${b.code}`}>{b.name}</Link>)}

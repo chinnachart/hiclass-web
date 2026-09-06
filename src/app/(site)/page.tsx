@@ -110,9 +110,15 @@ export default async function HomePage() {
           <div className="grid-2" style={{ alignItems: 'start' }}>
             <PaymentCalculator models={models} settings={settings} compact />
             <div className="stats" style={{ gridTemplateColumns: '1fr', gap: 10 }}>
+              {settings.deliveredCount ? (
+                <div className="card stat"><b>{settings.deliveredCount.toLocaleString('th-TH')}+ คัน</b><span>ส่งมอบให้ลูกค้าแล้ว{settings.yearsOpen ? ` ตลอด ${settings.yearsOpen} ปีที่เปิดให้บริการ` : ''}</span></div>
+              ) : null}
+              {settings.googleRating ? (
+                <div className="card stat"><b>{settings.googleRating.toFixed(1)} ★</b><span>คะแนนรีวิวจากลูกค้าบน Google{settings.trustNote ? ` · ${settings.trustNote}` : ''}</span></div>
+              ) : null}
               <div className="card stat"><b>{branches.length} สาขา</b><span>ในกรุงเทพฯ และปริมณฑล เลือกสาขาที่ใกล้บ้านได้เอง</span></div>
               <div className="card stat"><b>1 ชั่วโมง</b><span>ทีมขายโทรยืนยันนัดทดลองขับกลับภายใน 1 ชั่วโมง (เวลาทำการ)</span></div>
-              <div className="card stat"><b>ฟรี</b><span>ทดลองขับทุกรุ่น ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</span></div>
+              {!settings.deliveredCount ? <div className="card stat"><b>ฟรี</b><span>ทดลองขับทุกรุ่น ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</span></div> : null}
             </div>
           </div>
         </section>

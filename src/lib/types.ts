@@ -18,6 +18,7 @@ export type CarModel = {
   heroImage?: Media | number | null
   gallery?: (Media | number)[] | null
   specs?: { label: string; value: string }[] | null
+  variants?: { name: string; price: number; note?: string | null }[] | null
   rentalAvailable?: boolean | null
   rentalDaily?: number | null
   rentalMonthly?: number | null
@@ -33,6 +34,7 @@ export type Branch = {
   openHours?: string | null
   address?: string | null
   mapUrl?: string | null
+  lineUrl?: string | null
   intro?: string | null
 }
 
@@ -69,4 +71,10 @@ export type SiteSettings = {
   defaultDownPercent?: number | null
   defaultTerm?: number | null
   financeNote?: string | null
+  deliveredCount?: number | null
+  yearsOpen?: number | null
+  googleRating?: number | null
+  trustNote?: string | null
+  gaMeasurementId?: string | null
+  googleSiteVerification?: string | null
 }

@@ -160,6 +160,23 @@ export interface CarModel {
   rangeKm?: number | null;
   colorsCount?: number | null;
   /**
+   * เช่น Premium 1,199,900 / AWD Performance 1,299,900 — ใส่แล้วหน้ารุ่นรถและหน้าตารางผ่อนจะแสดงทุกรุ่นย่อย ถ้าเว้นว่างจะใช้ "ราคาเริ่มต้น" ด้านบนอย่างเดียว
+   */
+  variants?:
+    | {
+        /**
+         * เช่น Premium, Extended, AWD Performance
+         */
+        name: string;
+        price: number;
+        /**
+         * เช่น มอเตอร์คู่ 530 แรงม้า
+         */
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * รูปที่ขึ้นบนการ์ดในหน้าแรก ควรเป็นรูปแนวนอน พื้นหลังโล่ง
    */
   heroImage?: (number | null) | Media;
@@ -317,6 +334,10 @@ export interface Branch {
   phone: string;
   openHours?: string | null;
   address?: string | null;
+  /**
+   * เช่น https://line.me/R/ti/p/@bydhiclassladprao — ปุ่ม LINE บนหน้าสาขานี้จะไปหาสาขาโดยตรง ถ้าเว้นว่างจะใช้ LINE กลางจากตั้งค่าเว็บไซต์
+   */
+  lineUrl?: string | null;
   /**
    * กดปุ่ม "แชร์" ใน Google Maps แล้ววางลิงก์ที่นี่
    */
@@ -513,6 +534,14 @@ export interface CarModelsSelect<T extends boolean = true> {
   priceFrom?: T;
   rangeKm?: T;
   colorsCount?: T;
+  variants?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        note?: T;
+        id?: T;
+      };
   heroImage?: T;
   gallery?: T;
   specs?:
@@ -583,6 +612,7 @@ export interface BranchesSelect<T extends boolean = true> {
   phone?: T;
   openHours?: T;
   address?: T;
+  lineUrl?: T;
   mapUrl?: T;
   domain?: T;
   intro?: T;
@@ -729,7 +759,28 @@ export interface SiteSetting {
   heroHeadline2?: string | null;
   heroSub?: string | null;
   heroBlurb?: string | null;
+  /**
+   * เช่น 3500 — เว็บจะแสดงเป็น "3,500+ คัน"
+   */
+  deliveredCount?: number | null;
+  yearsOpen?: number | null;
+  googleRating?: number | null;
+  /**
+   * เช่น ศูนย์บริการมาตรฐาน BYD ครบทั้ง 5 สาขา ช่างผ่านการอบรมจากโรงงาน
+   */
+  trustNote?: string | null;
+  /**
+   * ขึ้นต้นด้วย G- เช่น G-ABC123XYZ (Analytics → Admin → Data Streams) — จะโหลดเฉพาะเมื่อผู้ใช้กดยอมรับคุกกี้ตาม PDPA
+   */
+  gaMeasurementId?: string | null;
+  /**
+   * เฉพาะค่าใน content="..." ของ meta tag ที่ Search Console ให้มา
+   */
+  googleSiteVerification?: string | null;
   mainPhone: string;
+  /**
+   * สำคัญ — ปุ่ม "แอด LINE" ทุกหน้าใช้ลิงก์นี้ เช่น https://lin.ee/xxxxx (ถ้าเว้นว่างปุ่มจะกลายเป็น "ติดต่อเรา")
+   */
   lineUrl?: string | null;
   facebookUrl?: string | null;
   footerAbout?: string | null;
@@ -760,6 +811,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   heroHeadline2?: T;
   heroSub?: T;
   heroBlurb?: T;
+  deliveredCount?: T;
+  yearsOpen?: T;
+  googleRating?: T;
+  trustNote?: T;
+  gaMeasurementId?: T;
+  googleSiteVerification?: T;
   mainPhone?: T;
   lineUrl?: T;
   facebookUrl?: T;

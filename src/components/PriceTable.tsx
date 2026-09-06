@@ -64,7 +64,8 @@ export default function PriceTable({ models, settings }: { models: CarModel[]; s
                 <td className="num mute">{baht(d)}</td>
                 <td className="num mute">{baht(financed)}</td>
                 <td className="num hi">{baht(perMonth)}</td>
-                <td style={{ textAlign: 'right' }}>
+                <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                  <Link className="btn btn-soft" style={{ height: 36, padding: '0 12px', fontSize: 13, marginRight: 6 }} href={`/price/${m.slug}`}>ตารางเต็ม</Link>
                   <Link className="btn btn-red" style={{ height: 36, padding: '0 14px', fontSize: 13 }} href={`/test-drive?model=${encodeURIComponent(m.name)}`}>ลองขับ</Link>
                 </td>
               </tr>
@@ -83,7 +84,10 @@ export default function PriceTable({ models, settings }: { models: CarModel[]; s
             <div className="r"><span>ราคาเริ่มต้น</span><b>{baht(m.priceFrom)}</b></div>
             <div className="r"><span>ยอดจัด (ดาวน์ {down}%)</span><b>{baht(financed)}</b></div>
             <div className="r hi"><span>ผ่อน {term} งวด</span><b>{baht(perMonth)} ฿/เดือน</b></div>
-            <Link className="btn btn-red" href={`/test-drive?model=${encodeURIComponent(m.name)}`}>นัดทดลองขับ</Link>
+            <div className="grid-2" style={{ gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <Link className="btn btn-soft" href={`/price/${m.slug}`}>ตารางเต็ม</Link>
+              <Link className="btn btn-red" href={`/test-drive?model=${encodeURIComponent(m.name)}`}>นัดทดลองขับ</Link>
+            </div>
           </div>
         ))}
       </div>

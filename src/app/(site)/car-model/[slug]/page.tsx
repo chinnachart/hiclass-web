@@ -53,8 +53,19 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               <small>บาท</small>
             </div>
             <p className="small mute">
-              หรือผ่อนเริ่มต้นประมาณ <b style={{ color: 'var(--ink)' }}>{baht(perMonth)} บาท/เดือน</b> · ดาวน์ {settings.defaultDownPercent ?? 20}% · {settings.defaultTerm ?? 60} งวด
+              หรือผ่อนเริ่มต้นประมาณ <b style={{ color: 'var(--ink)' }}>{baht(perMonth)} บาท/เดือน</b> · ดาวน์ {settings.defaultDownPercent ?? 20}% · {settings.defaultTerm ?? 60} งวด ·{' '}
+              <Link href={`/price/${m.slug}`} style={{ color: 'var(--red)', fontWeight: 600 }}>ดูตารางผ่อนเต็ม</Link>
             </p>
+            {m.variants && m.variants.length > 0 ? (
+              <div className="stack" style={{ gap: 6, marginTop: 12 }}>
+                {m.variants.map((v) => (
+                  <div key={v.name} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 12px', border: '1px solid var(--line)', borderRadius: 10, background: 'var(--paper)', fontSize: 14 }}>
+                    <span><b>{v.name}</b>{v.note ? <span className="mute"> · {v.note}</span> : null}</span>
+                    <b className="display">{baht(v.price)} ฿</b>
+                  </div>
+                ))}
+              </div>
+            ) : null}
             <div className="cta-pair" style={{ marginTop: 16 }}>
               <Link className="btn btn-red" href={`/test-drive?model=${encodeURIComponent(m.name)}`}>
                 <Icon name="wheel" size={20} color="#fff" />นัดทดลองขับ

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import MobileBar from '@/components/MobileBar'
+import CookieConsent from '@/components/CookieConsent'
 import { getSiteData } from '@/lib/data'
 import './globals.css'
 
@@ -23,6 +24,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <html lang="th">
       <head>
+        {settings.googleSiteVerification ? <meta name="google-site-verification" content={settings.googleSiteVerification} /> : null}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
@@ -36,6 +38,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         {children}
         <Footer models={models} branches={branches} settings={settings} />
         <MobileBar settings={settings} />
+        <CookieConsent gaId={settings.gaMeasurementId} />
       </body>
     </html>
   )

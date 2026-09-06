@@ -90,6 +90,26 @@ export const CarModels: CollectionConfig = {
       ],
     },
     {
+      name: 'variants',
+      type: 'array',
+      label: 'รุ่นย่อยและราคา',
+      labels: { singular: 'รุ่นย่อย', plural: 'รุ่นย่อย' },
+      admin: {
+        description:
+          'เช่น Premium 1,199,900 / AWD Performance 1,299,900 — ใส่แล้วหน้ารุ่นรถและหน้าตารางผ่อนจะแสดงทุกรุ่นย่อย ถ้าเว้นว่างจะใช้ "ราคาเริ่มต้น" ด้านบนอย่างเดียว',
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'name', type: 'text', required: true, label: 'ชื่อรุ่นย่อย', admin: { width: '40%', description: 'เช่น Premium, Extended, AWD Performance' } },
+            { name: 'price', type: 'number', required: true, min: 0, label: 'ราคา (บาท)', admin: { width: '30%' } },
+            { name: 'note', type: 'text', label: 'จุดเด่นสั้นๆ', admin: { width: '30%', description: 'เช่น มอเตอร์คู่ 530 แรงม้า' } },
+          ],
+        },
+      ],
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',

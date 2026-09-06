@@ -43,6 +43,7 @@ export default function Header({
               </Link>
               {'drop' in item && item.drop === 'models' ? (
                 <div className="drop wide">
+                  <Link href="/compare" style={{ fontWeight: 600, color: 'var(--red)' }}>เปรียบเทียบรุ่น</Link>
                   {models.map((m) => (
                     <Link key={m.id} href={`/car-model/${m.slug}`}>
                       {m.name} <small>{m.tagline}</small>

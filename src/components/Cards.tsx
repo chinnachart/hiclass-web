@@ -57,7 +57,9 @@ export function BranchRow({ b }: { b: Branch }) {
 }
 
 /** การ์ดสาขาแบบเต็ม (หน้าเลือกสาขา) — โทร / LINE / นำทาง / นัดที่สาขานี้ */
-export function BranchCard({ b, lineUrl, showIntro = false }: { b: Branch; lineUrl?: string | null; showIntro?: boolean }) {
+export function BranchCard({ b, lineUrl: siteLine, showIntro = false }: { b: Branch; lineUrl?: string | null; showIntro?: boolean }) {
+  // LINE ของสาขาก่อน ถ้าไม่มีค่อยใช้ LINE กลาง
+  const lineUrl = b.lineUrl || siteLine
   return (
     <div className="card branch-card">
       <div className="top">

@@ -48,6 +48,7 @@ export default function Footer({
             <div className="links">
               <Link href="/test-drive">นัดทดลองขับ</Link>
               <Link href="/price">ราคาและตารางผ่อน</Link>
+              <Link href="/compare">เปรียบเทียบรุ่น</Link>
               <Link href="/promotion">โปรโมชั่น</Link>
               <Link href="/service">ศูนย์บริการ</Link>
               <Link href="/rental">บริการรถให้เช่า</Link>
@@ -56,7 +57,10 @@ export default function Footer({
             </div>
           </div>
         </div>
-        <div className="fine">© {new Date().getFullYear()} Hi-Class EV Car · BYD เป็นเครื่องหมายการค้าของ BYD Auto</div>
+        <div className="fine" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', justifyContent: 'space-between' }}>
+          <span>© {new Date().getFullYear()} Hi-Class EV Car · BYD เป็นเครื่องหมายการค้าของ BYD Auto</span>
+          <Link href="/privacy">นโยบายความเป็นส่วนตัว</Link>
+        </div>
       </div>
     </footer>
   )
