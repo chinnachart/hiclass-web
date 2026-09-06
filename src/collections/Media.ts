@@ -13,6 +13,14 @@ export const Media: CollectionConfig = {
       ? path.resolve(process.env.MEDIA_DIR)
       : path.resolve(process.cwd(), 'media'),
     mimeTypes: ['image/*'],
+    // วางลิงก์รูปจากเว็บเก่าในช่องอัปโหลดได้เลย ระบบจะไปโหลดมาให้จากฝั่งเซิร์ฟเวอร์
+    // (ถ้าไม่ระบุโดเมนไว้ตรงนี้ เบราว์เซอร์จะเป็นคนโหลด แล้วติด CORS ของ WordPress)
+    pasteURL: {
+      allowList: [
+        { hostname: 'hiclassevcar.com', protocol: 'https' },
+        { hostname: 'www.hiclassevcar.com', protocol: 'https' },
+      ],
+    },
     // ระบบย่อขนาดและแปลงเป็น WebP ให้อัตโนมัติ — อัปโหลดไฟล์ใหญ่มาได้เลย
     formatOptions: { format: 'webp', options: { quality: 82 } },
     imageSizes: [

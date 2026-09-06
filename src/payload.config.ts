@@ -35,6 +35,8 @@ export default buildConfig({
         dashboard: { Component: '@/components/admin/Dashboard#Dashboard' },
         // แก้ราคาทุกรุ่นในหน้าเดียว
         prices: { Component: '@/components/admin/PricesView#PricesView', path: '/prices', exact: true },
+        // ย้ายรูปจากเว็บ WordPress เก่าเข้าคลังรูป
+        wpImport: { Component: '@/components/admin/WpImportView#WpImportView', path: '/wp-import', exact: true },
       },
     },
     // ไม่ต้องใช้รูปโปรไฟล์จากอินเทอร์เน็ต

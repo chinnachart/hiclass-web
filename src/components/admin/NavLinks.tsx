@@ -10,6 +10,7 @@ export function AfterNavLinks() {
       <Link href="/admin/prices" className="hc-navx__link"><Ic name="car" size={16} /> แก้ราคาทุกรุ่น</Link>
       <Link href="/admin/collections/promotions/create" className="hc-navx__link"><Ic name="tag" size={16} /> เพิ่มโปรโมชั่น</Link>
       <Link href="/admin/collections/media/create" className="hc-navx__link"><Ic name="image" size={16} /> อัปโหลดรูป</Link>
+      <Link href="/admin/wp-import" className="hc-navx__link"><Ic name="arrow" size={16} /> ย้ายรูปจากเว็บเก่า</Link>
       <a href={siteUrl} target="_blank" rel="noopener noreferrer" className="hc-navx__link"><Ic name="eye" size={16} /> เปิดดูเว็บจริง</a>
     </div>
   )

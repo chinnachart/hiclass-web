@@ -28,6 +28,7 @@ import { AfterNavLinks as AfterNavLinks_efcc7fec2af44371f7fed5d0104659dd } from 
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { Dashboard as Dashboard_0e7b23c75ea046975e1784ba01f82886 } from '@/components/admin/Dashboard'
 import { PricesView as PricesView_0b8fa8745d8981b18e3f680fec9d4af4 } from '@/components/admin/PricesView'
+import { WpImportView as WpImportView_d95f33fcd29b510b57dce16ff6d97818 } from '@/components/admin/WpImportView'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -62,5 +63,6 @@ export const importMap = {
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@/components/admin/Dashboard#Dashboard": Dashboard_0e7b23c75ea046975e1784ba01f82886,
   "@/components/admin/PricesView#PricesView": PricesView_0b8fa8745d8981b18e3f680fec9d4af4,
+  "@/components/admin/WpImportView#WpImportView": WpImportView_d95f33fcd29b510b57dce16ff6d97818,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
