@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Icon from './Icons'
 import { telHref } from '@/lib/format'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
+import { APPOINTMENT_SLOTS } from '@/lib/appointment'
 
 type Props = {
   models: CarModel[]
@@ -14,7 +15,7 @@ type Props = {
   offerNote?: string
 }
 
-const SLOTS = ['เช้า (09:00–12:00)', 'บ่าย (12:00–15:00)', 'เย็น (15:00–18:00)']
+const SLOTS = APPOINTMENT_SLOTS
 
 /** ฟอร์มนัดทดลองขับ — เลือกรุ่นเป็นชิป เลือกสาขา ชื่อ เบอร์ วัน ช่วงเวลา แล้วส่งเข้า CRM */
 export default function TestDriveForm({ models, branches, settings, defaultModel, defaultBranch, offerNote }: Props) {
@@ -27,11 +28,8 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
     e.preventDefault()
     setState('sending')
     const fd = new FormData(e.currentTarget)
-    const date = String(fd.get('date') || '')
-    const slot = String(fd.get('slot') || '')
-    const preferredTime = [date ? new Date(date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) : '', slot]
-      .filter(Boolean)
-      .join(' ')
+    const appointmentDate = String(fd.get('date') || '') // YYYY-MM-DD จาก <input type=date>
+    const appointmentSlot = String(fd.get('slot') || '')
     try {
       const res = await fetch('/api/test-drive', {
         method: 'POST',
@@ -41,7 +39,8 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
           phone: fd.get('phone'),
           model,
           branch: fd.get('branch'),
-          preferredTime,
+          appointmentDate,
+          appointmentSlot,
           offerNote: offerNote || '',
         }),
       })

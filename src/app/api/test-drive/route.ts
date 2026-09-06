@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { createLead } from '@/lib/crm'
+import { createLead, isAppointmentSlot } from '@/lib/crm'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -43,7 +43,9 @@ export async function POST(req: Request) {
   const phone = String(body.phone || '').trim()
   const branch = String(body.branch || '').trim()
   const model = String(body.model || '').trim()
-  const preferredTime = String(body.preferredTime || '').trim().slice(0, 200)
+  const appointmentDate = String(body.appointmentDate || '').trim().slice(0, 10) // YYYY-MM-DD
+  const appointmentSlotRaw = String(body.appointmentSlot || '').trim()
+  const appointmentSlot = isAppointmentSlot(appointmentSlotRaw) ? appointmentSlotRaw : ''
   const offerNote = String(body.offerNote || '').trim().slice(0, 300)
 
   if (customerName.length < 2 || customerName.length > 120) {
@@ -64,9 +66,10 @@ export async function POST(req: Request) {
     phone,
     model,
     branch,
-    preferredTime,
+    appointmentDate,
+    appointmentSlot,
     offerNote,
-    leadSource: (settings as { leadSourceLabel?: string })?.leadSourceLabel || 'Website - ทดลองขับ',
+    // lead_source ตายตัว 'Website' ใน lib/crm.ts (ค่า leadSourceLabel ในหลังบ้านไม่ใช้แล้ว — Cinco นับกองกลางเฉพาะ 'Website')
     holderName: (settings as { leadHolderName?: string })?.leadHolderName || 'เว็บไซต์ - รอรับ',
   })
 
