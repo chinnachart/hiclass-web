@@ -10,6 +10,9 @@ export const AdminLogo = () => (
   </div>
 )
 
+// ป้ายแรกของ breadcrumb (มุมบนซ้าย) — คลิกแล้วกลับหน้าแรกหลังบ้าน
+// เดิมใส่ 'BYD' แต่ Payload บีบช่องนี้เหลือ 18px เลยโดนตัดเหลือ "B." อ่านไม่รู้เรื่อง
+// จึงเปลี่ยนเป็นคำว่า "หน้าแรก" + คลาสไปคลายความกว้างใน custom.css
 export const AdminIcon = () => (
-  <span style={{ fontWeight: 700, fontSize: 17, letterSpacing: '.1em' }}>BYD</span>
+  <span className="hc-stepnav-home">หน้าแรก</span>
 )
