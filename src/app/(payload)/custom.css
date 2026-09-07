@@ -172,3 +172,11 @@ h1, h2, h3 { font-family: 'Kanit', 'Noto Sans Thai', sans-serif; }
 [data-theme="dark"] .hc-wp__count { color: #9aa0a6; }
 /* ทางลัดในเมนูซ้าย — เมนูเป็นพื้นเข้มได้ในบางธีม จึงผูกสีกับตัวแปรของ Payload */
 .hc-navx__link { color: var(--theme-elevation-800); }
+
+/* ---------- breadcrumb: ป้ายแรกเป็นคำว่า "หน้าแรก" ---------- */
+/* Payload บีบ .step-nav__home ไว้ 18px (สำหรับไอคอน) ต้องคลายให้ใส่คำไทยได้ */
+.step-nav__home { width: auto; height: auto; }
+.step-nav__home span,
+.step-nav .hc-stepnav-home { max-width: none; overflow: visible; white-space: nowrap; }
+.hc-stepnav-home { font-size: 14px; font-weight: 600; color: var(--theme-elevation-800); }
+.step-nav__home:hover .hc-stepnav-home { color: var(--hc-red); }
