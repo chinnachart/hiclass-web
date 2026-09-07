@@ -3,7 +3,9 @@ import { AdminIcon as Ic } from './AdminIcons'
 
 /** ทางลัดในเมนูซ้ายของหลังบ้าน */
 export function AfterNavLinks() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '/'
+  // ลิงก์แบบสัมพัทธ์: เปิดเว็บ "โดเมนเดียวกับที่กำลังใช้อยู่"
+  // อยู่บน hiclass-web.vercel.app ก็เปิด vercel.app / ย้ายไป hiclassevcar.com ก็เปิดโดเมนจริงเอง
+  const siteUrl = '/'
   return (
     <div className="hc-navx">
       <div className="hc-navx__label">ทางลัด</div>
