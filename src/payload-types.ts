@@ -201,6 +201,19 @@ export interface CarModel {
   rentalDaily?: number | null;
   rentalMonthly?: number | null;
   /**
+   * ราคาต่อวัน รวม VAT แล้ว · ยิ่งเช่านานยิ่งถูกลง ใส่ครบทั้ง 4 ช่อง (1 / 3 / 7 / 30 วัน) แล้วหน้าเช่ารถจะขึ้นเป็นตารางให้อัตโนมัติ ถ้าเว้นว่างจะใช้ค่าเช่ารายวัน/รายเดือนด้านบนแทน
+   */
+  rentalRates?:
+    | {
+        variant: string;
+        day1?: number | null;
+        day3?: number | null;
+        day7?: number | null;
+        day30?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง
    */
   faq?:
@@ -554,6 +567,16 @@ export interface CarModelsSelect<T extends boolean = true> {
   rentalAvailable?: T;
   rentalDaily?: T;
   rentalMonthly?: T;
+  rentalRates?:
+    | T
+    | {
+        variant?: T;
+        day1?: T;
+        day3?: T;
+        day7?: T;
+        day30?: T;
+        id?: T;
+      };
   faq?:
     | T
     | {
