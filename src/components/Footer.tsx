@@ -53,6 +53,7 @@ export default function Footer({
               <Link href="/service">ศูนย์บริการ</Link>
               <Link href="/rental">บริการรถให้เช่า</Link>
               <Link href="/news">ข่าวสารและกิจกรรม</Link>
+              <Link href="/awards">รางวัลของเรา</Link>
               <Link href="/contact">ติดต่อเรา</Link>
             </div>
           </div>

@@ -11,6 +11,8 @@ export default function Jsonld({ data }: { data: Record<string, unknown> }) {
   )
 }
 
+import { AWARD_NAMES } from '@/lib/awards'
+
 export const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://hiclassevcar.com'
 
 export const dealerLd = (branches: { name: string; phone: string; address?: string | null; code: string }[]) => ({
@@ -20,6 +22,7 @@ export const dealerLd = (branches: { name: string; phone: string; address?: stri
   url: SITE,
   brand: { '@type': 'Brand', name: 'BYD' },
   areaServed: 'กรุงเทพมหานครและปริมณฑล',
+  award: AWARD_NAMES,
   department: branches.map((b) => ({
     '@type': 'AutoDealer',
     name: `BYD Hi-Class ${b.name}`,
