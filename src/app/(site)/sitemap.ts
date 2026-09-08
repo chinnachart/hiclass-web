@@ -21,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/service`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/contact`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${SITE}/news`, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${SITE}/awards`, changeFrequency: 'yearly', priority: 0.6 },
     ...models.map((m) => ({
       url: `${SITE}/car-model/${m.slug}`,
       lastModified: m.updatedAt ? new Date(m.updatedAt) : undefined,

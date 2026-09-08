@@ -5,6 +5,7 @@ import ModelGrid from '@/components/ModelGrid'
 import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
 import Jsonld, { dealerLd } from '@/components/Jsonld'
+import { AwardsStrip } from '@/components/Awards'
 import { getSiteData } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
@@ -72,6 +73,9 @@ export default async function HomePage() {
       </section>
 
       <main className="container">
+        {/* ---------- รางวัล ---------- */}
+        <AwardsStrip />
+
         {/* ---------- โปรโมชั่น ---------- */}
         {promotions.length > 0 ? (
           <section className="section" id="promotion">
