@@ -19,7 +19,7 @@ const FAQ = [
   {
     question: 'เช่ารถ BYD รายเดือน ราคาเท่าไหร่',
     answer:
-      'ค่าเช่าขึ้นอยู่กับรุ่นและระยะเวลาเช่า ดูอัตราเริ่มต้นของแต่ละรุ่นได้ในหน้านี้ เช่าระยะยาวมีส่วนลดเพิ่ม ติดต่อสาขาเพื่อขอใบเสนอราคา',
+      'ค่าเช่าขึ้นอยู่กับรุ่นและระยะเวลาเช่า ดูตารางเรทต่อวันของทุกรุ่นได้ในหน้านี้ ราคารวมภาษีมูลค่าเพิ่มแล้ว เช่า 30 วันขึ้นไปได้ราคาต่อวันถูกที่สุด ติดต่อสาขาเพื่อขอใบเสนอราคา',
   },
   {
     question: 'ใช้เอกสารอะไรบ้างในการเช่า',
@@ -37,9 +37,31 @@ const FAQ = [
   },
 ]
 
+type Row = { key: string; slug: string; label: string; day1?: number | null; day3?: number | null; day7?: number | null; day30?: number | null }
+
+const TIERS = [
+  { key: 'day1' as const, head: '1 วัน' },
+  { key: 'day3' as const, head: '3 วัน' },
+  { key: 'day7' as const, head: '7 วัน' },
+  { key: 'day30' as const, head: '30 วัน' },
+]
+
 export default async function RentalPage() {
   const { models, branches, settings } = await getSiteData()
-  const rentals = models.filter((m) => m.rentalAvailable && (m.rentalDaily || m.rentalMonthly))
+  const rentals = models.filter((m) => m.rentalAvailable && (m.rentalRates?.length || m.rentalDaily || m.rentalMonthly))
+  const rows: Row[] = rentals.flatMap((m) =>
+    m.rentalRates?.length
+      ? m.rentalRates.map((r, i) => ({
+          key: `${m.id}-${i}`,
+          slug: m.slug,
+          label: `BYD ${m.name}${r.variant ? ` ${r.variant}` : ''}`,
+          day1: r.day1,
+          day3: r.day3,
+          day7: r.day7,
+          day30: r.day30,
+        }))
+      : [{ key: `${m.id}`, slug: m.slug, label: `BYD ${m.name}`, day1: m.rentalDaily, day3: null, day7: null, day30: m.rentalMonthly ? Math.round(m.rentalMonthly / 30) : null }],
+  )
 
   return (
     <>
@@ -55,21 +77,58 @@ export default async function RentalPage() {
       </section>
       <main className="container">
         <section className="section" style={{ paddingTop: 20 }}>
-          {rentals.length > 0 ? (
-            <div className="grid-3">
-              {rentals.map((m) => (
-                <div className="card price-card" key={m.id} style={{ display: 'flex' }}>
-                  <Link href={`/car-model/${m.slug}`} className="display" style={{ fontSize: 18 }}>BYD {m.name}</Link>
-                  <span className="mute small">{m.tagline}</span>
-                  <div className="r"><span>รายวัน</span><b>{m.rentalDaily ? `${baht(m.rentalDaily)} ฿` : '—'}</b></div>
-                  <div className="r hi"><span>รายเดือน</span><b>{m.rentalMonthly ? `${baht(m.rentalMonthly)} ฿` : '—'}</b></div>
-                  <a className="btn btn-outline" href={telHref(settings.mainPhone)}><Icon name="phone" size={16} />สอบถามคันว่าง</a>
-                </div>
-              ))}
-            </div>
+          {rows.length > 0 ? (
+            <>
+              <div className="price-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>รุ่นรถ</th>
+                      {TIERS.map((t) => (
+                        <th key={t.key} style={{ textAlign: 'right' }}>{t.head}</th>
+                      ))}
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((r) => (
+                      <tr key={r.key}>
+                        <td>
+                          <Link href={`/car-model/${r.slug}`} style={{ fontWeight: 600 }}>{r.label}</Link>
+                        </td>
+                        {TIERS.map((t) => (
+                          <td key={t.key} className={t.key === 'day30' ? 'num hi' : 'num'}>
+                            {r[t.key] ? `${baht(r[t.key] as number)} ฿` : '—'}
+                          </td>
+                        ))}
+                        <td style={{ textAlign: 'right' }}>
+                          <a className="btn btn-outline" href={telHref(settings.mainPhone)}>สอบถาม</a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="price-cards">
+                {rows.map((r) => (
+                  <div className="card price-card" key={r.key}>
+                    <Link href={`/car-model/${r.slug}`} className="display" style={{ fontSize: 17 }}>{r.label}</Link>
+                    {TIERS.map((t) => (
+                      <div className={t.key === 'day30' ? 'r hi' : 'r'} key={t.key}>
+                        <span>เช่า {t.head}</span>
+                        <b>{r[t.key] ? `${baht(r[t.key] as number)} ฿/วัน` : '—'}</b>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <p className="fineprint" style={{ marginTop: 10 }}>
+                ราคาต่อวัน รวมภาษีมูลค่าเพิ่มแล้ว · เช่ายิ่งนานราคาต่อวันยิ่งถูกลง · จำนวนรถมีจำกัด กรุณาโทรเช็กคันว่างก่อนทุกครั้ง
+              </p>
+            </>
           ) : (
             <div className="notice warn">
-              <strong>ยังไม่ได้กรอกอัตราค่าเช่า</strong> — เข้าหลังบ้าน → รุ่นรถ → เลือกรุ่น → หัวข้อ &ldquo;บริการรถให้เช่า&rdquo; ติ๊ก &ldquo;รุ่นนี้มีให้เช่า&rdquo; แล้วกรอกราคา รุ่นนั้นจะขึ้นในหน้านี้ทันที
+              <strong>ยังไม่ได้กรอกอัตราค่าเช่า</strong> — เข้าหลังบ้าน → รุ่นรถ → เลือกรุ่น → หัวข้อ &ldquo;บริการรถให้เช่า&rdquo; ติ๊ก &ldquo;รุ่นนี้มีให้เช่า&rdquo; แล้วกรอกเรทค่าเช่าแยกรุ่นย่อย รุ่นนั้นจะขึ้นในหน้านี้ทันที
             </div>
           )}
           <div className="grid-2" style={{ marginTop: 14 }}>

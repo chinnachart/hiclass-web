@@ -22,6 +22,7 @@ export type CarModel = {
   rentalAvailable?: boolean | null
   rentalDaily?: number | null
   rentalMonthly?: number | null
+  rentalRates?: { variant: string; day1?: number | null; day3?: number | null; day7?: number | null; day30?: number | null }[] | null
   faq?: { question: string; answer: string }[] | null
 }
 

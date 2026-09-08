@@ -158,6 +158,28 @@ export const CarModels: CollectionConfig = {
             { name: 'rentalMonthly', type: 'number', min: 0, label: 'ค่าเช่ารายเดือน (บาท)', admin: { width: '50%' } },
           ],
         },
+        {
+          name: 'rentalRates',
+          type: 'array',
+          label: 'เรทค่าเช่าแยกรุ่นย่อย',
+          labels: { singular: 'รุ่นย่อย', plural: 'รุ่นย่อย' },
+          admin: {
+            description:
+              'ราคาต่อวัน รวม VAT แล้ว · ยิ่งเช่านานยิ่งถูกลง ใส่ครบทั้ง 4 ช่อง (1 / 3 / 7 / 30 วัน) แล้วหน้าเช่ารถจะขึ้นเป็นตารางให้อัตโนมัติ ถ้าเว้นว่างจะใช้ค่าเช่ารายวัน/รายเดือนด้านบนแทน',
+          },
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                { name: 'variant', type: 'text', required: true, label: 'รุ่นย่อย', admin: { width: '40%', description: 'เช่น Standard, Extended, Dynamic' } },
+                { name: 'day1', type: 'number', min: 0, label: 'เช่า 1 วัน (บาท/วัน)', admin: { width: '15%' } },
+                { name: 'day3', type: 'number', min: 0, label: 'เช่า 3 วัน (บาท/วัน)', admin: { width: '15%' } },
+                { name: 'day7', type: 'number', min: 0, label: 'เช่า 7 วัน (บาท/วัน)', admin: { width: '15%' } },
+                { name: 'day30', type: 'number', min: 0, label: 'เช่า 30 วัน (บาท/วัน)', admin: { width: '15%' } },
+              ],
+            },
+          ],
+        },
       ],
     },
     {
