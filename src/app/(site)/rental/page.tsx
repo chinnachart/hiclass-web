@@ -54,7 +54,7 @@ export default async function RentalPage() {
       ? m.rentalRates.map((r, i) => ({
           key: `${m.id}-${i}`,
           slug: m.slug,
-          label: `BYD ${m.name}${r.variant ? ` ${r.variant}` : ''}`,
+          label: `BYD ${m.name}${r.variant && r.variant.trim() !== m.name ? ` ${r.variant.trim()}` : ''}`,
           day1: r.day1,
           day3: r.day3,
           day7: r.day7,
