@@ -25,6 +25,11 @@ export default async function ContactPage() {
         </div>
       </section>
       <main className="container">
+        {settings.footerAbout ? (
+          <section className="section" style={{ paddingTop: 20, paddingBottom: 0 }}>
+            <p className="mute" style={{ maxWidth: 760, lineHeight: 1.7 }}>{settings.footerAbout}</p>
+          </section>
+        ) : null}
         <section className="section" style={{ paddingTop: 20 }}>
           <div className="grid-3">
             <a className="card svc" href={telHref(settings.mainPhone)}>

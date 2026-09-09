@@ -66,7 +66,7 @@ export const SiteSettings: GlobalConfig = {
               defaultValue: 'bydhiclass.online@gmail.com',
               admin: { description: 'แสดงท้ายเว็บ หน้าติดต่อเรา และส่งให้ Google เป็นอีเมลของธุรกิจ' },
             },
-            { name: 'footerAbout', type: 'textarea', label: 'ข้อความแนะนำท้ายเว็บ' },
+            { name: 'footerAbout', type: 'textarea', label: 'ย่อหน้าแนะนำบริษัท', admin: { description: 'แสดงท้ายเว็บทุกหน้า และหัวหน้าติดต่อเรา — เล่าว่า Hi-Class ต่างจากดีลเลอร์อื่นยังไง' } },
           ],
         },
         {
