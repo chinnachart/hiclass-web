@@ -3,39 +3,51 @@ import Link from 'next/link'
 import Icon from '@/components/Icons'
 import { Faq } from '@/components/Cards'
 import Jsonld, { faqLd } from '@/components/Jsonld'
-import { getSiteData } from '@/lib/data'
-import { baht, telHref } from '@/lib/format'
+import { getPageContent, getSiteData } from '@/lib/data'
+import { baht, fillTokens, telHref } from '@/lib/format'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'เช่ารถ BYD รายวัน รายเดือน ในกรุงเทพฯ',
-  description:
+/** ข้อความตั้งต้น — ใช้เมื่อยังไม่ได้กรอกในหลังบ้าน (ข้อความในหน้าต่างๆ → รถเช่า) */
+const D = {
+  kicker: 'บริการรถให้เช่า',
+  title: 'เช่ารถ BYD รายวันและรายเดือน',
+  lead: 'ขับรถไฟฟ้าก่อนตัดสินใจซื้อ หรือใช้เป็นรถประจำบริษัทโดยไม่ต้องลงทุนก้อนใหญ่ รับรถได้ที่ {สาขา} สาขาในกรุงเทพฯ และปริมณฑล',
+  fineprint: 'ราคาต่อวัน รวมภาษีมูลค่าเพิ่มแล้ว · เช่ายิ่งนานราคาต่อวันยิ่งถูกลง · จำนวนรถมีจำกัด กรุณาโทรเช็กคันว่างก่อนทุกครั้ง',
+  seoTitle: 'เช่ารถ BYD รายวัน รายเดือน ในกรุงเทพฯ',
+  seoDesc:
     'บริการเช่ารถยนต์ไฟฟ้า BYD ทั้งรายวันและรายเดือน สำหรับลูกค้าบุคคลและองค์กร รับรถได้ที่ 5 สาขาในกรุงเทพฯ และปริมณฑล',
-  alternates: { canonical: '/rental' },
+  faq: [
+    {
+      question: 'เช่ารถ BYD รายเดือน ราคาเท่าไหร่',
+      answer:
+        'ค่าเช่าขึ้นอยู่กับรุ่นและระยะเวลาเช่า ดูตารางเรทต่อวันของทุกรุ่นได้ในหน้านี้ ราคารวมภาษีมูลค่าเพิ่มแล้ว เช่า 30 วันขึ้นไปได้ราคาต่อวันถูกที่สุด ติดต่อสาขาเพื่อขอใบเสนอราคา',
+    },
+    {
+      question: 'ใช้เอกสารอะไรบ้างในการเช่า',
+      answer:
+        'บุคคลธรรมดาใช้บัตรประชาชนและใบขับขี่ที่ยังไม่หมดอายุ ส่วนนิติบุคคลใช้หนังสือรับรองบริษัทและเอกสารผู้มีอำนาจลงนาม ทีมงานแจ้งรายละเอียดครบก่อนวันรับรถ',
+    },
+    {
+      question: 'ชาร์จไฟระหว่างเช่าอย่างไร',
+      answer:
+        'รถทุกคันมีสายชาร์จให้ และใช้สถานีชาร์จสาธารณะได้ทั่วประเทศ ทีมงานแนะนำวิธีใช้และแอปหาสถานีชาร์จให้ตอนรับรถ',
+    },
+    {
+      question: 'มีรถให้เช่าระหว่างนำรถเข้าศูนย์บริการไหม',
+      answer: 'มีครับ ลูกค้าที่นำรถเข้าศูนย์บริการของเราสามารถขอใช้บริการรถทดแทนได้ สอบถามล่วงหน้ากับสาขาที่นัดหมายไว้',
+    },
+  ],
 }
 
-const FAQ = [
-  {
-    question: 'เช่ารถ BYD รายเดือน ราคาเท่าไหร่',
-    answer:
-      'ค่าเช่าขึ้นอยู่กับรุ่นและระยะเวลาเช่า ดูตารางเรทต่อวันของทุกรุ่นได้ในหน้านี้ ราคารวมภาษีมูลค่าเพิ่มแล้ว เช่า 30 วันขึ้นไปได้ราคาต่อวันถูกที่สุด ติดต่อสาขาเพื่อขอใบเสนอราคา',
-  },
-  {
-    question: 'ใช้เอกสารอะไรบ้างในการเช่า',
-    answer:
-      'บุคคลธรรมดาใช้บัตรประชาชนและใบขับขี่ที่ยังไม่หมดอายุ ส่วนนิติบุคคลใช้หนังสือรับรองบริษัทและเอกสารผู้มีอำนาจลงนาม ทีมงานแจ้งรายละเอียดครบก่อนวันรับรถ',
-  },
-  {
-    question: 'ชาร์จไฟระหว่างเช่าอย่างไร',
-    answer:
-      'รถทุกคันมีสายชาร์จให้ และใช้สถานีชาร์จสาธารณะได้ทั่วประเทศ ทีมงานแนะนำวิธีใช้และแอปหาสถานีชาร์จให้ตอนรับรถ',
-  },
-  {
-    question: 'มีรถให้เช่าระหว่างนำรถเข้าศูนย์บริการไหม',
-    answer: 'มีครับ ลูกค้าที่นำรถเข้าศูนย์บริการของเราสามารถขอใช้บริการรถทดแทนได้ สอบถามล่วงหน้ากับสาขาที่นัดหมายไว้',
-  },
-]
+export async function generateMetadata(): Promise<Metadata> {
+  const pc = await getPageContent()
+  return {
+    title: pc.rtSeoTitle || D.seoTitle,
+    description: pc.rtSeoDesc || D.seoDesc,
+    alternates: { canonical: '/rental' },
+  }
+}
 
 type Row = { key: string; slug: string; label: string; day1?: number | null; day3?: number | null; day7?: number | null; day30?: number | null }
 
@@ -47,7 +59,8 @@ const TIERS = [
 ]
 
 export default async function RentalPage() {
-  const { models, branches, settings } = await getSiteData()
+  const [{ models, branches, settings }, pc] = await Promise.all([getSiteData(), getPageContent()])
+  const faq = pc.rtFaq?.length ? pc.rtFaq : D.faq
   const rentals = models.filter((m) => m.rentalAvailable && (m.rentalRates?.length || m.rentalDaily || m.rentalMonthly))
   const rows: Row[] = rentals.flatMap((m) =>
     m.rentalRates?.length
@@ -65,14 +78,12 @@ export default async function RentalPage() {
 
   return (
     <>
-      <Jsonld data={faqLd(FAQ)} />
+      {faq.length > 0 ? <Jsonld data={faqLd(faq)} /> : null}
       <section className="page-head">
         <div className="container">
-          <p className="kicker">บริการรถให้เช่า</p>
-          <h1>เช่ารถ BYD รายวันและรายเดือน</h1>
-          <p className="lead">
-            ขับรถไฟฟ้าก่อนตัดสินใจซื้อ หรือใช้เป็นรถประจำบริษัทโดยไม่ต้องลงทุนก้อนใหญ่ รับรถได้ที่ {branches.length} สาขาในกรุงเทพฯ และปริมณฑล
-          </p>
+          <p className="kicker">{pc.rtKicker || D.kicker}</p>
+          <h1>{fillTokens(pc.rtTitle || D.title, branches.length)}</h1>
+          <p className="lead">{fillTokens(pc.rtLead || D.lead, branches.length)}</p>
         </div>
       </section>
       <main className="container">
@@ -122,9 +133,7 @@ export default async function RentalPage() {
                   </div>
                 ))}
               </div>
-              <p className="fineprint" style={{ marginTop: 10 }}>
-                ราคาต่อวัน รวมภาษีมูลค่าเพิ่มแล้ว · เช่ายิ่งนานราคาต่อวันยิ่งถูกลง · จำนวนรถมีจำกัด กรุณาโทรเช็กคันว่างก่อนทุกครั้ง
-              </p>
+              <p className="fineprint" style={{ marginTop: 10 }}>{pc.rtFineprint || D.fineprint}</p>
             </>
           ) : (
             <div className="notice warn">
@@ -136,10 +145,12 @@ export default async function RentalPage() {
             <Link className="btn btn-outline btn-lg" href="/branches"><Icon name="pin" size={20} />ดูสาขาที่รับรถได้</Link>
           </div>
         </section>
-        <section className="section">
-          <div className="sec-head"><div><h2>คำถามที่ถามบ่อยเรื่องเช่ารถ</h2></div></div>
-          <Faq items={FAQ} />
-        </section>
+        {faq.length > 0 ? (
+          <section className="section">
+            <div className="sec-head"><div><h2>คำถามที่ถามบ่อยเรื่องเช่ารถ</h2></div></div>
+            <Faq items={faq} />
+          </section>
+        ) : null}
       </main>
     </>
   )

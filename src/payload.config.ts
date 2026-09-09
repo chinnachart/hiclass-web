@@ -14,6 +14,7 @@ import { Promotions } from './collections/Promotions'
 import { News } from './collections/News'
 import { Branches } from './collections/Branches'
 import { SiteSettings } from './globals/SiteSettings'
+import { PageContent } from './globals/PageContent'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -51,7 +52,7 @@ export default buildConfig({
     supportedLanguages: { th, en },
   },
   collections: [CarModels, Promotions, News, Branches, Media, Users],
-  globals: [SiteSettings],
+  globals: [SiteSettings, PageContent],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },

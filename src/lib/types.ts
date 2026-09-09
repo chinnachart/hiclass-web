@@ -43,6 +43,61 @@ export type Branch = {
   youtubeUrl?: string | null
 }
 
+export type FaqItem = { question: string; answer: string }
+
+export type AwardItem = {
+  year: number
+  title: string
+  th: string
+  event: string
+  level: 'national' | 'apac'
+  count?: number | null
+}
+
+/** ข้อความในหน้า รางวัล / รถเช่า / ศูนย์บริการ / เทิร์นรถเก่า — แก้ได้จากหลังบ้าน */
+export type PageContent = {
+  awKicker?: string | null
+  awAsOf?: string | null
+  awHeadline?: string | null
+  awHeadline2?: string | null
+  awLead?: string | null
+  awHeroImage?: Media | number | null
+  awStats?: { value: string; label: string }[] | null
+  awItems?: AwardItem[] | null
+  awYearPhotos?: { year: number; image: Media | number }[] | null
+  awTechTitle?: string | null
+  awTechSub?: string | null
+  awTechNote?: string | null
+  awTechImage?: Media | number | null
+  awCtaTitle?: string | null
+  awCtaSub?: string | null
+  awSeoTitle?: string | null
+  awSeoDesc?: string | null
+
+  rtKicker?: string | null
+  rtTitle?: string | null
+  rtLead?: string | null
+  rtFineprint?: string | null
+  rtFaq?: FaqItem[] | null
+  rtSeoTitle?: string | null
+  rtSeoDesc?: string | null
+
+  svKicker?: string | null
+  svTitle?: string | null
+  svLead?: string | null
+  svServices?: { icon?: string | null; title: string; body: string }[] | null
+  svFaq?: FaqItem[] | null
+  svSeoTitle?: string | null
+  svSeoDesc?: string | null
+
+  tiKicker?: string | null
+  tiTitle?: string | null
+  tiLead?: string | null
+  tiFaq?: FaqItem[] | null
+  tiSeoTitle?: string | null
+  tiSeoDesc?: string | null
+}
+
 export type Promotion = {
   id: number
   title: string

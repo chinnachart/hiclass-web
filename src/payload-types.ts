@@ -97,9 +97,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'site-settings': SiteSetting;
+    'page-content': PageContent;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'page-content': PageContentSelect<false> | PageContentSelect<true>;
   };
   locale: null;
   widgets: {
@@ -177,11 +179,11 @@ export interface CarModel {
       }[]
     | null;
   /**
-   * รูปที่ขึ้นบนการ์ดในหน้าแรก ควรเป็นรูปแนวนอน พื้นหลังโล่ง
+   * รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น · ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน · พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด
    */
   heroImage?: (number | null) | Media;
   /**
-   * รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด
+   * รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด · ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   gallery?: (number | Media)[] | null;
   /**
@@ -205,6 +207,9 @@ export interface CarModel {
    */
   rentalRates?:
     | {
+        /**
+         * เช่น Standard, Extended, Dynamic
+         */
         variant: string;
         day1?: number | null;
         day3?: number | null;
@@ -235,7 +240,7 @@ export interface CarModel {
   createdAt: string;
 }
 /**
- * อัปโหลดรูปครั้งเดียว นำไปใช้ซ้ำได้ทุกหน้า
+ * อัปโหลดรูปครั้งเดียว นำไปใช้ซ้ำได้ทุกหน้า · ขนาดต้นฉบับควรกว้างอย่างน้อย 1600 px (รูปแบนเนอร์เต็มจอใช้ 1920 px) ระบบจะย่อเป็น 3 ขนาดให้เอง: 400 px สำหรับรูปเล็ก · 800 px สำหรับการ์ด · 1920 px สำหรับภาพเต็มจอ · ห้ามอัปโหลดรูปที่กว้างน้อยกว่า 800 px เพราะจะแตกบนจอคอม
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -313,6 +318,9 @@ export interface Promotion {
    * เว้นว่าง = แสดงตลอด
    */
   endDate?: string | null;
+  /**
+   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   */
   image?: (number | null) | Media;
   ctaLabel?: string | null;
   /**
@@ -379,12 +387,18 @@ export interface Branch {
    * สำคัญมาก — เขียนให้ต่างจากสาขาอื่นจริงๆ เล่าถึงย่านนั้น ทีมงาน สิ่งที่สาขานี้เด่น ห้ามคัดลอกจากสาขาอื่น
    */
   intro?: string | null;
+  /**
+   * ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   */
   photos?: (number | Media)[] | null;
   team?:
     | {
         name: string;
         role?: string | null;
         phone?: string | null;
+        /**
+         * ขนาดที่ต้องการ 800 × 800 px (จัตุรัส 1:1) · ถ่ายครึ่งตัว หน้าอยู่กลางภาพ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+         */
         photo?: (number | null) | Media;
         id?: string | null;
       }[]
@@ -411,6 +425,9 @@ export interface News {
    * ข้อความที่ขึ้นบนการ์ดและใน Google
    */
   excerpt: string;
+  /**
+   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   */
   coverImage?: (number | null) | Media;
   content?: {
     root: {
@@ -846,6 +863,181 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * แก้ข้อความบนหน้า รางวัล · รถเช่า · ศูนย์บริการ · เทิร์นรถเก่า ได้ที่นี่ทั้งหมด — ช่องไหนเว้นว่างจะใช้ข้อความเดิมที่ตั้งไว้ให้
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-content".
+ */
+export interface PageContent {
+  id: number;
+  /**
+   * เช่น BYD Dealer of the Year 2025
+   */
+  awKicker?: string | null;
+  /**
+   * ต้องมีเสมอเมื่อเคลม "อันดับ 1" เช่น ข้อมูล Hi-Class Group รวมทุกสาขา ณ กันยายน 2569
+   */
+  awAsOf?: string | null;
+  awHeadline?: string | null;
+  awHeadline2?: string | null;
+  awLead?: string | null;
+  /**
+   * แนวตั้ง 3:4 · ขนาดที่ต้องการ 1200 × 1600 px (แนวตั้ง 3:4) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   */
+  awHeroImage?: (number | null) | Media;
+  /**
+   * เช่น No.1 / ยอดขายกลุ่มดีลเลอร์ BYD ทั่วประเทศ
+   */
+  awStats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * เรียงตามปีให้อัตโนมัติ ปีล่าสุดขึ้นก่อน · ใส่ "จำนวนรางวัล" เฉพาะรางวัลทีมช่าง (จะไปอยู่ในบล็อกทีมช่างแทน)
+   */
+  awItems?:
+    | {
+        year: number;
+        /**
+         * Google ใช้ข้อความนี้
+         */
+        title: string;
+        level: 'national' | 'apac';
+        th: string;
+        event: string;
+        /**
+         * เว้นว่างถ้าได้ใบเดียว
+         */
+        count?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * รูปจะไปขึ้นข้างรายการรางวัลของปีนั้น
+   */
+  awYearPhotos?:
+    | {
+        year: number;
+        /**
+         * ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+         */
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  awTechTitle?: string | null;
+  awTechSub?: string | null;
+  awTechNote?: string | null;
+  /**
+   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   */
+  awTechImage?: (number | null) | Media;
+  awCtaTitle?: string | null;
+  awCtaSub?: string | null;
+  /**
+   * ยาวไม่เกิน ~60 ตัวอักษร ใส่คำที่ลูกค้าเสิร์ชจริงไว้ต้นประโยค
+   */
+  awSeoTitle?: string | null;
+  /**
+   * ยาวไม่เกิน ~155 ตัวอักษร
+   */
+  awSeoDesc?: string | null;
+  rtKicker?: string | null;
+  rtTitle?: string | null;
+  /**
+   * พิมพ์ {สาขา} ตรงไหน ระบบจะแทนด้วยจำนวนสาขาที่เปิดอยู่จริงให้เอง เช่น "รับรถได้ที่ {สาขา} สาขา"
+   */
+  rtLead?: string | null;
+  /**
+   * เช่น เงื่อนไขราคา ภาษี จำนวนรถจำกัด
+   */
+  rtFineprint?: string | null;
+  /**
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
+   */
+  rtFaq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * ยาวไม่เกิน ~60 ตัวอักษร ใส่คำที่ลูกค้าเสิร์ชจริงไว้ต้นประโยค
+   */
+  rtSeoTitle?: string | null;
+  /**
+   * ยาวไม่เกิน ~155 ตัวอักษร
+   */
+  rtSeoDesc?: string | null;
+  svKicker?: string | null;
+  /**
+   * พิมพ์ {สาขา} แทนจำนวนสาขาได้ เช่น "ศูนย์บริการ BYD ทั้ง {สาขา} สาขา"
+   */
+  svTitle?: string | null;
+  /**
+   * ใช้ {สาขา} ได้เหมือนกัน
+   */
+  svLead?: string | null;
+  /**
+   * การ์ดบริการที่ขึ้นบนสุดของหน้า — ลบให้เหลือ 0 = ซ่อนทั้งบล็อก
+   */
+  svServices?:
+    | {
+        icon?:
+          | ('wrench' | 'shield' | 'bolt' | 'key' | 'car' | 'wheel' | 'clock' | 'phone' | 'chat' | 'pin' | 'check')
+          | null;
+        title: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
+   */
+  svFaq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * ยาวไม่เกิน ~60 ตัวอักษร ใส่คำที่ลูกค้าเสิร์ชจริงไว้ต้นประโยค
+   */
+  svSeoTitle?: string | null;
+  /**
+   * ยาวไม่เกิน ~155 ตัวอักษร
+   */
+  svSeoDesc?: string | null;
+  tiKicker?: string | null;
+  tiTitle?: string | null;
+  tiLead?: string | null;
+  /**
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
+   */
+  tiFaq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * ยาวไม่เกิน ~60 ตัวอักษร ใส่คำที่ลูกค้าเสิร์ชจริงไว้ต้นประโยค
+   */
+  tiSeoTitle?: string | null;
+  /**
+   * ยาวไม่เกิน ~155 ตัวอักษร
+   */
+  tiSeoDesc?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
@@ -870,6 +1062,99 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   financeNote?: T;
   leadSourceLabel?: T;
   leadHolderName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-content_select".
+ */
+export interface PageContentSelect<T extends boolean = true> {
+  awKicker?: T;
+  awAsOf?: T;
+  awHeadline?: T;
+  awHeadline2?: T;
+  awLead?: T;
+  awHeroImage?: T;
+  awStats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  awItems?:
+    | T
+    | {
+        year?: T;
+        title?: T;
+        level?: T;
+        th?: T;
+        event?: T;
+        count?: T;
+        id?: T;
+      };
+  awYearPhotos?:
+    | T
+    | {
+        year?: T;
+        image?: T;
+        id?: T;
+      };
+  awTechTitle?: T;
+  awTechSub?: T;
+  awTechNote?: T;
+  awTechImage?: T;
+  awCtaTitle?: T;
+  awCtaSub?: T;
+  awSeoTitle?: T;
+  awSeoDesc?: T;
+  rtKicker?: T;
+  rtTitle?: T;
+  rtLead?: T;
+  rtFineprint?: T;
+  rtFaq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  rtSeoTitle?: T;
+  rtSeoDesc?: T;
+  svKicker?: T;
+  svTitle?: T;
+  svLead?: T;
+  svServices?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  svFaq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  svSeoTitle?: T;
+  svSeoDesc?: T;
+  tiKicker?: T;
+  tiTitle?: T;
+  tiLead?: T;
+  tiFaq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  tiSeoTitle?: T;
+  tiSeoDesc?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

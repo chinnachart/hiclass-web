@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Branch, CarModel, NewsItem, Promotion, SiteSettings } from './types'
+import type { Branch, CarModel, NewsItem, PageContent, Promotion, SiteSettings } from './types'
 
 export const SITE_CACHE_TAG = 'site-content'
 
@@ -57,6 +57,21 @@ async function loadSiteData() {
  * ทำให้ deploy บนโฮสต์ทั่วไป (เช่น Plesk) ง่ายและพังยากกว่ามาก
  */
 export const getSiteData = unstable_cache(loadSiteData, ['site-data'], {
+  revalidate: 300,
+  tags: [SITE_CACHE_TAG],
+})
+
+/**
+ * ข้อความในหน้า รางวัล / รถเช่า / ศูนย์บริการ / เทิร์นรถเก่า
+ * ทุกช่องเว้นว่างได้ — หน้าเว็บมีข้อความตั้งต้นของตัวเองรออยู่แล้ว
+ */
+async function loadPageContent() {
+  const payload = await getPayload({ config })
+  const doc = await payload.findGlobal({ slug: 'page-content', depth: 1 })
+  return (doc || {}) as unknown as PageContent
+}
+
+export const getPageContent = unstable_cache(loadPageContent, ['page-content'], {
   revalidate: 300,
   tags: [SITE_CACHE_TAG],
 })

@@ -3,6 +3,7 @@ import * as migration_20260905_093905_add_rental_and_faq from './20260905_093905
 import * as migration_20260906_001417_add_variants_line_analytics from './20260906_001417_add_variants_line_analytics';
 import * as migration_20260908_090000_add_rental_rates from './20260908_090000_add_rental_rates';
 import * as migration_20260909_000000_add_branch_social from './20260909_000000_add_branch_social';
+import * as migration_20260909_045543_add_page_content from './20260909_045543_add_page_content';
 
 export const migrations = [
   {
@@ -18,7 +19,7 @@ export const migrations = [
   {
     up: migration_20260906_001417_add_variants_line_analytics.up,
     down: migration_20260906_001417_add_variants_line_analytics.down,
-    name: '20260906_001417_add_variants_line_analytics'
+    name: '20260906_001417_add_variants_line_analytics',
   },
   {
     up: migration_20260908_090000_add_rental_rates.up,
@@ -29,5 +30,10 @@ export const migrations = [
     up: migration_20260909_000000_add_branch_social.up,
     down: migration_20260909_000000_add_branch_social.down,
     name: '20260909_000000_add_branch_social',
+  },
+  {
+    up: migration_20260909_045543_add_page_content.up,
+    down: migration_20260909_045543_add_page_content.down,
+    name: '20260909_045543_add_page_content'
   },
 ];
