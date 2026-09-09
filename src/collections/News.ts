@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateSite } from '../lib/revalidate'
+import { IMG } from '../lib/imageSpecs'
 
 export const News: CollectionConfig = {
   slug: 'news',
@@ -52,7 +53,7 @@ export const News: CollectionConfig = {
       defaultValue: () => new Date().toISOString(),
     },
     { name: 'excerpt', type: 'textarea', required: true, label: 'สรุปสั้น', admin: { description: 'ข้อความที่ขึ้นบนการ์ดและใน Google' } },
-    { name: 'coverImage', type: 'upload', relationTo: 'media', label: 'รูปหน้าปก' },
+    { name: 'coverImage', type: 'upload', relationTo: 'media', label: 'รูปหน้าปก', admin: { description: IMG.cover169 } },
     { name: 'content', type: 'richText', label: 'เนื้อหา' },
   ],
 }

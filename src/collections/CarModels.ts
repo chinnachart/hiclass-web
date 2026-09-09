@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateSite } from '../lib/revalidate'
+import { IMG } from '../lib/imageSpecs'
 
 export const CarModels: CollectionConfig = {
   slug: 'car-models',
@@ -114,7 +115,7 @@ export const CarModels: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       label: 'รูปหลักของรุ่นนี้',
-      admin: { description: 'รูปที่ขึ้นบนการ์ดในหน้าแรก ควรเป็นรูปแนวนอน พื้นหลังโล่ง' },
+      admin: { description: `รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น · ${IMG.hero169} · พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด` },
     },
     {
       name: 'gallery',
@@ -122,7 +123,7 @@ export const CarModels: CollectionConfig = {
       relationTo: 'media',
       hasMany: true,
       label: 'รูปเพิ่มเติม',
-      admin: { description: 'รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด' },
+      admin: { description: `รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด · ${IMG.gallery43}` },
     },
     {
       name: 'specs',

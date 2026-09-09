@@ -22,7 +22,8 @@ async function loadSiteData() {
       where: { published: { equals: true } },
       sort: 'sortOrder',
       limit: 50,
-      depth: 0,
+      // ต้องเป็น 1 ไม่งั้น photos/team.photo จะได้มาเป็นตัวเลข id แล้วรูปไม่ขึ้นบนหน้าสาขา
+      depth: 1,
     }),
     payload.find({
       collection: 'promotions',

@@ -1,7 +1,30 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Icon from './Icons'
+import { mediaOf } from './CarImage'
 import { telHref } from '@/lib/format'
 import type { Branch, Promotion } from '@/lib/types'
+
+/** ปุ่มโซเชียลของสาขา — ขึ้นเฉพาะช่องที่กรอกไว้ในหลังบ้าน */
+export function BranchSocial({ b }: { b: Branch }) {
+  const items = [
+    { url: b.facebookUrl, icon: 'facebook', label: 'Facebook' },
+    { url: b.instagramUrl, icon: 'instagram', label: 'Instagram' },
+    { url: b.tiktokUrl, icon: 'tiktok', label: 'TikTok' },
+    { url: b.youtubeUrl, icon: 'youtube', label: 'YouTube' },
+  ].filter((x) => x.url)
+  if (items.length === 0) return null
+  return (
+    <div className="branch-social">
+      {items.map((x) => (
+        <a key={x.icon} href={x.url as string} target="_blank" rel="noopener noreferrer" aria-label={`${x.label} สาขา${b.name}`}>
+          <Icon name={x.icon} size={16} />
+          <span>{x.label}</span>
+        </a>
+      ))}
+    </div>
+  )
+}
 
 export const thDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) : null
@@ -9,8 +32,20 @@ export const thDate = (iso?: string | null) =>
 /** การ์ดโปรโมชั่น — โปรเด่นเป็นการ์ดใหญ่พื้นดำ */
 export function PromoCard({ p }: { p: Promotion }) {
   const href = p.ctaHref || '/test-drive'
+  const pic = mediaOf(p.image)
   const inner = (
     <>
+      {pic?.url ? (
+        <span className="promo-pic">
+          <Image
+            src={pic.url}
+            alt={pic.alt || p.title}
+            fill
+            sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 420px"
+            style={{ objectFit: 'cover' }}
+          />
+        </span>
+      ) : null}
       {p.badge ? <span className="badge">{p.badge}</span> : null}
       <h3>{p.title}</h3>
       <p>{p.summary}</p>
@@ -74,6 +109,7 @@ export function BranchCard({ b, lineUrl: siteLine, showIntro = false }: { b: Bra
         </div>
       </div>
       {showIntro && b.intro ? <p className="intro">{b.intro}</p> : null}
+      <BranchSocial b={b} />
       <div className="acts">
         <a className="btn btn-soft" href={telHref(b.phone)}>
           <Icon name="phone" size={16} />โทร

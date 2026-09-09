@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateSite } from '../lib/revalidate'
+import { IMG } from '../lib/imageSpecs'
 
 export const Promotions: CollectionConfig = {
   slug: 'promotions',
@@ -59,7 +60,7 @@ export const Promotions: CollectionConfig = {
         },
       ],
     },
-    { name: 'image', type: 'upload', relationTo: 'media', label: 'รูปประกอบ' },
+    { name: 'image', type: 'upload', relationTo: 'media', label: 'รูปประกอบ', admin: { description: IMG.cover169 } },
     {
       type: 'row',
       fields: [

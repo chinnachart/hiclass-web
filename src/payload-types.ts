@@ -356,6 +356,22 @@ export interface Branch {
    */
   mapUrl?: string | null;
   /**
+   * เช่น https://www.facebook.com/BYDHiclassLadprao
+   */
+  facebookUrl?: string | null;
+  /**
+   * เช่น https://www.instagram.com/bydhiclassladprao
+   */
+  instagramUrl?: string | null;
+  /**
+   * เช่น https://www.tiktok.com/@bydhiclassladprao
+   */
+  tiktokUrl?: string | null;
+  /**
+   * เช่น https://www.youtube.com/@bydhiclassladprao
+   */
+  youtubeUrl?: string | null;
+  /**
    * เช่น bydhiclassratchada.com — เว้นว่างถ้าสาขานี้ยังไม่มีเว็บของตัวเอง
    */
   domain?: string | null;
@@ -637,6 +653,10 @@ export interface BranchesSelect<T extends boolean = true> {
   address?: T;
   lineUrl?: T;
   mapUrl?: T;
+  facebookUrl?: T;
+  instagramUrl?: T;
+  tiktokUrl?: T;
+  youtubeUrl?: T;
   domain?: T;
   intro?: T;
   photos?: T;

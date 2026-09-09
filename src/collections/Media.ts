@@ -1,10 +1,11 @@
 import path from 'path'
 import type { CollectionConfig } from 'payload'
+import { IMG } from '../lib/imageSpecs'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'รูปภาพ', plural: 'คลังรูปภาพ' },
-  admin: { group: 'เนื้อหาเว็บ', description: 'อัปโหลดรูปครั้งเดียว นำไปใช้ซ้ำได้ทุกหน้า' },
+  admin: { group: 'เนื้อหาเว็บ', description: IMG.library },
   access: { read: () => true },
   upload: {
     // เก็บไฟล์ไว้นอกโฟลเดอร์โปรแกรม ตั้งค่าผ่าน MEDIA_DIR

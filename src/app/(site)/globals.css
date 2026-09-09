@@ -198,7 +198,20 @@ body { padding-bottom: var(--mbar-h); }
 
 /* ---------- โปรโมชั่น ---------- */
 .promos { display: grid; gap: 10px; }
-.promo { display: flex; flex-direction: column; gap: 8px; padding: 16px; color: var(--ink); }
+.promo { display: flex; flex-direction: column; gap: 8px; padding: 16px; color: var(--ink); overflow: hidden; }
+
+/* รูปโปรโมชั่น — สัดส่วน 16:9 เต็มความกว้างการ์ด (มือถือมาก่อน) */
+.promo-pic { position: relative; display: block; width: calc(100% + 32px); margin: -16px -16px 4px; aspect-ratio: 16 / 9; background: var(--soft); overflow: hidden; }
+.promo.lead .promo-pic { width: calc(100% + 36px); margin: -18px -18px 6px; }
+
+/* ปุ่มโซเชียลของสาขา — บนมือถือเหลือแค่ไอคอนเพื่อไม่ให้การ์ดยาว */
+.branch-social { display: flex; flex-wrap: wrap; gap: 8px; }
+.branch-social a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.branch-social a span { display: none; }
+@media (min-width: 700px) {
+  .branch-social a { width: auto; padding: 0 13px; height: 36px; font-size: 13px; font-weight: 500; }
+  .branch-social a span { display: inline; }
+}
 .promo.lead { background: var(--ink); color: #fff; border-color: var(--ink); padding: 18px; gap: 10px; }
 .promo .badge { display: inline-flex; align-self: flex-start; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--red-soft); color: var(--red); }
 .promo.lead .badge { background: var(--red); color: #fff; }
@@ -212,6 +225,7 @@ body { padding-bottom: var(--mbar-h); }
 @media (min-width: 700px) {
   .promos { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
   .promo.lead { grid-column: 1 / -1; padding: 28px; }
+  .promo.lead .promo-pic { width: calc(100% + 56px); margin: -28px -28px 10px; }
   .promo.lead h3 { font-size: 28px; max-width: 640px; }
 }
 @media (min-width: 1000px) {

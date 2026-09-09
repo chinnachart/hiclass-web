@@ -2,6 +2,7 @@ import type { AdminViewServerProps } from 'payload'
 import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 import { AdminIcon as Ic } from './AdminIcons'
+import { IMG_TABLE } from '../../lib/imageSpecs'
 
 /**
  * หน้าแรกหลังบ้านสำหรับทีมการตลาด — "วันนี้อยากทำอะไร"
@@ -22,6 +23,7 @@ export async function Dashboard(props: AdminViewServerProps) {
   ])
 
   const noImage = models.docs.filter((m) => !m.heroImage)
+  const promoNoImage = promos.docs.filter((p) => !p.image)
   const unpublished = models.docs.filter((m) => !m.published)
   const live = promos.docs.filter((p) => (!p.startDate || p.startDate <= nowIso) && (!p.endDate || p.endDate >= nowIso))
   const expiringSoon = live.filter((p) => p.endDate && p.endDate <= in7)
@@ -100,11 +102,37 @@ export async function Dashboard(props: AdminViewServerProps) {
             {unpublished.length > 0 ? (
               <div className="hc-note hc-note--amber"><strong>{unpublished.length} รุ่น</strong> ถูกซ่อนจากเว็บอยู่ (ไม่ได้ติ๊ก "แสดงบนเว็บ")</div>
             ) : null}
+            {promoNoImage.length > 0 ? (
+              <div className="hc-note hc-note--amber"><strong>{promoNoImage.length} โปรโมชั่น</strong> ยังไม่ได้ใส่รูปประกอบ — การ์ดจะเป็นตัวหนังสือล้วน</div>
+            ) : null}
             <div className="hc-note hc-note--gray">รุ่นรถ {models.docs.length} · โปรโมชั่นทั้งหมด {promos.docs.length} · รูปในคลัง {mediaCount.totalDocs}</div>
             <a className="hc-btn hc-btn--ghost" href={siteUrl} target="_blank" rel="noopener noreferrer" style={{ marginTop: 6 }}>
               <Ic name="eye" size={14} /> เปิดดูเว็บจริง
             </a>
           </div>
+        </div>
+
+        <div className="hc-panel" style={{ marginTop: 16 }}>
+          <div className="hc-panel__head"><h2>ขนาดรูปที่ต้องใช้ (ส่งให้ทีมกราฟิกได้เลย)</h2></div>
+          <p className="hc-muted" style={{ marginBottom: 10 }}>
+            เว็บออกแบบให้มือถือมาก่อน แต่จอคอมกว้างได้ถึง 1920 px — อัปโหลดไฟล์ใหญ่ตามตารางนี้มาได้เลย
+            ระบบจะย่อและแปลงเป็น WebP ให้เอง มือถือจะโหลดเฉพาะตัวเล็ก ไม่ต้องกลัวเว็บช้า
+          </p>
+          <div className="hc-imgspec">
+            {IMG_TABLE.map((r) => (
+              <div className="hc-row" key={r.where}>
+                <div className="hc-row__body">
+                  <div className="hc-row__title">{r.where}</div>
+                  <div className="hc-row__sub">{r.ratio}</div>
+                </div>
+                <span className="hc-pill">{r.size} px</span>
+              </div>
+            ))}
+          </div>
+          <p className="hc-muted" style={{ marginTop: 10 }}>
+            กฎ 3 ข้อ: 1) กว้างอย่างน้อย 1600 px 2) ไฟล์ไม่เกิน 5 MB 3) วางรถ/ข้อความสำคัญไว้กลางภาพ
+            เพราะบนมือถือภาพจะถูกครอบจากกึ่งกลาง
+          </p>
         </div>
       </Gutter>
   )

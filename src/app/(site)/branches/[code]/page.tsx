@@ -40,6 +40,11 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
     openingHours: b.openHours || undefined,
     ...(b.address ? { address: { '@type': 'PostalAddress', streetAddress: b.address, addressCountry: 'TH' } } : {}),
     ...(b.mapUrl ? { hasMap: b.mapUrl } : {}),
+    // เพจโซเชียลของสาขา — ช่วยให้ Google ผูกโชว์รูมกับเพจจริงได้
+    ...(() => {
+      const same = [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl, b.lineUrl].filter(Boolean)
+      return same.length ? { sameAs: same } : {}
+    })(),
     brand: { '@type': 'Brand', name: 'BYD' },
   }
 

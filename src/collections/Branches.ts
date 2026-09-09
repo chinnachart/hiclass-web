@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateSite } from '../lib/revalidate'
+import { IMG } from '../lib/imageSpecs'
 
 export const Branches: CollectionConfig = {
   slug: 'branches',
@@ -51,6 +52,27 @@ export const Branches: CollectionConfig = {
     },
     { name: 'mapUrl', type: 'text', label: 'ลิงก์ Google Maps', admin: { description: 'กดปุ่ม "แชร์" ใน Google Maps แล้ววางลิงก์ที่นี่' } },
     {
+      type: 'collapsible',
+      label: 'ช่องทางโซเชียลของสาขานี้',
+      admin: { description: 'ลูกค้ากดจากหน้าสาขาไปเพจของสาขานี้ได้ตรง ไม่ต้องผ่าน Linktree · เว้นว่างช่องไหน ปุ่มนั้นจะไม่ขึ้น' },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'facebookUrl', type: 'text', label: 'Facebook', admin: { width: '50%', description: 'เช่น https://www.facebook.com/BYDHiclassLadprao' } },
+            { name: 'instagramUrl', type: 'text', label: 'Instagram', admin: { width: '50%', description: 'เช่น https://www.instagram.com/bydhiclassladprao' } },
+          ],
+        },
+        {
+          type: 'row',
+          fields: [
+            { name: 'tiktokUrl', type: 'text', label: 'TikTok', admin: { width: '50%', description: 'เช่น https://www.tiktok.com/@bydhiclassladprao' } },
+            { name: 'youtubeUrl', type: 'text', label: 'YouTube', admin: { width: '50%', description: 'เช่น https://www.youtube.com/@bydhiclassladprao' } },
+          ],
+        },
+      ],
+    },
+    {
       name: 'domain',
       type: 'text',
       label: 'โดเมนของสาขานี้',
@@ -62,7 +84,14 @@ export const Branches: CollectionConfig = {
       label: 'แนะนำสาขา',
       admin: { description: 'สำคัญมาก — เขียนให้ต่างจากสาขาอื่นจริงๆ เล่าถึงย่านนั้น ทีมงาน สิ่งที่สาขานี้เด่น ห้ามคัดลอกจากสาขาอื่น' },
     },
-    { name: 'photos', type: 'upload', relationTo: 'media', hasMany: true, label: 'ภาพโชว์รูมจริง' },
+    {
+      name: 'photos',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+      label: 'ภาพโชว์รูมจริง',
+      admin: { description: IMG.gallery43 },
+    },
     {
       name: 'team',
       type: 'array',
@@ -77,7 +106,7 @@ export const Branches: CollectionConfig = {
             { name: 'phone', type: 'text', label: 'เบอร์ติดต่อ', admin: { width: '30%' } },
           ],
         },
-        { name: 'photo', type: 'upload', relationTo: 'media', label: 'รูป' },
+        { name: 'photo', type: 'upload', relationTo: 'media', label: 'รูป', admin: { description: IMG.square } },
       ],
     },
     {

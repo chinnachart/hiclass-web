@@ -97,6 +97,15 @@ h1, h2, h3 { font-family: 'Kanit', 'Noto Sans Thai', sans-serif; }
 .hc-preview__label span { font-size: 12px; color: var(--hc-mute); font-weight: 400; }
 .hc-promo { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--hc-line); border-radius: 16px; background: #fff; color: var(--hc-ink); }
 .hc-promo--lead { background: var(--hc-ink); border-color: var(--hc-ink); color: #fff; padding: 18px; }
+/* ช่องรูปในตัวอย่างการ์ด — บอกสัดส่วน 16:9 ให้เห็นภาพว่ารูปจะถูกครอบแค่ไหน */
+.hc-promo__pic { display: flex; align-items: center; justify-content: center; aspect-ratio: 16 / 9; margin: -16px -16px 4px; border-radius: 16px 16px 0 0; background: repeating-linear-gradient(45deg, #f2f3f5, #f2f3f5 8px, #eaecef 8px, #eaecef 16px); color: #8a8f98; font-size: 12px; text-align: center; padding: 0 12px; }
+.hc-promo__pic--ok { background: var(--hc-red-soft); color: var(--hc-red); }
+.hc-promo--lead .hc-promo__pic { background: #2a2c30; color: #b9bcc2; }
+
+/* ตารางขนาดรูปบนแดชบอร์ด */
+.hc-imgspec .hc-row { align-items: center; }
+.hc-imgspec .hc-pill { margin-left: 0; white-space: nowrap; }
+
 .hc-promo__badge { align-self: flex-start; padding: 4px 10px; border-radius: 999px; background: var(--hc-red-soft); color: var(--hc-red); font-size: 11px; font-weight: 600; }
 .hc-promo--lead .hc-promo__badge { background: var(--hc-red); color: #fff; }
 .hc-promo__title { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.25; }

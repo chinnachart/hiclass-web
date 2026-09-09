@@ -37,6 +37,10 @@ export type Branch = {
   mapUrl?: string | null
   lineUrl?: string | null
   intro?: string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  tiktokUrl?: string | null
+  youtubeUrl?: string | null
 }
 
 export type Promotion = {
@@ -48,6 +52,7 @@ export type Promotion = {
   endDate?: string | null
   ctaLabel?: string | null
   ctaHref?: string | null
+  image?: Media | number | null
 }
 
 export type NewsItem = {

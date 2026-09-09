@@ -4,7 +4,8 @@ import { useFormFields } from '@payloadcms/ui'
 
 /** ตัวอย่างการ์ดโปรโมชั่นบนมือถือ — อัปเดตสดขณะพิมพ์ในฟอร์ม */
 export function PromoPreview() {
-  const { title, summary, badge, featured, ctaLabel, endDate } = useFormFields(([fields]) => ({
+  const { title, summary, badge, featured, ctaLabel, endDate, hasImage } = useFormFields(([fields]) => ({
+    hasImage: Boolean(fields.image?.value),
     title: (fields.title?.value as string) || '',
     summary: (fields.summary?.value as string) || '',
     badge: (fields.badge?.value as string) || '',
@@ -20,6 +21,9 @@ export function PromoPreview() {
     <div className="hc-preview">
       <div className="hc-preview__label">ตัวอย่างบนมือถือ <span>อัปเดตสด</span></div>
       <div className={`hc-promo${featured ? ' hc-promo--lead' : ''}`}>
+        <div className={`hc-promo__pic${hasImage ? ' hc-promo__pic--ok' : ''}`}>
+          {hasImage ? 'รูปที่เลือกไว้ (16:9)' : 'ยังไม่ได้ใส่รูป — แนะนำ 1600 × 900 px'}
+        </div>
         {badge ? <span className="hc-promo__badge">{badge}</span> : null}
         <div className="hc-promo__title">{title || '[หัวข้อโปรโมชั่น]'}</div>
         <p className="hc-promo__sum">{summary || '[รายละเอียดสั้น 1–2 บรรทัด]'}</p>
@@ -28,6 +32,9 @@ export function PromoPreview() {
       </div>
       <p className="hc-muted" style={{ fontSize: 12, marginTop: 8 }}>
         {featured ? 'โปรเด่น: การ์ดใหญ่พื้นดำ ขึ้นบนสุดของหน้าแรก (ควรมีแค่อันเดียว)' : 'การ์ดปกติ: ขึ้นถัดจากโปรเด่นบนหน้าแรกและหน้าโปรโมชั่น'}
+      </p>
+      <p className="hc-muted" style={{ fontSize: 12, marginTop: 4 }}>
+        รูปประกอบ: 1600 × 900 px (16:9) · ไม่เกิน 5 MB · วางข้อความสำคัญไว้กลางภาพ ขอบซ้าย-ขวาอาจโดนครอบบนมือถือ
       </p>
     </div>
   )
