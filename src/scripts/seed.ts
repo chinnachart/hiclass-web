@@ -9,13 +9,13 @@ import config from '../payload.config.js'
 const MODELS = [
   { name: 'Sealion 7', slug: 'sealion-7', bodyType: 'suv',   tagline: 'SUV ไฟฟ้า',            priceFrom: 1249900, rangeKm: 482,  colorsCount: 4, sortOrder: 10 },
   { name: 'Sealion 6', slug: 'sealion-6', bodyType: 'suv',   tagline: 'SUV ไฮบริด DM-i',      priceFrom: 939900,  rangeKm: 1090, colorsCount: 3, sortOrder: 20 },
-  { name: 'Sealion 5', slug: 'sealion-5', bodyType: 'suv',   tagline: 'SUV ไฟฟ้า',            priceFrom: 899900,  rangeKm: 430,  colorsCount: 3, sortOrder: 30 },
+  { name: 'Sealion 5', slug: 'sealion-5', bodyType: 'suv',   tagline: 'SUV ไฮบริด DM-i',      priceFrom: 899900,  rangeKm: 430,  colorsCount: 3, sortOrder: 30 },
   { name: 'Atto 3',    slug: 'atto-3',    bodyType: 'suv',   tagline: 'SUV ไฟฟ้า',            priceFrom: 899900,  rangeKm: 480,  colorsCount: 4, sortOrder: 40 },
   { name: 'Atto 2',    slug: 'atto-2',    bodyType: 'suv',   tagline: 'SUV ไฟฟ้าขนาดเล็ก',    priceFrom: 799900,  rangeKm: 420,  colorsCount: 4, sortOrder: 50 },
   { name: 'Atto 1',    slug: 'atto-1',    bodyType: 'hatch', tagline: 'ซิตี้คาร์ไฟฟ้า',        priceFrom: 569900,  rangeKm: 300,  colorsCount: 4, sortOrder: 60 },
   { name: 'Dolphin',   slug: 'dolphin',   bodyType: 'hatch', tagline: 'แฮทช์แบ็กไฟฟ้า',       priceFrom: 659900,  rangeKm: 410,  colorsCount: 4, sortOrder: 70 },
   { name: 'Seal 5',    slug: 'seal-5',    bodyType: 'sedan', tagline: 'ซีดานไฮบริด DM-i',     priceFrom: 769900,  rangeKm: 1200, colorsCount: 3, sortOrder: 80 },
-  { name: 'Seal 6',    slug: 'seal-6',    bodyType: 'sedan', tagline: 'ซีดานไฮบริด DM-i',     priceFrom: 829900,  rangeKm: 1250, colorsCount: 3, sortOrder: 90 },
+  { name: 'Seal 6',    slug: 'seal-6',    bodyType: 'sedan', tagline: 'ซีดานไฟฟ้า',           priceFrom: 829900,  rangeKm: 485, colorsCount: 3, sortOrder: 90 },
   { name: 'M6',        slug: 'm6',        bodyType: 'mpv',   tagline: 'MPV 7 ที่นั่ง',         priceFrom: 829900,  rangeKm: 530,  colorsCount: 3, sortOrder: 100 },
 ]
 

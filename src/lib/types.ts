@@ -11,6 +11,7 @@ export type CarModel = {
   name: string
   slug: string
   bodyType: 'suv' | 'sedan' | 'hatch' | 'mpv'
+  powertrain?: 'ev' | 'phev' | null
   tagline: string
   priceFrom: number
   rangeKm?: number | null

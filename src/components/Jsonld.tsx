@@ -38,6 +38,7 @@ export const carLd = (m: {
   tagline: string
   priceFrom: number
   rangeKm?: number | null
+  powertrain?: 'ev' | 'phev' | null
 }) => ({
   '@context': 'https://schema.org',
   '@type': 'Car',
@@ -46,7 +47,7 @@ export const carLd = (m: {
   model: m.name,
   bodyType: m.tagline,
   url: `${SITE}/car-model/${m.slug}`,
-  ...(m.rangeKm
+  ...(m.rangeKm && m.powertrain !== 'phev'
     ? { vehicleRange: { '@type': 'QuantitativeValue', value: m.rangeKm, unitCode: 'KMT' } }
     : {}),
   offers: {

@@ -17,3 +17,7 @@ export const BODY_TYPES: Record<string, string> = {
  */
 export const fillTokens = (text: string, branchCount: number) =>
   text.replaceAll('{สาขา}', String(branchCount))
+
+/** ป้ายระยะทาง: รถไฟฟ้าล้วน = ต่อการชาร์จ · ไฮบริด DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน) */
+export const rangeLabel = (m: { powertrain?: 'ev' | 'phev' | null }) =>
+  m.powertrain === 'phev' ? 'ระยะทางรวม' : 'ระยะทางต่อการชาร์จ'

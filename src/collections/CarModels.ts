@@ -64,6 +64,18 @@ export const CarModels: CollectionConfig = {
       ],
     },
     {
+      name: 'powertrain',
+      type: 'select',
+      required: true,
+      defaultValue: 'ev',
+      label: 'ระบบขับเคลื่อน',
+      admin: { description: 'รุ่นไฮบริด DM-i เว็บจะขึ้นคำว่า "ระยะทางรวม" แทน "ระยะทางต่อการชาร์จ"' },
+      options: [
+        { label: 'ไฟฟ้าล้วน (EV)', value: 'ev' },
+        { label: 'ไฮบริด DM-i (PHEV)', value: 'phev' },
+      ],
+    },
+    {
       type: 'row',
       fields: [
         {
@@ -78,8 +90,8 @@ export const CarModels: CollectionConfig = {
           name: 'rangeKm',
           type: 'number',
           min: 0,
-          label: 'ระยะทางต่อการชาร์จ (กม.)',
-          admin: { width: '33%' },
+          label: 'ระยะทาง (กม.)',
+          admin: { width: '33%', description: 'EV = ต่อการชาร์จ · DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน)' },
         },
         {
           name: 'colorsCount',

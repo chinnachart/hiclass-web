@@ -76,8 +76,8 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
             <Row label={`ผ่อน/เดือน (ดาวน์ ${down}% · ${term} งวด)`} cols={cols}>
               {chosen.map((m) => <Cell key={m.id} hi={m.priceFrom === cheapest}>≈ {baht(monthlyPayment(m.priceFrom, down, term, rate).perMonth)} ฿</Cell>)}
             </Row>
-            <Row label="ระยะทางต่อการชาร์จ" cols={cols}>
-              {chosen.map((m) => <Cell key={m.id} hi={!!m.rangeKm && m.rangeKm === longest}>{m.rangeKm ? `${m.rangeKm} กม.` : '—'}</Cell>)}
+            <Row label="ระยะทาง (EV = ต่อการชาร์จ · DM-i = รวม)" cols={cols}>
+              {chosen.map((m) => <Cell key={m.id} hi={!!m.rangeKm && m.rangeKm === longest}>{m.rangeKm ? `${m.rangeKm} กม.${m.powertrain === 'phev' ? ' (รวม)' : ''}` : '—'}</Cell>)}
             </Row>
             <Row label="จำนวนสี" cols={cols}>
               {chosen.map((m) => <Cell key={m.id}>{m.colorsCount ? `${m.colorsCount} สี` : '—'}</Cell>)}

@@ -9,7 +9,7 @@ import { BranchRow, Faq } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { carLd, faqLd } from '@/components/Jsonld'
 import { getSiteData, getModelBySlug } from '@/lib/data'
-import { baht } from '@/lib/format'
+import { baht, rangeLabel } from '@/lib/format'
 import { monthlyPayment } from '@/lib/finance'
 import type { Media } from '@/lib/types'
 
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!m) return { title: 'ไม่พบรุ่นรถที่ค้นหา' }
   return {
     title: `BYD ${m.name} ราคา สเปก และตารางผ่อน`,
-    description: `BYD ${m.name} ${m.tagline} ราคาเริ่มต้น ${baht(m.priceFrom)} บาท${m.rangeKm ? ` วิ่งได้ ${m.rangeKm} กม. ต่อการชาร์จ` : ''} ดูสเปกเต็ม คำนวณค่างวด และนัดทดลองขับฟรีที่สาขาใกล้บ้าน`,
+    description: `BYD ${m.name} ${m.tagline} ราคาเริ่มต้น ${baht(m.priceFrom)} บาท${m.rangeKm ? (m.powertrain === 'phev' ? ` ระยะทางรวม ${m.rangeKm} กม.` : ` วิ่งได้ ${m.rangeKm} กม. ต่อการชาร์จ`) : ''} ดูสเปกเต็ม คำนวณค่างวด และนัดทดลองขับฟรีที่สาขาใกล้บ้าน`,
     alternates: { canonical: `/car-model/${m.slug}` },
   }
 }
@@ -96,7 +96,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           <section className="section">
             <div className="sec-head"><div><h2>สเปกหลัก</h2></div></div>
             <div className="spec-grid">
-              {m.rangeKm ? <div className="card spec"><span>ระยะทางต่อการชาร์จ</span><b>{m.rangeKm} กม.</b></div> : null}
+              {m.rangeKm ? <div className="card spec"><span>{rangeLabel(m)}</span><b>{m.rangeKm} กม.</b></div> : null}
               {(m.specs || []).map((s, i) => (
                 <div className="card spec" key={i}><span>{s.label}</span><b>{s.value}</b></div>
               ))}

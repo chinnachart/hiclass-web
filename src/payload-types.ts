@@ -151,6 +151,7 @@ export interface CarModel {
    * ใช้สำหรับปุ่มกรองบนหน้าเว็บ
    */
   bodyType: 'suv' | 'sedan' | 'hatch' | 'mpv';
+  powertrain: 'ev' | 'phev';
   /**
    * เช่น SUV ไฟฟ้า หรือ ซีดานไฮบริด DM-i
    */
@@ -576,6 +577,7 @@ export interface CarModelsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   bodyType?: T;
+  powertrain?: T;
   tagline?: T;
   priceFrom?: T;
   rangeKm?: T;
