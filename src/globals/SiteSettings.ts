@@ -59,6 +59,13 @@ export const SiteSettings: GlobalConfig = {
             { name: 'mainPhone', type: 'text', required: true, label: 'เบอร์กลาง', defaultValue: '062-673-1999' },
             { name: 'lineUrl', type: 'text', label: 'ลิงก์ LINE Official', admin: { description: 'สำคัญ — ปุ่ม "แอด LINE" ทุกหน้าใช้ลิงก์นี้ เช่น https://lin.ee/xxxxx (ถ้าเว้นว่างปุ่มจะกลายเป็น "ติดต่อเรา")' } },
             { name: 'facebookUrl', type: 'text', label: 'ลิงก์ Facebook' },
+            {
+              name: 'contactEmail',
+              type: 'email',
+              label: 'อีเมลกลางสำหรับลูกค้าติดต่อ',
+              defaultValue: 'bydhiclass.online@gmail.com',
+              admin: { description: 'แสดงท้ายเว็บ หน้าติดต่อเรา และส่งให้ Google เป็นอีเมลของธุรกิจ' },
+            },
             { name: 'footerAbout', type: 'textarea', label: 'ข้อความแนะนำท้ายเว็บ' },
           ],
         },

@@ -27,6 +27,7 @@ const PATHS: Record<string, string> = {
   instagram: 'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M17.5 6.6h.01',
   tiktok: 'M15 3v10.5a3.5 3.5 0 1 1-3.5-3.5c.35 0 .68.05 1 .15 M15 3c.4 2.4 2 4 4.5 4.3',
   youtube: 'M3 8.5A2.5 2.5 0 0 1 5.5 6h13A2.5 2.5 0 0 1 21 8.5v7a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 15.5v-7z M10.5 9.5l4.5 2.5-4.5 2.5v-5z',
+  mail: 'M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z M3 7l9 6 9-6',
 }
 
 export default function Icon({ name, size = 20, color = 'currentColor', sw = 2, className }: P & { name: keyof typeof PATHS | string }) {

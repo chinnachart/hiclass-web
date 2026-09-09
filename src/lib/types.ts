@@ -127,6 +127,7 @@ export type SiteSettings = {
   mainPhone: string
   lineUrl?: string | null
   facebookUrl?: string | null
+  contactEmail?: string | null
   footerAbout?: string | null
   financeRate: number
   defaultDownPercent?: number | null

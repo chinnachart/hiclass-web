@@ -17,8 +17,7 @@ export default function Footer({
       <div className="container">
         <div className="footer-grid">
           <div>
-            <Image src="/brand/byd-logo.png" alt="BYD" width={615} height={119} style={{ width: 'auto', height: 22, marginBottom: 12 }} />
-            <h4>BYD Hi-Class EV Car</h4>
+            <Image src="/brand/hiclass-logo.png" alt="BYD Hi-Class EV Car" width={1200} height={107} style={{ width: 'auto', height: 26, marginBottom: 14 }} />
             <p>
               {settings.footerAbout ||
                 `ผู้จำหน่ายรถยนต์ BYD อย่างเป็นทางการ ${branches.length} สาขาในกรุงเทพฯ และปริมณฑล ดูแลตั้งแต่เลือกรุ่น จัดไฟแนนซ์ ส่งมอบ ไปจนถึงศูนย์บริการ`}
@@ -28,6 +27,11 @@ export default function Footer({
               {settings.lineUrl ? <> · <a href={settings.lineUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>LINE</a></> : null}
               {settings.facebookUrl ? <> · <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>Facebook</a></> : null}
             </p>
+            {settings.contactEmail ? (
+              <p style={{ marginTop: 4 }}>
+                อีเมล <a href={`mailto:${settings.contactEmail}`} style={{ color: 'var(--ink)', fontWeight: 600 }}>{settings.contactEmail}</a>
+              </p>
+            ) : null}
           </div>
           <div>
             <h4>รุ่นรถ</h4>

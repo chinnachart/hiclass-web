@@ -4,6 +4,7 @@ import * as migration_20260906_001417_add_variants_line_analytics from './202609
 import * as migration_20260908_090000_add_rental_rates from './20260908_090000_add_rental_rates';
 import * as migration_20260909_000000_add_branch_social from './20260909_000000_add_branch_social';
 import * as migration_20260909_045543_add_page_content from './20260909_045543_add_page_content';
+import * as migration_20260909_080000_add_contact_email from './20260909_080000_add_contact_email';
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20260909_045543_add_page_content.up,
     down: migration_20260909_045543_add_page_content.down,
     name: '20260909_045543_add_page_content'
+  },
+  {
+    up: migration_20260909_080000_add_contact_email.up,
+    down: migration_20260909_080000_add_contact_email.down,
+    name: '20260909_080000_add_contact_email',
   },
 ];

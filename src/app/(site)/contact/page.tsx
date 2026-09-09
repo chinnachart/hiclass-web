@@ -30,13 +30,20 @@ export default async function ContactPage() {
             <a className="card svc" href={telHref(settings.mainPhone)}>
               <span className="branch-ico"><Icon name="phone" size={20} /></span>
               <h3>โทรหาเรา</h3>
-              <p>{settings.mainPhone} · เปิดทุกวัน 08:30–18:30</p>
+              <p>{settings.mainPhone} · เปิด{branches[0]?.openHours || 'ทุกวัน 08:00–18:00'}</p>
             </a>
             {settings.lineUrl ? (
               <a className="card svc" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
                 <span className="branch-ico" style={{ background: 'var(--green-soft)', color: 'var(--green-dark)' }}><Icon name="chat" size={20} /></span>
                 <h3>แอด LINE</h3>
                 <p>ถามราคา โปรโมชั่น หรือส่งรูปรถเก่าให้ประเมิน ตอบไวในเวลาทำการ</p>
+              </a>
+            ) : null}
+            {settings.contactEmail ? (
+              <a className="card svc" href={`mailto:${settings.contactEmail}`}>
+                <span className="branch-ico" style={{ background: 'var(--soft)', color: 'var(--ink)' }}><Icon name="mail" size={20} /></span>
+                <h3>อีเมล</h3>
+                <p>{settings.contactEmail}</p>
               </a>
             ) : null}
             {settings.facebookUrl ? (

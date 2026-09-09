@@ -36,6 +36,7 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
     '@type': 'AutoDealer',
     name: `BYD Hi-Class ${b.name}`,
     telephone: b.phone,
+    ...(settings.contactEmail ? { email: settings.contactEmail } : {}),
     url: `${SITE}/branches/${b.code}`,
     openingHours: b.openHours || undefined,
     ...(b.address ? { address: { '@type': 'PostalAddress', streetAddress: b.address, addressCountry: 'TH' } } : {}),

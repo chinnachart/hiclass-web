@@ -843,6 +843,7 @@ export interface SiteSetting {
    */
   lineUrl?: string | null;
   facebookUrl?: string | null;
+  contactEmail?: string | null;
   footerAbout?: string | null;
   /**
    * ใส่เป็นเปอร์เซ็นต์ เช่น 2.89 — เครื่องคำนวณบนเว็บจะใช้ค่านี้ทันทีที่บันทึก
@@ -1055,6 +1056,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   mainPhone?: T;
   lineUrl?: T;
   facebookUrl?: T;
+  contactEmail?: T;
   footerAbout?: T;
   financeRate?: T;
   defaultDownPercent?: T;

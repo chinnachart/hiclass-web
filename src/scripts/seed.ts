@@ -77,7 +77,7 @@ const run = async () => {
     if (found.totalDocs === 0) {
       await payload.create({
         collection: 'branches',
-        data: { ...b, openHours: 'จ.–อา. 08:30–18:30', published: true } as never,
+        data: { ...b, openHours: 'จ.–อา. 08:00–18:00', published: true } as never,
       })
       console.log('เพิ่มสาขา', b.name)
     }

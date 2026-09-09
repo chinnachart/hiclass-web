@@ -86,11 +86,11 @@ input, select, textarea { font: inherit; color: inherit; }
 /* ---------- Header ---------- */
 .hdr { position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(8px); }
 .hdr-in { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; max-width: 1400px; }
-.logo .hc, .nav-item > a, .hdr-tel, .hdr-cta { white-space: nowrap; }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo .byd { display: block; width: auto; height: 18px; }
-.logo .bar { width: 1px; height: 22px; background: var(--line); }
-.logo .hc { font-family: var(--font-display); font-size: 11px; line-height: 12px; letter-spacing: 1.5px; color: var(--mute); font-weight: 500; }
+.nav-item > a, .hdr-tel, .hdr-cta { white-space: nowrap; }
+.logo { display: flex; align-items: center; flex-shrink: 0; }
+/* โลโก้เต็ม BYD | HI-CLASS EV CAR (อัตราส่วน ~11:1)
+   มือถือ: คุมด้วยความกว้าง ให้เหลือที่พอสำหรับปุ่มโทร+เมนู (~160px) บนจอ 360px · เดสก์ท็อป: ล็อกความสูง */
+.logo .byd { display: block; height: auto; width: min(250px, calc(100vw - 160px)); }
 .nav { display: none; }
 .hdr-acts { display: flex; align-items: center; gap: 4px; }
 .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; background: transparent; border: 0; color: var(--ink); }
@@ -98,9 +98,7 @@ input, select, textarea { font: inherit; color: inherit; }
 .hdr-tel, .hdr-cta { display: none; }
 @media (min-width: 1160px) {
   .hdr-in { height: 72px; }
-  .logo .byd { height: 22px; }
-  .logo .bar { height: 26px; }
-  .logo .hc { font-size: 12px; line-height: 13px; letter-spacing: 2px; }
+  .logo .byd { width: auto; height: 28px; }
   .nav { display: flex; align-items: center; gap: 4px; }
   .nav-item { position: relative; }
   .nav-item > a { display: inline-flex; align-items: center; gap: 4px; height: 40px; padding: 0 9px; border-radius: 8px; font-size: 14px; font-weight: 500; }

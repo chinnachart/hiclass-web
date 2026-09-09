@@ -9,13 +9,7 @@ import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 export function Logo() {
   return (
     <Link className="logo" href="/" aria-label="BYD Hi-Class EV Car หน้าแรก">
-      <Image className="byd" src="/brand/byd-logo.png" alt="BYD" width={615} height={119} priority />
-      <span className="bar" />
-      <span className="hc">
-        HI-CLASS
-        <br />
-        EV CAR
-      </span>
+      <Image className="byd" src="/brand/hiclass-logo.png" alt="BYD Hi-Class EV Car" width={1200} height={107} priority />
     </Link>
   )
 }

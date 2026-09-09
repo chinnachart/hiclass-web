@@ -1,13 +1,7 @@
 export const AdminLogo = () => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '4px 0' }}>
     {/* eslint-disable-next-line @next/next/no-img-element -- หลังบ้าน ไม่ต้องผ่าน next/image */}
-    <img src="/brand/byd-logo.png" alt="BYD" style={{ height: 24, width: 'auto', display: 'block' }} />
-    <span style={{ width: 1, height: 30, background: 'currentColor', opacity: 0.3 }} />
-    <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: '.14em', lineHeight: 1.2 }}>
-      HI-CLASS
-      <br />
-      EV CAR
-    </span>
+    <img src="/brand/hiclass-logo.png" alt="BYD Hi-Class EV Car" style={{ height: 30, width: 'auto', display: 'block' }} />
   </div>
 )
 

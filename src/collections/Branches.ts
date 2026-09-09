@@ -40,7 +40,7 @@ export const Branches: CollectionConfig = {
       type: 'row',
       fields: [
         { name: 'phone', type: 'text', required: true, label: 'เบอร์โทรสาขา', admin: { width: '50%', description: 'รูปแบบ 062-673-1999' } },
-        { name: 'openHours', type: 'text', label: 'เวลาทำการ', defaultValue: 'จ.–อา. 08:30–18:30', admin: { width: '50%' } },
+        { name: 'openHours', type: 'text', label: 'เวลาทำการ', defaultValue: 'จ.–อา. 08:00–18:00', admin: { width: '50%' } },
       ],
     },
     { name: 'address', type: 'textarea', label: 'ที่อยู่' },
