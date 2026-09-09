@@ -97,7 +97,7 @@ export default async function ModelPricePage({ params }: { params: Promise<{ slu
                 )
               })}
               <Link className="btn btn-red btn-lg" href={`/test-drive?model=${encodeURIComponent(m.name)}`}>
-                <Icon name="wheel" size={20} color="#fff" />ขอใบเสนอราคาจริง / นัดทดลองขับ
+                <Icon name="wheel" size={20} color="#fff" />ขอใบเสนอราคา / นัดทดลองขับ
               </Link>
             </div>
           </div>

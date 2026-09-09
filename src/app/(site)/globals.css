@@ -88,7 +88,7 @@ input, select, textarea { font: inherit; color: inherit; }
 .hdr-in { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; max-width: 1400px; }
 .logo .hc, .nav-item > a, .hdr-tel, .hdr-cta { white-space: nowrap; }
 .logo { display: flex; align-items: center; gap: 10px; }
-.logo .byd { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: 3px; }
+.logo .byd { display: block; width: auto; height: 18px; }
 .logo .bar { width: 1px; height: 22px; background: var(--line); }
 .logo .hc { font-family: var(--font-display); font-size: 11px; line-height: 12px; letter-spacing: 1.5px; color: var(--mute); font-weight: 500; }
 .nav { display: none; }
@@ -98,7 +98,7 @@ input, select, textarea { font: inherit; color: inherit; }
 .hdr-tel, .hdr-cta { display: none; }
 @media (min-width: 1160px) {
   .hdr-in { height: 72px; }
-  .logo .byd { font-size: 24px; letter-spacing: 4px; }
+  .logo .byd { height: 22px; }
   .logo .bar { height: 26px; }
   .logo .hc { font-size: 12px; line-height: 13px; letter-spacing: 2px; }
   .nav { display: flex; align-items: center; gap: 4px; }

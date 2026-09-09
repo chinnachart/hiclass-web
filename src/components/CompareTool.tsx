@@ -50,7 +50,7 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
           </button>
         ))}
       </div>
-      <p className="small mute">เลือกได้ {MAX} รุ่น · กดรุ่นที่เลือกแล้วเพื่อเอาออก</p>
+      <p className="small mute">เลือกได้สูงสุด {MAX} รุ่น · กดซ้ำเพื่อเอาออก</p>
 
       {chosen.length < 2 ? (
         <div className="notice warn">เลือกอย่างน้อย 2 รุ่นเพื่อเปรียบเทียบ</div>

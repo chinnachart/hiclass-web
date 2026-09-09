@@ -20,7 +20,7 @@ export default async function BranchesPage() {
         <div className="container">
           <p className="kicker">สาขาของเรา</p>
           <h1>เลือกสาขาที่ใกล้คุณ</h1>
-          <p className="lead">ทุกสาขาโทรตรง แอด LINE หรือกดนำทางได้เลย และนัดทดลองขับที่สาขานั้นได้ในปุ่มเดียว</p>
+          <p className="lead">โทร แอด LINE หรือกดนำทางไปสาขาได้ทันที และนัดทดลองขับที่สาขานั้นได้ในปุ่มเดียว</p>
         </div>
       </section>
       <main className="container">

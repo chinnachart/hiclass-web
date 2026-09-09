@@ -20,7 +20,7 @@ export default async function PromotionPage() {
         <div className="container">
           <p className="kicker">Promotion</p>
           <h1>โปรโมชั่นเดือนนี้</h1>
-          <p className="lead">ข้อเสนอที่ใช้ได้ตอนนี้ทุกสาขา อัปเดตโดยทีมการตลาด โปรที่หมดเขตจะหายจากหน้านี้อัตโนมัติ</p>
+          <p className="lead">ข้อเสนอที่ใช้ได้ตอนนี้ทุกสาขา อัปเดตทุกครั้งที่มีแคมเปญใหม่</p>
         </div>
       </section>
       <main className="container">

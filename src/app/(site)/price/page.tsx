@@ -35,7 +35,7 @@ const FAQ = [
   {
     question: 'ต้องไปโชว์รูมไหมถึงจะรู้ค่างวด',
     answer:
-      'ไม่ต้อง ใช้ตารางในหน้านี้คำนวณเองได้เลย และถ้าต้องการใบเสนอราคาจริง กดนัดทดลองขับแล้วทีมขายจะติดต่อกลับพร้อมตัวเลขที่ใช้ยื่นไฟแนนซ์ได้',
+      'ไม่ต้อง ใช้ตารางในหน้านี้คำนวณเองได้เลย และถ้าต้องการใบเสนอราคา กดนัดทดลองขับแล้วทีมขายจะติดต่อกลับพร้อมตัวเลขที่ใช้ยื่นไฟแนนซ์ได้',
   },
 ]
 
@@ -60,7 +60,7 @@ export default async function PricePage() {
         <section className="section" style={{ paddingTop: 20 }}>
           <PriceTable models={models} settings={settings} />
           <div className="grid-2" style={{ marginTop: 14 }}>
-            <Link className="btn btn-red btn-lg" href="/test-drive"><Icon name="wheel" size={20} color="#fff" />ขอใบเสนอราคาจริง</Link>
+            <Link className="btn btn-red btn-lg" href="/test-drive"><Icon name="wheel" size={20} color="#fff" />ขอใบเสนอราคา</Link>
             <Link className="btn btn-outline btn-lg" href="/car-model">ดูสเปกแต่ละรุ่น</Link>
           </div>
         </section>

@@ -29,7 +29,7 @@ export default async function TestDrivePage({
       <section className="page-head">
         <div className="container">
           <p className="kicker"><Icon name="wheel" size={14} />ทดลองขับฟรี ทุกรุ่น</p>
-          <h1>นัดลองขับฟรี ใช้เวลา 1 นาที</h1>
+          <h1>นัดทดลองขับฟรี กรอกแค่ 1 นาที</h1>
           <p className="lead">ทีมขายสาขาที่เลือกจะโทรยืนยันวันเวลาให้ภายใน 1 ชั่วโมง (เวลาทำการ) ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</p>
         </div>
       </section>

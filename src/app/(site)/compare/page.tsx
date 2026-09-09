@@ -20,7 +20,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
         <div className="container">
           <p className="kicker">เปรียบเทียบรุ่น</p>
           <h1>BYD รุ่นไหนเหมาะกับคุณ</h1>
-          <p className="lead">เลือกได้สูงสุด 3 รุ่น เห็นราคา ค่างวด ระยะทาง และสเปกเคียงกัน แชร์ลิงก์ผลเทียบให้ที่บ้านดูได้</p>
+          <p className="lead">เลือกได้สูงสุด 3 รุ่น เห็นราคา ค่างวด ระยะทาง และสเปกเคียงกัน แชร์ลิงก์ผลเปรียบเทียบให้คนที่บ้านดูได้</p>
         </div>
       </section>
       <main className="container">

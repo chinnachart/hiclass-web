@@ -13,12 +13,12 @@ const D = {
   kicker: 'Service',
   title: 'ศูนย์บริการ BYD ทั้ง {สาขา} สาขา',
   lead: 'ช่างผ่านการอบรมจาก BYD อะไหล่แท้ จองคิวล่วงหน้าได้ทางโทรศัพท์หรือ LINE',
-  seoTitle: 'ศูนย์บริการ BYD — เช็กระยะ ซ่อมตัวถัง อะไหล่แท้',
+  seoTitle: 'ศูนย์บริการ BYD — เช็กระยะ อู่สีและซ่อมตัวถัง อะไหล่แท้',
   seoDesc:
     'ศูนย์บริการ BYD Hi-Class ทั้ง 5 สาขา เช็กระยะ ซ่อมสีและตัวถัง อะไหล่แท้ ช่างผ่านการอบรมจาก BYD จองคิวล่วงหน้าได้ทางโทรศัพท์และ LINE',
   services: [
     { icon: 'wrench', title: 'เช็กระยะตามกำหนด', body: 'ตรวจเช็กตามระยะทางที่ BYD กำหนด พร้อมอัปเดตซอฟต์แวร์รถให้เป็นเวอร์ชันล่าสุด' },
-    { icon: 'shield', title: 'ซ่อมสีและตัวถัง', body: 'ศูนย์ซ่อมตัวถังมาตรฐาน BYD ใช้อะไหล่แท้ เคลมประกันได้ทุกบริษัท' },
+    { icon: 'shield', title: 'อู่สีและซ่อมตัวถัง', body: 'ศูนย์ซ่อมสีและตัวถังมาตรฐาน BYD ใช้อะไหล่แท้ ประสานงานเคลมประกันให้' },
     { icon: 'bolt', title: 'ตรวจเช็กแบตเตอรี่และระบบชาร์จ', body: 'วิเคราะห์สุขภาพแบตเตอรี่ ตรวจสายชาร์จและ wallbox ที่บ้าน' },
     { icon: 'key', title: 'รถทดแทนระหว่างซ่อม', body: 'ลูกค้าที่นำรถเข้าซ่อมขอใช้รถทดแทนได้ ดูรายละเอียดที่บริการรถให้เช่า' },
   ],
@@ -59,7 +59,7 @@ export default async function ServicePage() {
           {services.length > 0 ? (
             <div className="grid-2">
               {services.map((s) => (
-                <div className="card svc" key={s.title}>
+                <div className="card svc" key={s.title} id={s.icon === 'shield' ? 'body-paint' : undefined}>
                   <span className="branch-ico"><Icon name={s.icon || 'wrench'} size={20} /></span>
                   <h3>{s.title}</h3>
                   <p>{s.body}</p>

@@ -21,7 +21,7 @@ export default async function ContactPage() {
         <div className="container">
           <p className="kicker">ติดต่อเรา</p>
           <h1>คุยกับเราได้ทุกช่องทาง</h1>
-          <p className="lead">โทรตรง ทัก LINE หรือแวะสาขา เปิด{settings.mainPhone ? ` · โทร ${settings.mainPhone}` : ''}</p>
+          <p className="lead">โทรตรง ทัก LINE หรือแวะสาขาใกล้บ้าน{settings.mainPhone ? ` · โทร ${settings.mainPhone}` : ''}</p>
         </div>
       </section>
       <main className="container">

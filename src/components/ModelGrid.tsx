@@ -28,7 +28,7 @@ export function ModelCard({ m }: { m: CarModel }) {
         </div>
       </div>
       <div className="model-price">
-        <small>เริ่ม</small>
+        <small>เริ่มต้น</small>
         <b>{baht(m.priceFrom)}</b>
       </div>
       <div className="model-acts">

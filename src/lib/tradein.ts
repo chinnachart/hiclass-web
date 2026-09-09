@@ -10,7 +10,7 @@
 
 export const TRADE_IN_BUCKET = 'trade-in'
 export const MAX_PHOTOS = 8
-export const DEFAULT_REPLY = 'ขอบคุณที่ตอบกลับมา ระบบจะประเมินราคาเบื้องต้นภายใน 24 ชั่วโมง'
+export const DEFAULT_REPLY = 'ขอบคุณสำหรับข้อมูล ทีมงานจะประเมินราคาเบื้องต้นและติดต่อกลับภายใน 24 ชั่วโมง'
 
 const PHOTO_PATH_RE = /^drafts\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[1-8]\.jpg$/
 export const isPhotoPath = (p: string) => PHOTO_PATH_RE.test(p)
@@ -155,7 +155,7 @@ async function pushLine(e: Env, p: { id?: number; row: Record<string, unknown> }
     `🚗 รถเทิร์นใหม่ #${p.id ?? '-'}`,
     `${r.customer_name} · ${String(r.phone).replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}`,
     `${r.brand} ${r.model}${r.sub_model ? ' ' + r.sub_model : ''}${r.year ? ' ' + r.year : ''}`,
-    `ไมล์ ${fmt(r.mileage)} กม. · หวัง ${fmt(r.expected_price)} บ.`,
+    `ไมล์ ${fmt(r.mileage)} กม. · ราคาที่คาดหวัง ${fmt(r.expected_price)} บ.`,
     r.interested_model ? `สนใจ BYD ${r.interested_model}` : null,
     `รูป ${(r.photos as string[]).length} ใบ — ดูใน Cinco แท็บ รถเทิร์น`,
   ]

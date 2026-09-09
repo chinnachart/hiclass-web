@@ -82,7 +82,7 @@ export default async function HomePage() {
             <div className="sec-head">
               <div>
                 <h2>โปรโมชั่นเดือนนี้</h2>
-                <p>อัปเดตล่าสุดจากทีมการตลาด</p>
+                <p>ข้อเสนอที่ใช้ได้ตอนนี้ทุกสาขา</p>
               </div>
               <Link className="sec-link" href="/promotion">ดูทั้งหมด <Icon name="chev" size={16} /></Link>
             </div>
@@ -149,12 +149,18 @@ export default async function HomePage() {
               <p>ดูแลต่อเนื่องหลังส่งมอบ</p>
             </div>
           </div>
-          <div className="grid-3">
+          <div className="grid-2">
             <div className="card svc">
               <span className="branch-ico"><Icon name="wrench" size={20} /></span>
               <h3>ศูนย์บริการ</h3>
-              <p>เช็กระยะ ซ่อมตัวถัง อะไหล่แท้ ช่างที่ผ่านการอบรมจาก BYD ทุกสาขา</p>
+              <p>เช็กระยะ ตรวจแบตเตอรี่ อะไหล่แท้ ช่างที่ผ่านการอบรมจาก BYD ทุกสาขา</p>
               <Link className="more" href="/service">จองคิว <Icon name="chev" size={14} /></Link>
+            </div>
+            <div className="card svc">
+              <span className="branch-ico"><Icon name="shield" size={20} /></span>
+              <h3>อู่สีและซ่อมตัวถัง</h3>
+              <p>ศูนย์ซ่อมสีและตัวถังมาตรฐาน BYD อะไหล่แท้ ประสานงานเคลมประกันให้</p>
+              <Link className="more" href="/service#body-paint">ดูรายละเอียด <Icon name="chev" size={14} /></Link>
             </div>
             <div className="card svc">
               <span className="branch-ico"><Icon name="key" size={20} /></span>
@@ -166,7 +172,7 @@ export default async function HomePage() {
               <span className="branch-ico"><Icon name="swap" size={20} /></span>
               <h3>เทิร์นรถเก่า</h3>
               <p>ประเมินราคาให้ก่อนเข้าโชว์รูม ใช้เป็นเงินดาวน์คันใหม่ได้ทันที</p>
-              <Link className="more" href="/contact">ขอประเมินราคา <Icon name="chev" size={14} /></Link>
+              <Link className="more" href="/trade-in">ขอประเมินราคา <Icon name="chev" size={14} /></Link>
             </div>
           </div>
         </section>

@@ -32,7 +32,7 @@ const D = {
     'ช่างที่ดูแลรถของคุณในทุกสาขา คือทีมเดียวกับที่ผ่านการแข่งขันทักษะระดับประเทศของ BYD — ตรวจเช็กระยะ ซ่อมตัวถัง และวิเคราะห์แบตเตอรี่ตามมาตรฐานเดียวกันทั้งกลุ่ม',
   techSrc: '/awards/techstar-2024-2025.webp',
   techAlt: 'โล่รางวัล BYD Thailand Tech Star and Skill Contest 2024 และ 2025',
-  ctaTitle: 'ทดลองขับกับดีลเลอร์ที่ BYD ให้รางวัล',
+  ctaTitle: 'ทดลองขับกับดีลเลอร์ที่ BYD มอบรางวัล Dealer of the Year',
   ctaSub: 'เลือกสาขาที่สะดวก ทีมขายโทรยืนยันกลับภายใน 1 ชั่วโมงในเวลาทำการ',
   seoTitle: 'รางวัล BYD Dealer of the Year 2025 — Hi-Class Group ดีลเลอร์ BYD ยอดขายอันดับ 1',
   seoDesc:

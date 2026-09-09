@@ -25,7 +25,7 @@ export default async function NewsIndex() {
         <div className="container">
           <p className="kicker">ข่าวสารและกิจกรรม</p>
           <h1>ข่าวสารและกิจกรรม</h1>
-          <p className="lead">อัปเดตจากทีมการตลาดโดยตรง</p>
+          <p className="lead">ข่าว กิจกรรม และความรู้เรื่องรถยนต์ไฟฟ้า BYD จาก Hi-Class EV Car</p>
         </div>
       </section>
       <main className="container">

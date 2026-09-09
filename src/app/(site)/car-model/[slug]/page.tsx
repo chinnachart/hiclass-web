@@ -72,7 +72,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               </Link>
               {settings.lineUrl ? (
                 <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
-                  <Icon name="chat" size={20} color="#fff" />ถามใน LINE
+                  <Icon name="chat" size={20} color="#fff" />สอบถามทาง LINE
                 </a>
               ) : (
                 <Link className="btn btn-outline" href="/contact"><Icon name="chat" size={20} />สอบถาม</Link>

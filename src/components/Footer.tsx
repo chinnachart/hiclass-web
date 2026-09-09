@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { telHref } from '@/lib/format'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
@@ -16,6 +17,7 @@ export default function Footer({
       <div className="container">
         <div className="footer-grid">
           <div>
+            <Image src="/brand/byd-logo.png" alt="BYD" width={615} height={119} style={{ width: 'auto', height: 22, marginBottom: 12 }} />
             <h4>BYD Hi-Class EV Car</h4>
             <p>
               {settings.footerAbout ||

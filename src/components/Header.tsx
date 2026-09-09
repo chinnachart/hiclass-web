@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Icon from './Icons'
 import MobileMenu from './MobileMenu'
@@ -8,7 +9,7 @@ import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 export function Logo() {
   return (
     <Link className="logo" href="/" aria-label="BYD Hi-Class EV Car หน้าแรก">
-      <span className="byd">BYD</span>
+      <Image className="byd" src="/brand/byd-logo.png" alt="BYD" width={615} height={119} priority />
       <span className="bar" />
       <span className="hc">
         HI-CLASS

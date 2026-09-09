@@ -112,7 +112,7 @@ export default function TradeInForm({ models, branches, settings }: Props) {
       })
       const j = await r.json().catch(() => ({}))
       if (!r.ok) throw new Error(j?.message || 'ส่งไม่สำเร็จ')
-      setMessage(j?.message || 'ขอบคุณที่ตอบกลับมา ระบบจะประเมินราคาเบื้องต้นภายใน 24 ชั่วโมง')
+      setMessage(j?.message || 'ขอบคุณสำหรับข้อมูล ทีมงานจะประเมินราคาเบื้องต้นและติดต่อกลับภายใน 24 ชั่วโมง')
       setState('done')
     } catch (err) {
       setState('error')
