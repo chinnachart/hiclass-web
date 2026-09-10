@@ -18,6 +18,9 @@ const nextConfig = {
   async redirects() {
     const R = (source, destination) => ({ source, destination, permanent: true })
     return [
+      // --- แคมเปญ / landing page ที่ใช้ยิงแอด (ไม่อยู่ใน sitemap เดิม) ---
+      R('/atto1-2-3-campaign', '/register'),
+      R('/atto-campaign', '/register'),
       // --- หน้า (page-sitemap) ---
       R('/byd-seailon-5-dm-i', '/car-model/sealion-5'), // สะกดผิดในเว็บเก่า
       R('/byd-sealion-7', '/car-model/sealion-7'),
