@@ -839,6 +839,11 @@ export interface SiteSetting {
    * เฉพาะค่าใน content="..." ของ meta tag ที่ Search Console ให้มา
    */
   googleSiteVerification?: string | null;
+  googleAdsId?: string | null;
+  adsLabelTestDrive?: string | null;
+  adsLabelRegister?: string | null;
+  adsLabelPhone?: string | null;
+  adsLabelLine?: string | null;
   mainPhone: string;
   /**
    * สำคัญ — ปุ่ม "แอด LINE" ทุกหน้าใช้ลิงก์นี้ เช่น https://lin.ee/xxxxx (ถ้าเว้นว่างปุ่มจะกลายเป็น "ติดต่อเรา")
@@ -1055,6 +1060,11 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   trustNote?: T;
   gaMeasurementId?: T;
   googleSiteVerification?: T;
+  googleAdsId?: T;
+  adsLabelTestDrive?: T;
+  adsLabelRegister?: T;
+  adsLabelPhone?: T;
+  adsLabelLine?: T;
   mainPhone?: T;
   lineUrl?: T;
   facebookUrl?: T;

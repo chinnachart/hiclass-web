@@ -140,4 +140,9 @@ export type SiteSettings = {
   trustNote?: string | null
   gaMeasurementId?: string | null
   googleSiteVerification?: string | null
+  googleAdsId?: string | null
+  adsLabelTestDrive?: string | null
+  adsLabelRegister?: string | null
+  adsLabelPhone?: string | null
+  adsLabelLine?: string | null
 }

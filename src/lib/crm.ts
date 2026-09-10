@@ -8,6 +8,7 @@
  *    kind='register'   (ฟอร์ม /register ลงทะเบียนความสนใจ) → interest_level 'Warm', test_drive=false · อีเมล/LINE ID/หมายเหตุ รวมอยู่ใน notes (crm_leads ไม่มีคอลัมน์)
  *  - branch / model ไม่มีเว้นวรรค ให้ตรง public.branches และ dropdown_options
  *  - appointment_date (YYYY-MM-DD) + appointment_slot (3 ค่าตายตัว) · notes ยังเขียนเหมือนเดิมเป็น fallback
+ *  - attribution (gclid/utm จากเบราว์เซอร์) เขียนต่อท้าย notes เป็น "ที่มา: google/cpc/… · gclid:…" — lead_source ยังคง 'Website'
  *  - กระดิ่ง kind='web_lead' tab='mktleads' ref=<lead id> · body ไม่มีเบอร์โทร (ต้องกดรับก่อนถึงเห็น)
  *
  * ทำงานฝั่งเซิร์ฟเวอร์เท่านั้น — service key ห้ามหลุดไปฝั่งเบราว์เซอร์เด็ดขาด
@@ -33,6 +34,7 @@ export type LeadInput = {
   appointmentDate?: string // YYYY-MM-DD
   appointmentSlot?: string
   offerNote?: string
+  attribution?: string // ที่มาจาก gclid/utm (lib/track.ts) — ต่อท้าย notes
   holderName: string
 }
 
@@ -86,6 +88,7 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
     input.lineId ? `LINE ID: ${input.lineId}` : null,
     input.comment ? `หมายเหตุ: ${input.comment}` : null,
     input.offerNote || null,
+    input.attribution ? `ที่มา: ${input.attribution}` : null,
     isRegister ? 'ลงทะเบียนความสนใจจากฟอร์มบนเว็บไซต์' : 'บันทึกอัตโนมัติจากฟอร์มบนเว็บไซต์',
   ]
     .filter(Boolean)

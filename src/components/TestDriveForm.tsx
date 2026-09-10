@@ -5,6 +5,7 @@ import Icon from './Icons'
 import { telHref } from '@/lib/format'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 import { APPOINTMENT_SLOTS } from '@/lib/appointment'
+import { attributionText, track } from '@/lib/track'
 
 type Props = {
   models: CarModel[]
@@ -42,10 +43,12 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
           appointmentDate,
           appointmentSlot,
           offerNote: offerNote || '',
+          attribution: attributionText(),
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.message || 'ส่งไม่สำเร็จ')
+      track('test_drive', settings, { model, branch: String(fd.get('branch') || '') })
       setState('done')
     } catch (err) {
       setState('error')

@@ -19,6 +19,8 @@ const nextConfig = {
     const R = (source, destination) => ({ source, destination, permanent: true })
     return [
       // --- แคมเปญ / landing page ที่ใช้ยิงแอด (ไม่อยู่ใน sitemap เดิม) ---
+      R('/ev/car', '/test-drive'), // Final URL ของ Google Ads เดิม (ad group BYD Model) — ก่อนย้ายแอดมาชี้หน้าใหม่
+      R('/ev/car/:path*', '/test-drive'),
       R('/atto1-2-3-campaign', '/register'),
       R('/atto-campaign', '/register'),
       // --- หน้า (page-sitemap) ---

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Icon from './Icons'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
+import { attributionText, track } from '@/lib/track'
 
 type Props = {
   models: CarModel[]
@@ -48,10 +49,12 @@ export default function RegisterForm({ models, branches, settings, defaultModel,
           branch: fd.get('branch'),
           comment: fd.get('comment'),
           consent: fd.get('consent') === 'on',
+          attribution: attributionText(),
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.message || 'ส่งไม่สำเร็จ')
+      track('register', settings, { model: String(fd.get('model') || ''), branch: String(fd.get('branch') || '') })
       setState('done')
     } catch (err) {
       setState('error')

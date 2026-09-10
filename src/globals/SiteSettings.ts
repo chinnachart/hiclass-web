@@ -43,13 +43,33 @@ export const SiteSettings: GlobalConfig = {
               name: 'gaMeasurementId',
               type: 'text',
               label: 'Google Analytics Measurement ID',
-              admin: { description: 'ขึ้นต้นด้วย G- เช่น G-ABC123XYZ (Analytics → Admin → Data Streams) — จะโหลดเฉพาะเมื่อผู้ใช้กดยอมรับคุกกี้ตาม PDPA' },
+              admin: { description: 'ขึ้นต้นด้วย G- เช่น G-ABC123XYZ (Analytics → Admin → Data Streams) — โหลดแบบ Consent Mode: ก่อนผู้ใช้กดยอมรับคุกกี้จะไม่ตั้งคุกกี้ (ส่งได้เฉพาะสัญญาณไม่ระบุตัวตน)' },
             },
             {
               name: 'googleSiteVerification',
               type: 'text',
               label: 'รหัสยืนยัน Google Search Console',
               admin: { description: 'เฉพาะค่าใน content="..." ของ meta tag ที่ Search Console ให้มา' },
+            },
+            {
+              name: 'googleAdsId',
+              type: 'text',
+              label: 'Google Ads Conversion ID',
+              admin: { description: 'ขึ้นต้นด้วย AW- เช่น AW-123456789 (Google Ads → Goals → Conversions → เปิด action → Tag setup) — เว้นว่าง = ไม่ส่ง conversion ให้ Google Ads' },
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'adsLabelTestDrive', type: 'text', label: 'Label: นัดทดลองขับ', admin: { width: '50%', description: 'ส่วนหลัง / ของ send_to เช่น AbC-dEfGhIjK (เว้นว่าง = ส่งเฉพาะ event เข้า GA4)' } },
+                { name: 'adsLabelRegister', type: 'text', label: 'Label: ลงทะเบียนความสนใจ', admin: { width: '50%' } },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'adsLabelPhone', type: 'text', label: 'Label: กดโทร', admin: { width: '50%', description: 'ยิงเมื่อกดลิงก์ tel: ทุกที่ในเว็บ' } },
+                { name: 'adsLabelLine', type: 'text', label: 'Label: กดแอด LINE', admin: { width: '50%', description: 'ยิงเมื่อกดลิงก์ LINE ทุกที่ในเว็บ' } },
+              ],
             },
           ],
         },

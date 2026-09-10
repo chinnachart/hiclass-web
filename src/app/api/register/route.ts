@@ -70,7 +70,10 @@ export async function POST(req: Request) {
   const payload = await getPayload({ config })
   const settings = await payload.findGlobal({ slug: 'site-settings', depth: 0 })
 
+  const attribution = String(body.attribution || '').trim().slice(0, 400)
+
   const result = await createLead({
+    attribution,
     kind: 'register',
     customerName,
     phone,
