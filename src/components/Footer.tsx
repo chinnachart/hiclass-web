@@ -55,6 +55,7 @@ export default function Footer({
               <Link href="/test-drive">นัดทดลองขับ</Link>
               <Link href="/register">ลงทะเบียนความสนใจ</Link>
               <Link href="/trade-in">เทิร์นรถเก่า</Link>
+              <Link href="/service#appointment">นัดหมายศูนย์บริการ</Link>
               <Link href="/price">ราคาและตารางผ่อน</Link>
               <Link href="/compare">เปรียบเทียบรุ่น</Link>
               <Link href="/promotion">โปรโมชั่น</Link>
