@@ -3,7 +3,9 @@
  *
  * สัญญากับ Cinco (INTEGRATION_DECISIONS_2026-09-06):
  *  - seller_id / seller_ref ไม่ส่ง (NULL = ลีดกองกลาง รอเซลส์กดรับ)  · ห้ามส่ง phone_digits (generated column)
- *  - lead_source = 'Website' ตายตัว (Cinco นับเป็นกองกลางเฉพาะค่านี้)  · interest_level = 'Hot'
+ *  - lead_source = 'Website' ตายตัว (Cinco นับเป็นกองกลางเฉพาะค่านี้)
+ *  - kind='test_drive' (ฟอร์ม /test-drive) → interest_level 'Hot', test_drive=true
+ *    kind='register'   (ฟอร์ม /register ลงทะเบียนความสนใจ) → interest_level 'Warm', test_drive=false · อีเมล/LINE ID/หมายเหตุ รวมอยู่ใน notes (crm_leads ไม่มีคอลัมน์)
  *  - branch / model ไม่มีเว้นวรรค ให้ตรง public.branches และ dropdown_options
  *  - appointment_date (YYYY-MM-DD) + appointment_slot (3 ค่าตายตัว) · notes ยังเขียนเหมือนเดิมเป็น fallback
  *  - กระดิ่ง kind='web_lead' tab='mktleads' ref=<lead id> · body ไม่มีเบอร์โทร (ต้องกดรับก่อนถึงเห็น)
@@ -17,9 +19,15 @@ export { APPOINTMENT_SLOTS, isAppointmentSlot } from './appointment'
 export const LEAD_SOURCE = 'Website'
 const NOTIFY_ROLES = ['sales', 'sales_lead', 'sales_manager']
 
+export type LeadKind = 'test_drive' | 'register'
+
 export type LeadInput = {
+  kind?: LeadKind // default 'test_drive'
   customerName: string
   phone: string
+  email?: string
+  lineId?: string
+  comment?: string
   model?: string
   branch: string
   appointmentDate?: string // YYYY-MM-DD
@@ -68,8 +76,18 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
   const appointmentDate = input.appointmentDate && isIsoDate(input.appointmentDate) ? input.appointmentDate : null
   const appointmentSlot = input.appointmentSlot && isAppointmentSlot(input.appointmentSlot) ? input.appointmentSlot : null
 
+  const kind: LeadKind = input.kind || 'test_drive'
+  const isRegister = kind === 'register'
+
   const apptText = [appointmentDate ? thaiDate(appointmentDate) : '', appointmentSlot || ''].filter(Boolean).join(' ')
-  const notes = [apptText ? `สะดวก: ${apptText}` : null, input.offerNote || null, 'บันทึกอัตโนมัติจากฟอร์มบนเว็บไซต์']
+  const notes = [
+    apptText ? `สะดวก: ${apptText}` : null,
+    input.email ? `อีเมล: ${input.email}` : null,
+    input.lineId ? `LINE ID: ${input.lineId}` : null,
+    input.comment ? `หมายเหตุ: ${input.comment}` : null,
+    input.offerNote || null,
+    isRegister ? 'ลงทะเบียนความสนใจจากฟอร์มบนเว็บไซต์' : 'บันทึกอัตโนมัติจากฟอร์มบนเว็บไซต์',
+  ]
     .filter(Boolean)
     .join(' · ')
 
@@ -79,9 +97,9 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
     customer_name: input.customerName,
     contact_info: onlyDigits(input.phone) || input.phone,
     model,
-    interest_level: 'Hot',
+    interest_level: isRegister ? 'Warm' : 'Hot',
     lead_source: LEAD_SOURCE,
-    test_drive: true,
+    test_drive: !isRegister,
     booking: false,
     lead_lost: false,
     appointment_date: appointmentDate,
@@ -108,7 +126,7 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
   // กระดิ่งให้เซลส์สาขา — ล้มเหลวก็ไม่ทำให้ลูกค้าเห็น error (ลีดเข้าแล้ว, Cinco มี escalation ทุก 5 นาทีสำรอง)
   if (leadId) {
     try {
-      await notifyBranch(env, { leadId, customerName: input.customerName, model, branch, apptText })
+      await notifyBranch(env, { leadId, customerName: input.customerName, model, branch, apptText, kind })
     } catch (e) {
       console.error('[lead] สร้างกระดิ่งไม่สำเร็จ', e instanceof Error ? e.message : e)
     }
@@ -119,7 +137,7 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
 
 async function notifyBranch(
   env: { url: string; key: string },
-  p: { leadId: number; customerName: string; model: string | null; branch: string; apptText: string },
+  p: { leadId: number; customerName: string; model: string | null; branch: string; apptText: string; kind: LeadKind },
 ) {
   const q =
     `profiles?select=id&is_active=eq.true` +
@@ -136,7 +154,13 @@ async function notifyBranch(
     tab: 'mktleads',
     ref: String(p.leadId),
     title: `🌐 ลีดใหม่จากเว็บ — ${p.customerName} · กดรับก่อนได้โทรก่อน`,
-    body: [`BYD ${p.model || 'ไม่ระบุรุ่น'}`, `สาขา${p.branch}`, p.apptText ? `นัด ${p.apptText}` : null].filter(Boolean).join(' · '),
+    body: [
+      `BYD ${p.model || 'ไม่ระบุรุ่น'}`,
+      `สาขา${p.branch}`,
+      p.kind === 'register' ? 'ลงทะเบียนความสนใจ' : p.apptText ? `นัด ${p.apptText}` : null,
+    ]
+      .filter(Boolean)
+      .join(' · '),
   }))
   const ins = await rest(env, 'notifications', { method: 'POST', body: JSON.stringify(rows), prefer: 'return=minimal' })
   if (!ins.ok) throw new Error(`notifications ${ins.status} ${(await ins.text().catch(() => '')).slice(0, 200)}`)
