@@ -14,8 +14,9 @@ type Props = {
   defaultBranch?: string
 }
 
-/** รุ่นใหม่ที่ดันขึ้นบนสุดและติดป้าย NEW (เทียบด้วยชื่อแบบไม่มีช่องว่าง ตัวพิมพ์เล็ก) */
-const NEW_MODELS = ['atto1', 'atto2']
+/** รุ่นแคมเปญที่ดันขึ้นบนสุดและติดป้าย "ดีลลับ" (เทียบด้วยชื่อแบบไม่มีช่องว่าง ตัวพิมพ์เล็ก) */
+const NEW_MODELS = ['atto1', 'atto2', 'atto3']
+const NEW_LABEL = 'ดีลลับ'
 const key = (s: string) => s.replace(/\s+/g, '').toLowerCase()
 
 export function orderModels(models: CarModel[]) {
@@ -112,7 +113,7 @@ export default function RegisterForm({ models, branches, settings, defaultModel,
           <option value="" disabled>เลือกรุ่น</option>
           {ordered.map((m) => (
             <option key={m.id} value={m.name}>
-              {NEW_MODELS.includes(key(m.name)) ? `*NEW* BYD ${m.name}` : `BYD ${m.name}`}
+              {NEW_MODELS.includes(key(m.name)) ? `BYD ${m.name} (${NEW_LABEL})` : `BYD ${m.name}`}
             </option>
           ))}
         </select>
