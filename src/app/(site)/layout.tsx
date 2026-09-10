@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import MobileBar from '@/components/MobileBar'
 import CookieConsent from '@/components/CookieConsent'
+import { Analytics } from '@vercel/analytics/next'
 import { getSiteData } from '@/lib/data'
 import './globals.css'
 
@@ -39,6 +40,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <Footer models={models} branches={branches} settings={settings} />
         <MobileBar settings={settings} />
         <CookieConsent gaId={settings.gaMeasurementId} />
+        {/* Vercel Web Analytics — ไม่ใช้คุกกี้ ไม่เก็บข้อมูลส่วนบุคคล จึงไม่ต้องรอผู้ใช้กดยอมรับ (ต่างจาก GA4) */}
+        <Analytics />
       </body>
     </html>
   )
