@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Icon from './Icons'
-import { telHref } from '@/lib/format'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
 type Props = {
@@ -146,19 +145,7 @@ export default function RegisterForm({ models, branches, settings, defaultModel,
         {state !== 'sending' ? <Icon name="arrow" size={20} color="#fff" /> : null}
       </button>
 
-      {state === 'error' ? <div className="notice err">{message} — รบกวนลองใหม่ หรือโทรหาสาขาโดยตรง</div> : null}
-
-      <div className="divider">หรือคุยกับเราตอนนี้</div>
-      <div className="row" style={{ gridTemplateColumns: settings.lineUrl ? '1fr 1fr' : '1fr' }}>
-        {settings.lineUrl ? (
-          <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
-            <Icon name="chat" size={18} color="#fff" />แอด LINE
-          </a>
-        ) : null}
-        <a className="btn btn-outline" href={telHref(settings.mainPhone)}>
-          <Icon name="phone" size={18} />{settings.mainPhone}
-        </a>
-      </div>
+      {state === 'error' ? <div className="notice err">{message} — รบกวนลองใหม่อีกครั้ง</div> : null}
     </form>
   )
 }

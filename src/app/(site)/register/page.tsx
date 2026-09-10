@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Icon from '@/components/Icons'
 import RegisterForm from '@/components/RegisterForm'
 import { getSiteData } from '@/lib/data'
@@ -30,8 +31,20 @@ export default async function RegisterPage({
       </section>
       <main className="container">
         <section className="section" style={{ paddingTop: 20 }}>
-          <div className="grid-2" style={{ alignItems: 'start', gridTemplateColumns: 'minmax(0, 1fr)' }}>
-            <div className="card" style={{ padding: 20, maxWidth: 640 }}>
+          <div className="grid-2" style={{ alignItems: 'start', gap: 20 }}>
+            {/* โปสเตอร์แคมเปญ — เปลี่ยนไฟล์ที่ public/campaign/ แล้วแก้ src/alt ตรงนี้ */}
+            <div className="card" style={{ overflow: 'hidden', lineHeight: 0 }}>
+              <Image
+                src="/campaign/atto-week-surprise-deal.jpg"
+                alt="ATTO WEEK SURPRISE DEAL — ดีลสุดพิเศษ BYD Atto 1, Atto 2, Atto 3 ทั้ง 3 รุ่น 3 วันเท่านั้น 11–13 ก.ย. 69"
+                width={1200}
+                height={1499}
+                priority
+                sizes="(min-width: 700px) 50vw, 100vw"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+            <div className="card" style={{ padding: 20 }}>
               <RegisterForm models={models} branches={branches} settings={settings} defaultModel={sp.model} defaultBranch={sp.branch} />
             </div>
           </div>
