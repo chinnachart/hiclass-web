@@ -21,7 +21,7 @@ export default async function ContactPage() {
         <div className="container">
           <p className="kicker">ติดต่อเรา</p>
           <h1>คุยกับเราได้ทุกช่องทาง</h1>
-          <p className="lead">โทรตรง ทัก LINE หรือแวะสาขาใกล้บ้าน{settings.mainPhone ? ` · โทร ${settings.mainPhone}` : ''}</p>
+          <p className="lead">โทรตรงถึงสาขา ทัก LINE หรือแวะสาขาใกล้บ้าน</p>
         </div>
       </section>
       <main className="container">
@@ -32,11 +32,18 @@ export default async function ContactPage() {
         ) : null}
         <section className="section" style={{ paddingTop: 20 }}>
           <div className="grid-3">
-            <a className="card svc" href={telHref(settings.mainPhone)}>
+            <div className="card svc">
               <span className="branch-ico"><Icon name="phone" size={20} /></span>
-              <h3>โทรหาเรา</h3>
-              <p>{settings.mainPhone} · เปิด{branches[0]?.openHours || 'ทุกวัน 08:00–18:00'}</p>
-            </a>
+              <h3>โทรหาสาขา</h3>
+              <p>
+                {branches.filter((b) => b.phone).map((b) => (
+                  <span key={b.id} style={{ display: 'block' }}>
+                    {b.name} <a href={telHref(b.phone)} style={{ color: 'var(--ink)', fontWeight: 600 }}>{b.phone}</a>
+                  </span>
+                ))}
+                <span style={{ display: 'block', marginTop: 4 }}>เปิด{branches[0]?.openHours || 'ทุกวัน 08:00–18:00'}</span>
+              </p>
+            </div>
             {settings.lineUrl ? (
               <a className="card svc" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
                 <span className="branch-ico" style={{ background: 'var(--green-soft)', color: 'var(--green-dark)' }}><Icon name="chat" size={20} /></span>

@@ -39,7 +39,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <Header models={models} branches={branches} settings={settings} />
         {children}
         <Footer models={models} branches={branches} settings={settings} />
-        <MobileBar settings={settings} />
+        <MobileBar settings={settings} branches={branches} />
         <CookieConsent />
         {/* GA4 + Google Ads แบบ Consent Mode — ไม่ตั้งคุกกี้จนกว่าผู้ใช้กดยอมรับ · จำ gclid/utm · ดักคลิกโทร/LINE */}
         <Tracking

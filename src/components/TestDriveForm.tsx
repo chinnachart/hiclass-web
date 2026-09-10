@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Icon from './Icons'
-import { telHref } from '@/lib/format'
+import CallPicker from './CallPicker'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 import { APPOINTMENT_SLOTS } from '@/lib/appointment'
 import { attributionText, track } from '@/lib/track'
@@ -65,8 +65,9 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
         <h3 style={{ fontSize: 22 }}>รับนัดเรียบร้อยแล้ว</h3>
         <p className="mute">
           ทีมขายสาขาที่คุณเลือกได้รับแจ้งแล้ว จะโทรยืนยันวันเวลาให้ภายใน 1 ชั่วโมงในเวลาทำการ
-          ระหว่างนี้ถ้าอยากคุยเลย โทรหาเราได้ที่ {settings.mainPhone}
+          ระหว่างนี้ถ้าอยากคุยเลย โทรหาสาขาได้ทันที
         </p>
+        <CallPicker branches={branches} label="โทรหาสาขา" title="โทรคุยกับทีมขาย — เลือกสาขา" />
         {settings.lineUrl ? (
           <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
             <Icon name="chat" size={18} color="#fff" />แอด LINE ไว้คุยต่อ
@@ -148,9 +149,7 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
             <Icon name="chat" size={18} color="#fff" />แอด LINE
           </a>
         ) : null}
-        <a className="btn btn-outline" href={telHref(settings.mainPhone)}>
-          <Icon name="phone" size={18} />{settings.mainPhone}
-        </a>
+        <CallPicker branches={branches} title="โทรคุยกับทีมขาย — เลือกสาขา" />
       </div>
     </form>
   )

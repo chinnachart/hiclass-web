@@ -76,7 +76,7 @@ export const SiteSettings: GlobalConfig = {
         {
           label: 'ติดต่อ',
           fields: [
-            { name: 'mainPhone', type: 'text', required: true, label: 'เบอร์กลาง', defaultValue: '062-673-1999' },
+            { name: 'mainPhone', type: 'text', required: true, label: 'เบอร์ติดต่อบริษัท (รถเช่า / นโยบายความเป็นส่วนตัว)', defaultValue: '099-493-4863', admin: { description: 'ใช้เฉพาะหน้ารถเช่าและหน้านโยบายความเป็นส่วนตัว — ปุ่ม "โทร" ที่อื่นทั้งเว็บให้ลูกค้าเลือกสาขาแล้วโทรเบอร์สาขา (แก้ที่ \'สาขาของเรา\')' } },
             { name: 'lineUrl', type: 'text', label: 'ลิงก์ LINE Official', admin: { description: 'สำคัญ — ปุ่ม "แอด LINE" ทุกหน้าใช้ลิงก์นี้ เช่น https://lin.ee/xxxxx (ถ้าเว้นว่างปุ่มจะกลายเป็น "ติดต่อเรา")' } },
             { name: 'facebookUrl', type: 'text', label: 'ลิงก์ Facebook' },
             {

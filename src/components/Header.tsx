@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Icon from './Icons'
 import MobileMenu from './MobileMenu'
-import { telHref } from '@/lib/format'
+import CallPicker from './CallPicker'
 import { NAV } from '@/lib/nav'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
@@ -24,7 +24,6 @@ export default function Header({
   branches: Branch[]
   settings: SiteSettings
 }) {
-  const phone = settings.mainPhone
   return (
     <header className="hdr">
       <div className="container hdr-in">
@@ -59,16 +58,11 @@ export default function Header({
           ))}
         </nav>
         <div className="hdr-acts">
-          <a className="hdr-tel" href={telHref(phone)}>
-            <Icon name="phone" size={16} />
-            {phone}
-          </a>
+          <CallPicker branches={branches} className="hdr-tel" label="โทร" iconSize={16} />
           <Link className="btn btn-red hdr-cta" href="/test-drive">
             นัดทดลองขับ
           </Link>
-          <a className="icon-btn tel" href={telHref(phone)} aria-label="โทรหาเรา">
-            <Icon name="phone" size={22} />
-          </a>
+          <CallPicker branches={branches} className="icon-btn tel" label="" iconSize={22} ariaLabel="โทรหาสาขา" />
           <MobileMenu models={models} branches={branches} settings={settings} />
         </div>
       </div>

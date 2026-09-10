@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Icon from './Icons'
 import { NAV } from '@/lib/nav'
-import { telHref } from '@/lib/format'
+import CallPicker from './CallPicker'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
 export default function MobileMenu({
@@ -84,10 +84,7 @@ export default function MobileMenu({
               แอด LINE
             </a>
           ) : null}
-          <a className="btn btn-outline" href={telHref(settings.mainPhone)}>
-            <Icon name="phone" size={18} />
-            {settings.mainPhone}
-          </a>
+          <CallPicker branches={branches} label="โทรหาสาขา" />
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Icon from './Icons'
+import CallPicker from './CallPicker'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 import { attributionText, track } from '@/lib/track'
 
@@ -71,8 +72,9 @@ export default function RegisterForm({ models, branches, settings, defaultModel,
         <h3 style={{ fontSize: 22 }}>ลงทะเบียนเรียบร้อยแล้ว</h3>
         <p className="mute">
           ขอบคุณที่สนใจ BYD ทีมขายสาขาที่คุณเลือกจะติดต่อกลับโดยเร็วในเวลาทำการ
-          ระหว่างนี้ถ้าอยากคุยเลย โทรหาเราได้ที่ {settings.mainPhone}
+          ระหว่างนี้ถ้าอยากคุยเลย โทรหาสาขาได้ทันที
         </p>
+        <CallPicker branches={branches} label="โทรหาสาขา" title="โทรคุยกับทีมขาย — เลือกสาขา" />
         {settings.lineUrl ? (
           <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
             <Icon name="chat" size={18} color="#fff" />แอด LINE ไว้คุยต่อ

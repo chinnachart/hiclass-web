@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { telHref } from '@/lib/format'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
 export default function Footer({
@@ -23,8 +22,7 @@ export default function Footer({
                 `ผู้จำหน่ายรถยนต์ BYD อย่างเป็นทางการ ${branches.length} สาขาในกรุงเทพฯ และปริมณฑล ดูแลตั้งแต่เลือกรุ่น จัดไฟแนนซ์ ส่งมอบ ไปจนถึงศูนย์บริการ`}
             </p>
             <p style={{ marginTop: 10 }}>
-              โทร <a href={telHref(settings.mainPhone)} style={{ color: 'var(--ink)', fontWeight: 600 }}>{settings.mainPhone}</a>
-              {settings.lineUrl ? <> · <a href={settings.lineUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>LINE</a></> : null}
+              {settings.lineUrl ? <><a href={settings.lineUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>LINE</a></> : null}
               {settings.facebookUrl ? <> · <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>Facebook</a></> : null}
             </p>
             {settings.contactEmail ? (

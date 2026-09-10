@@ -4,8 +4,9 @@ import Icon from '@/components/Icons'
 import { BranchCard, Faq } from '@/components/Cards'
 import Jsonld, { faqLd } from '@/components/Jsonld'
 import { getPageContent, getSiteData } from '@/lib/data'
-import { fillTokens, telHref } from '@/lib/format'
+import { fillTokens } from '@/lib/format'
 import ServiceApptForm from '@/components/ServiceApptForm'
+import CallPicker from '@/components/CallPicker'
 import { SERVICE_BRANCH_CODES } from '@/lib/serviceAppt'
 
 export const dynamic = 'force-dynamic'
@@ -25,9 +26,17 @@ const D = {
     { icon: 'key', title: 'รถทดแทนระหว่างซ่อม', body: 'ลูกค้าที่นำรถเข้าซ่อมขอใช้รถทดแทนได้ ดูรายละเอียดที่บริการรถให้เช่า' },
   ],
   faq: [
-    { question: 'เช็กระยะ BYD ต้องเข้าทุกกี่กิโลเมตร', answer: 'โดยทั่วไปทุก 10,000 กม. หรือ 6 เดือน แล้วแต่อย่างใดถึงก่อน ทีมงานจะแจ้งเตือนก่อนถึงกำหนดถ้าลงทะเบียนไว้กับสาขา' },
+    { question: 'เช็กระยะ BYD ต้องเข้าทุกกี่กิโลเมตร', answer: 'ครั้งแรกที่ 5,000 กม. หรือ 3 เดือน จากนั้นทุก 20,000 กม. หรือ 1 ปี แล้วแต่อย่างใดถึงก่อน เข้าก่อนหรือหลังกำหนดได้ไม่เกิน 1,000 กม. ในแต่ละรอบ ทั้งนี้ให้ยึดตามสมุดรับประกันของรถแต่ละรุ่นเป็นหลัก' },
     { question: 'จองคิวศูนย์บริการได้ทางไหน', answer: 'กรอกฟอร์มนัดหมายออนไลน์ในหน้านี้ เจ้าหน้าที่จะโทรกลับยืนยันคิวภายใน 1 ชั่วโมงในเวลาทำการ หรือโทรหาสาขาที่สะดวกโดยตรง / ทัก LINE พร้อมแจ้งรุ่นรถ เลขไมล์ และเรื่องที่ต้องการเข้ารับบริการ' },
-    { question: 'ซื้อรถจากที่อื่นเข้าศูนย์ที่นี่ได้ไหม', answer: 'ได้ ศูนย์บริการของเรารับดูแลรถ BYD ทุกคันตามเงื่อนไขการรับประกันของ BYD ประเทศไทย' },
+    { question: 'นำรถเข้าซ่อมสาขาอื่นที่ไม่ใช่สาขาที่ออกรถได้ไหม', answer: 'ได้ ท่านสามารถนำรถเข้ารับบริการซ่อมบำรุงได้ทุกศูนย์บริการ BYD ทั่วประเทศ รวมถึงรถที่ซื้อจากผู้จำหน่ายรายอื่น' },
+    { question: 'รถเสียฉุกเฉิน ติดต่อบริการช่วยเหลือ (Roadside Assistance) ได้อย่างไร', answer: 'โทร Call Center 02-045-8888 แล้วกด 3 เพื่อเข้าสู่บริการช่วยเหลือฉุกเฉิน ให้บริการตลอด 24 ชั่วโมง' },
+    { question: 'ตรวจสอบสุขภาพแบตเตอรี่ได้ที่ไหน', answer: 'นำรถเข้ารับการตรวจสอบได้ทุกศูนย์บริการ BYD ทั่วประเทศ' },
+    { question: 'ต้อง Calibrate & Balance แบตเตอรี่บ่อยแค่ไหน', answer: 'ควรทำอย่างน้อย 6 เดือนต่อครั้งตามคู่มือการใช้งาน โดยใช้จนแบตเตอรี่ต่ำกว่า 10% แล้วชาร์จด้วยไฟ AC ให้เต็ม 100%' },
+    { question: 'ปล่อยแบตเตอรี่เหลือ 0% จะมีผลต่อการรับประกันไหม', answer: 'เมื่อระยะวิ่งแสดงเหลือ 0 ต้องชาร์จทันที หากไม่ชาร์จภายใน 7 วัน แบตเตอรี่อาจเสียหายถาวร ซึ่งไม่อยู่ภายใต้เงื่อนไขการรับประกันของ BYD' },
+    { question: 'อยากได้เมนูภาษาไทย Apple CarPlay หรือ Android Auto ต้องทำอย่างไร', answer: 'นำรถเข้าศูนย์บริการใกล้บ้าน แล้วแจ้งเจ้าหน้าที่ให้อัปเดตซอฟต์แวร์ให้' },
+    { question: 'ติดฟิล์มหรือติดตั้งอุปกรณ์เสริมจากร้านข้างนอก มีผลต่อการรับประกันไหม', answer: 'การติดฟิล์มไม่ส่งผลต่อการรับประกัน แต่หากอุปกรณ์เสริมที่ติดตั้งส่งผลต่อรถทั้งทางตรงหรือทางอ้อม จะส่งผลต่อการรับประกัน' },
+    { question: 'เครื่องชาร์จที่บ้าน (Wall Charger) มีปัญหา ติดต่อใคร', answer: 'โทร Call Center เครื่องชาร์จ 02-114-7571 มีเจ้าหน้าที่ดูแลโดยตรง' },
+    { question: 'สอบถามอะไหล่ได้ที่ไหน', answer: 'ติดต่อศูนย์บริการสาขาที่สะดวก ศูนย์บริการมีการสำรองอะไหล่สำหรับซ่อมบำรุงไว้พร้อมให้บริการ' },
   ],
 }
 
@@ -72,7 +81,7 @@ export default async function ServicePage() {
           ) : null}
           <div className="grid-2" style={{ marginTop: 14 }}>
             <a className="btn btn-red btn-lg" href="#appointment"><Icon name="calendar" size={20} color="#fff" />จองคิวออนไลน์</a>
-            <a className="btn btn-outline btn-lg" href={telHref(settings.mainPhone)}><Icon name="phone" size={20} />โทรจองคิว {settings.mainPhone}</a>
+            <CallPicker branches={serviceBranches} label="โทรจองคิว" className="btn btn-outline btn-lg" iconSize={20} title="โทรจองคิวศูนย์บริการ — เลือกสาขา" />
             {settings.lineUrl ? (
               <a className="btn btn-green btn-lg" href={settings.lineUrl} target="_blank" rel="noopener noreferrer"><Icon name="chat" size={20} color="#fff" />จองคิวทาง LINE</a>
             ) : (
