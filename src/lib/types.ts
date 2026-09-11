@@ -1,3 +1,5 @@
+import type { FinanceRateRow } from './finance'
+
 export type Media = {
   id: number
   url?: string | null
@@ -131,6 +133,7 @@ export type SiteSettings = {
   contactEmail?: string | null
   footerAbout?: string | null
   financeRate: number
+  financeRates?: FinanceRateRow[] | null
   defaultDownPercent?: number | null
   defaultTerm?: number | null
   financeNote?: string | null

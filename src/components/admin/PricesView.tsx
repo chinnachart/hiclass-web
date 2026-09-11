@@ -2,6 +2,7 @@ import type { AdminViewServerProps } from 'payload'
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
 import { PriceEditor } from './PriceEditor'
+import { financeTable } from '@/lib/finance'
 
 /** หน้า "แก้ราคาทุกรุ่นในหน้าเดียว" — /admin/prices */
 export async function PricesView(props: AdminViewServerProps) {
@@ -14,6 +15,7 @@ export async function PricesView(props: AdminViewServerProps) {
     payload.findGlobal({ slug: 'site-settings', depth: 0 }),
   ])
 
+  const ft = financeTable(settings)
   const rows = models.docs.map((m) => ({
     id: m.id,
     name: m.name,
@@ -41,9 +43,9 @@ export async function PricesView(props: AdminViewServerProps) {
       <Gutter className="hc-dash">
         <PriceEditor
           rows={rows}
-          rate={settings.financeRate ?? 0}
-          downPercent={settings.defaultDownPercent ?? 20}
-          term={settings.defaultTerm ?? 60}
+          rate={ft.rate(ft.defaultDown, ft.defaultTerm)}
+          downPercent={ft.defaultDown}
+          term={ft.defaultTerm}
         />
       </Gutter>
     </DefaultTemplate>

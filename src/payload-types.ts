@@ -853,10 +853,29 @@ export interface SiteSetting {
   contactEmail?: string | null;
   footerAbout?: string | null;
   /**
-   * ใส่เป็นเปอร์เซ็นต์ เช่น 2.89 — เครื่องคำนวณบนเว็บจะใช้ค่านี้ทันทีที่บันทึก
+   * ใช้เฉพาะช่องที่เว้นว่างในตารางดอกเบี้ยด้านล่าง (หรือเมื่อลบตารางทั้งหมด) — ใส่เป็นเปอร์เซ็นต์ เช่น 2.89
    */
   financeRate: number;
+  /**
+   * ลอกจากชีทไฟแนนซ์ของฝ่ายขาย · 1 แถว = 1 ระดับเงินดาวน์ · ใส่ดอกเบี้ยคงที่ต่อปี (%) ของแต่ละจำนวนงวด
+   */
+  financeRates?:
+    | {
+        down: number;
+        r48?: number | null;
+        r60?: number | null;
+        r72?: number | null;
+        r84?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * ต้องเป็นค่าที่มีในตารางดอกเบี้ย (ถ้าไม่มี เว็บจะใช้แถวที่ใกล้ที่สุด)
+   */
   defaultDownPercent?: number | null;
+  /**
+   * 48 / 60 / 72 / 84
+   */
   defaultTerm?: number | null;
   financeNote?: string | null;
   /**
@@ -1071,6 +1090,16 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   contactEmail?: T;
   footerAbout?: T;
   financeRate?: T;
+  financeRates?:
+    | T
+    | {
+        down?: T;
+        r48?: T;
+        r60?: T;
+        r72?: T;
+        r84?: T;
+        id?: T;
+      };
   defaultDownPercent?: T;
   defaultTerm?: T;
   financeNote?: T;

@@ -1,19 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { baht } from '@/lib/format'
-import { monthlyPayment } from '@/lib/finance'
+import { financeTable, TERMS } from '@/lib/finance'
 import type { CarModel, SiteSettings } from '@/lib/types'
-
-const TERMS = [48, 60, 72, 84]
 
 /** ตารางราคา/ค่างวดทุกรุ่น — เดสก์ท็อปเป็นตาราง มือถือเป็นการ์ด */
 export default function PriceTable({ models, settings }: { models: CarModel[]; settings: SiteSettings }) {
-  const [down, setDown] = useState(settings.defaultDownPercent ?? 20)
-  const [term, setTerm] = useState(settings.defaultTerm ?? 60)
-  const rate = settings.financeRate ?? 0
-  const rows = models.map((m) => ({ m, ...monthlyPayment(m.priceFrom, down, term, rate) }))
+  const ft = useMemo(() => financeTable(settings), [settings])
+  const downOpts = useMemo(() => [...ft.downs].sort((a, b) => a - b), [ft])
+  const [down, setDown] = useState(ft.defaultDown)
+  const [term, setTerm] = useState(ft.defaultTerm)
+  const rate = ft.rate(down, term)
+  const rows = models.map((m) => ({ m, ...ft.pay(m.priceFrom, down, term) }))
 
   return (
     <div className="stack" style={{ gap: 14 }}>
@@ -21,10 +21,14 @@ export default function PriceTable({ models, settings }: { models: CarModel[]; s
         <div className="grid-2">
           <div className="field">
             <div className="range-head">
-              <label htmlFor="pt-down">เงินดาวน์</label>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>เงินดาวน์</span>
               <b>{down}%</b>
             </div>
-            <input id="pt-down" type="range" min={0} max={50} step={5} value={down} onChange={(e) => setDown(Number(e.target.value))} />
+            <div className="terms" role="group" aria-label="เงินดาวน์" style={{ gridTemplateColumns: `repeat(${downOpts.length}, minmax(0, 1fr))` }}>
+              {downOpts.map((d) => (
+                <button key={d} type="button" className={down === d ? 'on' : ''} onClick={() => setDown(d)} aria-pressed={down === d}>{d}%</button>
+              ))}
+            </div>
           </div>
           <div className="field">
             <div className="range-head">
@@ -38,7 +42,7 @@ export default function PriceTable({ models, settings }: { models: CarModel[]; s
             </div>
           </div>
         </div>
-        <p className="fineprint">ดอกเบี้ยคงที่ {rate}% ต่อปี · ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นกับสถาบันการเงิน</p>
+        <p className="fineprint">ดอกเบี้ยคงที่ {rate}% ต่อปี (ดาวน์ {down}% · {term} งวด) · ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นกับสถาบันการเงิน</p>
       </div>
 
       <div className="price-table">

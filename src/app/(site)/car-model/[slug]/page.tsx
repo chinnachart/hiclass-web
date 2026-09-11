@@ -10,7 +10,7 @@ import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { carLd, faqLd } from '@/components/Jsonld'
 import { getSiteData, getModelBySlug } from '@/lib/data'
 import { baht, rangeLabel } from '@/lib/format'
-import { monthlyPayment } from '@/lib/finance'
+import { financeTable } from '@/lib/finance'
 import type { Media } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
@@ -34,7 +34,8 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
   if (!m) notFound()
   const { models, branches, settings } = site
   const gallery = (m.gallery || []).map(mediaOf).filter(Boolean) as Media[]
-  const { perMonth } = monthlyPayment(m.priceFrom, settings.defaultDownPercent ?? 20, settings.defaultTerm ?? 60, settings.financeRate ?? 0)
+  const ft = financeTable(settings)
+  const { perMonth } = ft.pay(m.priceFrom, ft.defaultDown, ft.defaultTerm)
   const others = models.filter((x) => x.id !== m.id).slice(0, 4)
 
   return (
@@ -53,7 +54,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               <small>บาท</small>
             </div>
             <p className="small mute">
-              หรือผ่อนเริ่มต้นประมาณ <b style={{ color: 'var(--ink)' }}>{baht(perMonth)} บาท/เดือน</b> · ดาวน์ {settings.defaultDownPercent ?? 20}% · {settings.defaultTerm ?? 60} งวด ·{' '}
+              หรือผ่อนเริ่มต้นประมาณ <b style={{ color: 'var(--ink)' }}>{baht(perMonth)} บาท/เดือน</b> · ดาวน์ {ft.defaultDown}% · {ft.defaultTerm} งวด ·{' '}
               <Link href={`/price/${m.slug}`} style={{ color: 'var(--red)', fontWeight: 600 }}>ดูตารางผ่อนเต็ม</Link>
             </p>
             {m.variants && m.variants.length > 0 ? (

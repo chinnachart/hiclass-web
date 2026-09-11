@@ -97,20 +97,44 @@ export const SiteSettings: GlobalConfig = {
               type: 'number',
               required: true,
               defaultValue: 2.89,
-              label: 'อัตราดอกเบี้ยคงที่ต่อปี (%)',
-              admin: { description: 'ใส่เป็นเปอร์เซ็นต์ เช่น 2.89 — เครื่องคำนวณบนเว็บจะใช้ค่านี้ทันทีที่บันทึก' },
+              label: 'อัตราดอกเบี้ยสำรอง (%)',
+              admin: { description: 'ใช้เฉพาะช่องที่เว้นว่างในตารางดอกเบี้ยด้านล่าง (หรือเมื่อลบตารางทั้งหมด) — ใส่เป็นเปอร์เซ็นต์ เช่น 2.89' },
+            },
+            {
+              name: 'financeRates',
+              type: 'array',
+              label: 'ตารางดอกเบี้ย ตามเงินดาวน์ × จำนวนงวด (ใช้กับทุกรุ่น)',
+              labels: { singular: 'แถวเงินดาวน์', plural: 'แถวเงินดาวน์' },
+              admin: {
+                description:
+                  'ลอกจากชีทไฟแนนซ์ของฝ่ายขาย · 1 แถว = 1 ระดับเงินดาวน์ · ใส่ดอกเบี้ยคงที่ต่อปี (%) ของแต่ละจำนวนงวด · หน้าเว็บแสดงเงินดาวน์ตามแถวที่มี เรียงมากไปน้อยให้เอง (30% อยู่บนสุด) และตัวเลื่อนในเครื่องคำนวณเลือกได้เฉพาะเงินดาวน์เหล่านี้ · ช่องไหนเว้นว่างจะใช้ "อัตราดอกเบี้ยสำรอง" ด้านบน',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'down', type: 'number', required: true, min: 0, max: 90, label: 'เงินดาวน์ (%)', admin: { width: '20%' } },
+                    { name: 'r48', type: 'number', min: 0, label: '48 งวด (%)', admin: { width: '20%', step: 0.01 } },
+                    { name: 'r60', type: 'number', min: 0, label: '60 งวด (%)', admin: { width: '20%', step: 0.01 } },
+                    { name: 'r72', type: 'number', min: 0, label: '72 งวด (%)', admin: { width: '20%', step: 0.01 } },
+                    { name: 'r84', type: 'number', min: 0, label: '84 งวด (%)', admin: { width: '20%', step: 0.01 } },
+                  ],
+                },
+              ],
             },
             {
               name: 'defaultDownPercent',
               type: 'number',
               defaultValue: 20,
               label: 'เงินดาวน์เริ่มต้น (%)',
+              admin: { description: 'ต้องเป็นค่าที่มีในตารางดอกเบี้ย (ถ้าไม่มี เว็บจะใช้แถวที่ใกล้ที่สุด) — ใช้กับค่างวดตัวแดงบนหัวหน้ารุ่นรถ/ตารางผ่อน และหน้าเปรียบเทียบ' },
             },
             {
               name: 'defaultTerm',
               type: 'number',
               defaultValue: 60,
               label: 'จำนวนงวดเริ่มต้น',
+              admin: { description: '48 / 60 / 72 / 84' },
             },
             {
               name: 'financeNote',

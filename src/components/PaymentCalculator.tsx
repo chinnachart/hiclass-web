@@ -4,10 +4,8 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Icon from './Icons'
 import { baht } from '@/lib/format'
-import { monthlyPayment } from '@/lib/finance'
+import { financeTable, TERMS } from '@/lib/finance'
 import type { CarModel, SiteSettings } from '@/lib/types'
-
-const TERMS = [48, 60, 72, 84]
 
 /**
  * เครื่องคำนวณค่างวด — ใช้ทั้งหน้าแรก (เลือกรุ่นได้) และหน้ารุ่นรถ (ล็อกรุ่น)
@@ -23,15 +21,16 @@ export default function PaymentCalculator({
   fixedModel?: CarModel
   compact?: boolean
 }) {
+  const ft = useMemo(() => financeTable(settings), [settings])
+  const downOpts = useMemo(() => [...ft.downs].sort((a, b) => a - b), [ft])
   const [modelIdx, setModelIdx] = useState(0)
-  const [down, setDown] = useState(settings.defaultDownPercent ?? 20)
-  const [term, setTerm] = useState(settings.defaultTerm ?? 60)
+  const [down, setDown] = useState(ft.defaultDown)
+  const [term, setTerm] = useState(ft.defaultTerm)
   const model = fixedModel ?? models[modelIdx]
-  const rate = settings.financeRate ?? 0
 
   const r = useMemo(
-    () => (model ? monthlyPayment(model.priceFrom, down, term, rate) : { down: 0, financed: 0, perMonth: 0 }),
-    [model, down, term, rate],
+    () => (model ? ft.pay(model.priceFrom, down, term) : { down: 0, financed: 0, perMonth: 0, rate: 0 }),
+    [model, down, term, ft],
   )
   if (!model) return null
 
@@ -57,10 +56,16 @@ export default function PaymentCalculator({
 
       <div className="field">
         <div className="range-head">
-          <label htmlFor="calc-down">เงินดาวน์</label>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>เงินดาวน์</span>
           <b>{down}% · {baht(r.down)} บาท</b>
         </div>
-        <input id="calc-down" type="range" min={0} max={50} step={5} value={down} onChange={(e) => setDown(Number(e.target.value))} />
+        <div className="terms" role="group" aria-label="เงินดาวน์" style={{ gridTemplateColumns: `repeat(${downOpts.length}, minmax(0, 1fr))` }}>
+          {downOpts.map((d) => (
+            <button key={d} type="button" className={down === d ? 'on' : ''} onClick={() => setDown(d)} aria-pressed={down === d}>
+              {d}%
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="field">
@@ -80,6 +85,7 @@ export default function PaymentCalculator({
       <div className="result">
         <div className="rrow"><span>ราคารถ</span><b>{baht(model.priceFrom)} บาท</b></div>
         <div className="rrow"><span>ยอดจัดไฟแนนซ์</span><b>{baht(r.financed)} บาท</b></div>
+        <div className="rrow"><span>ดอกเบี้ยคงที่ต่อปี</span><b>{r.rate}%</b></div>
         <div className="rrow hi"><span>ผ่อนต่อเดือนประมาณ</span><b>{baht(r.perMonth)} ฿</b></div>
       </div>
 
@@ -91,7 +97,7 @@ export default function PaymentCalculator({
         นัดทดลองขับ {model.name}
       </Link>
       <p className="fineprint">
-        ดอกเบี้ย {rate}% ต่อปี (แบบคงที่) · {settings.financeNote || 'ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับสถาบันการเงิน'}
+        ดอกเบี้ยคงที่ {r.rate}% ต่อปี ตามเงินดาวน์และจำนวนงวดที่เลือก · {settings.financeNote || 'ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับสถาบันการเงิน'}
       </p>
     </div>
   )

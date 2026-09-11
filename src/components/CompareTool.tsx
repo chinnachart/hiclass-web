@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Icon from './Icons'
 import CarImage from './CarImage'
 import { baht } from '@/lib/format'
-import { monthlyPayment } from '@/lib/finance'
+import { financeTable } from '@/lib/finance'
 import type { CarModel, SiteSettings } from '@/lib/types'
 
 const MAX = 3
@@ -26,9 +26,9 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
     setPicked((p) => (p.includes(slug) ? p.filter((s) => s !== slug) : p.length >= MAX ? [...p.slice(1), slug] : [...p, slug]))
 
   const chosen = picked.map((s) => models.find((m) => m.slug === s)!).filter(Boolean)
-  const rate = settings.financeRate ?? 0
-  const down = settings.defaultDownPercent ?? 20
-  const term = settings.defaultTerm ?? 60
+  const ft = financeTable(settings)
+  const down = ft.defaultDown
+  const term = ft.defaultTerm
 
   // รวมหัวข้อสเปกจากทุกรุ่นที่เลือก (เรียงตามลำดับที่พบครั้งแรก)
   const specLabels = useMemo(() => {
@@ -74,7 +74,7 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
               {chosen.map((m) => <Cell key={m.id} hi={m.priceFrom === cheapest}>{baht(m.priceFrom)} ฿</Cell>)}
             </Row>
             <Row label={`ผ่อน/เดือน (ดาวน์ ${down}% · ${term} งวด)`} cols={cols}>
-              {chosen.map((m) => <Cell key={m.id} hi={m.priceFrom === cheapest}>≈ {baht(monthlyPayment(m.priceFrom, down, term, rate).perMonth)} ฿</Cell>)}
+              {chosen.map((m) => <Cell key={m.id} hi={m.priceFrom === cheapest}>≈ {baht(ft.pay(m.priceFrom, down, term).perMonth)} ฿</Cell>)}
             </Row>
             <Row label="ระยะทาง (EV = ต่อการชาร์จ · DM-i = รวม)" cols={cols}>
               {chosen.map((m) => <Cell key={m.id} hi={!!m.rangeKm && m.rangeKm === longest}>{m.rangeKm ? `${m.rangeKm} กม.${m.powertrain === 'phev' ? ' (รวม)' : ''}` : '—'}</Cell>)}

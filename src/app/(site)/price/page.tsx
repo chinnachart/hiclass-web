@@ -6,6 +6,7 @@ import PriceTable from '@/components/PriceTable'
 import Jsonld, { faqLd } from '@/components/Jsonld'
 import { getSiteData } from '@/lib/data'
 import { baht } from '@/lib/format'
+import { financeTable, rateRangeText } from '@/lib/finance'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,16 +17,16 @@ export const metadata: Metadata = {
   alternates: { canonical: '/price' },
 }
 
-const FAQ = [
+const buildFaq = (minDown: number, rateTxt: string) => [
   {
     question: 'ผ่อน BYD เดือนละเท่าไหร่',
     answer:
-      'ขึ้นอยู่กับรุ่น เงินดาวน์ และจำนวนงวด ตารางในหน้านี้คำนวณให้ทันทีเมื่อปรับเงินดาวน์และงวด โดยใช้อัตราดอกเบี้ยคงที่ที่ใช้อยู่จริง ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับการอนุมัติของสถาบันการเงิน',
+      `ขึ้นอยู่กับรุ่น เงินดาวน์ และจำนวนงวด ตารางในหน้านี้คำนวณให้ทันทีเมื่อปรับเงินดาวน์และงวด โดยใช้อัตราดอกเบี้ยคงที่ที่ใช้อยู่จริง (${rateTxt} ต่อปี ตามเงินดาวน์และจำนวนงวด) ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับการอนุมัติของสถาบันการเงิน`,
   },
   {
     question: 'ดาวน์น้อยที่สุดได้เท่าไหร่',
     answer:
-      'ปกติเริ่มที่ 0–20% ขึ้นอยู่กับรุ่น โปรโมชันช่วงนั้น และผลอนุมัติสินเชื่อของลูกค้าแต่ละราย ทีมขายช่วยประเมินให้ก่อนได้',
+      `ตารางผ่อนตอนนี้เริ่มที่ดาวน์ ${minDown}% ดาวน์มากและผ่อนสั้น ดอกเบี้ยยิ่งต่ำ เงื่อนไขจริงขึ้นอยู่กับโปรโมชันช่วงนั้น และผลอนุมัติสินเชื่อของลูกค้าแต่ละราย ทีมขายช่วยประเมินให้ก่อนได้`,
   },
   {
     question: 'ราคานี้รวมอะไรบ้าง',
@@ -42,6 +43,8 @@ const FAQ = [
 export default async function PricePage() {
   const { models, settings } = await getSiteData()
   const cheapest = models.reduce((a, b) => (a.priceFrom < b.priceFrom ? a : b), models[0])
+  const ft = financeTable(settings)
+  const FAQ = buildFaq(Math.min(...ft.downs), rateRangeText(ft))
 
   return (
     <>
