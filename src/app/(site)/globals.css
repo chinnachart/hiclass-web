@@ -339,6 +339,9 @@ input[type="range"] { width: 100%; height: 28px; margin: 0; accent-color: var(--
 .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 @media (min-width: 900px) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
 .gallery .g { position: relative; aspect-ratio: 4 / 3; background: var(--soft); border-radius: var(--radius-sm); overflow: hidden; }
+/* รูปส่งมอบเป็นจัตุรัส และบนจอใหญ่โชว์ได้ 4 คอลัมน์ (zip #27) */
+.gallery-sq .g { aspect-ratio: 1 / 1; }
+@media (min-width: 900px) { .gallery-sq { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 /* ---------- FAQ ---------- */
 .faq { display: grid; gap: 8px; }

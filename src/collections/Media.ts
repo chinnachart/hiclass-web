@@ -34,9 +34,26 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      required: true,
+      // ไม่บังคับแล้ว (zip #26) — ตอนอัปหลายสิบรูปพร้อมกันจะได้ไม่ต้องพิมพ์ทีละอัน
+      // ถ้าเว้นว่าง ระบบจะเติมให้จากชื่อไฟล์ แล้วค่อยกลับมาแก้ให้ตรงทีหลังได้
       label: 'คำอธิบายรูป',
-      admin: { description: 'อธิบายสั้นๆ ว่ารูปนี้คืออะไร เช่น "BYD Sealion 7 สีขาว มุมหน้า" — Google ใช้ข้อความนี้' },
+      admin: {
+        description:
+          'อธิบายสั้นๆ ว่ารูปนี้คืออะไร เช่น "BYD Sealion 7 สีขาว มุมหน้า" — Google ใช้ข้อความนี้ · เว้นว่างได้ ระบบจะเติมจากชื่อไฟล์ให้ก่อน แต่เขียนเองจะได้อันดับดีกว่า',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value, data }) => {
+            if (value && String(value).trim()) return value
+            const name = String(data?.filename || '')
+              .replace(/\.[^.]+$/, '')
+              .replace(/[-_]+/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim()
+            return name || 'รูปภาพจาก BYD Hi-Class EV Car'
+          },
+        ],
+      },
     },
   ],
 }

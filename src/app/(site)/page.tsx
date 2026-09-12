@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Icon from '@/components/Icons'
 import CarImage from '@/components/CarImage'
@@ -6,7 +7,7 @@ import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
 import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
-import { getSiteData } from '@/lib/data'
+import { getSiteData, getDeliveryPhotos } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,6 +18,7 @@ const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', 
 
 export default async function HomePage() {
   const { models, branches, promotions, news, settings } = await getSiteData()
+  const deliveryPhotos = await getDeliveryPhotos(8)
   const heroModel = models[0]
 
   return (
@@ -92,6 +94,32 @@ export default async function HomePage() {
               <Link className="sec-link" href="/promotion">ดูทั้งหมด <Icon name="chev" size={16} /></Link>
             </div>
             <PromoGrid promotions={promotions} limit={3} />
+          </section>
+        ) : null}
+
+        {/* ---------- ภาพส่งมอบ (zip #27) ---------- */}
+        {deliveryPhotos.length > 0 ? (
+          <section className="section" id="delivery">
+            <div className="sec-head">
+              <div>
+                <h2>ลูกค้าที่รับรถไปแล้ว</h2>
+                <p>บรรยากาศวันส่งมอบจริงจากทุกสาขา</p>
+              </div>
+              <Link className="sec-link" href="/delivery">ดูทั้งหมด <Icon name="chev" size={16} /></Link>
+            </div>
+            <div className="gallery gallery-sq">
+              {deliveryPhotos.map((p) => (
+                <div className="g" key={p.id}>
+                  <Image
+                    src={p.url as string}
+                    alt={p.alt || 'ลูกค้ารับมอบรถ BYD ที่โชว์รูม BYD Hi-Class EV Car'}
+                    fill
+                    sizes="(max-width: 900px) 50vw, 300px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+              ))}
+            </div>
           </section>
         ) : null}
 

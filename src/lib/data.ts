@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Branch, CarModel, NewsItem, PageContent, Promotion, SiteSettings } from './types'
+import type { Branch, CarModel, Media, NewsItem, PageContent, Promotion, SiteSettings } from './types'
 
 export const SITE_CACHE_TAG = 'site-content'
 
@@ -117,3 +117,22 @@ async function loadNewsList(limit: number) {
   return res.docs
 }
 export const getNewsList = unstable_cache(loadNewsList, ['news-list'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
+
+// --- รูปส่งมอบรถของลูกค้า (zip #27) ---
+// ดึงจากคลังรูปโดยตรง ทุกไฟล์ที่ชื่อขึ้นต้นด้วย delivery- จะขึ้นหน้าแกลเลอรีอัตโนมัติ
+// ทีมแค่อัปโหลดรูปแล้วตั้งชื่อไฟล์ให้ถูก ไม่ต้องมากดเลือกทีละรูปในหลังบ้าน
+async function loadDeliveryPhotos(limit: number) {
+  const payload = await getPayload({ config })
+  const res = await payload.find({
+    collection: 'media',
+    where: { filename: { like: 'delivery-' } },
+    sort: 'filename',
+    limit,
+    depth: 0,
+  })
+  return res.docs as unknown as Media[]
+}
+export const getDeliveryPhotos = unstable_cache(loadDeliveryPhotos, ['delivery-photos'], {
+  revalidate: 300,
+  tags: [SITE_CACHE_TAG],
+})
