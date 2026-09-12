@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { revalidateSite } from '../lib/revalidate'
+import { revalidateSite, revalidateAndPing } from '../lib/revalidate'
 import { IMG } from '../lib/imageSpecs'
 
 export const News: CollectionConfig = {
@@ -12,7 +12,7 @@ export const News: CollectionConfig = {
   },
   access: { read: () => true },
   hooks: {
-    afterChange: [revalidateSite],
+    afterChange: [revalidateAndPing((d) => ['/news', `/news/${d.slug}`])],
     afterDelete: [revalidateSite],
   },
   versions: { drafts: true },

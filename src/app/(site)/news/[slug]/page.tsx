@@ -8,11 +8,12 @@ import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical
 import Icon from '@/components/Icons'
 import { mediaOf } from '@/components/CarImage'
 import { thDate } from '@/components/Cards'
+import Jsonld, { articleLd, breadcrumbLd } from '@/components/Jsonld'
 import type { Media, NewsItem } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
 
-type Article = NewsItem & { coverImage?: Media | number | null; content?: SerializedEditorState | null }
+type Article = NewsItem & { coverImage?: Media | number | null; content?: SerializedEditorState | null; updatedAt?: string | null }
 
 async function getArticle(slug: string) {
   return ((await getNewsBySlug(slug)) as unknown as Article) || null
@@ -45,6 +46,8 @@ export default async function NewsArticle({ params }: { params: Promise<{ slug: 
   const cover = mediaOf(a.coverImage)
   return (
     <>
+      <Jsonld data={articleLd({ title: a.title, slug: a.slug, excerpt: a.excerpt, publishedAt: a.publishedAt, updatedAt: a.updatedAt, imageUrl: cover?.url })} />
+      <Jsonld data={breadcrumbLd([{ name: 'ข่าวสารและกิจกรรม', path: '/news' }, { name: a.title, path: `/news/${a.slug}` }])} />
       <section className="page-head">
         <div className="container" style={{ maxWidth: 820 }}>
           <Link href="/news" className="sec-link" style={{ marginBottom: 10 }}><Icon name="back" size={16} />ข่าวทั้งหมด</Link>

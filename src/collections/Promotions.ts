@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { revalidateSite } from '../lib/revalidate'
+import { revalidateSite, revalidateAndPing } from '../lib/revalidate'
 import { IMG } from '../lib/imageSpecs'
 
 export const Promotions: CollectionConfig = {
@@ -13,7 +13,7 @@ export const Promotions: CollectionConfig = {
   },
   access: { read: () => true },
   hooks: {
-    afterChange: [revalidateSite],
+    afterChange: [revalidateAndPing(() => ['/', '/promotion'])],
     afterDelete: [revalidateSite],
   },
   fields: [

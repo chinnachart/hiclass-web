@@ -4,7 +4,7 @@ import CarImage from '@/components/CarImage'
 import ModelGrid from '@/components/ModelGrid'
 import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
-import Jsonld, { dealerLd } from '@/components/Jsonld'
+import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
 import { getSiteData } from '@/lib/data'
 
@@ -22,6 +22,8 @@ export default async function HomePage() {
   return (
     <>
       <Jsonld data={dealerLd(branches)} />
+      <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
+      <Jsonld data={webSiteLd()} />
 
       {/* ---------- Hero ---------- */}
       <section className="hero">

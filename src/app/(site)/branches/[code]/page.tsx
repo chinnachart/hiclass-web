@@ -6,7 +6,7 @@ import Icon from '@/components/Icons'
 import { mediaOf } from '@/components/CarImage'
 import { BranchCard } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
-import Jsonld, { SITE } from '@/components/Jsonld'
+import Jsonld, { SITE, breadcrumbLd } from '@/components/Jsonld'
 import { getSiteData } from '@/lib/data'
 import type { Media } from '@/lib/types'
 
@@ -52,6 +52,7 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
   return (
     <>
       <Jsonld data={ld} />
+      <Jsonld data={breadcrumbLd([{ name: 'สาขาของเรา', path: '/branches' }, { name: `BYD Hi-Class ${b.name}`, path: `/branches/${b.code}` }])} />
       <section className="page-head">
         <div className="container">
           <p className="kicker"><Icon name="pin" size={14} />สาขา{b.name}{b.nameEn ? ` · ${b.nameEn}` : ''}</p>

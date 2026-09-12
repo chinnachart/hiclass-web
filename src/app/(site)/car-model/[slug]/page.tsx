@@ -7,7 +7,7 @@ import CarImage, { mediaOf } from '@/components/CarImage'
 import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, Faq } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
-import Jsonld, { carLd, faqLd } from '@/components/Jsonld'
+import Jsonld, { carLd, faqLd, breadcrumbLd } from '@/components/Jsonld'
 import { getSiteData, getModelBySlug } from '@/lib/data'
 import { baht, rangeLabel } from '@/lib/format'
 import { financeTable } from '@/lib/finance'
@@ -40,7 +40,8 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
 
   return (
     <>
-      <Jsonld data={carLd(m)} />
+      <Jsonld data={carLd({ ...m, imageUrl: mediaOf(m.heroImage)?.url })} />
+      <Jsonld data={breadcrumbLd([{ name: 'รุ่นรถ', path: '/car-model' }, { name: `BYD ${m.name}`, path: `/car-model/${m.slug}` }])} />
       {m.faq && m.faq.length > 0 ? <Jsonld data={faqLd(m.faq)} /> : null}
 
       <section className="model-hero">

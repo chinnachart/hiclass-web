@@ -7,22 +7,19 @@ import Tracking from '@/components/Tracking'
 import { Analytics } from '@vercel/analytics/next'
 import { getSiteData } from '@/lib/data'
 // ฟอนต์เก็บในเว็บเราเอง (zip #22) — เดิมโหลดจาก Google Fonts ทำให้หน้าแรกค้างรอ CSS ภายนอก
-import '@fontsource/kanit/thai-400.css'
-import '@fontsource/kanit/latin-400.css'
+// zip #24: เหลือเฉพาะน้ำหนักที่เว็บใช้จริง Kanit 500/600 (หัวข้อ) · Noto Sans Thai 400/700 (เนื้อความ)
+// จาก 16 ไฟล์เหลือ 8 ไฟล์ — ลดคิวโหลดบนมือถือ 4G
 import '@fontsource/kanit/thai-500.css'
 import '@fontsource/kanit/latin-500.css'
 import '@fontsource/kanit/thai-600.css'
 import '@fontsource/kanit/latin-600.css'
-import '@fontsource/kanit/thai-700.css'
-import '@fontsource/kanit/latin-700.css'
 import '@fontsource/noto-sans-thai/thai-400.css'
 import '@fontsource/noto-sans-thai/latin-400.css'
-import '@fontsource/noto-sans-thai/thai-500.css'
-import '@fontsource/noto-sans-thai/latin-500.css'
-import '@fontsource/noto-sans-thai/thai-600.css'
-import '@fontsource/noto-sans-thai/latin-600.css'
 import '@fontsource/noto-sans-thai/thai-700.css'
 import '@fontsource/noto-sans-thai/latin-700.css'
+// 2 ไฟล์ที่ใช้ตั้งแต่บรรทัดแรกของหน้า — บอกเบราว์เซอร์ให้เริ่มโหลดพร้อม CSS ไม่ต้องรออ่าน CSS จบก่อน
+import notoThai400 from '@fontsource/noto-sans-thai/files/noto-sans-thai-thai-400-normal.woff2'
+import kanitThai600 from '@fontsource/kanit/files/kanit-thai-600-normal.woff2'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -44,6 +41,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <html lang="th">
       <head>
         {settings.googleSiteVerification ? <meta name="google-site-verification" content={settings.googleSiteVerification} /> : null}
+        <link rel="preload" as="font" type="font/woff2" href={notoThai400} crossOrigin="anonymous" />
+        <link rel="preload" as="font" type="font/woff2" href={kanitThai600} crossOrigin="anonymous" />
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body>

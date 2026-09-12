@@ -5,7 +5,7 @@ import Icon from '@/components/Icons'
 import CarImage from '@/components/CarImage'
 import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, Faq } from '@/components/Cards'
-import Jsonld, { carLd, faqLd } from '@/components/Jsonld'
+import Jsonld, { carLd, faqLd, breadcrumbLd } from '@/components/Jsonld'
 import { getSiteData, getModelBySlug } from '@/lib/data'
 import { baht } from '@/lib/format'
 import { financeTable, rateRangeText, TERMS } from '@/lib/finance'
@@ -65,6 +65,7 @@ export default async function ModelPricePage({ params }: { params: Promise<{ slu
     <>
       <Jsonld data={carLd(m)} />
       <Jsonld data={faqLd(faq)} />
+      <Jsonld data={breadcrumbLd([{ name: 'ราคาและตารางผ่อน', path: '/price' }, { name: `BYD ${m.name}`, path: `/price/${m.slug}` }])} />
 
       <section className="page-head">
         <div className="container">
