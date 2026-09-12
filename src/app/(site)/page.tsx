@@ -21,7 +21,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Jsonld data={dealerLd(branches)} />
+      <Jsonld data={dealerLd(branches, models.map((m) => m.priceFrom))} />
       <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
       <Jsonld data={webSiteLd()} />
 

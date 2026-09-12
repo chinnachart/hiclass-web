@@ -7,6 +7,7 @@ import { mediaOf } from '@/components/CarImage'
 import { BranchCard } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { SITE, breadcrumbLd } from '@/components/Jsonld'
+import { thaiAddressLd, openingHoursLd, priceRangeOf } from '@/lib/localbiz'
 import { getSiteData } from '@/lib/data'
 import type { Media } from '@/lib/types'
 
@@ -38,8 +39,13 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
     telephone: b.phone,
     ...(settings.contactEmail ? { email: settings.contactEmail } : {}),
     url: `${SITE}/branches/${b.code}`,
-    openingHours: b.openHours || undefined,
-    ...(b.address ? { address: { '@type': 'PostalAddress', streetAddress: b.address, addressCountry: 'TH' } } : {}),
+    // เวลาทำการแบบที่ Google อ่านได้ (แปลงจากข้อความไทยในหลังบ้าน) + ข้อความเดิมไว้ให้คนอ่าน
+    ...(openingHoursLd(b.openHours) ? { openingHoursSpecification: openingHoursLd(b.openHours) } : {}),
+    ...(b.openHours ? { openingHours: b.openHours } : {}),
+    ...(thaiAddressLd(b.address) ? { address: thaiAddressLd(b.address) } : {}),
+    // Google ขอรูปกับช่วงราคากับธุรกิจที่มีหน้าร้าน — ไม่มีรูปสาขาก็ใช้รูปรถที่สาขานี้มีให้ลองขับ
+    image: photos[0]?.url || mediaOf(models[0]?.heroImage)?.url || `${SITE}/opengraph-image.png`,
+    priceRange: priceRangeOf(models.map((x) => x.priceFrom)),
     ...(b.mapUrl ? { hasMap: b.mapUrl } : {}),
     // เพจโซเชียลของสาขา — ช่วยให้ Google ผูกโชว์รูมกับเพจจริงได้
     ...(() => {

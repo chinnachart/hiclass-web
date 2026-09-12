@@ -15,7 +15,7 @@ export default async function CarModelIndex() {
   const { models, branches } = await getSiteData()
   return (
     <>
-      <Jsonld data={dealerLd(branches)} />
+      <Jsonld data={dealerLd(branches, models.map((m) => m.priceFrom))} />
       <section className="page-head">
         <div className="container">
           <p className="kicker">Car Model</p>

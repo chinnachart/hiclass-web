@@ -12,10 +12,14 @@ export default function Jsonld({ data }: { data: Record<string, unknown> }) {
 }
 
 import { AWARD_NAMES } from '@/lib/awards'
+import { thaiAddressLd, priceRangeOf } from '@/lib/localbiz'
 
 export const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://hiclassevcar.com'
 
-export const dealerLd = (branches: { name: string; phone: string; address?: string | null; code: string }[]) => ({
+export const dealerLd = (
+  branches: { name: string; phone: string; address?: string | null; code: string }[],
+  prices: number[] = [],
+) => ({
   '@context': 'https://schema.org',
   '@type': 'AutoDealer',
   name: 'BYD Hi-Class EV Car',
@@ -23,12 +27,17 @@ export const dealerLd = (branches: { name: string; phone: string; address?: stri
   brand: { '@type': 'Brand', name: 'BYD' },
   areaServed: 'กรุงเทพมหานครและปริมณฑล',
   award: AWARD_NAMES,
+  // Google ขอรูปกับช่วงราคาสำหรับธุรกิจที่มีหน้าร้าน (zip #25)
+  image: `${SITE}/opengraph-image.png`,
+  priceRange: priceRangeOf(prices),
   department: branches.map((b) => ({
     '@type': 'AutoDealer',
     name: `BYD Hi-Class ${b.name}`,
     telephone: b.phone,
     url: `${SITE}/branches/${b.code}`,
-    ...(b.address ? { address: { '@type': 'PostalAddress', streetAddress: b.address, addressCountry: 'TH' } } : {}),
+    image: `${SITE}/opengraph-image.png`,
+    priceRange: priceRangeOf(prices),
+    ...(thaiAddressLd(b.address) ? { address: thaiAddressLd(b.address) } : {}),
   })),
 })
 
@@ -57,7 +66,7 @@ export const carLd = (m: {
     price: m.priceFrom,
     priceCurrency: 'THB',
     availability: 'https://schema.org/InStock',
-    seller: { '@type': 'AutoDealer', name: 'BYD Hi-Class EV Car' },
+    seller: { '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'BYD Hi-Class EV Car', url: SITE },
   },
 })
 
