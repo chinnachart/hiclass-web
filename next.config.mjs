@@ -20,6 +20,7 @@ const nextConfig = {
     // โดเมนอื่นที่บริษัทถือ → โดเมนหลัก (zip #22) · ต้องเพิ่มโดเมนเข้าโปรเจกต์ใน Vercel ก่อน ไม่งั้นกฎนี้ไม่ทำงาน
     const H = (host, destination, source = '/:path*') => ({ source, has: [{ type: 'host', value: host }], destination, permanent: true })
     const MAIN = 'https://hiclassevcar.com'
+    const BR = '(ladprao|rama5|ratchada|kanchana|bonmarche)'
     return [
       // --- โดเมนเสริม: ต้องอยู่บนสุด (Next ใช้กฎแรกที่แมตช์) ---
       H('hiclass-web\\.vercel\\.app', `${MAIN}/:path`, '/:path((?!api/).*)'), // ไม่แตะ /api เผื่อระบบอื่นเรียก
@@ -27,6 +28,27 @@ const nextConfig = {
       H('(www\\.)?bydhiclassratchada\\.com', `${MAIN}/branches/ratchada`),
       H('(www\\.)?bydhiclassrama5\\.com', `${MAIN}/branches/rama5`),
       H('(www\\.)?hiclassbangkok\\.com', `${MAIN}/branches/kanchana`),
+      // --- เว็บสาขาเดิมบน hostatom (bydhiclass*.com) ส่งต่อมาพร้อมชื่อหน้า → จับคู่กับหน้าใหม่ (zip #23) ---
+      // ต้องตั้ง Forwarding ใน Plesk ให้ปลายทางมี / ปิดท้าย เช่น https://hiclassevcar.com/branches/ladprao/
+      R(`/branches/:code${BR}/byd-atto-3`, '/car-model/atto-3'),
+      R(`/branches/:code${BR}/byd-atto-2`, '/car-model/atto-2'),
+      R(`/branches/:code${BR}/byd-atto-1`, '/car-model/atto-1'),
+      R(`/branches/:code${BR}/byd-dolphin`, '/car-model/dolphin'),
+      R(`/branches/:code${BR}/byd-seal-5`, '/car-model/seal-5'),
+      R(`/branches/:code${BR}/byd-seal-6`, '/car-model/seal-6'),
+      R(`/branches/:code${BR}/byd-seal`, '/car-model/seal-6'),
+      R(`/branches/:code${BR}/byd-seal-u`, '/car-model/sealion-6'),
+      R(`/branches/:code${BR}/byd-sealion-7`, '/car-model/sealion-7'),
+      R(`/branches/:code${BR}/byd-sealion-6`, '/car-model/sealion-6'),
+      R(`/branches/:code${BR}/byd-sealion-5`, '/car-model/sealion-5'),
+      R(`/branches/:code${BR}/byd-m6`, '/car-model/m6'),
+      R(`/branches/:code${BR}/byd-model`, '/car-model'),
+      R(`/branches/:code${BR}/byd-t3`, '/car-model'),
+      R(`/branches/:code${BR}/category/promotion`, '/promotion'),
+      R(`/branches/:code${BR}/category/:c*`, '/news'),
+      R(`/branches/:code${BR}/tag/:t*`, '/news'),
+      // ที่เหลือทั้งหมดของเว็บสาขาเดิม → หน้าสาขานั้น
+      { source: `/branches/:code${BR}/:path+`, destination: '/branches/:code', permanent: true },
       // --- sitemap ของ Rank Math เดิม (Search Console ยังอ่านอยู่) ---
       R('/sitemap_index.xml', '/sitemap.xml'),
       R('/:file(.+-sitemap\\d*\\.xml)', '/sitemap.xml'),
