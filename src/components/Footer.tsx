@@ -16,7 +16,7 @@ export default function Footer({
       <div className="container">
         <div className="footer-grid">
           <div>
-            <Image src="/brand/hiclass-logo.png" alt="BYD Hi-Class EV Car" width={1200} height={107} style={{ width: 'auto', height: 26, marginBottom: 14 }} />
+            <Image src="/brand/hiclass-logo.png" alt="BYD Hi-Class EV Car" width={1200} height={107} sizes="300px" style={{ width: 'auto', height: 26, marginBottom: 14 }} />
             <p>
               {settings.footerAbout ||
                 `ผู้จำหน่ายรถยนต์ BYD อย่างเป็นทางการ ${branches.length} สาขาในกรุงเทพฯ และปริมณฑล ดูแลตั้งแต่เลือกรุ่น จัดไฟแนนซ์ ส่งมอบ ไปจนถึงศูนย์บริการ`}

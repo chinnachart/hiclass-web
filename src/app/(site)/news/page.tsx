@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import { thDate } from '@/components/Cards'
+import { getNewsList } from '@/lib/data'
 import type { NewsItem } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
@@ -16,9 +15,7 @@ export const metadata: Metadata = {
 const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ' }
 
 export default async function NewsIndex() {
-  const payload = await getPayload({ config })
-  const res = await payload.find({ collection: 'news', sort: '-publishedAt', limit: 30, depth: 0 })
-  const news = res.docs as unknown as NewsItem[]
+  const news = (await getNewsList(30)) as unknown as NewsItem[]
   return (
     <>
       <section className="page-head">

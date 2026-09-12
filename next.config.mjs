@@ -17,7 +17,19 @@ const nextConfig = {
   // เรียงจากเจาะจง → กว้าง (Next ใช้กฎแรกที่แมตช์) · แหล่งที่มา: sitemap ของ Rank Math บนเว็บเก่า
   async redirects() {
     const R = (source, destination) => ({ source, destination, permanent: true })
+    // โดเมนอื่นที่บริษัทถือ → โดเมนหลัก (zip #22) · ต้องเพิ่มโดเมนเข้าโปรเจกต์ใน Vercel ก่อน ไม่งั้นกฎนี้ไม่ทำงาน
+    const H = (host, destination, source = '/:path*') => ({ source, has: [{ type: 'host', value: host }], destination, permanent: true })
+    const MAIN = 'https://hiclassevcar.com'
     return [
+      // --- โดเมนเสริม: ต้องอยู่บนสุด (Next ใช้กฎแรกที่แมตช์) ---
+      H('hiclass-web\\.vercel\\.app', `${MAIN}/:path`, '/:path((?!api/).*)'), // ไม่แตะ /api เผื่อระบบอื่นเรียก
+      H('(www\\.)?bydhiclassladprao\\.com', `${MAIN}/branches/ladprao`),
+      H('(www\\.)?bydhiclassratchada\\.com', `${MAIN}/branches/ratchada`),
+      H('(www\\.)?bydhiclassrama5\\.com', `${MAIN}/branches/rama5`),
+      H('(www\\.)?hiclassbangkok\\.com', `${MAIN}/branches/kanchana`),
+      // --- sitemap ของ Rank Math เดิม (Search Console ยังอ่านอยู่) ---
+      R('/sitemap_index.xml', '/sitemap.xml'),
+      R('/:file(.+-sitemap\\d*\\.xml)', '/sitemap.xml'),
       // --- แคมเปญ / landing page ที่ใช้ยิงแอด (ไม่อยู่ใน sitemap เดิม) ---
       R('/ev/car', '/test-drive'), // Final URL ของ Google Ads เดิม (ad group BYD Model) — ก่อนย้ายแอดมาชี้หน้าใหม่
       R('/ev/car/:path*', '/test-drive'),
@@ -62,6 +74,15 @@ const nextConfig = {
       R('/dm-i:rest(.*)', '/news'),
       R('/ev-123', '/news'),
       R('/feed', '/news'),
+      // --- URL ระบบของ WordPress ที่ Google เคยเก็บไว้ (zip #21) ---
+      R('/feed/:path*', '/news'),
+      R('/comments/feed', '/news'),
+      R('/tag/:path*', '/news'),
+      R('/author/:path*', '/news'),
+      R('/page/:n(\\d+)', '/news'), // หน้าแบ่งหน้าบทความของ WP
+      R('/:slug/feed', '/news'),
+      // /?p=123 (ลิงก์สั้นของ WP) → ข่าว · /wp-content/uploads/* ปล่อย 404 (รูปเก่าไม่มีแล้ว = ถูกต้องสำหรับ Google)
+      { source: '/', has: [{ type: 'query', key: 'p' }], destination: '/news', permanent: true },
     ]
   },
 }

@@ -10,6 +10,9 @@ import { getSiteData } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
 
+// หน้าแรกไม่มี canonical → /?utm=… /?fbclid=… ถูกนับเป็นคนละหน้า
+export const metadata = { alternates: { canonical: '/' } }
+
 const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ' }
 
 export default async function HomePage() {

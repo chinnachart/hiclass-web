@@ -37,7 +37,7 @@ async function loadSiteData() {
       limit: 12,
       depth: 1,
     }),
-    payload.find({ collection: 'news', sort: '-publishedAt', limit: 3, depth: 1 }),
+    payload.find({ collection: 'news', where: { _status: { equals: 'published' } }, sort: '-publishedAt', limit: 3, depth: 1 }),
     payload.findGlobal({ slug: 'site-settings', depth: 0 }),
   ])
 
@@ -76,8 +76,8 @@ export const getPageContent = unstable_cache(loadPageContent, ['page-content'], 
   tags: [SITE_CACHE_TAG],
 })
 
-/** ดึงรุ่นรถรายคัน สำหรับหน้ารายละเอียด */
-export async function getModelBySlug(slug: string) {
+/** ดึงรุ่นรถรายคัน สำหรับหน้ารายละเอียด (แคชเหมือน getSiteData — เดิมยิง DB 2 รอบทุกครั้งที่เปิดหน้า) */
+async function loadModelBySlug(slug: string) {
   const payload = await getPayload({ config })
   const res = await payload.find({
     collection: 'car-models',
@@ -87,9 +87,10 @@ export async function getModelBySlug(slug: string) {
   })
   return (res.docs[0] as unknown as CarModel) || null
 }
+export const getModelBySlug = unstable_cache(loadModelBySlug, ['model-by-slug'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
 
 /** รายชื่อ slug ทั้งหมด สำหรับสร้างหน้าล่วงหน้าและ sitemap */
-export async function getAllModelSlugs() {
+async function loadAllModelSlugs() {
   const payload = await getPayload({ config })
   const res = await payload.find({
     collection: 'car-models',
@@ -100,3 +101,19 @@ export async function getAllModelSlugs() {
   })
   return res.docs as unknown as { slug: string; updatedAt: string }[]
 }
+export const getAllModelSlugs = unstable_cache(loadAllModelSlugs, ['model-slugs'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
+
+// --- ข่าว (เฉพาะที่เผยแพร่แล้ว) ---
+async function loadNewsBySlug(slug: string) {
+  const payload = await getPayload({ config })
+  const res = await payload.find({ collection: 'news', where: { slug: { equals: slug }, _status: { equals: 'published' } }, limit: 1, depth: 1 })
+  return res.docs[0] || null
+}
+export const getNewsBySlug = unstable_cache(loadNewsBySlug, ['news-by-slug'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
+
+async function loadNewsList(limit: number) {
+  const payload = await getPayload({ config })
+  const res = await payload.find({ collection: 'news', where: { _status: { equals: 'published' } }, sort: '-publishedAt', limit, depth: 0 })
+  return res.docs
+}
+export const getNewsList = unstable_cache(loadNewsList, ['news-list'], { revalidate: 300, tags: [SITE_CACHE_TAG] })

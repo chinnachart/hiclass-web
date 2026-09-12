@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next'
-import { getSiteData, getAllModelSlugs } from '@/lib/data'
+import { getSiteData, getAllModelSlugs, getNewsList } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://hiclassevcar.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [{ branches }, models] = await Promise.all([getSiteData(), getAllModelSlugs()])
+  const [{ branches }, models, news] = await Promise.all([getSiteData(), getAllModelSlugs(), getNewsList(500)])
 
   return [
     { url: SITE, changeFrequency: 'weekly', priority: 1 },
@@ -40,6 +40,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE}/branches/${b.code}`,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+    })),
+    ...news.map((n) => ({
+      url: `${SITE}/news/${n.slug}`,
+      lastModified: n.updatedAt ? new Date(n.updatedAt) : undefined,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
     })),
   ]
 }

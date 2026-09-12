@@ -6,6 +6,23 @@ import CookieConsent from '@/components/CookieConsent'
 import Tracking from '@/components/Tracking'
 import { Analytics } from '@vercel/analytics/next'
 import { getSiteData } from '@/lib/data'
+// ฟอนต์เก็บในเว็บเราเอง (zip #22) — เดิมโหลดจาก Google Fonts ทำให้หน้าแรกค้างรอ CSS ภายนอก
+import '@fontsource/kanit/thai-400.css'
+import '@fontsource/kanit/latin-400.css'
+import '@fontsource/kanit/thai-500.css'
+import '@fontsource/kanit/latin-500.css'
+import '@fontsource/kanit/thai-600.css'
+import '@fontsource/kanit/latin-600.css'
+import '@fontsource/kanit/thai-700.css'
+import '@fontsource/kanit/latin-700.css'
+import '@fontsource/noto-sans-thai/thai-400.css'
+import '@fontsource/noto-sans-thai/latin-400.css'
+import '@fontsource/noto-sans-thai/thai-500.css'
+import '@fontsource/noto-sans-thai/latin-500.css'
+import '@fontsource/noto-sans-thai/thai-600.css'
+import '@fontsource/noto-sans-thai/latin-600.css'
+import '@fontsource/noto-sans-thai/thai-700.css'
+import '@fontsource/noto-sans-thai/latin-700.css'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -27,12 +44,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <html lang="th">
       <head>
         {settings.googleSiteVerification ? <meta name="google-site-verification" content={settings.googleSiteVerification} /> : null}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
-        />
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body>

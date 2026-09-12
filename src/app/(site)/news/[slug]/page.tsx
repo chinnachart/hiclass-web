@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+import { getNewsBySlug } from '@/lib/data'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import Icon from '@/components/Icons'
@@ -16,16 +15,27 @@ export const dynamic = 'force-dynamic'
 type Article = NewsItem & { coverImage?: Media | number | null; content?: SerializedEditorState | null }
 
 async function getArticle(slug: string) {
-  const payload = await getPayload({ config })
-  const res = await payload.find({ collection: 'news', where: { slug: { equals: slug } }, limit: 1, depth: 1 })
-  return (res.docs[0] as unknown as Article) || null
+  return ((await getNewsBySlug(slug)) as unknown as Article) || null
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const a = await getArticle(slug)
   if (!a) return { title: 'ไม่พบข่าว' }
-  return { title: a.title, description: a.excerpt, alternates: { canonical: `/news/${a.slug}` } }
+  const cover = mediaOf(a.coverImage)
+  return {
+    title: a.title,
+    description: a.excerpt,
+    alternates: { canonical: `/news/${a.slug}` },
+    openGraph: {
+      type: 'article',
+      title: a.title,
+      description: a.excerpt,
+      url: `/news/${a.slug}`,
+      ...(a.publishedAt ? { publishedTime: a.publishedAt } : {}),
+      ...(cover?.url ? { images: [{ url: cover.url, alt: cover.alt || a.title }] } : {}),
+    },
+  }
 }
 
 export default async function NewsArticle({ params }: { params: Promise<{ slug: string }> }) {
