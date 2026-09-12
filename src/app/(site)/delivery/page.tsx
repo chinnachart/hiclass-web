@@ -59,7 +59,7 @@ export default async function DeliveryPage() {
 
         <section className="section">
           <div className="card" style={{ padding: 24, textAlign: 'center' }}>
-            <h2>อยากเป็นคันต่อไปไหม</h2>
+            <h2>เราพร้อมให้บริการ</h2>
             <p className="mute" style={{ marginTop: 8 }}>
               นัดทดลองขับฟรีทุกรุ่น เลือกสาขาที่สะดวก ทีมขายโทรยืนยันคิวภายใน 1 ชั่วโมง
             </p>
