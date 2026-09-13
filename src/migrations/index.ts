@@ -8,6 +8,7 @@ import * as migration_20260909_080000_add_contact_email from './20260909_080000_
 import * as migration_20260909_090000_add_powertrain from './20260909_090000_add_powertrain';
 import * as migration_20260910_200000_add_google_ads from './20260910_200000_add_google_ads';
 import * as migration_20260911_090000_add_finance_rates from './20260911_090000_add_finance_rates';
+import * as migration_20260913_120000_add_home_popup from './20260913_120000_add_home_popup';
 
 export const migrations = [
   {
@@ -59,5 +60,10 @@ export const migrations = [
     up: migration_20260911_090000_add_finance_rates.up,
     down: migration_20260911_090000_add_finance_rates.down,
     name: '20260911_090000_add_finance_rates',
+  },
+  {
+    up: migration_20260913_120000_add_home_popup.up,
+    down: migration_20260913_120000_add_home_popup.down,
+    name: '20260913_120000_add_home_popup',
   },
 ];
