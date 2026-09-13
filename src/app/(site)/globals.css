@@ -458,6 +458,16 @@ input[type="range"] { width: 100%; height: 28px; margin: 0; accent-color: var(--
 
 /* ---------- ปุ่มโทร → เลือกสาขา (CallPicker) ---------- */
 button.btn { font: inherit; cursor: pointer; }
+/* ป๊อปอัพแคมเปญหน้าแรก */
+.pop-bg { position: fixed; inset: 0; background: rgba(23,24,26,.62); z-index: 80; animation: pop-fade .2s ease-out; }
+.pop { position: fixed; z-index: 81; left: 50%; top: 50%; transform: translate(-50%,-50%); width: min(92vw, 460px); max-height: 88vh; overflow: hidden auto; overscroll-behavior: contain; border-radius: 14px; background: var(--paper); box-shadow: 0 24px 70px rgba(0,0,0,.35); animation: pop-in .22s ease-out; }
+.pop-img { display: block; line-height: 0; }
+.pop-x { position: absolute; top: 8px; right: 8px; z-index: 2; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: rgba(23,24,26,.55); color: #fff; cursor: pointer; }
+.pop-x:hover { background: rgba(23,24,26,.8); }
+@keyframes pop-fade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes pop-in { from { opacity: 0; transform: translate(-50%,-46%) scale(.97) } to { opacity: 1; transform: translate(-50%,-50%) scale(1) } }
+@media (prefers-reduced-motion: reduce) { .pop, .pop-bg { animation: none } }
+
 .callpick-bg { position: fixed; inset: 0; background: rgba(23,24,26,.45); z-index: 70; }
 .callpick { position: fixed; left: 0; right: 0; bottom: 0; z-index: 71; background: var(--paper); border-radius: 16px 16px 0 0; max-height: 80vh; overflow-y: auto; overscroll-behavior: contain; padding-bottom: calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -20px 60px rgba(0,0,0,.15); }
 .callpick-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 8px 8px 20px; border-bottom: 1px solid var(--line); font-size: 16px; }

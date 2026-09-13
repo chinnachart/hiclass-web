@@ -7,6 +7,8 @@ import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
 import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
+import HomePopup from '@/components/HomePopup'
+import { mediaOf } from '@/components/CarImage'
 import { getSiteData, getDeliveryPhotos } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
@@ -21,8 +23,27 @@ export default async function HomePage() {
   const deliveryPhotos = await getDeliveryPhotos(8)
   const heroModel = models[0]
 
+  // ป๊อปอัพแคมเปญ — เด้งเฉพาะเมื่อเปิดสวิตช์ + มีรูป + อยู่ในช่วงวันที่ตั้งไว้ (แก้ทั้งหมดที่หลังบ้าน แท็บ "ป๊อปอัพหน้าแรก")
+  const popImg = settings.popupEnabled ? mediaOf(settings.popupImage) : null
+  const nowMs = Date.now()
+  const popOn =
+    !!popImg?.url &&
+    (!settings.popupStart || new Date(settings.popupStart).getTime() <= nowMs) &&
+    // สิ้นสุด = หมดวันนั้น (บวก 1 วัน) ตั้ง 13 ก.ย. แล้วยังเด้งทั้งวันที่ 13
+    (!settings.popupEnd || new Date(settings.popupEnd).getTime() + 86400000 > nowMs)
+
   return (
     <>
+      {popOn && popImg?.url ? (
+        <HomePopup
+          src={popImg.url}
+          href={settings.popupHref || '/test-drive'}
+          alt={settings.popupAlt || popImg.alt || 'โปรโมชั่น BYD Hi-Class EV Car'}
+          width={popImg.width}
+          height={popImg.height}
+          imageId={popImg.id}
+        />
+      ) : null}
       <Jsonld data={dealerLd(branches, models.map((m) => m.priceFrom))} />
       <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
       <Jsonld data={webSiteLd()} />
