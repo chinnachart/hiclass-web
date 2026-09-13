@@ -151,15 +151,21 @@ export interface CarModel {
    * ใช้สำหรับปุ่มกรองบนหน้าเว็บ
    */
   bodyType: 'suv' | 'sedan' | 'hatch' | 'mpv';
-  powertrain: 'ev' | 'phev';
   /**
    * เช่น SUV ไฟฟ้า หรือ ซีดานไฮบริด DM-i
    */
   tagline: string;
   /**
+   * รุ่นไฮบริด DM-i เว็บจะขึ้นคำว่า "ระยะทางรวม" แทน "ระยะทางต่อการชาร์จ"
+   */
+  powertrain: 'ev' | 'phev';
+  /**
    * กรอกตัวเลขล้วน ไม่ต้องใส่ลูกน้ำ เช่น 1249900
    */
   priceFrom: number;
+  /**
+   * EV = ต่อการชาร์จ · DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน)
+   */
   rangeKm?: number | null;
   colorsCount?: number | null;
   /**
@@ -249,9 +255,9 @@ export interface CarModel {
 export interface Media {
   id: number;
   /**
-   * อธิบายสั้นๆ ว่ารูปนี้คืออะไร เช่น "BYD Sealion 7 สีขาว มุมหน้า" — Google ใช้ข้อความนี้
+   * อธิบายสั้นๆ ว่ารูปนี้คืออะไร เช่น "BYD Sealion 7 สีขาว มุมหน้า" — Google ใช้ข้อความนี้ · เว้นว่างได้ ระบบจะเติมจากชื่อไฟล์ให้ก่อน แต่เขียนเองจะได้อันดับดีกว่า
    */
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -577,8 +583,8 @@ export interface CarModelsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   bodyType?: T;
-  powertrain?: T;
   tagline?: T;
+  powertrain?: T;
   priceFrom?: T;
   rangeKm?: T;
   colorsCount?: T;
@@ -822,6 +828,30 @@ export interface SiteSetting {
   heroSub?: string | null;
   heroBlurb?: string | null;
   /**
+   * ติ๊กออก = ไม่เด้งเลย (ไม่ต้องลบรูป เก็บไว้ใช้รอบหน้าได้)
+   */
+  popupEnabled?: boolean | null;
+  /**
+   * ขนาดที่ต้องการ 1080 × 1350 px (แนวตั้ง 4:5) หรือจัตุรัส 1080 × 1080 px · ตัวหนังสือใหญ่พออ่านออกบนมือถือ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   */
+  popupImage?: (number | null) | Media;
+  /**
+   * ใส่เป็นเส้นทางในเว็บ เช่น /test-drive · /promotion · /car-model/atto-2 (ใส่ลิงก์เต็ม https:// ได้ จะเปิดแท็บใหม่)
+   */
+  popupHref?: string | null;
+  /**
+   * เช่น "ATTO Week Surprise Deal 11–13 กันยายน" — ใช้บอก Google และผู้ใช้ที่เปิดโหมดอ่านหน้าจอ
+   */
+  popupAlt?: string | null;
+  /**
+   * เว้นว่าง = เด้งทันที
+   */
+  popupStart?: string | null;
+  /**
+   * เว้นว่าง = เด้งไปเรื่อยๆ · ใส่วันสุดท้ายของแคมเปญไว้ จะได้ไม่ต้องกลับมาปิดเอง
+   */
+  popupEnd?: string | null;
+  /**
    * เช่น 3500 — เว็บจะแสดงเป็น "3,500+ คัน"
    */
   deliveredCount?: number | null;
@@ -832,32 +862,53 @@ export interface SiteSetting {
    */
   trustNote?: string | null;
   /**
-   * ขึ้นต้นด้วย G- เช่น G-ABC123XYZ (Analytics → Admin → Data Streams) — จะโหลดเฉพาะเมื่อผู้ใช้กดยอมรับคุกกี้ตาม PDPA
+   * ขึ้นต้นด้วย G- เช่น G-ABC123XYZ (Analytics → Admin → Data Streams) — โหลดแบบ Consent Mode: ก่อนผู้ใช้กดยอมรับคุกกี้จะไม่ตั้งคุกกี้ (ส่งได้เฉพาะสัญญาณไม่ระบุตัวตน)
    */
   gaMeasurementId?: string | null;
   /**
    * เฉพาะค่าใน content="..." ของ meta tag ที่ Search Console ให้มา
    */
   googleSiteVerification?: string | null;
+  /**
+   * ขึ้นต้นด้วย AW- เช่น AW-123456789 (Google Ads → Goals → Conversions → เปิด action → Tag setup) — เว้นว่าง = ไม่ส่ง conversion ให้ Google Ads
+   */
   googleAdsId?: string | null;
+  /**
+   * ส่วนหลัง / ของ send_to เช่น AbC-dEfGhIjK (เว้นว่าง = ส่งเฉพาะ event เข้า GA4)
+   */
   adsLabelTestDrive?: string | null;
   adsLabelRegister?: string | null;
+  /**
+   * ยิงเมื่อกดลิงก์ tel: ทุกที่ในเว็บ
+   */
   adsLabelPhone?: string | null;
+  /**
+   * ยิงเมื่อกดลิงก์ LINE ทุกที่ในเว็บ
+   */
   adsLabelLine?: string | null;
+  /**
+   * ใช้เฉพาะหน้ารถเช่าและหน้านโยบายความเป็นส่วนตัว — ปุ่ม "โทร" ที่อื่นทั้งเว็บให้ลูกค้าเลือกสาขาแล้วโทรเบอร์สาขา (แก้ที่ 'สาขาของเรา')
+   */
   mainPhone: string;
   /**
    * สำคัญ — ปุ่ม "แอด LINE" ทุกหน้าใช้ลิงก์นี้ เช่น https://lin.ee/xxxxx (ถ้าเว้นว่างปุ่มจะกลายเป็น "ติดต่อเรา")
    */
   lineUrl?: string | null;
   facebookUrl?: string | null;
+  /**
+   * แสดงท้ายเว็บ หน้าติดต่อเรา และส่งให้ Google เป็นอีเมลของธุรกิจ
+   */
   contactEmail?: string | null;
+  /**
+   * แสดงท้ายเว็บทุกหน้า และหัวหน้าติดต่อเรา — เล่าว่า Hi-Class ต่างจากดีลเลอร์อื่นยังไง
+   */
   footerAbout?: string | null;
   /**
    * ใช้เฉพาะช่องที่เว้นว่างในตารางดอกเบี้ยด้านล่าง (หรือเมื่อลบตารางทั้งหมด) — ใส่เป็นเปอร์เซ็นต์ เช่น 2.89
    */
   financeRate: number;
   /**
-   * ลอกจากชีทไฟแนนซ์ของฝ่ายขาย · 1 แถว = 1 ระดับเงินดาวน์ · ใส่ดอกเบี้ยคงที่ต่อปี (%) ของแต่ละจำนวนงวด
+   * ลอกจากชีทไฟแนนซ์ของฝ่ายขาย · 1 แถว = 1 ระดับเงินดาวน์ · ใส่ดอกเบี้ยคงที่ต่อปี (%) ของแต่ละจำนวนงวด · หน้าเว็บแสดงเงินดาวน์ตามแถวที่มี เรียงมากไปน้อยให้เอง (30% อยู่บนสุด) และตัวเลื่อนในเครื่องคำนวณเลือกได้เฉพาะเงินดาวน์เหล่านี้ · ช่องไหนเว้นว่างจะใช้ "อัตราดอกเบี้ยสำรอง" ด้านบน
    */
   financeRates?:
     | {
@@ -870,7 +921,7 @@ export interface SiteSetting {
       }[]
     | null;
   /**
-   * ต้องเป็นค่าที่มีในตารางดอกเบี้ย (ถ้าไม่มี เว็บจะใช้แถวที่ใกล้ที่สุด)
+   * ต้องเป็นค่าที่มีในตารางดอกเบี้ย (ถ้าไม่มี เว็บจะใช้แถวที่ใกล้ที่สุด) — ใช้กับค่างวดตัวแดงบนหัวหน้ารุ่นรถ/ตารางผ่อน และหน้าเปรียบเทียบ
    */
   defaultDownPercent?: number | null;
   /**
@@ -1073,6 +1124,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   heroHeadline2?: T;
   heroSub?: T;
   heroBlurb?: T;
+  popupEnabled?: T;
+  popupImage?: T;
+  popupHref?: T;
+  popupAlt?: T;
+  popupStart?: T;
+  popupEnd?: T;
   deliveredCount?: T;
   yearsOpen?: T;
   googleRating?: T;
