@@ -10,10 +10,12 @@ import type { SiteSettings } from '@/lib/types'
 type Props = Pick<SiteSettings, 'gaMeasurementId' | 'googleAdsId' | 'adsLabelTestDrive' | 'adsLabelRegister' | 'adsLabelPhone' | 'adsLabelLine'>
 
 const GRANTED = { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' }
+const DENIED = { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' }
 
 /**
  * โหลด gtag (GA4 + Google Ads) แบบ Consent Mode v2
- * - ค่าเริ่มต้น = ปฏิเสธทุกอย่าง → ไม่ตั้งคุกกี้ จนกว่าผู้ใช้กด "ยอมรับ" ในแถบ PDPA (CookieConsent)
+ * - ค่าเริ่มต้น = อนุญาต (วัดผลได้ตั้งแต่ครั้งแรก) · กด "ปฏิเสธ" ในแถบคุกกี้ → downgrade เป็น denied
+ *   (เดิม default=denied + ads_data_redaction ทำให้ Google Ads ไม่นับ conversion ของคนที่ไม่กดยอมรับเลย)
  * - จำ gclid / utm จาก URL ไว้แนบกับฟอร์ม
  * - ดักคลิกลิงก์ tel: และ LINE ทั้งเว็บ → event phone_click / line_click (+ conversion ถ้าตั้ง label ไว้)
  */
@@ -32,7 +34,9 @@ export default function Tracking(settings: Props) {
   useEffect(() => {
     if (!primary) return
     const apply = (v: string | null) => {
-      if (v === 'accepted' && typeof window.gtag === 'function') window.gtag('consent', 'update', GRANTED)
+      if (typeof window.gtag !== 'function') return
+      if (v === 'accepted') window.gtag('consent', 'update', GRANTED)
+      else if (v === 'declined') window.gtag('consent', 'update', DENIED)
     }
     try {
       apply(localStorage.getItem(CONSENT_KEY))
@@ -66,10 +70,8 @@ export default function Tracking(settings: Props) {
         function gtag(){dataLayer.push(arguments);}
         window.gtag = gtag;
         gtag('consent', 'default', {
-          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
-          wait_for_update: 500
+          ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted'
         });
-        gtag('set', 'ads_data_redaction', true);
         gtag('set', 'url_passthrough', true);
         gtag('js', new Date());
         ${gaId ? `gtag('config', '${gaId}', { anonymize_ip: true });` : ''}
