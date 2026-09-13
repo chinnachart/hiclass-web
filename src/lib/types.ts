@@ -148,4 +148,10 @@ export type SiteSettings = {
   adsLabelRegister?: string | null
   adsLabelPhone?: string | null
   adsLabelLine?: string | null
+  popupEnabled?: boolean | null
+  popupImage?: Media | number | null
+  popupHref?: string | null
+  popupAlt?: string | null
+  popupStart?: string | null
+  popupEnd?: string | null
 }

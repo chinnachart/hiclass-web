@@ -38,7 +38,8 @@ async function loadSiteData() {
       depth: 1,
     }),
     payload.find({ collection: 'news', where: { _status: { equals: 'published' } }, sort: '-publishedAt', limit: 3, depth: 1 }),
-    payload.findGlobal({ slug: 'site-settings', depth: 0 }),
+    // depth 1 — ต้องมีเพื่อให้รูปป๊อปอัพหน้าแรกได้ url มาด้วย (depth 0 ได้มาเป็นตัวเลข id)
+    payload.findGlobal({ slug: 'site-settings', depth: 1 }),
   ])
 
   return {
