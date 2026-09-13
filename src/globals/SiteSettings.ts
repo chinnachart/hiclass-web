@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { revalidateSite } from '../lib/revalidate'
+import { IMG } from '../lib/imageSpecs'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -18,6 +19,47 @@ export const SiteSettings: GlobalConfig = {
             { name: 'heroHeadline2', type: 'text', label: 'พาดหัวบรรทัดที่สอง', defaultValue: 'วันนี้ ฟรี' },
             { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง', defaultValue: '5 สาขาในกรุงเทพฯ นัดออนไลน์ 1 นาที ทีมขายโทรยืนยันภายใน 1 ชั่วโมง' },
             { name: 'heroBlurb', type: 'textarea', label: 'ย่อหน้าแนะนำบริษัท' },
+          ],
+        },
+        {
+          label: 'ป๊อปอัพหน้าแรก',
+          description:
+            'รูปแคมเปญที่เด้งขึ้นกลางจอเมื่อลูกค้าเปิดหน้าแรก · ลูกค้าปิดแล้วจะไม่เด้งอีกจนถึงวันถัดไป · เปลี่ยนรูปใหม่ = เด้งใหม่ทันที',
+          fields: [
+            {
+              name: 'popupEnabled',
+              type: 'checkbox',
+              defaultValue: false,
+              label: 'เปิดป๊อปอัพ',
+              admin: { description: 'ติ๊กออก = ไม่เด้งเลย (ไม่ต้องลบรูป เก็บไว้ใช้รอบหน้าได้)' },
+            },
+            {
+              name: 'popupImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'รูปป๊อปอัพ',
+              admin: { description: IMG.popup45 },
+            },
+            {
+              name: 'popupHref',
+              type: 'text',
+              defaultValue: '/test-drive',
+              label: 'กดที่รูปแล้วไปหน้า',
+              admin: { description: 'ใส่เป็นเส้นทางในเว็บ เช่น /test-drive · /promotion · /car-model/atto-2 (ใส่ลิงก์เต็ม https:// ได้ จะเปิดแท็บใหม่)' },
+            },
+            {
+              name: 'popupAlt',
+              type: 'text',
+              label: 'คำอธิบายรูปสั้นๆ',
+              admin: { description: 'เช่น "ATTO Week Surprise Deal 11–13 กันยายน" — ใช้บอก Google และผู้ใช้ที่เปิดโหมดอ่านหน้าจอ' },
+            },
+            {
+              type: 'row',
+              fields: [
+                { name: 'popupStart', type: 'date', label: 'เริ่มเด้งวันที่', admin: { width: '50%', description: 'เว้นว่าง = เด้งทันที' } },
+                { name: 'popupEnd', type: 'date', label: 'เด้งถึงวันที่', admin: { width: '50%', description: 'เว้นว่าง = เด้งไปเรื่อยๆ · ใส่วันสุดท้ายของแคมเปญไว้ จะได้ไม่ต้องกลับมาปิดเอง' } },
+              ],
+            },
           ],
         },
         {
