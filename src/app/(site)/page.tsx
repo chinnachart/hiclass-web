@@ -1,15 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Icon from '@/components/Icons'
-import CarImage from '@/components/CarImage'
 import ModelGrid from '@/components/ModelGrid'
 import PaymentCalculator from '@/components/PaymentCalculator'
 import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
 import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
 import HomePopup from '@/components/HomePopup'
+import HeroSlider from '@/components/HeroSlider'
 import ShowroomSlider from '@/components/ShowroomSlider'
 import { mediaOf } from '@/components/CarImage'
+import { heroSlidesFrom } from '@/lib/heroSlides'
 import { getSiteData, getDeliveryPhotos } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
@@ -22,7 +23,8 @@ const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', 
 export default async function HomePage() {
   const { models, branches, promotions, news, settings } = await getSiteData()
   const deliveryPhotos = await getDeliveryPhotos(8)
-  const heroModel = models[0]
+  // สไลด์ hero: เอาจากหลังบ้านก่อน ถ้ายังไม่มีใช้ค่าตั้งต้นในโค้ด (zip #32)
+  const heroSlides = heroSlidesFrom(settings.heroSlides)
   // สไลด์โชว์รูม: รูปแรกของแต่ละสาขาที่อัปรูปไว้แล้ว — สาขาไหนยังไม่มีรูปก็แค่ไม่อยู่ในสไลด์ (zip #29)
   const showroomSlides = branches
     .map((b) => ({ b, pic: mediaOf((b.photos || [])[0]) }))
@@ -59,57 +61,8 @@ export default async function HomePage() {
       <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
       <Jsonld data={webSiteLd()} />
 
-      {/* ---------- Hero ---------- */}
-      <section className="hero">
-        <div className="container hero-in">
-          <div className="hero-copy">
-            <p className="kicker">
-              <Icon name="check" size={14} sw={3} />
-              ผู้จำหน่าย BYD อย่างเป็นทางการ · {branches.length} สาขา กรุงเทพฯ
-            </p>
-            <h1>
-              {settings.heroHeadline}
-              {settings.heroHeadline2 ? <><br />{settings.heroHeadline2}</> : null}
-            </h1>
-            {settings.heroSub ? <p className="lead">{settings.heroSub}</p> : null}
-            <div className="hero-cta">
-              <Link className="btn btn-red btn-lg" href="/test-drive">
-                <Icon name="wheel" size={20} color="#fff" />นัดทดลองขับฟรี
-              </Link>
-              {settings.lineUrl ? (
-                <a className="btn btn-green btn-lg" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
-                  <Icon name="chat" size={20} color="#fff" />แอด LINE
-                </a>
-              ) : null}
-              <Link className="btn btn-outline btn-lg" href="/branches">
-                <Icon name="pin" size={20} />เลือกสาขา
-              </Link>
-            </div>
-          </div>
-          <div className="hero-visual" style={{ position: 'relative' }}>
-            {heroModel ? (
-              <CarImage media={heroModel.heroImage} alt={`BYD ${heroModel.name}`} sizes="(max-width: 900px) 100vw, 640px" fallbackWidth={340} priority />
-            ) : null}
-          </div>
-          <div className="quick">
-            <Link className="q-red" href="/test-drive">
-              <Icon name="wheel" size={26} color="#fff" />นัดทดลองขับ<small>ฟรี ทุกรุ่น</small>
-            </Link>
-            {settings.lineUrl ? (
-              <a className="q-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
-                <Icon name="chat" size={26} color="#fff" />แอด LINE<small>ตอบไว ทุกวัน</small>
-              </a>
-            ) : (
-              <Link className="q-green" href="/contact">
-                <Icon name="chat" size={26} color="#fff" />ติดต่อเรา<small>ตอบไว ทุกวัน</small>
-              </Link>
-            )}
-            <Link className="q-out" href="/branches">
-              <Icon name="pin" size={26} />เลือกสาขา<small>{branches.length} สาขา กทม.</small>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ---------- Hero: วิดีโอพื้นหลัง + สไลด์ข้อเสนอ 4 ใบ (zip #31) ---------- */}
+      <HeroSlider slides={heroSlides} lineUrl={settings.lineUrl} branchCount={branches.length} />
 
       <main className="container">
         {/* ---------- รางวัล ---------- */}

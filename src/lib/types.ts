@@ -1,4 +1,7 @@
 import type { FinanceRateRow } from './finance'
+import type { HeroSlideRow } from './heroSlides'
+
+export type { HeroSlideRow }
 
 export type Media = {
   id: number
@@ -125,6 +128,8 @@ export type NewsItem = {
 }
 
 export type SiteSettings = {
+  /** สไลด์ข้อเสนอหน้าแรก (zip #32) — เว้นว่าง = ใช้ค่าตั้งต้นใน heroSlides.ts */
+  heroSlides?: HeroSlideRow[] | null
   heroHeadline: string
   heroHeadline2?: string | null
   heroSub?: string | null

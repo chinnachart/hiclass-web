@@ -14,11 +14,124 @@ export const SiteSettings: GlobalConfig = {
       tabs: [
         {
           label: 'หน้าแรก',
+          description:
+            'แถบบนสุดของหน้าแรก เป็นวิดีโอพื้นหลัง + ข้อความสลับทีละใบทุก 6 วินาที · ลูกค้ากดจุดด้านล่างเลือกดูเองได้',
           fields: [
-            { name: 'heroHeadline', type: 'text', required: true, label: 'พาดหัวใหญ่', defaultValue: 'ลองขับ BYD ใกล้บ้าน' },
-            { name: 'heroHeadline2', type: 'text', label: 'พาดหัวบรรทัดที่สอง', defaultValue: 'วันนี้ ฟรี' },
-            { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง', defaultValue: '5 สาขาในกรุงเทพฯ นัดออนไลน์ 1 นาที ทีมขายโทรยืนยันภายใน 1 ชั่วโมง' },
-            { name: 'heroBlurb', type: 'textarea', label: 'ย่อหน้าแนะนำบริษัท' },
+            {
+              name: 'heroSlides',
+              type: 'array',
+              label: 'สไลด์ข้อเสนอหน้าแรก',
+              labels: { singular: 'สไลด์', plural: 'สไลด์' },
+              maxRows: 6,
+              admin: {
+                description:
+                  '1 แถว = 1 ข้อความที่สลับบนหน้าแรก · แนะนำ 3–4 ใบ ถ้ามากกว่านั้นลูกค้าดูไม่ทัน · ลากจุดซ้ายมือเพื่อสลับลำดับ · ' +
+                  'ถ้าไม่มีแถวเลย หรือปิดสวิตช์หมดทุกแถว หน้าเว็บจะใช้ข้อความตั้งต้นที่เขียนไว้ในโค้ด (ไม่มีทางเกิดหน้าว่าง)',
+                initCollapsed: true,
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'enabled', type: 'checkbox', defaultValue: true, label: 'เปิดใช้สไลด์นี้', admin: { width: '30%' } },
+                    {
+                      name: 'accent',
+                      type: 'select',
+                      defaultValue: 'gold',
+                      label: 'โทนสีของสไลด์',
+                      options: [
+                        { label: 'ทอง (ข้อเสนอพิเศษ)', value: 'gold' },
+                        { label: 'ขาว (เน้นข้อความ)', value: 'line' },
+                        { label: 'แดง (เร่งด่วน/Flash)', value: 'red' },
+                      ],
+                      admin: { width: '40%', description: 'คุมสีเส้นและคำสั้นเหนือพาดหัว' },
+                    },
+                    { name: 'center', type: 'checkbox', defaultValue: false, label: 'จัดข้อความกลางจอ', admin: { width: '30%' } },
+                  ],
+                },
+                {
+                  name: 'kicker',
+                  type: 'text',
+                  label: 'คำสั้นเหนือพาดหัว',
+                  admin: { description: 'เช่น Private Offer · Flash Deal เฉพาะเดือนนี้ — สั้นๆ ไม่เกิน 5 คำ' },
+                },
+                {
+                  name: 'title',
+                  type: 'textarea',
+                  label: 'พาดหัวใหญ่',
+                  admin: {
+                    description:
+                      'กด Enter ขึ้นบรรทัดใหม่ได้ · อยากให้คำไหนเป็น "สีทอง" ให้ครอบด้วยเครื่องหมายดอกจัน เช่น ดีลที่ลงหน้าเว็บ *ไม่ได้* · ยาวไม่เกิน 2 บรรทัดกำลังสวยบนมือถือ',
+                  },
+                },
+                {
+                  name: 'sub',
+                  type: 'textarea',
+                  label: 'ข้อความรอง',
+                  admin: { description: 'กด Enter ขึ้นบรรทัดใหม่ได้ · ใช้ *คำ* ให้เป็นสีทองได้เหมือนกัน · 2 บรรทัดกำลังดี' },
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'ctaLabel', type: 'text', label: 'ปุ่มหลัก — ข้อความ', admin: { width: '40%', description: 'เช่น ทักแชทรับดีล' } },
+                    {
+                      name: 'ctaHref',
+                      type: 'text',
+                      label: 'ปุ่มหลัก — ไปที่ไหน',
+                      admin: {
+                        width: '35%',
+                        description: 'พิมพ์ line: เพื่อใช้ LINE กลาง (แท็บติดต่อ) · หรือใส่หน้าในเว็บ เช่น /test-drive, /trade-in, /register',
+                      },
+                    },
+                    {
+                      name: 'ctaKind',
+                      type: 'select',
+                      defaultValue: 'gold',
+                      label: 'สีปุ่มหลัก',
+                      options: [
+                        { label: 'ทอง', value: 'gold' },
+                        { label: 'เขียว LINE', value: 'line' },
+                        { label: 'แดง', value: 'red' },
+                      ],
+                      admin: { width: '25%' },
+                    },
+                  ],
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'ghostLabel', type: 'text', label: 'ปุ่มรอง — ข้อความ', admin: { width: '50%', description: 'เว้นว่าง = ไม่มีปุ่มรอง' } },
+                    { name: 'ghostHref', type: 'text', label: 'ปุ่มรอง — ไปที่ไหน', admin: { width: '50%' } },
+                  ],
+                },
+                {
+                  name: 'note',
+                  type: 'text',
+                  label: 'บรรทัดเล็กใต้ปุ่ม',
+                  admin: { description: 'เช่น ตอบกลับ 08.00–20.00 ทุกวัน — ใช้ลดความลังเลก่อนกด' },
+                },
+                {
+                  name: 'chips',
+                  type: 'textarea',
+                  label: 'ป้ายเล็กใต้ปุ่ม',
+                  admin: { description: '1 บรรทัด = 1 ป้าย · ไม่เกิน 3 ป้าย · เว้นว่างได้' },
+                },
+              ],
+            },
+            {
+              label: 'ช่องเดิมของ hero (เลิกใช้แล้ว)',
+              type: 'collapsible',
+              admin: {
+                initCollapsed: true,
+                description: 'ตั้งแต่เปลี่ยน hero เป็นสไลด์ ช่องกลุ่มนี้ไม่มีผลกับหน้าเว็บแล้ว — เก็บไว้เฉยๆ ไม่ต้องแก้',
+              },
+              fields: [
+                { name: 'heroHeadline', type: 'text', required: true, label: 'พาดหัวใหญ่ (เดิม)', defaultValue: 'ลองขับ BYD ใกล้บ้าน' },
+                { name: 'heroHeadline2', type: 'text', label: 'พาดหัวบรรทัดที่สอง (เดิม)', defaultValue: 'วันนี้ ฟรี' },
+                { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง (เดิม)', defaultValue: '5 สาขาในกรุงเทพฯ นัดออนไลน์ 1 นาที ทีมขายโทรยืนยันภายใน 1 ชั่วโมง' },
+                { name: 'heroBlurb', type: 'textarea', label: 'ย่อหน้าแนะนำบริษัท (เดิม)' },
+              ],
+            },
           ],
         },
         {
