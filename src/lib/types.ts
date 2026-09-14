@@ -44,6 +44,8 @@ export type Branch = {
   instagramUrl?: string | null
   tiktokUrl?: string | null
   youtubeUrl?: string | null
+  /** ภาพโชว์รูมจริงของสาขา (ต้องโหลดด้วย depth 1 ไม่งั้นได้มาเป็น id) */
+  photos?: (Media | number)[] | null
 }
 
 export type FaqItem = { question: string; answer: string }

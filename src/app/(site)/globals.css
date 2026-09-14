@@ -343,6 +343,49 @@ input[type="range"] { width: 100%; height: 28px; margin: 0; accent-color: var(--
 .gallery-sq .g { aspect-ratio: 1 / 1; }
 @media (min-width: 900px) { .gallery-sq { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
+/* แบนเนอร์หัวหน้าสาขา — รูปแรกของสาขานั้น (zip #29) */
+.branch-cover {
+  position: relative; aspect-ratio: 4 / 3; background: var(--soft);
+  border-radius: var(--radius); overflow: hidden;
+}
+@media (min-width: 900px) { .branch-cover { aspect-ratio: 21 / 9; } }
+
+/* ---------- สไลด์รูปโชว์รูม (zip #29) ----------
+   scroll-snap ล้วน ไม่มีไลบรารี · มือถือปัดนิ้ว จอคอมมีปุ่ม/จุด */
+.slider { position: relative; }
+.slider-track {
+  display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory;
+  scrollbar-width: none; -ms-overflow-style: none; border-radius: var(--radius);
+}
+.slider-track::-webkit-scrollbar { display: none; }
+.slider .slide {
+  position: relative; flex: 0 0 100%; scroll-snap-align: start;
+  background: var(--soft); border-radius: var(--radius); overflow: hidden; color: var(--ink);
+}
+.slider .ratio-16x9 .slide { aspect-ratio: 16 / 9; }
+.slider .ratio-4x3 .slide { aspect-ratio: 4 / 3; }
+.slide-cap {
+  position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 4px;
+  max-width: calc(100% - 20px); padding: 7px 12px; border-radius: 999px;
+  background: rgba(255,255,255,.94); font-family: var(--font-display); font-weight: 600; font-size: 14px;
+}
+.slider-btn {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  display: none; align-items: center; justify-content: center; width: 40px; height: 40px;
+  border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.94); color: var(--ink); cursor: pointer;
+}
+.slider-btn:disabled { opacity: .35; cursor: default; }
+.slider-btn.prev { left: 10px; }
+.slider-btn.prev svg { transform: rotate(180deg); }
+.slider-btn.next { right: 10px; }
+@media (min-width: 900px) { .slider-btn { display: inline-flex; } }
+.slider-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+.slider-dots button {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px;
+  background: var(--line); cursor: pointer;
+}
+.slider-dots button.on { width: 22px; background: var(--ink); }
+
 /* ---------- FAQ ---------- */
 .faq { display: grid; gap: 8px; }
 .faq details { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); }

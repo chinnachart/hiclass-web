@@ -8,6 +8,7 @@ import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
 import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
 import HomePopup from '@/components/HomePopup'
+import ShowroomSlider from '@/components/ShowroomSlider'
 import { mediaOf } from '@/components/CarImage'
 import { getSiteData, getDeliveryPhotos } from '@/lib/data'
 
@@ -22,6 +23,16 @@ export default async function HomePage() {
   const { models, branches, promotions, news, settings } = await getSiteData()
   const deliveryPhotos = await getDeliveryPhotos(8)
   const heroModel = models[0]
+  // สไลด์โชว์รูม: รูปแรกของแต่ละสาขาที่อัปรูปไว้แล้ว — สาขาไหนยังไม่มีรูปก็แค่ไม่อยู่ในสไลด์ (zip #29)
+  const showroomSlides = branches
+    .map((b) => ({ b, pic: mediaOf((b.photos || [])[0]) }))
+    .filter((x) => x.pic?.url)
+    .map(({ b, pic }) => ({
+      url: pic!.url as string,
+      alt: pic!.alt || `โชว์รูม BYD Hi-Class ${b.name}`,
+      caption: `BYD Hi-Class ${b.name}`,
+      href: `/branches/${b.code}`,
+    }))
 
   // ป๊อปอัพแคมเปญ — เด้งเฉพาะเมื่อเปิดสวิตช์ + มีรูป + อยู่ในช่วงวันที่ตั้งไว้ (แก้ทั้งหมดที่หลังบ้าน แท็บ "ป๊อปอัพหน้าแรก")
   const popImg = settings.popupEnabled ? mediaOf(settings.popupImage) : null
@@ -194,6 +205,20 @@ export default async function HomePage() {
             {branches.map((b) => <BranchRow key={b.id} b={b} />)}
           </div>
         </section>
+
+        {/* ---------- สไลด์โชว์รูม (zip #29) ---------- */}
+        {showroomSlides.length > 0 ? (
+          <section className="section" id="showrooms">
+            <div className="sec-head">
+              <div>
+                <h2>โชว์รูมของเรา</h2>
+                <p>ภาพถ่ายจริงจากทุกสาขา กดที่รูปเพื่อดูรายละเอียดสาขานั้น</p>
+              </div>
+              <Link className="sec-link" href="/branches">ทุกสาขา <Icon name="chev" size={16} /></Link>
+            </div>
+            <ShowroomSlider slides={showroomSlides} ratio="16x9" />
+          </section>
+        ) : null}
 
         {/* ---------- บริการ ---------- */}
         <section className="section" id="service">

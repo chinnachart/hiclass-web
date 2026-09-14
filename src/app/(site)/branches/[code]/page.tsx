@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Icon from '@/components/Icons'
 import { mediaOf } from '@/components/CarImage'
 import { BranchCard } from '@/components/Cards'
+import ShowroomSlider from '@/components/ShowroomSlider'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { SITE, breadcrumbLd } from '@/components/Jsonld'
 import { thaiAddressLd, openingHoursLd, priceRangeOf } from '@/lib/localbiz'
@@ -30,7 +31,10 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
   const { branches, models, settings } = await getSiteData()
   const b = branches.find((x) => x.code === code) as (typeof branches)[number] & { photos?: (Media | number)[] | null; team?: { name: string; role?: string | null; phone?: string | null }[] | null }
   if (!b) notFound()
-  const photos = ((b.photos || []) as (Media | number)[]).map(mediaOf).filter(Boolean) as Media[]
+  const photos = (((b.photos || []) as (Media | number)[]).map(mediaOf).filter(Boolean) as Media[]).filter((p) => p.url)
+  // รูปแรก = แบนเนอร์หัวหน้าสาขา · ที่เหลือ = สไลด์บรรยากาศ (zip #29)
+  const cover = photos[0]
+  const rest = photos.slice(1)
 
   const ld = {
     '@context': 'https://schema.org',
@@ -67,26 +71,45 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
         </div>
       </section>
       <main className="container">
+        {cover ? (
+          <section className="section" style={{ paddingTop: 20, paddingBottom: 0 }}>
+            <div className="branch-cover">
+              <Image
+                src={cover.url as string}
+                alt={cover.alt || `โชว์รูม BYD Hi-Class ${b.name}`}
+                fill
+                sizes="(max-width: 900px) 100vw, 1200px"
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            </div>
+          </section>
+        ) : null}
+
         <section className="section" style={{ paddingTop: 20 }}>
           <div className="grid-2" style={{ alignItems: 'start' }}>
             <BranchCard b={b} lineUrl={settings.lineUrl} />
-            {photos.length > 0 ? (
-              <div className="gallery" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
-                {photos.map((p) => (
-                  <div className="g" key={p.id}>
-                    {p.url ? <Image src={p.url} alt={p.alt || `โชว์รูม BYD Hi-Class ${b.name}`} fill sizes="(max-width: 900px) 50vw, 300px" style={{ objectFit: 'cover' }} /> : null}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="card" style={{ padding: 20 }}>
-                <h3 style={{ fontSize: 17 }}>เวลาทำการ</h3>
-                <p className="mute" style={{ marginTop: 6 }}>{b.openHours || 'เปิดทุกวัน'}</p>
-                {b.address ? <><h3 style={{ fontSize: 17, marginTop: 16 }}>ที่อยู่</h3><p className="mute" style={{ marginTop: 6, whiteSpace: 'pre-line' }}>{b.address}</p></> : null}
-              </div>
-            )}
+            <div className="card" style={{ padding: 20 }}>
+              <h3 style={{ fontSize: 17 }}>เวลาทำการ</h3>
+              <p className="mute" style={{ marginTop: 6 }}>{b.openHours || 'เปิดทุกวัน'}</p>
+              {b.address ? <><h3 style={{ fontSize: 17, marginTop: 16 }}>ที่อยู่</h3><p className="mute" style={{ marginTop: 6, whiteSpace: 'pre-line' }}>{b.address}</p></> : null}
+            </div>
           </div>
         </section>
+
+        {rest.length > 0 ? (
+          <section className="section">
+            <div className="sec-head"><div><h2>บรรยากาศโชว์รูม</h2><p>ภาพถ่ายจริงจากสาขา{b.name}</p></div></div>
+            <ShowroomSlider
+              ratio="4x3"
+              sizes="(max-width: 900px) 100vw, 1100px"
+              slides={rest.map((p) => ({
+                url: p.url as string,
+                alt: p.alt || `บรรยากาศโชว์รูม BYD Hi-Class ${b.name}`,
+              }))}
+            />
+          </section>
+        ) : null}
 
         {b.team && b.team.length > 0 ? (
           <section className="section">
