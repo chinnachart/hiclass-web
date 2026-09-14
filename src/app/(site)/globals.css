@@ -253,6 +253,66 @@ body { padding-bottom: var(--mbar-h); }
 .branch-card .acts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .branch-card .acts .btn { height: 44px; font-size: 13px; padding: 0 8px; }
 .branch-card .intro { font-size: 13px; line-height: 1.6; color: var(--mute); }
+/* ---------- Hero หน้าแรก: วิดีโอพื้นหลัง + สไลด์ข้อเสนอ (zip #31) ----------
+   โทนเข้มทั้งบล็อก เพื่อให้ตัวหนังสือขาวอ่านออกบนวิดีโอทุกเฟรม */
+.hs { position: relative; display: flex; overflow: hidden; background: #0b0c0e; min-height: 660px; }
+@media (min-width: 900px) { .hs { min-height: 700px; } }
+.hs-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hs-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8,9,11,.88) 0%, rgba(8,9,11,.35) 28%, rgba(8,9,11,.55) 52%, rgba(8,9,11,.97) 88%);
+}
+@media (min-width: 900px) {
+  .hs-shade { background: linear-gradient(95deg, rgba(8,9,11,.93) 0%, rgba(8,9,11,.8) 42%, rgba(8,9,11,.28) 78%, rgba(8,9,11,.6) 100%); }
+}
+.hs-in { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 18px; padding-top: 26px; padding-bottom: 34px; }
+@media (min-width: 900px) { .hs-in { justify-content: center; padding-top: 40px; padding-bottom: 44px; gap: 22px; } }
+.hs-badge {
+  display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,.78);
+}
+.hs-badge svg { color: var(--red); }
+
+/* เวทีสไลด์ — ทุกใบซ้อนกัน ความสูงคุมด้วย min-height ไม่ให้หน้ากระโดดตอนเปลี่ยนใบ */
+.hs-stage { position: relative; min-height: 400px; }
+@media (min-width: 900px) { .hs-stage { min-height: 400px; } }
+.hs-layer { position: absolute; inset: 0; transition: opacity .55s ease; }
+.hs-slide { display: flex; height: 100%; align-items: flex-end; }
+.hs-slide.center { justify-content: center; text-align: center; }
+@media (min-width: 900px) { .hs-slide { align-items: center; } }
+.hs-copy { display: flex; flex-direction: column; gap: 14px; max-width: 880px; }
+.hs-slide.center .hs-copy { align-items: center; }
+.hs-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase; color: #f0c168;
+}
+.hs-kicker i { width: 30px; height: 1px; background: currentColor; display: inline-block; }
+.hs-kicker.red { color: #ff5f73; }
+.hs-kicker.line { color: #fff; }
+.hs h1 { font-size: 38px; line-height: 1.14; color: #fff; letter-spacing: -.3px; }
+@media (min-width: 900px) { .hs h1 { font-size: 62px; line-height: 1.1; } }
+@media (min-width: 1200px) { .hs h1 { font-size: 72px; } }
+.hs h1 .hl { font-style: normal; color: #f0c168; }
+.hs-sub { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.8); }
+@media (min-width: 900px) { .hs-sub { font-size: 19px; } }
+.hs-sub .hl { font-style: normal; color: #f0c168; }
+.hs-cta { display: grid; gap: 10px; margin-top: 4px; }
+@media (min-width: 900px) { .hs-cta { display: flex; gap: 14px; } }
+.hs-cta .btn { width: 100%; }
+@media (min-width: 900px) { .hs-cta .btn { width: auto; padding: 0 30px; } }
+.hs-btn-gold { background: linear-gradient(135deg, #f3d08a, #c9973f); color: #171004; border-color: transparent; }
+.hs-btn-line { background: var(--green); color: #fff; border-color: transparent; }
+.hs-btn-red { background: var(--red); color: #fff; border-color: transparent; }
+.hs-btn-ghost { background: rgba(255,255,255,.07); color: #fff; border: 1px solid rgba(255,255,255,.5); }
+.hs-chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12.5px; }
+.hs-chips span { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; color: rgba(255,255,255,.85); }
+.hs-note { font-size: 12.5px; color: rgba(255,255,255,.58); }
+.hs-dots { display: flex; gap: 7px; }
+.hs-slide.center + .hs-dots, .hs-in > .hs-dots { justify-content: flex-start; }
+.hs-dots button { width: 26px; height: 4px; padding: 0; border: 0; border-radius: 999px; background: rgba(255,255,255,.28); cursor: pointer; }
+.hs-dots button.on { background: #f0c168; }
+
 /* รูปสาขาบนหัวการ์ดในหน้ารวมสาขา (zip #30) — ชนขอบการ์ด มุมบนโค้งตามการ์ด */
 .branch-card .cover {
   position: relative; display: block; margin: -16px -16px 0; aspect-ratio: 16 / 9;
