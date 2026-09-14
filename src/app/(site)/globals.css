@@ -253,6 +253,11 @@ body { padding-bottom: var(--mbar-h); }
 .branch-card .acts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .branch-card .acts .btn { height: 44px; font-size: 13px; padding: 0 8px; }
 .branch-card .intro { font-size: 13px; line-height: 1.6; color: var(--mute); }
+/* รูปสาขาบนหัวการ์ดในหน้ารวมสาขา (zip #30) — ชนขอบการ์ด มุมบนโค้งตามการ์ด */
+.branch-card .cover {
+  position: relative; display: block; margin: -16px -16px 0; aspect-ratio: 16 / 9;
+  background: var(--soft); border-radius: 15px 15px 0 0; overflow: hidden;
+}
 .branch-list { display: grid; gap: 12px; }
 @media (min-width: 900px) { .branch-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
 

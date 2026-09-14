@@ -92,11 +92,36 @@ export function BranchRow({ b }: { b: Branch }) {
 }
 
 /** การ์ดสาขาแบบเต็ม (หน้าเลือกสาขา) — โทร / LINE / นำทาง / นัดที่สาขานี้ */
-export function BranchCard({ b, lineUrl: siteLine, showIntro = false }: { b: Branch; lineUrl?: string | null; showIntro?: boolean }) {
+export function BranchCard({
+  b,
+  lineUrl: siteLine,
+  showIntro = false,
+  showPhoto = false,
+}: {
+  b: Branch
+  lineUrl?: string | null
+  showIntro?: boolean
+  /** โชว์รูปสาขาบนหัวการ์ด — เปิดเฉพาะหน้ารวมสาขา (zip #30)
+   *  หน้าสาขาเดี่ยวมีแบนเนอร์รูปเดียวกันอยู่ด้านบนแล้ว จึงไม่โชว์ซ้ำ */
+  showPhoto?: boolean
+}) {
   // LINE ของสาขาก่อน ถ้าไม่มีค่อยใช้ LINE กลาง
   const lineUrl = b.lineUrl || siteLine
+  // รูปแรกของสาขา = รูปหน้าอาคาร (กติกาเดียวกับแบนเนอร์หน้าสาขาและสไลด์หน้าแรก)
+  const cover = showPhoto ? mediaOf((b.photos || [])[0]) : null
   return (
     <div className="card branch-card">
+      {cover?.url ? (
+        <Link className="cover" href={`/branches/${b.code}`} aria-label={`ดูรายละเอียดสาขา ${b.name}`}>
+          <Image
+            src={cover.url}
+            alt={cover.alt || `โชว์รูม BYD Hi-Class ${b.name}`}
+            fill
+            sizes="(max-width: 900px) 100vw, 580px"
+            style={{ objectFit: 'cover' }}
+          />
+        </Link>
+      ) : null}
       <div className="top">
         <span className="branch-ico"><Icon name="pin" size={22} /></span>
         <div style={{ flexGrow: 1, minWidth: 0 }}>

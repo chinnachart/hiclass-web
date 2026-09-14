@@ -26,7 +26,7 @@ export default async function BranchesPage() {
       <main className="container">
         <section className="section" style={{ paddingTop: 20 }}>
           <div className="branch-list">
-            {branches.map((b) => <BranchCard key={b.id} b={b} lineUrl={settings.lineUrl} />)}
+            {branches.map((b) => <BranchCard key={b.id} b={b} lineUrl={settings.lineUrl} showPhoto />)}
           </div>
         </section>
       </main>
