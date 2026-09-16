@@ -16,7 +16,7 @@ type Props = {
 }
 
 /** รุ่นแคมเปญที่ดันขึ้นบนสุดและติดป้าย "ดีลลับ" (เทียบด้วยชื่อแบบไม่มีช่องว่าง ตัวพิมพ์เล็ก) */
-const NEW_MODELS = ['atto1', 'atto2', 'atto3']
+const NEW_MODELS = ['seal5', 'sealion5']
 const NEW_LABEL = 'ดีลลับ'
 const key = (s: string) => s.replace(/\s+/g, '').toLowerCase()
 
