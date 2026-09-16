@@ -6,7 +6,7 @@ import { getSiteData } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'ลงทะเบียนความสนใจ รถยนต์ BYD — Register your Interest',
-  description: 'ลงทะเบียนรับข้อเสนอพิเศษ BYD Atto 1, Atto 2, Atto 3 และทุกรุ่น จาก BYD Hi-Class EV Car ทีมขายสาขาที่เลือกติดต่อกลับในเวลาทำการ',
+  description: 'ลงทะเบียนรับดีลลับ BYD Seal 5, Sealion 5 และข้อเสนอพิเศษทุกรุ่น จาก BYD Hi-Class EV Car ทีมขายสาขาที่เลือกติดต่อกลับในเวลาทำการ',
   alternates: { canonical: '/register' },
 }
 
@@ -26,7 +26,7 @@ export default async function RegisterPage({
         <div className="container">
           <p className="kicker"><Icon name="wheel" size={14} />Register your Interest</p>
           <h1>ลงทะเบียนความสนใจ รถยนต์ BYD</h1>
-          <p className="lead">รับข้อเสนอพิเศษและข้อมูลรุ่นใหม่ BYD Atto 1 · Atto 2 · Atto 3 ก่อนใคร กรอกแค่ 1 นาที ทีมขายสาขาที่เลือกจะติดต่อกลับในเวลาทำการ</p>
+          <p className="lead">รับดีลลับ BYD Seal 5 · Sealion 5 ก่อนใคร กรอกแค่ 1 นาที ทีมขายสาขาที่เลือกจะติดต่อกลับในเวลาทำการ</p>
         </div>
       </section>
       <main className="container">
@@ -35,10 +35,10 @@ export default async function RegisterPage({
             {/* โปสเตอร์แคมเปญ — เปลี่ยนไฟล์ที่ public/campaign/ แล้วแก้ src/alt ตรงนี้ */}
             <div className="card" style={{ overflow: 'hidden', lineHeight: 0 }}>
               <Image
-                src="/campaign/atto-week-surprise-deal.jpg"
-                alt="ATTO WEEK SURPRISE DEAL — ดีลสุดพิเศษ BYD Atto 1, Atto 2, Atto 3 ทั้ง 3 รุ่น 3 วันเท่านั้น 11–13 ก.ย. 69"
+                src="/campaign/byd-dmiweek.jpg"
+                alt="BYD DM-i WEEK — ดีลพิเศษที่สุดในรอบปี BYD Seal 5 DM-i และ Sealion 5 DM-i 3 วันเท่านั้น 18–20 ก.ย. 69 รับสิทธิ์ Trade-in ส่วนลด 100,000 บาท"
                 width={1200}
-                height={1499}
+                height={1500}
                 priority
                 sizes="(min-width: 700px) 50vw, 100vw"
                 style={{ width: '100%', height: 'auto', display: 'block' }}
