@@ -12,6 +12,9 @@ import { SERVICE_BRANCH_CODES } from '@/lib/serviceAppt'
 import { SVC_PHOTO, BP_STEPS } from '@/lib/serviceMedia'
 
 /** รูปบนการ์ดบริการ — ผูกกับไอคอน (ข้อความการ์ดแก้ในหลังบ้านได้ แต่ไอคอนเป็นตัวบอกว่าการ์ดไหนคืออะไร) */
+/** เวลาปิดของฝ่ายบริการ (เจ้าของสั่ง 23 ก.ย.) */
+const SERVICE_CLOSE = '17:00'
+
 const CARD_PHOTO: Record<string, { src: string; alt: string }> = { wrench: SVC_PHOTO.receptionWide, shield: SVC_PHOTO.booth }
 
 export const dynamic = 'force-dynamic'
@@ -23,12 +26,10 @@ const D = {
   lead: 'ช่างผ่านการอบรมจาก BYD อะไหล่แท้ จองคิวล่วงหน้าได้ทางออนไลน์ โทรศัพท์ หรือ LINE',
   seoTitle: 'ศูนย์บริการ BYD — เช็กระยะ อู่สีและซ่อมตัวถัง อะไหล่แท้',
   seoDesc:
-    'ศูนย์บริการ BYD Hi-Class ทั้ง 5 สาขา เช็กระยะ ซ่อมสีและตัวถัง อะไหล่แท้ ช่างผ่านการอบรมจาก BYD จองคิวล่วงหน้าได้ทางโทรศัพท์และ LINE',
+    'ศูนย์บริการ BYD Hi-Class ทั้ง 3 สาขา (ลาดพร้าว · พระราม 5 · กาญจนาภิเษก) เช็กระยะ ซ่อมสีและตัวถัง อะไหล่แท้ ช่างผ่านการอบรมจาก BYD จองคิวล่วงหน้าได้ทางโทรศัพท์และ LINE',
   services: [
     { icon: 'wrench', title: 'เช็กระยะตามกำหนด', body: 'ตรวจเช็กตามระยะทางที่ BYD กำหนด พร้อมอัปเดตซอฟต์แวร์รถให้เป็นเวอร์ชันล่าสุด' },
     { icon: 'shield', title: 'อู่สีและซ่อมตัวถัง', body: 'ศูนย์ซ่อมสีและตัวถังมาตรฐาน BYD ใช้อะไหล่แท้ ประสานงานเคลมประกันให้' },
-    { icon: 'bolt', title: 'ตรวจเช็กแบตเตอรี่และระบบชาร์จ', body: 'วิเคราะห์สุขภาพแบตเตอรี่ ตรวจสายชาร์จและ wallbox ที่บ้าน' },
-    { icon: 'key', title: 'รถทดแทนระหว่างซ่อม', body: 'ลูกค้าที่นำรถเข้าซ่อมขอใช้รถทดแทนได้ ดูรายละเอียดที่บริการรถให้เช่า' },
   ],
   faq: [
     { question: 'เช็กระยะ BYD ต้องเข้าทุกกี่กิโลเมตร', answer: 'ครั้งแรกที่ 5,000 กม. หรือ 3 เดือน จากนั้นทุก 20,000 กม. หรือ 1 ปี แล้วแต่อย่างใดถึงก่อน เข้าก่อนหรือหลังกำหนดได้ไม่เกิน 1,000 กม. ในแต่ละรอบ ทั้งนี้ให้ยึดตามสมุดรับประกันของรถแต่ละรุ่นเป็นหลัก' },
@@ -57,8 +58,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ServicePage() {
   const [{ branches, models, settings }, pc] = await Promise.all([getSiteData(), getPageContent()])
-  const serviceBranches = branches.filter((b) => SERVICE_BRANCH_CODES.includes(b.code))
-  const n = branches.length
+  // ฝ่ายบริการปิด 17:00 (โชว์รูมปิดตามเวลาในหลังบ้าน) → เปลี่ยนเฉพาะเวลาปิดท้ายข้อความ เช่น "จ.–อา. 08:00–18:00" → "จ.–อา. 08:00–17:00"
+  const serviceBranches = branches
+    .filter((b) => SERVICE_BRANCH_CODES.includes(b.code))
+    .map((b) => ({ ...b, openHours: b.openHours ? b.openHours.replace(/\d{1,2}[:.]\d{2}\s*(น\.)?\s*$/, SERVICE_CLOSE) : b.openHours }))
+  // {สาขา} ในหัวข้อ = จำนวนสาขาที่มีศูนย์บริการ (3) ไม่ใช่จำนวนโชว์รูม (เจ้าของสั่ง 23 ก.ย.)
+  const n = serviceBranches.length
   const services = pc.svServices?.length ? pc.svServices : D.services
   const faq = pc.svFaq?.length ? pc.svFaq : D.faq
 
@@ -105,7 +110,7 @@ export default async function ServicePage() {
             {settings.lineUrl ? (
               <a className="btn btn-green btn-lg" href={settings.lineUrl} target="_blank" rel="noopener noreferrer"><Icon name="chat" size={20} color="#fff" />จองคิวทาง LINE</a>
             ) : (
-              <Link className="btn btn-outline btn-lg" href="/rental"><Icon name="key" size={20} />รถทดแทนระหว่างซ่อม</Link>
+              <Link className="btn btn-outline btn-lg" href="/rental"><Icon name="key" size={20} />รถเช่า</Link>
             )}
           </div>
         </section>
@@ -158,7 +163,19 @@ export default async function ServicePage() {
         <section className="section">
           <div className="sec-head"><div><h2>เลือกสาขาที่จะเข้ารับบริการ</h2></div></div>
           <div className="branch-list">
-            {branches.map((b) => <BranchCard key={b.id} b={b} lineUrl={settings.lineUrl} />)}
+            {/* เฉพาะสาขาที่มีศูนย์บริการ (เวลาปิด 17:00) + การ์ดสาขาใหม่ coming soon — รัชดา/บองมาร์เช่ ไม่มีศูนย์บริการ */}
+            {serviceBranches.map((b) => <BranchCard key={b.id} b={b} lineUrl={settings.lineUrl} />)}
+            <div className="card branch-card soon">
+              <div className="top">
+                <span className="branch-ico"><Icon name="wrench" size={22} /></span>
+                <div>
+                  <span className="soon-badge">Coming soon</span>
+                  <h3>ศูนย์บริการสาขาใหม่</h3>
+                  <p className="mute" style={{ fontSize: 13, marginTop: 4 }}>เร็วๆ นี้ — ติดตามข่าวการเปิดสาขาได้ที่หน้าข่าวสารและกิจกรรม</p>
+                </div>
+              </div>
+              <Link className="btn btn-outline" href="/news">ติดตามข่าวสาร <Icon name="chev" size={16} /></Link>
+            </div>
           </div>
         </section>
         {faq.length > 0 ? (

@@ -631,3 +631,7 @@ button.icon-btn { cursor: pointer; }
 .rv-card figcaption { margin-top: auto; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
 .rv-card figcaption span { color: var(--mute); font-size: 12px; }
 .rv-cta { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: var(--radius); background: var(--paper); font-size: 14px; }
+
+/* การ์ดสาขาใหม่ coming soon ในหน้า /service (zip #36) */
+.branch-card.soon { border-style: dashed; background: var(--soft); justify-content: space-between; }
+.soon-badge { display: inline-flex; margin-bottom: 6px; padding: 3px 10px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
