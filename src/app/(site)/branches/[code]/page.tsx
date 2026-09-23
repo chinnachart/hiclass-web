@@ -6,6 +6,8 @@ import Icon from '@/components/Icons'
 import { mediaOf } from '@/components/CarImage'
 import { BranchCard } from '@/components/Cards'
 import ShowroomSlider from '@/components/ShowroomSlider'
+import { SERVICE_BRANCH_CODES } from '@/lib/serviceAppt'
+import { BRANCH_SERVICE_SLIDES } from '@/lib/serviceMedia'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { SITE, breadcrumbLd } from '@/components/Jsonld'
 import { thaiAddressLd, openingHoursLd, priceRangeOf } from '@/lib/localbiz'
@@ -107,6 +109,20 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
                 url: p.url as string,
                 alt: p.alt || `บรรยากาศโชว์รูม BYD Hi-Class ${b.name}`,
               }))}
+            />
+          </section>
+        ) : null}
+
+        {SERVICE_BRANCH_CODES.includes(b.code) ? (
+          <section className="section">
+            <div className="sec-head">
+              <div><h2>ศูนย์บริการและอู่สี</h2><p>เช็กระยะ ซ่อมสีและตัวถัง อะไหล่แท้ ช่างผ่านการอบรมจาก BYD</p></div>
+              <Link className="sec-link" href="/service#appointment">จองคิว <Icon name="chev" size={16} /></Link>
+            </div>
+            <ShowroomSlider
+              ratio="16x9"
+              sizes="(max-width: 900px) 100vw, 1100px"
+              slides={BRANCH_SERVICE_SLIDES.map((p) => ({ url: p.src, alt: p.alt, caption: p.caption, href: p.href }))}
             />
           </section>
         ) : null}

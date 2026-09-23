@@ -592,3 +592,31 @@ button.btn { font: inherit; cursor: pointer; }
 }
 button.hdr-tel { background: var(--paper); color: var(--ink); cursor: pointer; }
 button.icon-btn { cursor: pointer; }
+
+/* ---------- รูปศูนย์บริการ / อู่สี (zip #33) ---------- */
+.svc-head { display: grid; gap: 16px; }
+.svc-head-img { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--soft); }
+@media (min-width: 900px) { .svc-head { grid-template-columns: minmax(0, 1fr) minmax(0, 520px); align-items: center; gap: 36px; } }
+.svc.has-photo { padding-top: 0; overflow: hidden; }
+.svc-photo { position: relative; display: block; aspect-ratio: 16 / 9; margin: 0 -18px 6px; background: var(--soft); }
+.bp-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+@media (min-width: 700px) { .bp-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+@media (min-width: 1000px) { .bp-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.bp-step { overflow: hidden; }
+.bp-img { position: relative; aspect-ratio: 4 / 3; background: var(--soft); }
+.bp-no {
+  position: absolute; left: 10px; top: 10px; display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 999px; background: var(--red); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+}
+.bp-txt { padding: 14px 16px 16px; }
+.bp-txt h3 { font-size: 16px; }
+.bp-txt p { font-size: 13px; color: var(--mute); line-height: 1.55; margin-top: 4px; }
+.appt-wrap { display: grid; gap: 16px; }
+.appt-side { display: none; }
+@media (min-width: 1000px) {
+  .appt-wrap { grid-template-columns: minmax(0, 760px) minmax(0, 1fr); align-items: start; gap: 24px; }
+  .appt-side { display: block; position: sticky; top: 96px; }
+  .appt-side .mute { font-size: 13px; line-height: 1.55; margin-top: 10px; }
+}
+.appt-img { position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; background: var(--soft); }

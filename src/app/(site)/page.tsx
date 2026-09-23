@@ -11,6 +11,7 @@ import HeroSlider from '@/components/HeroSlider'
 import ShowroomSlider from '@/components/ShowroomSlider'
 import { mediaOf } from '@/components/CarImage'
 import { heroSlidesFrom } from '@/lib/heroSlides'
+import { SVC_PHOTO } from '@/lib/serviceMedia'
 import { getSiteData, getDeliveryPhotos } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
@@ -182,13 +183,19 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="grid-2">
-            <div className="card svc">
+            <div className="card svc has-photo">
+              <Link className="svc-photo" href="/service" tabIndex={-1} aria-hidden="true">
+                <Image src={SVC_PHOTO.lift.src} alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+              </Link>
               <span className="branch-ico"><Icon name="wrench" size={20} /></span>
               <h3>ศูนย์บริการ</h3>
               <p>เช็กระยะ ตรวจแบตเตอรี่ อะไหล่แท้ ช่างที่ผ่านการอบรมจาก BYD ทุกสาขา</p>
               <Link className="more" href="/service">จองคิว <Icon name="chev" size={14} /></Link>
             </div>
-            <div className="card svc">
+            <div className="card svc has-photo">
+              <Link className="svc-photo" href="/service#body-paint" tabIndex={-1} aria-hidden="true">
+                <Image src={SVC_PHOTO.booth.src} alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+              </Link>
               <span className="branch-ico"><Icon name="shield" size={20} /></span>
               <h3>อู่สีและซ่อมตัวถัง</h3>
               <p>ศูนย์ซ่อมสีและตัวถังมาตรฐาน BYD อะไหล่แท้ ประสานงานเคลมประกันให้</p>

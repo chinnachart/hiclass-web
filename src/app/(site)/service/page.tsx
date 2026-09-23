@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import Icon from '@/components/Icons'
 import { BranchCard, Faq } from '@/components/Cards'
 import Jsonld, { faqLd } from '@/components/Jsonld'
@@ -8,6 +9,10 @@ import { fillTokens } from '@/lib/format'
 import ServiceApptForm from '@/components/ServiceApptForm'
 import CallPicker from '@/components/CallPicker'
 import { SERVICE_BRANCH_CODES } from '@/lib/serviceAppt'
+import { SVC_PHOTO, BP_STEPS } from '@/lib/serviceMedia'
+
+/** รูปบนการ์ดบริการ — ผูกกับไอคอน (ข้อความการ์ดแก้ในหลังบ้านได้ แต่ไอคอนเป็นตัวบอกว่าการ์ดไหนคืออะไร) */
+const CARD_PHOTO: Record<string, { src: string; alt: string }> = { wrench: SVC_PHOTO.receptionWide, shield: SVC_PHOTO.booth }
 
 export const dynamic = 'force-dynamic'
 
@@ -46,6 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: pc.svSeoTitle || D.seoTitle,
     description: pc.svSeoDesc || D.seoDesc,
     alternates: { canonical: '/service' },
+    openGraph: { images: [{ url: SVC_PHOTO.lift.src, width: 1920, height: 1080, alt: SVC_PHOTO.lift.alt }] },
   }
 }
 
@@ -60,23 +66,37 @@ export default async function ServicePage() {
     <>
       {faq.length > 0 ? <Jsonld data={faqLd(faq)} /> : null}
       <section className="page-head">
-        <div className="container">
-          <p className="kicker">{pc.svKicker || D.kicker}</p>
-          <h1>{fillTokens(pc.svTitle || D.title, n)}</h1>
-          <p className="lead">{fillTokens(pc.svLead || D.lead, n)}</p>
+        <div className="container svc-head">
+          <div>
+            <p className="kicker">{pc.svKicker || D.kicker}</p>
+            <h1>{fillTokens(pc.svTitle || D.title, n)}</h1>
+            <p className="lead">{fillTokens(pc.svLead || D.lead, n)}</p>
+          </div>
+          <div className="svc-head-img">
+            <Image src={SVC_PHOTO.lift.src} alt={SVC_PHOTO.lift.alt} fill priority sizes="(max-width: 900px) 100vw, 560px" style={{ objectFit: 'cover' }} />
+          </div>
         </div>
       </section>
       <main className="container">
         <section className="section" style={{ paddingTop: 20 }}>
           {services.length > 0 ? (
             <div className="grid-2">
-              {services.map((s) => (
-                <div className="card svc" key={s.title} id={s.icon === 'shield' ? 'body-paint' : undefined}>
-                  <span className="branch-ico"><Icon name={s.icon || 'wrench'} size={20} /></span>
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
-                </div>
-              ))}
+              {services.map((s) => {
+                const ph = CARD_PHOTO[s.icon || '']
+                return (
+                  <div className={`card svc${ph ? ' has-photo' : ''}`} key={s.title}>
+                    {ph ? (
+                      <div className="svc-photo">
+                        <Image src={ph.src} alt={ph.alt} fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+                      </div>
+                    ) : null}
+                    <span className="branch-ico"><Icon name={s.icon || 'wrench'} size={20} /></span>
+                    <h3>{s.title}</h3>
+                    <p>{s.body}</p>
+                    {s.icon === 'shield' ? <a className="more" href="#body-paint">ดูขั้นตอนงานอู่สี <Icon name="chev" size={14} /></a> : null}
+                  </div>
+                )
+              })}
             </div>
           ) : null}
           <div className="grid-2" style={{ marginTop: 14 }}>
@@ -89,6 +109,32 @@ export default async function ServicePage() {
             )}
           </div>
         </section>
+        <section className="section" id="body-paint" style={{ scrollMarginTop: 90 }}>
+          <div className="sec-head">
+            <div>
+              <p className="kicker">Body &amp; Paint</p>
+              <h2>อู่สีและซ่อมตัวถัง</h2>
+              <p className="mute">ศูนย์ซ่อมสีและตัวถังมาตรฐาน BYD ใช้อะไหล่แท้ ประสานงานเคลมประกันให้ — ขั้นตอนงานจากอู่สีของเรา</p>
+            </div>
+          </div>
+          <ol className="bp-steps">
+            {BP_STEPS.map((st, i) => (
+              <li className="card bp-step" key={st.src}>
+                <div className="bp-img">
+                  <Image src={st.src} alt={st.alt} fill sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 360px" style={{ objectFit: 'cover' }} />
+                  <span className="bp-no">{i + 1}</span>
+                </div>
+                <div className="bp-txt">
+                  <h3>{st.title}</h3>
+                  <p>{st.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div style={{ marginTop: 14 }}>
+            <a className="btn btn-red btn-lg" href="#appointment"><Icon name="calendar" size={20} color="#fff" />นัดหมายซ่อมสีตัวถัง</a>
+          </div>
+        </section>
         <section className="section" id="appointment" style={{ scrollMarginTop: 90 }}>
           <div className="sec-head">
             <div>
@@ -97,8 +143,16 @@ export default async function ServicePage() {
               <p className="mute">กรอกข้อมูลรถและช่วงเวลาที่สะดวก เจ้าหน้าที่ศูนย์บริการสาขาที่เลือกจะโทรกลับยืนยันคิว</p>
             </div>
           </div>
-          <div className="card" style={{ padding: 20, maxWidth: 760 }}>
-            <ServiceApptForm models={models} branches={serviceBranches} settings={settings} />
+          <div className="appt-wrap">
+            <div className="card" style={{ padding: 20, maxWidth: 760 }}>
+              <ServiceApptForm models={models} branches={serviceBranches} settings={settings} />
+            </div>
+            <div className="appt-side" aria-hidden="true">
+              <div className="appt-img">
+                <Image src={SVC_PHOTO.tech.src} alt="" fill sizes="340px" style={{ objectFit: 'cover' }} />
+              </div>
+              <p className="mute">ช่างผ่านการอบรมจาก BYD ใช้อะไหล่แท้ — ส่งฟอร์มแล้วเจ้าหน้าที่สาขาที่เลือกจะโทรกลับยืนยันคิว</p>
+            </div>
           </div>
         </section>
         <section className="section">
