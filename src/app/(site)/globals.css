@@ -620,3 +620,14 @@ button.icon-btn { cursor: pointer; }
   .appt-side .mute { font-size: 13px; line-height: 1.55; margin-top: 10px; }
 }
 .appt-img { position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; background: var(--soft); }
+
+/* ---------- รีวิวจากลูกค้า (zip #35) ---------- */
+.rv-grid { display: grid; gap: 10px; }
+@media (min-width: 700px) { .rv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+@media (min-width: 1000px) { .rv-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.rv-card { margin: 0; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.rv-stars { display: inline-flex; gap: 2px; color: #f5b301; }
+.rv-card blockquote { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink); white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden; }
+.rv-card figcaption { margin-top: auto; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.rv-card figcaption span { color: var(--mute); font-size: 12px; }
+.rv-cta { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: var(--radius); background: var(--paper); font-size: 14px; }

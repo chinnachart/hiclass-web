@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Icon from '@/components/Icons'
 import ModelGrid from '@/components/ModelGrid'
 import PaymentCalculator from '@/components/PaymentCalculator'
-import { BranchRow, PromoGrid, thDate } from '@/components/Cards'
+import { BranchRow, NewsCard, PromoGrid } from '@/components/Cards'
 import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
 import HomePopup from '@/components/HomePopup'
@@ -12,18 +12,20 @@ import ShowroomSlider from '@/components/ShowroomSlider'
 import { mediaOf } from '@/components/CarImage'
 import { heroSlidesFrom } from '@/lib/heroSlides'
 import { SVC_PHOTO } from '@/lib/serviceMedia'
-import { getSiteData, getDeliveryPhotos } from '@/lib/data'
+import { getSiteData, getDeliveryPhotos, getReviews } from '@/lib/data'
+import { ReviewGrid } from '@/components/Reviews'
 
 export const dynamic = 'force-dynamic'
 
 // หน้าแรกไม่มี canonical → /?utm=… /?fbclid=… ถูกนับเป็นคนละหน้า
 export const metadata = { alternates: { canonical: '/' } }
 
-const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ' }
 
 export default async function HomePage() {
   const { models, branches, promotions, news, settings } = await getSiteData()
   const deliveryPhotos = await getDeliveryPhotos(8)
+  // รีวิวที่อนุมัติแล้ว 6 อันล่าสุด — DB ล่ม/ยังไม่มีตาราง = ซ่อน section ไม่ให้หน้าแรกพัง (zip #35)
+  const reviews = await getReviews(6).catch(() => [])
   // สไลด์ hero: เอาจากหลังบ้านก่อน ถ้ายังไม่มีใช้ค่าตั้งต้นในโค้ด (zip #32)
   const heroSlides = heroSlidesFrom(settings.heroSlides)
   // สไลด์โชว์รูม: รูปแรกของแต่ละสาขาที่อัปรูปไว้แล้ว — สาขาไหนยังไม่มีรูปก็แค่ไม่อยู่ในสไลด์ (zip #29)
@@ -216,6 +218,22 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ---------- รีวิวจากลูกค้า (zip #35) ---------- */}
+        <section className="section" id="reviews">
+          <div className="sec-head">
+            <div>
+              <h2>รีวิวจากลูกค้า</h2>
+              <p>เสียงจากลูกค้าที่ออกรถกับ BYD Hi-Class</p>
+            </div>
+            {reviews.length > 0 ? <Link className="sec-link" href="/reviews">ทั้งหมด <Icon name="chev" size={16} /></Link> : null}
+          </div>
+          {reviews.length > 0 ? <ReviewGrid reviews={reviews} /> : null}
+          <div className="rv-cta">
+            <span>ออกรถกับเราแล้ว? เล่าประสบการณ์ให้คนอื่นฟังหน่อย</span>
+            <Link className="btn btn-outline" href="/reviews#write">เขียนรีวิว <Icon name="arrow" size={16} /></Link>
+          </div>
+        </section>
+
         {/* ---------- ข่าว ---------- */}
         {news.length > 0 ? (
           <section className="section" id="news">
@@ -226,14 +244,7 @@ export default async function HomePage() {
               <Link className="sec-link" href="/news">ทั้งหมด <Icon name="chev" size={16} /></Link>
             </div>
             <div className="grid-3">
-              {news.map((n) => (
-                <Link className="card promo" href={`/news/${n.slug}`} key={n.id}>
-                  <span className="badge">{CATEGORY_LABEL[n.category || 'news']}</span>
-                  <h3>{n.title}</h3>
-                  <p>{n.excerpt}</p>
-                  <span className="until">{thDate(n.publishedAt)}</span>
-                </Link>
-              ))}
+              {news.map((n) => <NewsCard key={n.id} n={n} />)}
             </div>
           </section>
         ) : null}

@@ -62,6 +62,7 @@ export default function Footer({
               <Link href="/news">ข่าวสารและกิจกรรม</Link>
               <Link href="/awards">รางวัลของเรา</Link>
               <Link href="/delivery">ภาพส่งมอบรถ</Link>
+              <Link href="/reviews">รีวิวจากลูกค้า</Link>
               <Link href="/contact">ติดต่อเรา</Link>
             </div>
           </div>

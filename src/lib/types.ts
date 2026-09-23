@@ -125,6 +125,18 @@ export type NewsItem = {
   category?: string | null
   excerpt: string
   publishedAt: string
+  /** รูปหน้าปก — ต้องดึงแบบ depth 1 ถึงจะได้ url (depth 0 ได้แค่ id) */
+  coverImage?: Media | number | null
+}
+
+/** รีวิวจากลูกค้า (zip #35) — หน้าเว็บดึงเฉพาะ status = approved */
+export type Review = {
+  id: number
+  name: string
+  model?: string | null
+  branch?: string | null
+  message: string
+  createdAt: string
 }
 
 export type SiteSettings = {

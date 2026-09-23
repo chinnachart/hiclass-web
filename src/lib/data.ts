@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Branch, CarModel, Media, NewsItem, PageContent, Promotion, SiteSettings } from './types'
+import type { Branch, CarModel, Media, NewsItem, PageContent, Promotion, Review, SiteSettings } from './types'
 
 export const SITE_CACHE_TAG = 'site-content'
 
@@ -114,7 +114,7 @@ export const getNewsBySlug = unstable_cache(loadNewsBySlug, ['news-by-slug'], { 
 
 async function loadNewsList(limit: number) {
   const payload = await getPayload({ config })
-  const res = await payload.find({ collection: 'news', where: { _status: { equals: 'published' } }, sort: '-publishedAt', limit, depth: 0 })
+  const res = await payload.find({ collection: 'news', where: { _status: { equals: 'published' } }, sort: '-publishedAt', limit, depth: 1 }) // depth 1 = ได้ url รูปหน้าปก (zip #34)
   return res.docs
 }
 export const getNewsList = unstable_cache(loadNewsList, ['news-list'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
@@ -137,3 +137,18 @@ export const getDeliveryPhotos = unstable_cache(loadDeliveryPhotos, ['delivery-p
   revalidate: 300,
   tags: [SITE_CACHE_TAG],
 })
+
+// --- รีวิวจากลูกค้า (zip #35) — เฉพาะที่แอดมินอนุมัติแล้ว ---
+async function loadReviews(limit: number) {
+  const payload = await getPayload({ config })
+  const res = await payload.find({
+    collection: 'reviews',
+    where: { status: { equals: 'approved' } },
+    sort: '-createdAt',
+    limit,
+    depth: 0,
+    overrideAccess: false,
+  })
+  return res.docs as unknown as Review[]
+}
+export const getReviews = unstable_cache(loadReviews, ['reviews'], { revalidate: 300, tags: [SITE_CACHE_TAG] })

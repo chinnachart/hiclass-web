@@ -70,6 +70,7 @@ export interface Config {
     'car-models': CarModel;
     promotions: Promotion;
     news: News;
+    reviews: Review;
     branches: Branch;
     media: Media;
     users: User;
@@ -83,6 +84,7 @@ export interface Config {
     'car-models': CarModelsSelect<false> | CarModelsSelect<true>;
     promotions: PromotionsSelect<false> | PromotionsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     branches: BranchesSelect<false> | BranchesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -456,6 +458,25 @@ export interface News {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * ลูกค้าเขียนรีวิวที่หน้า /reviews → เข้ามาเป็น "รออนุมัติ" · อ่านแล้วเปลี่ยนสถานะเป็น "อนุมัติ" กด Save จึงจะขึ้นเว็บ · ไม่เหมาะสมให้เลือก "ไม่แสดง"
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  status: 'pending' | 'approved' | 'rejected';
+  name: string;
+  model?: string | null;
+  branch?: string | null;
+  /**
+   * แก้คำผิดได้ แต่ไม่ควรเปลี่ยนความหมายของลูกค้า
+   */
+  message: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -520,6 +541,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'news';
         value: number | News;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
       } | null)
     | ({
         relationTo: 'branches';
@@ -664,6 +689,19 @@ export interface NewsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  status?: T;
+  name?: T;
+  model?: T;
+  branch?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -823,6 +861,54 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface SiteSetting {
   id: number;
+  /**
+   * 1 แถว = 1 ข้อความที่สลับบนหน้าแรก · แนะนำ 3–4 ใบ ถ้ามากกว่านั้นลูกค้าดูไม่ทัน · ลากจุดซ้ายมือเพื่อสลับลำดับ · ถ้าไม่มีแถวเลย หรือปิดสวิตช์หมดทุกแถว หน้าเว็บจะใช้ข้อความตั้งต้นที่เขียนไว้ในโค้ด (ไม่มีทางเกิดหน้าว่าง)
+   */
+  heroSlides?:
+    | {
+        enabled?: boolean | null;
+        /**
+         * คุมสีเส้นและคำสั้นเหนือพาดหัว
+         */
+        accent?: ('gold' | 'line' | 'red') | null;
+        center?: boolean | null;
+        /**
+         * เช่น Private Offer · Flash Deal เฉพาะเดือนนี้ — สั้นๆ ไม่เกิน 5 คำ
+         */
+        kicker?: string | null;
+        /**
+         * กด Enter ขึ้นบรรทัดใหม่ได้ · อยากให้คำไหนเป็น "สีทอง" ให้ครอบด้วยเครื่องหมายดอกจัน เช่น ดีลที่ลงหน้าเว็บ *ไม่ได้* · ยาวไม่เกิน 2 บรรทัดกำลังสวยบนมือถือ
+         */
+        title?: string | null;
+        /**
+         * กด Enter ขึ้นบรรทัดใหม่ได้ · ใช้ *คำ* ให้เป็นสีทองได้เหมือนกัน · 2 บรรทัดกำลังดี
+         */
+        sub?: string | null;
+        /**
+         * เช่น ทักแชทรับดีล
+         */
+        ctaLabel?: string | null;
+        /**
+         * พิมพ์ line: เพื่อใช้ LINE กลาง (แท็บติดต่อ) · หรือใส่หน้าในเว็บ เช่น /test-drive, /trade-in, /register
+         */
+        ctaHref?: string | null;
+        ctaKind?: ('gold' | 'line' | 'red') | null;
+        /**
+         * เว้นว่าง = ไม่มีปุ่มรอง
+         */
+        ghostLabel?: string | null;
+        ghostHref?: string | null;
+        /**
+         * เช่น ตอบกลับ 08.00–20.00 ทุกวัน — ใช้ลดความลังเลก่อนกด
+         */
+        note?: string | null;
+        /**
+         * 1 บรรทัด = 1 ป้าย · ไม่เกิน 3 ป้าย · เว้นว่างได้
+         */
+        chips?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   heroHeadline: string;
   heroHeadline2?: string | null;
   heroSub?: string | null;
@@ -1120,6 +1206,24 @@ export interface PageContent {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
+  heroSlides?:
+    | T
+    | {
+        enabled?: T;
+        accent?: T;
+        center?: T;
+        kicker?: T;
+        title?: T;
+        sub?: T;
+        ctaLabel?: T;
+        ctaHref?: T;
+        ctaKind?: T;
+        ghostLabel?: T;
+        ghostHref?: T;
+        note?: T;
+        chips?: T;
+        id?: T;
+      };
   heroHeadline?: T;
   heroHeadline2?: T;
   heroSub?: T;

@@ -10,6 +10,7 @@ import * as migration_20260910_200000_add_google_ads from './20260910_200000_add
 import * as migration_20260911_090000_add_finance_rates from './20260911_090000_add_finance_rates';
 import * as migration_20260913_120000_add_home_popup from './20260913_120000_add_home_popup';
 import * as migration_20260914_120000_add_hero_slides from './20260914_120000_add_hero_slides';
+import * as migration_20260923_120000_add_reviews from './20260923_120000_add_reviews';
 
 export const migrations = [
   {
@@ -71,5 +72,10 @@ export const migrations = [
     up: migration_20260914_120000_add_hero_slides.up,
     down: migration_20260914_120000_add_hero_slides.down,
     name: '20260914_120000_add_hero_slides',
+  },
+  {
+    up: migration_20260923_120000_add_reviews.up,
+    down: migration_20260923_120000_add_reviews.down,
+    name: '20260923_120000_add_reviews',
   },
 ];
