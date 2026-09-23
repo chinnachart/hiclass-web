@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Icon from './Icons'
 import { mediaOf } from './CarImage'
 import { telHref } from '@/lib/format'
-import type { Branch, Promotion } from '@/lib/types'
+import type { Branch, NewsItem, Promotion } from '@/lib/types'
 
 /** ปุ่มโซเชียลของสาขา — ขึ้นเฉพาะช่องที่กรอกไว้ในหลังบ้าน */
 export function BranchSocial({ b }: { b: Branch }) {
@@ -28,6 +28,26 @@ export function BranchSocial({ b }: { b: Branch }) {
 
 export const thDate = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' }) : null
+
+const NEWS_CATEGORY: Record<string, string> = { news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ' }
+
+/** การ์ดข่าว — รูปหน้าปก 16:9 ด้านบน (zip #34) · ข่าวไม่มีรูป = การ์ดตัวหนังสือแบบเดิม */
+export function NewsCard({ n }: { n: NewsItem }) {
+  const pic = mediaOf(n.coverImage)
+  return (
+    <Link className="card promo" href={`/news/${n.slug}`}>
+      {pic?.url ? (
+        <span className="promo-pic">
+          <Image src={pic.url} alt={pic.alt || n.title} fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 380px" style={{ objectFit: 'cover' }} />
+        </span>
+      ) : null}
+      <span className="badge">{NEWS_CATEGORY[n.category || 'news'] || 'ข่าวสาร'}</span>
+      <h3>{n.title}</h3>
+      <p>{n.excerpt}</p>
+      <span className="until">{thDate(n.publishedAt)}</span>
+    </Link>
+  )
+}
 
 /** การ์ดโปรโมชั่น — โปรเด่นเป็นการ์ดใหญ่พื้นดำ */
 export function PromoCard({ p }: { p: Promotion }) {

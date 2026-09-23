@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { thDate } from '@/components/Cards'
+import { NewsCard } from '@/components/Cards'
 import { getNewsList } from '@/lib/data'
 import type { NewsItem } from '@/lib/types'
 
@@ -11,8 +10,6 @@ export const metadata: Metadata = {
   description: 'ข่าวสาร กิจกรรม และความรู้เรื่องรถยนต์ไฟฟ้า BYD จาก Hi-Class EV Car',
   alternates: { canonical: '/news' },
 }
-
-const CATEGORY_LABEL: Record<string, string> = { news: 'ข่าวสาร', event: 'กิจกรรม', guide: 'ความรู้', service: 'บริการ' }
 
 export default async function NewsIndex() {
   const news = (await getNewsList(30)) as unknown as NewsItem[]
@@ -31,14 +28,7 @@ export default async function NewsIndex() {
             <div className="notice warn">ยังไม่มีข่าว — เพิ่มได้จากหลังบ้าน → ข่าวสารและกิจกรรม</div>
           ) : (
             <div className="grid-3">
-              {news.map((n) => (
-                <Link className="card promo" href={`/news/${n.slug}`} key={n.id}>
-                  <span className="badge">{CATEGORY_LABEL[n.category || 'news']}</span>
-                  <h3>{n.title}</h3>
-                  <p>{n.excerpt}</p>
-                  <span className="until">{thDate(n.publishedAt)}</span>
-                </Link>
-              ))}
+              {news.map((n) => <NewsCard key={n.id} n={n} />)}
             </div>
           )}
         </section>
