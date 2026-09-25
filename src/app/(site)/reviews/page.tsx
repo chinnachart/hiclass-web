@@ -33,7 +33,7 @@ export default async function ReviewsPage() {
           <div className="sec-head">
             <div>
               <h2>เขียนรีวิว</h2>
-              <p>ใช้เวลาไม่ถึง 1 นาที · ทีมงานตรวจสอบก่อนขึ้นเว็บไซต์</p>
+              <p>ใช้เวลาไม่ถึง 1 นาที</p>
             </div>
           </div>
           <div className="card" style={{ padding: 20, maxWidth: 760 }}>

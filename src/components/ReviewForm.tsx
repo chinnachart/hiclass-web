@@ -42,7 +42,7 @@ export default function ReviewForm({ models, branches }: { models: CarModel[]; b
           <Icon name="check" size={26} sw={2.5} />
         </span>
         <h3 style={{ fontSize: 20 }}>ขอบคุณสำหรับรีวิว</h3>
-        <p className="mute">ทีมงานจะตรวจสอบก่อนนำขึ้นเว็บไซต์ภายใน 1–2 วันทำการ</p>
+        <p className="mute">ขอบคุณที่แบ่งปันประสบการณ์กับ BYD Hi-Class</p>
       </div>
     )
   }
@@ -87,7 +87,6 @@ export default function ReviewForm({ models, branches }: { models: CarModel[]; b
         {state !== 'sending' ? <Icon name="arrow" size={20} color="#fff" /> : null}
       </button>
       {state === 'error' ? <p className="notice warn" style={{ marginTop: 4 }}>{message}</p> : null}
-      <p className="mute" style={{ fontSize: 12 }}>รีวิวจะขึ้นเว็บหลังทีมงานตรวจสอบแล้ว</p>
     </form>
   )
 }
