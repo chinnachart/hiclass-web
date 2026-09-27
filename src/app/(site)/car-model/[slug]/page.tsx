@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Icon from '@/components/Icons'
 import CarImage, { mediaOf } from '@/components/CarImage'
 import PaymentCalculator from '@/components/PaymentCalculator'
+import TestDriveForm from '@/components/TestDriveForm'
 import { BranchRow, Faq } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { carLd, faqLd, breadcrumbLd } from '@/components/Jsonld'
@@ -69,9 +70,9 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               </div>
             ) : null}
             <div className="cta-pair" style={{ marginTop: 16 }}>
-              <Link className="btn btn-red" href={`/test-drive?model=${encodeURIComponent(m.name)}`}>
+              <a className="btn btn-red" href="#test-drive">
                 <Icon name="wheel" size={20} color="#fff" />นัดทดลองขับ
-              </Link>
+              </a>
               {settings.lineUrl ? (
                 <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
                   <Icon name="chat" size={20} color="#fff" />สอบถามทาง LINE
@@ -94,6 +95,15 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
       </section>
 
       <main className="container">
+        {/* ฟอร์มสั้นในหน้ารุ่น — คนจากแอดส่วนใหญ่ลงหน้านี้ ไม่ต้องเปลี่ยนหน้าไป /test-drive */}
+        <section className="section" id="test-drive" style={{ scrollMarginTop: 80 }}>
+          <div className="card" style={{ padding: 20, maxWidth: 640 }}>
+            <h2 style={{ fontSize: 22, marginBottom: 4 }}>นัดทดลองขับ {m.name} ฟรี</h2>
+            <p className="small mute" style={{ marginBottom: 14 }}>กรอกแค่ชื่อกับเบอร์ ทีมขายโทรยืนยันภายใน 1 ชั่วโมง (เวลาทำการ) ไม่มีข้อผูกมัด</p>
+            <TestDriveForm models={models} branches={branches} settings={settings} defaultModel={m.name} compact />
+          </div>
+        </section>
+
         {(m.specs?.length || m.rangeKm) ? (
           <section className="section">
             <div className="sec-head"><div><h2>สเปกหลัก</h2></div></div>

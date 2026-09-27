@@ -1,11 +1,17 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Icon from './Icons'
 import CallPicker from './CallPicker'
 import type { Branch, SiteSettings } from '@/lib/types'
 
 /** แถบล่างติดจอบนมือถือ — โทร / แอด LINE / ทดลองขับ อยู่ทุกหน้า */
 export default function MobileBar({ settings, branches, model }: { settings: SiteSettings; branches: Branch[]; model?: string }) {
-  const td = model ? `/test-drive?model=${encodeURIComponent(model)}` : '/test-drive'
+  const path = usePathname() || ''
+  // หน้ารุ่นรถมีฟอร์มฝังอยู่แล้ว (#test-drive) → เลื่อนลงไปที่ฟอร์ม ไม่ต้องเปลี่ยนหน้า
+  const onModelPage = /^\/car-model\/[^/]+\/?$/.test(path)
+  const td = onModelPage ? '#test-drive' : model ? `/test-drive?model=${encodeURIComponent(model)}` : '/test-drive'
   return (
     <div className="mbar">
       <CallPicker branches={branches} label="โทร" />

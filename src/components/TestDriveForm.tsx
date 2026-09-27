@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import Icon from './Icons'
 import CallPicker from './CallPicker'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
@@ -14,14 +14,50 @@ type Props = {
   defaultModel?: string
   defaultBranch?: string
   offerNote?: string
+  /** โหมดสั้นสำหรับฝังในหน้ารุ่นรถ — ล็อกรุ่นตาม defaultModel, ซ่อนชิปรุ่นและปุ่มโทร/LINE ท้ายฟอร์ม */
+  compact?: boolean
+}
+
+type DayOpt = { key: string; label: string; date: string }
+
+const TH_DOW = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัส', 'ศุกร์', 'เสาร์']
+const TH_MON = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
+
+/** ตัวเลือกวันแบบกดทีเดียว (ยึดเวลาไทย) — วันนี้ (ถ้ายังไม่ 17:00) · พรุ่งนี้ · เสาร์/อาทิตย์ที่จะถึง */
+function buildDayOptions(now = new Date()): DayOpt[] {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' })
+    .formatToParts(now)
+    .reduce<Record<string, string>>((a, x) => ((a[x.type] = x.value), a), {})
+  const base = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day))
+  const hour = Number(parts.hour)
+  const at = (n: number) => new Date(base + n * 86400000)
+  const iso = (d: Date) => d.toISOString().slice(0, 10)
+  const short = (d: Date) => `${TH_DOW[d.getUTCDay()]} ${d.getUTCDate()} ${TH_MON[d.getUTCMonth()]}`
+
+  const out: DayOpt[] = []
+  if (hour < 17) out.push({ key: 'd0', label: 'วันนี้', date: iso(at(0)) })
+  out.push({ key: 'd1', label: 'พรุ่งนี้', date: iso(at(1)) })
+  for (let n = 2; n <= 7 && out.length < 4; n++) {
+    const d = at(n)
+    const dow = d.getUTCDay()
+    if (dow === 6 || dow === 0) out.push({ key: `d${n}`, label: short(d), date: iso(d) })
+  }
+  return out
 }
 
 const SLOTS = APPOINTMENT_SLOTS
 
-/** ฟอร์มนัดทดลองขับ — เลือกรุ่นเป็นชิป เลือกสาขา ชื่อ เบอร์ วัน ช่วงเวลา แล้วส่งเข้า CRM */
-export default function TestDriveForm({ models, branches, settings, defaultModel, defaultBranch, offerNote }: Props) {
+/** ฟอร์มนัดทดลองขับ — บังคับแค่ชื่อ+เบอร์ · สาขาเลือกไว้ให้ · วันเป็นปุ่มกด (ค่าเริ่มต้น 'ให้เซลส์โทรนัด') · ส่งเข้า CRM */
+export default function TestDriveForm({ models, branches, settings, defaultModel, defaultBranch, offerNote, compact }: Props) {
+  const uid = useId()
   const initialModel = models.find((m) => m.name === defaultModel)?.name || models[0]?.name || ''
   const [model, setModel] = useState(initialModel)
+  // วันนัด: 'call' = ให้เซลส์โทรนัด (ค่าเริ่มต้น ไม่ต้องเลือกอะไร) · 'other' = เปิดช่องเลือกวันเอง · อื่นๆ = key ของ dayOpts
+  const [dayOpts, setDayOpts] = useState<DayOpt[]>([])
+  const [day, setDay] = useState('call')
+  const [otherDate, setOtherDate] = useState('')
+  useEffect(() => setDayOpts(buildDayOptions()), []) // คำนวณฝั่ง client กัน hydration mismatch (server เป็น UTC)
+  const pickedDate = day === 'other' ? otherDate : dayOpts.find((o) => o.key === day)?.date || ''
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const [message, setMessage] = useState('')
 
@@ -29,8 +65,8 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
     e.preventDefault()
     setState('sending')
     const fd = new FormData(e.currentTarget)
-    const appointmentDate = String(fd.get('date') || '') // YYYY-MM-DD จาก <input type=date>
-    const appointmentSlot = String(fd.get('slot') || '')
+    const appointmentDate = pickedDate // YYYY-MM-DD หรือ '' = ให้เซลส์โทรนัด
+    const appointmentSlot = appointmentDate ? String(fd.get('slot') || '') : ''
     try {
       const res = await fetch('/api/test-drive', {
         method: 'POST',
@@ -77,29 +113,43 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
     )
   }
 
+  const id = (k: string) => `${uid}-${k}`
   return (
     <form className="form" onSubmit={onSubmit}>
-      <div className="field">
-        <span style={{ fontSize: 13, fontWeight: 600 }}>รุ่นที่สนใจ</span>
-        <div className="chips" role="radiogroup" aria-label="รุ่นที่สนใจ">
-          {models.map((m) => (
-            <button
-              key={m.id}
-              type="button"
-              className={`chip${model === m.name ? ' on' : ''}`}
-              onClick={() => setModel(m.name)}
-              role="radio"
-              aria-checked={model === m.name}
-            >
-              {m.name}
-            </button>
-          ))}
+      {compact ? null : (
+        <div className="field">
+          <span style={{ fontSize: 13, fontWeight: 600 }}>รุ่นที่สนใจ</span>
+          <div className="chips" role="radiogroup" aria-label="รุ่นที่สนใจ">
+            {models.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                className={`chip${model === m.name ? ' on' : ''}`}
+                onClick={() => setModel(m.name)}
+                role="radio"
+                aria-checked={model === m.name}
+              >
+                {m.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="row">
+        <div className="field">
+          <label htmlFor={id('name')}>ชื่อ</label>
+          <input id={id('name')} name="customerName" type="text" required placeholder="ชื่อ" autoComplete="name" />
+        </div>
+        <div className="field">
+          <label htmlFor={id('phone')}>เบอร์โทร</label>
+          <input id={id('phone')} name="phone" type="tel" required inputMode="tel" pattern="[0-9\-\s+]{9,20}" placeholder="08x-xxx-xxxx" autoComplete="tel" />
         </div>
       </div>
 
       <div className="field">
-        <label htmlFor="branch">สาขาที่สะดวก</label>
-        <select id="branch" name="branch" defaultValue={defaultBranch || branches[0]?.name}>
+        <label htmlFor={id('branch')}>สาขาที่สะดวก</label>
+        <select id={id('branch')} name="branch" defaultValue={defaultBranch || branches[0]?.name}>
           {branches.map((b) => (
             <option key={b.id} value={b.name}>BYD Hi-Class {b.name}</option>
           ))}
@@ -107,26 +157,39 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
       </div>
 
       <div className="field">
-        <label htmlFor="customerName">ชื่อ</label>
-        <input id="customerName" name="customerName" type="text" required placeholder="ชื่อ-นามสกุล" autoComplete="name" />
-      </div>
-      <div className="field">
-        <label htmlFor="phone">เบอร์โทร</label>
-        <input id="phone" name="phone" type="tel" required inputMode="tel" pattern="[0-9\-\s+]{9,20}" placeholder="08x-xxx-xxxx" autoComplete="tel" />
+        <span style={{ fontSize: 13, fontWeight: 600 }}>สะดวกวันไหน</span>
+        <div className="chips" role="radiogroup" aria-label="วันที่สะดวก" style={{ flexWrap: 'wrap', overflow: 'visible' }}>
+          {[{ key: 'call', label: 'ให้เซลส์โทรนัด' }, ...dayOpts, { key: 'other', label: 'วันอื่น' }].map((o) => (
+            <button
+              key={o.key}
+              type="button"
+              className={`chip${day === o.key ? ' on' : ''}`}
+              onClick={() => setDay(o.key)}
+              role="radio"
+              aria-checked={day === o.key}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="row">
-        <div className="field">
-          <label htmlFor="date">วันที่สะดวก</label>
-          <input id="date" name="date" type="date" min={new Date().toISOString().slice(0, 10)} />
+      {day !== 'call' ? (
+        <div className="row">
+          {day === 'other' ? (
+            <div className="field">
+              <label htmlFor={id('date')}>เลือกวัน</label>
+              <input id={id('date')} type="date" required value={otherDate} onChange={(e) => setOtherDate(e.target.value)} min={dayOpts[0]?.date} />
+            </div>
+          ) : null}
+          <div className="field">
+            <label htmlFor={id('slot')}>ช่วงเวลา</label>
+            <select id={id('slot')} name="slot" defaultValue={SLOTS[1]}>
+              {SLOTS.map((s) => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
         </div>
-        <div className="field">
-          <label htmlFor="slot">ช่วงเวลา</label>
-          <select id="slot" name="slot" defaultValue={SLOTS[1]}>
-            {SLOTS.map((s) => <option key={s} value={s}>{s}</option>)}
-          </select>
-        </div>
-      </div>
+      ) : null}
 
       {offerNote ? <div className="notice ok">{offerNote}</div> : null}
 
@@ -142,15 +205,19 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
 
       {state === 'error' ? <div className="notice err">{message} — รบกวนลองใหม่ หรือโทรหาสาขาโดยตรง</div> : null}
 
-      <div className="divider">หรือคุยกับเราตอนนี้</div>
-      <div className="row" style={{ gridTemplateColumns: settings.lineUrl ? '1fr 1fr' : '1fr' }}>
-        {settings.lineUrl ? (
-          <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
-            <Icon name="chat" size={18} color="#fff" />แอด LINE
-          </a>
-        ) : null}
-        <CallPicker branches={branches} title="โทรคุยกับทีมขาย — เลือกสาขา" />
-      </div>
+      {compact ? null : (
+        <>
+          <div className="divider">หรือคุยกับเราตอนนี้</div>
+          <div className="row" style={{ gridTemplateColumns: settings.lineUrl ? '1fr 1fr' : '1fr' }}>
+            {settings.lineUrl ? (
+              <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
+                <Icon name="chat" size={18} color="#fff" />แอด LINE
+              </a>
+            ) : null}
+            <CallPicker branches={branches} title="โทรคุยกับทีมขาย — เลือกสาขา" />
+          </div>
+        </>
+      )}
     </form>
   )
 }
