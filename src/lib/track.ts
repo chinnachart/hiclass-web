@@ -65,6 +65,20 @@ type Attribution = {
   utm_campaign?: string
   utm_term?: string
   utm_content?: string
+  /** แอปที่เปิดเว็บ (in-app browser มักไม่ส่ง referrer) — line / facebook / instagram / tiktok */
+  app?: string
+  /** true = เข้าเว็บตรง (พิมพ์ URL / bookmark / แอปที่ไม่ส่ง referrer) — แยกให้เห็นว่าไม่ใช่ระบบเก็บพลาด */
+  direct?: boolean
+}
+
+/** ตรวจ in-app browser จาก user agent — ลิงก์จาก LINE OA / เพจ FB มักไม่มี utm และไม่มี referrer */
+function inAppSource(): string | undefined {
+  const ua = navigator.userAgent || ''
+  if (/\bLine\//i.test(ua)) return 'line'
+  if (/Instagram/i.test(ua)) return 'instagram'
+  if (/FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua)) return 'facebook'
+  if (/musical_ly|BytedanceWebview|TikTok/i.test(ua)) return 'tiktok'
+  return undefined
 }
 
 const CLICK_KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const
@@ -81,10 +95,18 @@ export function rememberAttribution() {
     }
     const has = Object.keys(found).length > 0
     const prev = readAttribution()
-    if (!has && prev) return
     const ref = document.referrer && !document.referrer.includes(window.location.host) ? document.referrer.slice(0, 200) : undefined
-    if (!has && !ref) return
-    const row: Attribution = { at: Date.now(), landing: window.location.pathname.slice(0, 120), referrer: ref, ...found }
+    const app = inAppSource()
+    // มีที่มาเดิมแล้ว และรอบนี้ไม่มีอะไรใหม่ → เก็บของเดิม (ยกเว้นของเดิมเป็น "เข้าตรง" แต่รอบนี้รู้ที่มา → อัปเดต)
+    if (!has && prev && !(prev.direct && (ref || app))) return
+    const row: Attribution = {
+      at: Date.now(),
+      landing: window.location.pathname.slice(0, 120),
+      referrer: ref,
+      ...(app ? { app } : {}),
+      ...(!has && !ref && !app ? { direct: true } : {}),
+      ...found,
+    }
     localStorage.setItem(ATTR_KEY, JSON.stringify(row))
   } catch {}
 }
@@ -105,8 +127,8 @@ function readAttribution(): Attribution | null {
 export function attributionText(): string {
   const a = readAttribution()
   if (!a) return ''
-  const src = a.utm_source || (a.gclid || a.gbraid || a.wbraid ? 'google' : a.fbclid ? 'facebook' : a.referrer ? hostOf(a.referrer) : '')
-  const med = a.utm_medium || (a.gclid || a.gbraid || a.wbraid ? 'cpc' : a.fbclid ? 'paid-social' : a.referrer ? 'referral' : '')
+  const src = a.utm_source || (a.gclid || a.gbraid || a.wbraid ? 'google' : a.fbclid ? 'facebook' : a.referrer ? hostOf(a.referrer) : a.app || (a.direct ? 'direct' : ''))
+  const med = a.utm_medium || (a.gclid || a.gbraid || a.wbraid ? 'cpc' : a.fbclid ? 'paid-social' : a.referrer ? 'referral' : a.app ? 'in-app' : a.direct ? 'none' : '')
   const parts = [
     [src, med, a.utm_campaign, a.utm_term, a.utm_content].filter(Boolean).join('/'),
     a.gclid ? `gclid:${a.gclid}` : a.gbraid ? `gbraid:${a.gbraid}` : a.wbraid ? `wbraid:${a.wbraid}` : a.fbclid ? `fbclid:${a.fbclid}` : '',
