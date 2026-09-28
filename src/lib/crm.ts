@@ -125,6 +125,8 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
   }
   const created = (await res.json().catch(() => [])) as { id?: number }[]
   const leadId = created?.[0]?.id
+  // insert สำเร็จแต่ไม่คืนแถว = trigger ใน DB (trg_aa_guard_web_lead_spam) ตัดเป็นสแปม → ไม่ยิงกระดิ่ง
+  if (!leadId) return { ok: true, reason: 'filtered' }
 
   // กระดิ่งให้เซลส์สาขา — ล้มเหลวก็ไม่ทำให้ลูกค้าเห็น error (ลีดเข้าแล้ว, Cinco มี escalation ทุก 5 นาทีสำรอง)
   if (leadId) {

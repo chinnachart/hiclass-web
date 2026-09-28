@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { isBotSubmit } from '@/lib/antibot'
 import { createLead, isAppointmentSlot } from '@/lib/crm'
 
 export const runtime = 'nodejs'
@@ -38,6 +39,9 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ message: 'ข้อมูลไม่ถูกต้อง' }, { status: 400 })
   }
+
+  // บอท → ตอบว่าสำเร็จเหมือนปกติ (บอทจะไม่รู้ตัว) แต่ไม่บันทึก · q=1 บอกฟอร์มไม่ต้องยิง GA4
+  if (isBotSubmit(body)) return NextResponse.json({ ok: true, q: 1 })
 
   const customerName = String(body.customerName || '').trim()
   const phone = String(body.phone || '').trim()
@@ -83,5 +87,5 @@ export async function POST(req: Request) {
     )
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json(result.reason === 'filtered' ? { ok: true, q: 1 } : { ok: true })
 }

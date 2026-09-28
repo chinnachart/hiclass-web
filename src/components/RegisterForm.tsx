@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Icon from './Icons'
 import CallPicker from './CallPicker'
+import BotTrap from './BotTrap'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 import { attributionText, track } from '@/lib/track'
 
@@ -51,11 +52,13 @@ export default function RegisterForm({ models, branches, settings, defaultModel,
           comment: fd.get('comment'),
           consent: fd.get('consent') === 'on',
           attribution: attributionText(),
+          hp: fd.get('website') || '',
+          t: fd.get('_t') || '',
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.message || 'ส่งไม่สำเร็จ')
-      track('register', settings, { model: String(fd.get('model') || ''), branch: String(fd.get('branch') || '') })
+      if (!data?.q) track('register', settings, { model: String(fd.get('model') || ''), branch: String(fd.get('branch') || '') })
       setState('done')
     } catch (err) {
       setState('error')
@@ -85,7 +88,8 @@ export default function RegisterForm({ models, branches, settings, defaultModel,
   }
 
   return (
-    <form className="form" onSubmit={onSubmit}>
+    <form className="form" onSubmit={onSubmit} style={{ position: 'relative' }}>
+      <BotTrap />
       <label className="check" style={{ fontSize: 13, color: 'var(--ink)' }}>
         <input type="checkbox" name="consent" required />
         <span>

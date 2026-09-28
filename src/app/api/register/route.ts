@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { isBotSubmit } from '@/lib/antibot'
 import { createLead } from '@/lib/crm'
 
 export const runtime = 'nodejs'
@@ -40,6 +41,9 @@ export async function POST(req: Request) {
   }
 
   const consent = body.consent === true
+  // บอท → ตอบว่าสำเร็จเหมือนปกติ (บอทจะไม่รู้ตัว) แต่ไม่บันทึก · q=1 บอกฟอร์มไม่ต้องยิง GA4
+  if (isBotSubmit(body)) return NextResponse.json({ ok: true, q: 1 })
+
   const customerName = String(body.customerName || '').trim()
   const phone = String(body.phone || '').trim()
   const email = String(body.email || '').trim().slice(0, 120)
@@ -89,5 +93,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'ระบบขัดข้องชั่วคราว รบกวนโทรหาสาขาโดยตรง' }, { status: 502 })
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json(result.reason === 'filtered' ? { ok: true, q: 1 } : { ok: true })
 }

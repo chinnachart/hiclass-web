@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from 'react'
 import Icon from './Icons'
 import CallPicker from './CallPicker'
+import BotTrap from './BotTrap'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 import { APPOINTMENT_SLOTS } from '@/lib/appointment'
 import { attributionText, track } from '@/lib/track'
@@ -80,11 +81,13 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
           appointmentSlot,
           offerNote: offerNote || '',
           attribution: attributionText(),
+          hp: fd.get('website') || '',
+          t: fd.get('_t') || '',
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.message || 'ส่งไม่สำเร็จ')
-      track('test_drive', settings, { model, branch: String(fd.get('branch') || '') })
+      if (!data?.q) track('test_drive', settings, { model, branch: String(fd.get('branch') || '') })
       setState('done')
     } catch (err) {
       setState('error')
@@ -115,7 +118,8 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
 
   const id = (k: string) => `${uid}-${k}`
   return (
-    <form className="form" onSubmit={onSubmit}>
+    <form className="form" onSubmit={onSubmit} style={{ position: 'relative' }}>
+      <BotTrap />
       {compact ? null : (
         <div className="field">
           <span style={{ fontSize: 13, fontWeight: 600 }}>รุ่นที่สนใจ</span>
