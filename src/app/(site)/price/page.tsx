@@ -11,7 +11,7 @@ import { financeTable, rateRangeText } from '@/lib/finance'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'ราคา BYD ทุกรุ่น พร้อมตารางผ่อน อัปเดตล่าสุด',
+  title: 'ตารางผ่อน BYD ทุกรุ่น 2026 ราคา ดาวน์ ค่างวดต่อเดือน | Hi-Class',
   description:
     'ตารางราคาและค่างวด BYD ทุกรุ่น ปรับเงินดาวน์และจำนวนงวดเพื่อดูค่าผ่อนต่อเดือนได้ทันที พร้อมนัดทดลองขับที่ 5 สาขาในกรุงเทพฯ',
   alternates: { canonical: '/price' },

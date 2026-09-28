@@ -21,6 +21,8 @@ export type CarModel = {
   priceFrom: number
   rangeKm?: number | null
   colorsCount?: number | null
+  /** zip #39 — สีจริงตามโบรชัวร์ ถ้ามีจะแทน colorsCount */
+  colors?: { name: string; hex?: string | null; image?: Media | number | null }[] | null
   heroImage?: Media | number | null
   gallery?: (Media | number)[] | null
   specs?: { label: string; value: string }[] | null

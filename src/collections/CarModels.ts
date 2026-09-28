@@ -123,6 +123,26 @@ export const CarModels: CollectionConfig = {
       ],
     },
     {
+      name: 'colors',
+      type: 'array',
+      label: 'สีที่มีให้เลือก',
+      labels: { singular: 'สี', plural: 'สี' },
+      admin: {
+        description:
+          'zip #39 — คนค้น "atto 1 สี" / "atto 3 สีขาว" เยอะ ใส่ชื่อสีจริงตามโบรชัวร์ BYD แล้วหน้ารุ่นจะขึ้นชื่อสี + จุดสี + รูป (ถ้ามี) และ Google จะจับคำว่าสีได้ · ถ้าใส่ที่นี่ ช่อง "จำนวนสีให้เลือก" ด้านบนจะไม่ถูกใช้',
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'name', type: 'text', required: true, label: 'ชื่อสี', admin: { width: '45%', description: 'เช่น ขาว Harbour White' } },
+            { name: 'hex', type: 'text', label: 'รหัสสี', admin: { width: '20%', description: 'เช่น #E8E9EC (ไม่ใส่ก็ได้ = เทา)' } },
+            { name: 'image', type: 'upload', relationTo: 'media', label: 'รูปรถสีนี้', admin: { width: '35%', description: 'ไม่บังคับ' } },
+          ],
+        },
+      ],
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',

@@ -11,6 +11,7 @@ import * as migration_20260911_090000_add_finance_rates from './20260911_090000_
 import * as migration_20260913_120000_add_home_popup from './20260913_120000_add_home_popup';
 import * as migration_20260914_120000_add_hero_slides from './20260914_120000_add_hero_slides';
 import * as migration_20260923_120000_add_reviews from './20260923_120000_add_reviews';
+import * as migration_20260928_010000_add_model_colors from './20260928_010000_add_model_colors';
 
 export const migrations = [
   {
@@ -77,5 +78,10 @@ export const migrations = [
     up: migration_20260923_120000_add_reviews.up,
     down: migration_20260923_120000_add_reviews.down,
     name: '20260923_120000_add_reviews',
+  },
+  {
+    up: migration_20260928_010000_add_model_colors.up,
+    down: migration_20260928_010000_add_model_colors.down,
+    name: '20260928_010000_add_model_colors',
   },
 ];
