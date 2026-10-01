@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Icon from '@/components/Icons'
 import { PromoGrid } from '@/components/Cards'
 import { getSiteData } from '@/lib/data'
+import { listMonths, parseMonth } from '@/lib/promoMonth'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,6 +35,13 @@ export default async function PromotionPage() {
             <Link className="btn btn-red btn-lg" href="/test-drive"><Icon name="wheel" size={20} color="#fff" />นัดทดลองขับพร้อมรับข้อเสนอ</Link>
             <Link className="btn btn-outline btn-lg" href="/price">ดูตารางผ่อนทุกรุ่น</Link>
           </div>
+          {/* zip #40 — ลิงก์ไปหน้าโปรรายเดือน (ลงวันที่) ให้ Google เจอ */}
+          <p className="small mute" style={{ marginTop: 18, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+            <span>โปรโมชั่นรายเดือน:</span>
+            {listMonths().map((k) => (
+              <Link key={k} href={`/promotion/${k}`} className="sec-link">{parseMonth(k)?.labelBE}</Link>
+            ))}
+          </p>
         </section>
       </main>
     </>

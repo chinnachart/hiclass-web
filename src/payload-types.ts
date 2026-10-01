@@ -188,6 +188,26 @@ export interface CarModel {
       }[]
     | null;
   /**
+   * zip #39 — คนค้น "atto 1 สี" / "atto 3 สีขาว" เยอะ ใส่ชื่อสีจริงตามโบรชัวร์ BYD แล้วหน้ารุ่นจะขึ้นชื่อสี + จุดสี + รูป (ถ้ามี) และ Google จะจับคำว่าสีได้ · ถ้าใส่ที่นี่ ช่อง "จำนวนสีให้เลือก" ด้านบนจะไม่ถูกใช้
+   */
+  colors?:
+    | {
+        /**
+         * เช่น ขาว Harbour White
+         */
+        name: string;
+        /**
+         * เช่น #E8E9EC (ไม่ใส่ก็ได้ = เทา)
+         */
+        hex?: string | null;
+        /**
+         * ไม่บังคับ
+         */
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น · ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน · พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด
    */
   heroImage?: (number | null) | Media;
@@ -431,6 +451,10 @@ export interface News {
   category?: ('news' | 'event' | 'guide' | 'service') | null;
   publishedAt: string;
   /**
+   * หลังวันนี้ หน้าจะขึ้นป้าย "โปรนี้สิ้นสุดแล้ว" ชี้ไปหน้าโปรเดือนนี้ และถอดออกจาก Google (noindex) อัตโนมัติ — เนื้อหายังเปิดอ่านได้ ลิงก์ที่แชร์ไว้ไม่เสีย · ข่าว/ความรู้ทั่วไปเว้นว่าง
+   */
+  promoEndsAt?: string | null;
+  /**
    * ข้อความที่ขึ้นบนการ์ดและใน Google
    */
   excerpt: string;
@@ -621,6 +645,14 @@ export interface CarModelsSelect<T extends boolean = true> {
         note?: T;
         id?: T;
       };
+  colors?:
+    | T
+    | {
+        name?: T;
+        hex?: T;
+        image?: T;
+        id?: T;
+      };
   heroImage?: T;
   gallery?: T;
   specs?:
@@ -683,6 +715,7 @@ export interface NewsSelect<T extends boolean = true> {
   slug?: T;
   category?: T;
   publishedAt?: T;
+  promoEndsAt?: T;
   excerpt?: T;
   coverImage?: T;
   content?: T;

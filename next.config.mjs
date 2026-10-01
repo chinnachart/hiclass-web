@@ -50,6 +50,9 @@ const nextConfig = {
       // ที่เหลือทั้งหมดของเว็บสาขาเดิม → หน้าสาขานั้น
       { source: `/branches/:code${BR}/:path+`, destination: '/branches/:code', permanent: true },
       // --- sitemap ของ Rank Math เดิม (Search Console ยังอ่านอยู่) ---
+      // zip #40 — บทความซ้ำ (ชิ้นแรก 6 ก.ย. ตัวพิมพ์ใหญ่) → ชิ้นที่สมบูรณ์กว่า · ชิ้นเก่าตั้งเป็น draft ใน CMS แล้ว
+      R('/news/Non-stop-special-deal', '/news/byd-non-stop-special-deal'),
+      R('/news/non-stop-special-deal', '/news/byd-non-stop-special-deal'),
       R('/sitemap_index.xml', '/sitemap.xml'),
       R('/:file(.+-sitemap\\d*\\.xml)', '/sitemap.xml'),
       // --- แคมเปญ / landing page ที่ใช้ยิงแอด (ไม่อยู่ใน sitemap เดิม) ---

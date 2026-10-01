@@ -290,10 +290,12 @@ body { padding-bottom: var(--mbar-h); }
 .hs-kicker i { width: 30px; height: 1px; background: currentColor; display: inline-block; }
 .hs-kicker.red { color: #ff5f73; }
 .hs-kicker.line { color: #fff; }
-.hs h1 { font-size: 38px; line-height: 1.14; color: #fff; letter-spacing: -.3px; }
-@media (min-width: 900px) { .hs h1 { font-size: 62px; line-height: 1.1; } }
-@media (min-width: 1200px) { .hs h1 { font-size: 72px; } }
-.hs h1 .hl { font-style: normal; color: #f0c168; }
+/* zip #40 — h1 ของหน้าแรกคือบรรทัด badge (SEO) · สโลแกนในสไลด์เป็น h2.hs-title ใช้ขนาดเดิมของ h1 */
+.hs h1.hs-badge { font-size: 13px; line-height: 1.4; letter-spacing: 0; margin: 0; }
+.hs .hs-title { font-size: 38px; line-height: 1.14; color: #fff; letter-spacing: -.3px; font-weight: 700; margin: 0; }
+@media (min-width: 900px) { .hs .hs-title { font-size: 62px; line-height: 1.1; } }
+@media (min-width: 1200px) { .hs .hs-title { font-size: 72px; } }
+.hs .hs-title .hl { font-style: normal; color: #f0c168; }
 .hs-sub { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.8); }
 @media (min-width: 900px) { .hs-sub { font-size: 19px; } }
 .hs-sub .hl { font-style: normal; color: #f0c168; }

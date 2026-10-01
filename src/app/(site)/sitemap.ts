@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getSiteData, getAllModelSlugs, getNewsList } from '@/lib/data'
+import { isPromoExpired } from '@/lib/newsLinks'
+import { listMonths } from '@/lib/promoMonth'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,6 +19,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/register`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/trade-in`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/promotion`, changeFrequency: 'weekly', priority: 0.7 },
+    // zip #40 — หน้าโปรรายเดือน (เดือนนี้ + ย้อนหลัง)
+    ...listMonths().map((k, i) => ({ url: `${SITE}/promotion/${k}`, changeFrequency: (i === 0 ? 'weekly' : 'yearly') as 'weekly' | 'yearly', priority: i === 0 ? 0.7 : 0.3 })),
     { url: `${SITE}/branches`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/compare`, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE}/privacy`, changeFrequency: 'yearly', priority: 0.2 },
@@ -43,7 +47,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),
-    ...news.map((n) => ({
+    // zip #40 — โปรหมดอายุไม่ใส่ sitemap (หน้าเป็น noindex อยู่แล้ว)
+    ...news.filter((n) => !isPromoExpired(n as { promoEndsAt?: string | null })).map((n) => ({
       url: `${SITE}/news/${n.slug}`,
       lastModified: n.updatedAt ? new Date(n.updatedAt) : undefined,
       changeFrequency: 'monthly' as const,

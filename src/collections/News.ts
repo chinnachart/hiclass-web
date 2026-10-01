@@ -52,6 +52,16 @@ export const News: CollectionConfig = {
       label: 'วันที่เผยแพร่',
       defaultValue: () => new Date().toISOString(),
     },
+    {
+      name: 'promoEndsAt',
+      type: 'date',
+      label: 'โปรสิ้นสุดวันที่ (เฉพาะข่าวโปรโมชั่น/ดีลที่มีวันหมด)',
+      admin: {
+        description:
+          'หลังวันนี้ หน้าจะขึ้นป้าย "โปรนี้สิ้นสุดแล้ว" ชี้ไปหน้าโปรเดือนนี้ และถอดออกจาก Google (noindex) อัตโนมัติ — เนื้อหายังเปิดอ่านได้ ลิงก์ที่แชร์ไว้ไม่เสีย · ข่าว/ความรู้ทั่วไปเว้นว่าง',
+        date: { pickerAppearance: 'dayOnly', displayFormat: 'd MMM yyyy' },
+      },
+    },
     { name: 'excerpt', type: 'textarea', required: true, label: 'สรุปสั้น', admin: { description: 'ข้อความที่ขึ้นบนการ์ดและใน Google' } },
     { name: 'coverImage', type: 'upload', relationTo: 'media', label: 'รูปหน้าปก', admin: { description: IMG.cover169 } },
     { name: 'content', type: 'richText', label: 'เนื้อหา' },

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { NewsCard } from '@/components/Cards'
 import { getNewsList } from '@/lib/data'
+import { isPromoExpired } from '@/lib/newsLinks'
 import type { NewsItem } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 }
 
 export default async function NewsIndex() {
-  const news = (await getNewsList(30)) as unknown as NewsItem[]
+  const all = (await getNewsList(60)) as unknown as NewsItem[]
+  // zip #40 — โปรหมดอายุไปอยู่ท้ายสุด (ยังเปิดได้ แต่ไม่แย่งที่ของบทความที่ยังใช้ได้)
+  const news = [...all.filter((n) => !isPromoExpired(n)), ...all.filter((n) => isPromoExpired(n))].slice(0, 30)
   return (
     <>
       <section className="page-head">

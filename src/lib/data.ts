@@ -104,6 +104,25 @@ async function loadAllModelSlugs() {
 }
 export const getAllModelSlugs = unstable_cache(loadAllModelSlugs, ['model-slugs'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
 
+// --- โปรโมชั่นที่คาบเกี่ยวเดือนที่กำหนด (zip #40 — หน้า /promotion/2026-10) ---
+async function loadPromotionsInRange(startIso: string, endIso: string) {
+  const payload = await getPayload({ config })
+  const res = await payload.find({
+    collection: 'promotions',
+    where: {
+      and: [
+        { or: [{ startDate: { less_than_equal: endIso } }, { startDate: { exists: false } }] },
+        { or: [{ endDate: { greater_than_equal: startIso } }, { endDate: { exists: false } }] },
+      ],
+    },
+    sort: 'sortOrder',
+    limit: 50,
+    depth: 1,
+  })
+  return res.docs as unknown as Promotion[]
+}
+export const getPromotionsInRange = unstable_cache(loadPromotionsInRange, ['promotions-in-range'], { revalidate: 300, tags: [SITE_CACHE_TAG] })
+
 // --- ข่าว (เฉพาะที่เผยแพร่แล้ว) ---
 async function loadNewsBySlug(slug: string) {
   const payload = await getPayload({ config })

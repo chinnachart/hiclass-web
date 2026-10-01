@@ -129,6 +129,9 @@ export type NewsItem = {
   publishedAt: string
   /** รูปหน้าปก — ต้องดึงแบบ depth 1 ถึงจะได้ url (depth 0 ได้แค่ id) */
   coverImage?: Media | number | null
+  /** วันสิ้นสุดโปร (zip #40) — เลยแล้ว = noindex + ป้ายโปรหมด + ไม่อยู่ใน sitemap */
+  promoEndsAt?: string | null
+  updatedAt?: string | null
 }
 
 /** รีวิวจากลูกค้า (zip #35) — หน้าเว็บดึงเฉพาะ status = approved */

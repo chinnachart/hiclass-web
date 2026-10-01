@@ -9,11 +9,14 @@ import TestDriveForm from '@/components/TestDriveForm'
 import { BranchRow, Faq } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { carLd, faqLd, breadcrumbLd } from '@/components/Jsonld'
-import { getSiteData, getModelBySlug } from '@/lib/data'
+import { getSiteData, getModelBySlug, getNewsList, getReviews } from '@/lib/data'
+import { newsForModel, newsMentionsModel } from '@/lib/newsLinks'
+import { NewsCard } from '@/components/Cards'
+import { ReviewGrid } from '@/components/Reviews'
 import { baht, rangeLabel } from '@/lib/format'
 import { financeTable } from '@/lib/finance'
 import { modelTitle, modelDescription, defaultFaq, colorList, seoYear } from '@/lib/seoModel'
-import type { Media } from '@/lib/types'
+import type { Media, NewsItem } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,9 +40,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ModelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [m, site] = await Promise.all([getModelBySlug(slug), getSiteData()])
+  const [m, site, allNews, allReviews] = await Promise.all([getModelBySlug(slug), getSiteData(), getNewsList(60), getReviews(80).catch(() => [])])
   if (!m) notFound()
   const { models, branches, settings } = site
+  // zip #40 — บทความที่พูดถึงรุ่นนี้ (ลิงก์ภายในให้ Google ตามไป index บทความ)
+  const articles = newsForModel(allNews as unknown as NewsItem[], m)
+  // zip #40 — รีวิวลูกค้าที่ออกรุ่นนี้ก่อน ไม่พอค่อยเติมรีวิวล่าสุด (หน้ารุ่นเดิมไม่มีรีวิวเลย ทั้งที่มีรีวิว Google 700+)
+  const ownReviews = allReviews.filter((r) => r.model && newsMentionsModel({ slug: '', title: r.model }, m))
+  const reviews = [...ownReviews, ...allReviews.filter((r) => !ownReviews.includes(r))].slice(0, 3)
   const gallery = (m.gallery || []).map(mediaOf).filter(Boolean) as Media[]
   const ft = financeTable(settings)
   const { perMonth } = ft.pay(m.priceFrom, ft.defaultDown, ft.defaultTerm)
@@ -237,6 +245,31 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               {compareWith.map((x) => (
                 <Link key={x.id} className="btn btn-outline" href={`/compare?m=${m.slug},${x.slug}`}>เทียบ {m.name} กับ {x.name}</Link>
               ))}
+            </div>
+          </section>
+        ) : null}
+
+        {reviews.length > 0 ? (
+          <section className="section" id="reviews">
+            <div className="sec-head">
+              <div>
+                <h2>รีวิวจากลูกค้า{ownReviews.length > 0 ? ` BYD ${m.name}` : ''}</h2>
+                {settings.googleRating ? <p>คะแนนรีวิวบน Google {settings.googleRating.toFixed(1)} ★{settings.trustNote ? ` · ${settings.trustNote}` : ''}</p> : null}
+              </div>
+              <Link className="sec-link" href="/reviews">รีวิวทั้งหมด <Icon name="chev" size={16} /></Link>
+            </div>
+            <ReviewGrid reviews={reviews} />
+          </section>
+        ) : null}
+
+        {articles.length > 0 ? (
+          <section className="section" id="articles">
+            <div className="sec-head">
+              <div><h2>บทความเกี่ยวกับ BYD {m.name}</h2></div>
+              <Link className="sec-link" href="/news">บทความทั้งหมด <Icon name="chev" size={16} /></Link>
+            </div>
+            <div className="grid-3">
+              {articles.map((n) => <NewsCard key={n.id} n={n} />)}
             </div>
           </section>
         ) : null}

@@ -37,7 +37,7 @@ function Slide({ s, lineUrl, active }: { s: HeroSlide; lineUrl?: string | null; 
     <div className={`hs-slide${s.center ? ' center' : ''}`} aria-hidden={!active}>
       <div className="hs-copy">
         <p className={`hs-kicker ${s.accent}`}><i /> {s.kicker}</p>
-        <h1><Rich text={s.title} /></h1>
+        <h2 className="hs-title"><Rich text={s.title} /></h2>
         <p className="hs-sub"><Rich text={s.sub} /></p>
         <div className="hs-cta">
           <A h={s.cta.href} className={`btn btn-lg hs-btn-${s.cta.kind}`}>
@@ -121,10 +121,11 @@ export default function HeroSlider({
       <div className="hs-shade" />
 
       <div className="container hs-in">
-        <p className="hs-badge">
+        {/* zip #40 — H1 เดียวของหน้าแรกต้องมีคำที่คนค้น (เดิม H1 เป็นสโลแกนที่หมุน 4 ชุด ไม่มีคำว่า BYD) · สโลแกนลงเป็น h2 */}
+        <h1 className="hs-badge">
           <Icon name="check" size={14} sw={3} />
-          ผู้จำหน่าย BYD อย่างเป็นทางการ · {branchCount} สาขา กรุงเทพฯ
-        </p>
+          BYD ราคา ตารางผ่อน ทดลองขับฟรี — ผู้จำหน่ายอย่างเป็นทางการ {branchCount} สาขา กรุงเทพฯ
+        </h1>
 
         <div className="hs-stage">
           {slides.map((s, k) => (
