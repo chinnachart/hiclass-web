@@ -11,7 +11,9 @@ export default function MobileBar({ settings, branches, model }: { settings: Sit
   const path = usePathname() || ''
   // หน้ารุ่นรถมีฟอร์มฝังอยู่แล้ว (#test-drive) → เลื่อนลงไปที่ฟอร์ม ไม่ต้องเปลี่ยนหน้า
   const onModelPage = /^\/car-model\/[^/]+\/?$/.test(path)
-  const td = onModelPage ? '#test-drive' : model ? `/test-drive?model=${encodeURIComponent(model)}` : '/test-drive'
+  // ★ zip #41 อยู่หน้า /test-drive แล้ว → เลื่อนขึ้นไปที่ฟอร์ม (เดิมกดแล้วโหลดหน้าเดิมซ้ำ)
+  const onTdPage = /^\/test-drive\/?$/.test(path)
+  const td = onModelPage ? '#test-drive' : onTdPage ? '#td-top' : model ? `/test-drive?model=${encodeURIComponent(model)}` : '/test-drive'
   return (
     <div className="mbar">
       <CallPicker branches={branches} label="โทร" />
