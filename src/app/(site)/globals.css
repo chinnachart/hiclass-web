@@ -305,6 +305,12 @@ body { padding-bottom: var(--mbar-h); }
 @media (min-width: 900px) { .hs-cta .btn { width: auto; padding: 0 30px; } }
 .hs-btn-gold { background: linear-gradient(135deg, #f3d08a, #c9973f); color: #171004; border-color: transparent; }
 .hs-btn-line { background: var(--green); color: #fff; border-color: transparent; }
+/* zip #41 — ปุ่มทักแชท (LINE) เด่นขึ้นบนมือถือ: สูงขึ้น ตัวใหญ่ขึ้น เงาเขียวเต้นเบาๆ ชวนกด */
+@media (max-width: 899px) {
+  .hs-btn-line { min-height: 56px; font-size: 17px; font-weight: 700; box-shadow: 0 8px 24px rgba(6,199,85,.45); animation: hsLinePulse 2.4s ease-in-out infinite; }
+}
+@keyframes hsLinePulse { 0%, 100% { box-shadow: 0 8px 22px rgba(6,199,85,.4); } 50% { box-shadow: 0 8px 34px rgba(6,199,85,.85); } }
+@media (prefers-reduced-motion: reduce) { .hs-btn-line { animation: none; } }
 .hs-btn-red { background: var(--red); color: #fff; border-color: transparent; }
 .hs-btn-ghost { background: rgba(255,255,255,.07); color: #fff; border: 1px solid rgba(255,255,255,.5); }
 .hs-chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12.5px; }
