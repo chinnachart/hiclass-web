@@ -36,7 +36,6 @@ function Slide({ s, lineUrl, active }: { s: HeroSlide; lineUrl?: string | null; 
   return (
     <div className={`hs-slide${s.center ? ' center' : ''}`} aria-hidden={!active}>
       <div className="hs-copy">
-        <p className={`hs-kicker ${s.accent}`}><i /> {s.kicker}</p>
         <h2 className="hs-title"><Rich text={s.title} /></h2>
         <p className="hs-sub"><Rich text={s.sub} /></p>
         <div className="hs-cta">
@@ -66,12 +65,12 @@ export default function HeroSlider({
   slides,
   lineUrl,
   branchCount,
-  googleRating,
+  models = [],
 }: {
   slides: HeroSlide[]
   lineUrl?: string | null
   branchCount: number
-  googleRating?: number | null
+  models?: { name: string; slug: string }[]
 }) {
   const [i, setI] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -129,15 +128,17 @@ export default function HeroSlider({
           BYD ราคา ตารางผ่อน ทดลองขับฟรี — ผู้จำหน่ายอย่างเป็นทางการ {branchCount} สาขา กรุงเทพฯ
         </h1>
 
-        {/* 3 ต.ค. — มือถือ: ตัวเลขความน่าเชื่อถือเติมพื้นที่ว่างด้านบน (จอใหญ่ซ่อน มีวิดีโอแล้ว) */}
-        <div className="hs-trust" aria-label="จุดเด่น BYD Hi-Class">
-          <div><b>10,000+</b><span>คัน ยอดส่งมอบสูงสุดในประเทศ</span></div>
-          <div><b>{branchCount} สาขา</b><span>ทั่วกรุงเทพฯ ทดลองขับฟรี</span></div>
-          {googleRating && googleRating >= 4.5 ? (  /* คะแนนต่ำกว่า 4.5 ไม่ขึ้นหน้าแรก ใช้จุดขายครบวงจรแทน */
-            <div><b>{googleRating.toFixed(1)} ★</b><span>รีวิวจากลูกค้าบน Google</span></div>
-          ) : (
-            <div><b>ครบวงจร</b><span>ขาย ซ่อมสี ตัวถัง ไฟแนนซ์</span></div>
-          )}
+        {/* 3 ต.ค. แบบ 4 — แนะนำแบรนด์ + ชื่อรุ่นทั้งหมด แทน kicker (Private Offer ฯลฯ) · คงที่ทุกสไลด์ ทุกจอ */}
+        <div className="hs-intro">
+          <p className="hs-brand">BYD Hi-Class EV Car</p>
+          <p className="hs-brand-sub">ตัวแทนจำหน่าย BYD ประเทศไทย · จำหน่ายทุกรุ่น · ยอดส่งมอบทั้งกรุ๊ป <b>10,000+</b> คัน</p>
+          {models.length ? (
+            <nav className="hs-models" aria-label="รุ่นรถ BYD">
+              {models.map((m) => (
+                <Link key={m.slug} href={`/car-model/${m.slug}`}>{m.name.replace(/^BYD\s+/i, '')}</Link>
+              ))}
+            </nav>
+          ) : null}
         </div>
 
         <div className="hs-stage">

@@ -661,13 +661,17 @@ button.icon-btn { cursor: pointer; }
   .contact-side { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 }
 .svc .more { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--red); margin-top: auto; padding-top: 4px; }
-/* 3 ต.ค. — แถบความน่าเชื่อถือบนสุดของ hero (มือถือเท่านั้น เติมพื้นที่ว่างเหนือสไลด์) */
-.hs-trust { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.hs-trust div { display: flex; flex-direction: column; gap: 2px; padding: 12px 10px; border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-.hs-trust b { font-size: 20px; line-height: 1.1; font-weight: 700; color: #f0c168; font-variant-numeric: tabular-nums; }
-.hs-trust span { font-size: 11.5px; line-height: 1.35; color: rgba(255,255,255,.82); }
-.hs-in .hs-trust { margin-bottom: auto; }
-@media (min-width: 900px) { .hs-trust { display: none; } }
+/* 3 ต.ค. แบบ 4 — บล็อกแนะนำแบรนด์ใน hero (ทุกสไลด์ ทุกจอ) */
+.hs-intro { display: flex; flex-direction: column; gap: 6px; max-width: 640px; }
+.hs-in .hs-intro { margin-bottom: auto; }
+@media (min-width: 900px) { .hs-in .hs-intro { margin-bottom: 0; } }
+.hs-brand { margin: 0; font-size: 22px; line-height: 1.2; font-weight: 700; color: #fff; }
+.hs-brand-sub { margin: 0; font-size: 13.5px; line-height: 1.5; color: #f0c168; }
+.hs-brand-sub b { font-weight: 700; }
+.hs-models { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.hs-models a { padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.06); color: #fff; font-size: 12.5px; text-decoration: none; transition: border-color .15s, background .15s; }
+.hs-models a:hover, .hs-models a:active { border-color: #f0c168; background: rgba(240,193,104,.14); }
+@media (min-width: 900px) { .hs-brand { font-size: 28px; } .hs-brand-sub { font-size: 15px; } .hs-models a { font-size: 13.5px; padding: 6px 14px; } }
 @media (max-width: 899px) {
   .hs-shade { background: linear-gradient(180deg, rgba(8,9,11,.55) 0%, rgba(8,9,11,.3) 30%, rgba(8,9,11,.6) 55%, rgba(8,9,11,.97) 88%); }
 }

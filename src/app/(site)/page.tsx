@@ -65,7 +65,7 @@ export default async function HomePage() {
       <Jsonld data={webSiteLd()} />
 
       {/* ---------- Hero: วิดีโอพื้นหลัง + สไลด์ข้อเสนอ 4 ใบ (zip #31) ---------- */}
-      <HeroSlider slides={heroSlides} lineUrl={settings.lineUrl} branchCount={branches.length} googleRating={settings.googleRating} />
+      <HeroSlider slides={heroSlides} lineUrl={settings.lineUrl} branchCount={branches.length} models={models.map((m) => ({ name: m.name, slug: m.slug }))} />
 
       <main className="container">
         {/* ---------- รางวัล ---------- */}
