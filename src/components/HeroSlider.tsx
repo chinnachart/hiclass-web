@@ -122,8 +122,8 @@ export default function HeroSlider({
 
       <div className="container hs-in">
         {/* zip #40 — H1 เดียวของหน้าแรกต้องมีคำที่คนค้น (เดิม H1 เป็นสโลแกนที่หมุน 4 ชุด ไม่มีคำว่า BYD) · สโลแกนลงเป็น h2 */}
-        <h1 className="hs-badge">
-          <Icon name="check" size={14} sw={3} />
+        {/* 3 ต.ค. — เจ้าของสั่งเอาบรรทัดติ๊กถูกออกจากจอ · ยังเก็บเป็น H1 ซ่อน (visually-hidden) ไว้ให้ Google อ่าน */}
+        <h1 className="visually-hidden">
           BYD ราคา ตารางผ่อน ทดลองขับฟรี — ผู้จำหน่ายอย่างเป็นทางการ {branchCount} สาขา กรุงเทพฯ
         </h1>
 

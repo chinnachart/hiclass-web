@@ -1,6 +1,15 @@
 export const baht = (v: number | null | undefined) =>
   typeof v === 'number' ? v.toLocaleString('th-TH', { maximumFractionDigits: 0 }) : '—'
 
+/** เบอร์ไทยให้รูปแบบเดียวกันทั้งเว็บ: 0XX-XXX-XXXX (มือถือ 10 หลัก) / 02-XXX-XXXX (9 หลัก) */
+export const fmtPhone = (phone?: string | null) => {
+  if (!phone) return ''
+  const d = phone.replace(/\D/g, '')
+  if (d.length === 10) return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`
+  if (d.length === 9 && d.startsWith('02')) return `02-${d.slice(2, 5)}-${d.slice(5)}`
+  return phone.trim()
+}
+
 export const telHref = (phone?: string | null) =>
   phone ? `tel:${phone.replace(/[^0-9+]/g, '')}` : '#'
 

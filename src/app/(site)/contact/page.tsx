@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Icon from '@/components/Icons'
 import { BranchCard } from '@/components/Cards'
 import { getSiteData } from '@/lib/data'
-import { telHref } from '@/lib/format'
+import { fmtPhone, telHref } from '@/lib/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,14 +35,19 @@ export default async function ContactPage() {
             <div className="card svc">
               <span className="branch-ico"><Icon name="phone" size={20} /></span>
               <h3>โทรหาสาขา</h3>
-              <p>
+              {/* 3 ต.ค. — แต่ละสาขาเป็นปุ่มโทรออกทั้งแถว กดตรงไหนก็โทร · เบอร์รูปแบบเดียวกัน */}
+              <div className="call-list">
                 {branches.filter((b) => b.phone).map((b) => (
-                  <span key={b.id} style={{ display: 'block' }}>
-                    {b.name} <a href={telHref(b.phone)} style={{ color: 'var(--ink)', fontWeight: 600 }}>{b.phone}</a>
-                  </span>
+                  <a key={b.id} className="call-row" href={telHref(b.phone)} aria-label={`โทรหาสาขา${b.name} ${fmtPhone(b.phone)}`}>
+                    <span className="call-row-txt">
+                      <b>สาขา{b.name}</b>
+                      <span>{fmtPhone(b.phone)}</span>
+                    </span>
+                    <span className="call-row-btn"><Icon name="phone" size={16} /> โทรเลย</span>
+                  </a>
                 ))}
-                <span style={{ display: 'block', marginTop: 4 }}>เปิด{branches[0]?.openHours || 'ทุกวัน 08:00–18:00'}</span>
-              </p>
+              </div>
+              <p style={{ marginTop: 10 }}>เปิด{branches[0]?.openHours || 'ทุกวัน 08:00–18:00'}</p>
             </div>
             {settings.lineUrl ? (
               <a className="card svc" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
