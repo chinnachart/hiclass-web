@@ -66,10 +66,12 @@ export default function HeroSlider({
   slides,
   lineUrl,
   branchCount,
+  googleRating,
 }: {
   slides: HeroSlide[]
   lineUrl?: string | null
   branchCount: number
+  googleRating?: number | null
 }) {
   const [i, setI] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -126,6 +128,17 @@ export default function HeroSlider({
         <h1 className="visually-hidden">
           BYD ราคา ตารางผ่อน ทดลองขับฟรี — ผู้จำหน่ายอย่างเป็นทางการ {branchCount} สาขา กรุงเทพฯ
         </h1>
+
+        {/* 3 ต.ค. — มือถือ: ตัวเลขความน่าเชื่อถือเติมพื้นที่ว่างด้านบน (จอใหญ่ซ่อน มีวิดีโอแล้ว) */}
+        <div className="hs-trust" aria-label="จุดเด่น BYD Hi-Class">
+          <div><b>10,000+</b><span>คัน ยอดส่งมอบสูงสุดในประเทศ</span></div>
+          <div><b>{branchCount} สาขา</b><span>ทั่วกรุงเทพฯ ทดลองขับฟรี</span></div>
+          {googleRating && googleRating >= 4.5 ? (  /* คะแนนต่ำกว่า 4.5 ไม่ขึ้นหน้าแรก ใช้จุดขายครบวงจรแทน */
+            <div><b>{googleRating.toFixed(1)} ★</b><span>รีวิวจากลูกค้าบน Google</span></div>
+          ) : (
+            <div><b>ครบวงจร</b><span>ขาย ซ่อมสี ตัวถัง ไฟแนนซ์</span></div>
+          )}
+        </div>
 
         <div className="hs-stage">
           {slides.map((s, k) => (
