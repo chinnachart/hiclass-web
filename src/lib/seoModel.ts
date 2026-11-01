@@ -5,7 +5,7 @@
  * และปีที่ใช้ในหัวข้อ (ปีปัจจุบันตามเวลาไทย ไม่ต้องมาแก้ทุกปี)
  */
 import type { CarModel, Branch } from './types'
-import { baht } from './format'
+import { baht, BODY_TYPES } from './format'
 
 /** ปี ค.ศ. ตามเวลาไทย — Google เห็นคำว่า "2026" ในหัวข้อแล้วมองว่าหน้าอัปเดต */
 export function seoYear(now = new Date()): number {
@@ -29,6 +29,125 @@ export function modelDescription(m: CarModel, perMonth: number, year = seoYear()
   const colors = m.colors?.length ? ` ${m.colors.length} สี` : m.colorsCount ? ` ${m.colorsCount} สี` : ''
   // ★ 1 พ.ย. 2026 Google ตัดคำอธิบายที่ ~155 ตัว (เดิม ~190) — ตัวเลขสำคัญไว้หน้า ข้อความชวนกดไว้ท้าย
   return `BYD ${m.name} ${year} ราคาเริ่ม ${baht(m.priceFrom)} บาท ผ่อน ${baht(perMonth)}/เดือน${range}${colors} ดูสเปค ตารางผ่อน นัดทดลองขับฟรี Hi-Class 5 สาขา`
+}
+
+/**
+ * ★ 1 พ.ย. 2026 เนื้อหาหน้ารุ่นบางกว่าคู่แข่ง (~900 คำ vs ~2,700) — ส่วนด้านล่างสร้างข้อความจากข้อมูลหลังบ้านล้วน
+ * (ราคา รุ่นย่อย ระยะทาง สเปค สี ตำแหน่งในไลน์อัป) ไม่เดาตัวเลขที่ไม่มี — ทุกรุ่นได้เนื้อหาไม่ซ้ำกันอัตโนมัติ
+ */
+const pt = (m: Pick<CarModel, 'powertrain'>) => (m.powertrain === 'phev' ? 'ไฮบริดปลั๊กอิน DM-i' : 'ไฟฟ้า 100%')
+const rangeTxt = (m: Pick<CarModel, 'powertrain' | 'rangeKm'>) =>
+  m.rangeKm ? (m.powertrain === 'phev' ? `ระยะทางรวม ${m.rangeKm.toLocaleString('th-TH')} กม.` : `${m.rangeKm.toLocaleString('th-TH')} กม./ชาร์จ`) : '–'
+/** เว้นวรรคหน้าคำอังกฤษ ("รถ SUV") แต่ไม่เว้นหน้าคำไทย ("รถแฮทช์แบ็ก") */
+const sp = (t: string) => (/^[A-Za-z]/.test(t) ? ' ' : '') + t
+const colorCount = (m: CarModel) => m.colors?.length || m.colorsCount || 0
+
+/** รุ่นใกล้เคียงสำหรับเทียบ: ตัวถังเดียวกันก่อน (ราคาใกล้สุด) แล้วเติมด้วยรุ่นราคาใกล้เคียงต่างตัวถัง */
+export function nearestModels(m: CarModel, models: CarModel[], n = 3): CarModel[] {
+  const byGap = (a: CarModel, b: CarModel) => Math.abs(a.priceFrom - m.priceFrom) - Math.abs(b.priceFrom - m.priceFrom)
+  const others = models.filter((x) => x.id !== m.id && x.priceFrom > 0)
+  const same = others.filter((x) => x.bodyType === m.bodyType).sort(byGap)
+  const rest = others.filter((x) => x.bodyType !== m.bodyType).sort(byGap)
+  return [...same, ...rest].slice(0, n)
+}
+
+/** ย่อหน้า "ภาพรวม" — ตำแหน่งของรุ่นนี้ในไลน์อัป Hi-Class คำนวณจากราคาและระยะทางจริง */
+export function modelOverview(m: CarModel, models: CarModel[], perMonth: number, defaultDown: number, defaultTerm: number): string[] {
+  const body = BODY_TYPES[m.bodyType] || m.bodyType
+  const variants = (m.variants || []).filter((v) => v && v.price > 0)
+  const priced = models.filter((x) => x.priceFrom > 0).sort((a, b) => a.priceFrom - b.priceFrom)
+  const rank = priced.findIndex((x) => x.id === m.id) + 1
+  const sameBody = priced.filter((x) => x.bodyType === m.bodyType)
+  const cc = colorCount(m)
+  const out: string[] = []
+
+  const vTxt =
+    variants.length > 1
+      ? ` มี ${variants.length} รุ่นย่อย ราคา ${baht(Math.min(...variants.map((v) => v.price)))}–${baht(Math.max(...variants.map((v) => v.price)))} บาท`
+      : ''
+  out.push(
+    `BYD ${m.name} เป็นรถ${sp(body)} ขุมพลัง${pt(m)} ราคาเริ่มต้น ${baht(m.priceFrom)} บาท${vTxt}` +
+      `${m.rangeKm ? ` ${m.powertrain === 'phev' ? 'ระยะทางรวมไฟฟ้าและน้ำมันประมาณ' : 'วิ่งได้ประมาณ'} ${m.rangeKm.toLocaleString('th-TH')} กม.${m.powertrain === 'phev' ? '' : ' ต่อการชาร์จเต็ม'}` : ''}` +
+      `${cc ? ` มีให้เลือก ${cc} สี` : ''}`,
+  )
+
+  if (rank > 0 && priced.length > 1) {
+    const pos = rank === 1 ? 'ราคาเริ่มต้นถูกที่สุด' : rank === priced.length ? 'ราคาสูงที่สุด' : `ราคาอยู่อันดับ ${rank} จาก ${priced.length} รุ่น (เรียงจากถูกไปแพง)`
+    const bodyTxt = sameBody.length > 1 ? ` ในกลุ่ม${sp(body)} มีให้เลือก ${sameBody.length} รุ่น ได้แก่ ${sameBody.map((x) => x.name).join(', ')}` : ''
+    let rangePos = ''
+    if (m.rangeKm && m.powertrain !== 'phev') {
+      const evs = models.filter((x) => x.powertrain !== 'phev' && x.rangeKm).sort((a, b) => (b.rangeKm || 0) - (a.rangeKm || 0))
+      // อันดับแบบนับรุ่นที่วิ่งไกลกว่าจริง (ระยะเท่ากันได้อันดับเดียวกัน) · บอกเฉพาะ 3 อันดับแรก
+      const r = 1 + evs.filter((x) => (x.rangeKm || 0) > (m.rangeKm || 0)).length
+      if (r === 1 && evs.length > 1) rangePos = ` และวิ่งได้ไกลที่สุดในกลุ่มรถไฟฟ้า 100% ที่ Hi-Class มีขาย`
+      else if (r <= 3 && evs.length > 3) rangePos = ` ระยะทางต่อการชาร์จติด ${r} อันดับแรกจากรถไฟฟ้า 100% ทั้งหมด ${evs.length} รุ่น`
+    }
+    out.push(`ในไลน์อัป BYD ${priced.length} รุ่นที่ Hi-Class จำหน่าย ${m.name} ${pos}${bodyTxt}${rangePos}`)
+  }
+
+  out.push(
+    `ถ้าดาวน์ ${defaultDown}% และผ่อน ${defaultTerm} งวด ค่างวดประมาณ ${baht(perMonth)} บาทต่อเดือน (ยังไม่รวมประกันและค่าธรรมเนียม) ` +
+      `ทดลองขับฟรีได้ทุกสาขาของ Hi-Class ก่อนตัดสินใจ`,
+  )
+  return out
+}
+
+/** "เหมาะกับใคร" — อิงตัวถัง ขุมพลัง และช่วงราคา (ไม่อ้างสเปคที่ไม่มีในหลังบ้าน) */
+export function modelFitFor(m: CarModel, models: CarModel[]): string[] {
+  const out: string[] = []
+  if (m.powertrain === 'phev') {
+    out.push('คนที่ขับทางไกลหรือต่างจังหวัดบ่อย อยากใช้ไฟฟ้าในเมืองแต่ไม่อยากกังวลเรื่องหาที่ชาร์จ เพราะเติมน้ำมันได้')
+  } else {
+    out.push('คนที่ชาร์จไฟที่บ้านหรือที่ทำงานได้ อยากประหยัดค่าพลังงานและค่าบำรุงรักษาแบบรถไฟฟ้า 100%')
+  }
+  const byBody: Record<string, string> = {
+    suv: 'คนที่ชอบตำแหน่งนั่งสูง ขึ้นลงสะดวก และต้องการพื้นที่เก็บของสำหรับครอบครัว',
+    sedan: 'คนที่ชอบรถทรงต่ำ ขับนิ่ง และเน้นการเดินทางไกลบนทางหลวง',
+    hatch: 'คนที่ขับในเมืองเป็นหลัก ต้องการรถคล่องตัว หาที่จอดง่าย',
+    mpv: 'ครอบครัวใหญ่ที่ต้องการพื้นที่นั่งหลายแถวและห้องโดยสารกว้าง',
+  }
+  if (byBody[m.bodyType]) out.push(byBody[m.bodyType])
+  const prices = models.filter((x) => x.priceFrom > 0).map((x) => x.priceFrom).sort((a, b) => a - b)
+  if (prices.length > 2) {
+    const third = prices[Math.floor(prices.length / 3)]
+    // รุ่นท็อป = ราคาสูงสุดรุ่นเดียว (กันรุ่นกลางๆ ถูกเรียกว่าท็อป)
+    if (m.priceFrom === prices[prices.length - 1]) out.push('คนที่มองหารุ่นท็อปในไลน์อัป BYD และให้ความสำคัญกับสมรรถนะและความพรีเมียม')
+    else if (m.priceFrom <= third) out.push(`คนที่มีงบเริ่มต้นไม่เกินราว ${baht(Math.ceil(m.priceFrom / 100000) * 100000)} บาท และอยากเริ่มใช้รถ BYD`)
+    else out.push('คนที่อยากได้ความสมดุลระหว่างราคา พื้นที่ใช้สอย และออปชัน')
+  }
+  return out
+}
+
+/** คำถามเพิ่ม (ต่อท้าย FAQ สำรอง): รุ่นย่อยต่างกันยังไง · เทียบกับรุ่นใกล้เคียง · ชาร์จเร็ว */
+export function extraFaq(m: CarModel, models: CarModel[]): { question: string; answer: string }[] {
+  const items: { question: string; answer: string }[] = []
+  const variants = (m.variants || []).filter((v) => v && v.price > 0)
+  if (variants.length > 1) {
+    const lo = Math.min(...variants.map((v) => v.price))
+    items.push({
+      question: `BYD ${m.name} แต่ละรุ่นย่อยต่างกันยังไง`,
+      answer: `${m.name} มี ${variants.length} รุ่นย่อย: ${variants
+        .map((v) => `${v.name} ${baht(v.price)} บาท${v.price > lo ? ` (แพงกว่ารุ่นเริ่มต้น ${baht(v.price - lo)} บาท)` : ''}${v.note ? ` — ${v.note}` : ''}`)
+        .join(' · ')} ทีมขายช่วยเทียบออปชันจริงของแต่ละรุ่นย่อยให้ได้ที่สาขา`,
+    })
+  }
+  const charge = (m.specs || []).find((s) => /ชาร์จ/.test(s.label))
+  if (charge && charge.value) {
+    items.push({ question: `BYD ${m.name} ชาร์จเร็วใช้เวลาเท่าไหร่`, answer: `${charge.label}: ${charge.value} (ตามข้อมูลผู้ผลิต เวลาจริงขึ้นกับกำลังของตู้ชาร์จและอุณหภูมิแบตเตอรี่)` })
+  }
+  const near = nearestModels(m, models, 1)[0]
+  if (near) {
+    const diff = near.priceFrom - m.priceFrom
+    items.push({
+      question: `BYD ${m.name} กับ ${near.name} ต่างกันยังไง`,
+      answer:
+        `${m.name} เป็น${sp(BODY_TYPES[m.bodyType] || m.bodyType)} ${pt(m)} ราคาเริ่ม ${baht(m.priceFrom)} บาท ${rangeTxt(m)} ` +
+        `ส่วน ${near.name} เป็น${sp(BODY_TYPES[near.bodyType] || near.bodyType)} ${pt(near)} ราคาเริ่ม ${baht(near.priceFrom)} บาท ${rangeTxt(near)} ` +
+        `${diff === 0 ? 'ราคาเริ่มต้นเท่ากัน' : `${near.name} ${diff > 0 ? 'แพงกว่า' : 'ถูกกว่า'} ${baht(Math.abs(diff))} บาท`} ` +
+        `เทียบสเปคแบบละเอียดได้ที่หน้าเปรียบเทียบรุ่น หรือนัดลองขับทั้งสองรุ่นในวันเดียวกัน`,
+    })
+  }
+  return items
 }
 
 /** ข้อมูลสีที่จะแสดง — ใช้ของหลังบ้านก่อน ถ้าไม่มีค่อยถอยไปใช้จำนวนสี */

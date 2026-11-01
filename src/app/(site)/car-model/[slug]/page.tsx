@@ -16,7 +16,8 @@ import { NewsCard } from '@/components/Cards'
 import { ReviewGrid } from '@/components/Reviews'
 import { baht, rangeLabel } from '@/lib/format'
 import { financeTable } from '@/lib/finance'
-import { modelTitle, modelDescription, defaultFaq, colorList, seoYear } from '@/lib/seoModel'
+import { modelTitle, modelDescription, defaultFaq, colorList, seoYear, modelOverview, modelFitFor, extraFaq, nearestModels } from '@/lib/seoModel'
+import { BODY_TYPES } from '@/lib/format'
 import type { Media, NewsItem } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
@@ -57,11 +58,16 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
   const year = seoYear()
   const colors = colorList(m)
   // zip #39 — FAQ: ของหลังบ้านมาก่อน ไม่มีค่อยใช้ชุดสำรอง (ทั้งบนหน้าและใน schema)
-  const faq = m.faq && m.faq.length > 0 ? m.faq : defaultFaq({ m, branches, perMonth, defaultDown: ft.defaultDown, defaultTerm: ft.defaultTerm, year })
+  const faq = m.faq && m.faq.length > 0 ? m.faq : [...defaultFaq({ m, branches, perMonth, defaultDown: ft.defaultDown, defaultTerm: ft.defaultTerm, year }), ...extraFaq(m, models)]
+  // ★ 1 พ.ย. 2026 เนื้อหาเพิ่มจากข้อมูลจริง (ภาพรวม / เหมาะกับใคร / ตารางเทียบรุ่นใกล้เคียง)
+  const overview = modelOverview(m, models, perMonth, ft.defaultDown, ft.defaultTerm)
+  const fitFor = modelFitFor(m, models)
+  const near = nearestModels(m, models, 3)
+  const cmpRows = [m, ...near]
   // ตารางผ่อนย่อ 3 ดาวน์ × งวดเริ่มต้น — คนค้น "ตารางผ่อน <รุ่น>" ต้องเห็นตัวเลขทันทีไม่ต้องกดต่อ
   const miniDowns = Array.from(new Set([ft.downs[ft.downs.length - 1], ft.defaultDown, ft.downs[0]])).filter((d) => typeof d === 'number').sort((a, b) => a - b)
   const priceRows = (m.variants && m.variants.length > 0 ? m.variants : [{ name: m.name, price: m.priceFrom, note: null }]).filter((v) => v.price > 0)
-  const compareWith = models.filter((x) => x.id !== m.id && x.bodyType === m.bodyType).slice(0, 2)
+  const compareWith = near.slice(0, 2)
 
   return (
     <>
@@ -171,6 +177,21 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           <p className="small mute" style={{ marginTop: 8 }}>ค่างวดเป็นค่าประมาณจากดอกเบี้ยคงที่ ยังไม่รวมประกันและค่าธรรมเนียม เงื่อนไขจริงขึ้นกับไฟแนนซ์และแคมเปญในวันจอง</p>
         </section>
 
+        <section className="section" id="overview">
+          <div className="sec-head"><div><h2>ภาพรวม BYD {m.name}</h2></div></div>
+          <div className="card" style={{ padding: 20, maxWidth: 860 }}>
+            {overview.map((p, i) => <p key={i} style={{ marginTop: i ? 10 : 0, lineHeight: 1.75 }}>{p}</p>)}
+            {fitFor.length > 0 ? (
+              <>
+                <h3 style={{ fontSize: 17, marginTop: 18 }}>BYD {m.name} เหมาะกับใคร</h3>
+                <ul style={{ marginTop: 8, paddingLeft: 20, lineHeight: 1.75 }}>
+                  {fitFor.map((f) => <li key={f}>{f}</li>)}
+                </ul>
+              </>
+            ) : null}
+          </div>
+        </section>
+
         {colors.length > 0 ? (
           <section className="section" id="colors" style={{ scrollMarginTop: 80 }}>
             <div className="sec-head"><div><h2>สี BYD {m.name} ทั้ง {colors.length} สี</h2><p>สีที่มีในสต็อกต่างกันแต่ละสาขา ถามทีมขายก่อนจองได้</p></div></div>
@@ -239,6 +260,44 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           <section className="section" id="faq">
             <div className="sec-head"><div><h2>คำถามที่พบบ่อยเกี่ยวกับ BYD {m.name}</h2></div></div>
             <Faq items={faq} />
+          </section>
+        ) : null}
+
+        {near.length > 0 ? (
+          <section className="section" id="compare">
+            <div className="sec-head">
+              <div>
+                <h2>เทียบ BYD {m.name} กับรุ่นใกล้เคียง</h2>
+                <p>ราคา ค่างวด ({ft.defaultDown}% · {ft.defaultTerm} งวด) และระยะทาง เทียบกับรุ่นที่ราคาและตัวถังใกล้กัน</p>
+              </div>
+              <Link className="sec-link" href={`/compare?m=${cmpRows.map((x) => x.slug).join(',')}`}>เทียบละเอียด <Icon name="chev" size={16} /></Link>
+            </div>
+            <div className="card" style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+                <thead>
+                  <tr>
+                    {['รุ่น', 'ตัวถัง', 'ขุมพลัง', 'ราคาเริ่ม (บาท)', 'ผ่อน/เดือน', 'ระยะทาง', 'สี'].map((h, i) => (
+                      <th key={h} style={{ textAlign: i >= 3 && i <= 4 ? 'right' : 'left', padding: '10px 12px', whiteSpace: 'nowrap' }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {cmpRows.map((x) => (
+                    <tr key={x.id} style={{ borderTop: '1px solid var(--line)', background: x.id === m.id ? 'var(--soft)' : undefined }}>
+                      <td style={{ padding: '10px 12px', whiteSpace: 'nowrap' }}>
+                        {x.id === m.id ? <b>BYD {x.name}</b> : <Link href={`/car-model/${x.slug}`} style={{ color: 'var(--red)', fontWeight: 600 }}>BYD {x.name}</Link>}
+                      </td>
+                      <td style={{ padding: '10px 12px' }}>{BODY_TYPES[x.bodyType] || x.bodyType}</td>
+                      <td style={{ padding: '10px 12px' }}>{x.powertrain === 'phev' ? 'PHEV (DM-i)' : 'EV'}</td>
+                      <td style={{ padding: '10px 12px', textAlign: 'right' }}><b className="display">{baht(x.priceFrom)}</b></td>
+                      <td style={{ padding: '10px 12px', textAlign: 'right' }}>{baht(ft.pay(x.priceFrom, ft.defaultDown, ft.defaultTerm).perMonth)}</td>
+                      <td style={{ padding: '10px 12px', whiteSpace: 'nowrap' }}>{x.rangeKm ? `${x.rangeKm.toLocaleString('th-TH')} กม.${x.powertrain === 'phev' ? ' (รวม)' : ''}` : '–'}</td>
+                      <td style={{ padding: '10px 12px' }}>{x.colors?.length || x.colorsCount || '–'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
         ) : null}
 
