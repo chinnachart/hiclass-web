@@ -85,7 +85,12 @@ export default function ModelCarousel({ models, lineUrl }: { models: CarouselMod
             <div className={s.name}>{m.name}</div>
             <div className={s.tl}>{m.tagline}</div>
             <Link href={`/car-model/${m.slug}`} className={s.car}>
-              {m.img ? <Image src={m.img} alt={m.alt || `BYD ${m.name}`} fill sizes="(max-width: 700px) 86vw, 420px" priority={i < 2} style={{ objectFit: 'contain' }} /> : null}
+              {m.img?.startsWith('http') ? (
+                // eslint-disable-next-line @next/next/no-img-element -- รูปจากโดเมนจริง (ใช้ในหน้าทดลองเท่านั้น)
+                <img src={m.img} alt={m.alt || `BYD ${m.name}`} loading={i < 2 ? 'eager' : 'lazy'} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
+              ) : m.img ? (
+                <Image src={m.img} alt={m.alt || `BYD ${m.name}`} fill sizes="(max-width: 700px) 86vw, 420px" priority={i < 2} style={{ objectFit: 'contain' }} />
+              ) : null}
             </Link>
             <div className={s.specs}>
               <div className={s.spec}><small>ราคาเริ่มต้น</small><b>฿{m.priceFrom.toLocaleString('en-US')}</b></div>
