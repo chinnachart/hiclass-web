@@ -142,7 +142,7 @@ export default async function HomePage() {
                 <div className="card stat"><b>{settings.googleRating.toFixed(1)} ★</b><span>คะแนนรีวิวจากลูกค้าบน Google{settings.trustNote ? ` · ${settings.trustNote}` : ''}</span></div>
               ) : null}
               <div className="card stat"><b>{branches.length} สาขา</b><span>ในกรุงเทพฯ และปริมณฑล เลือกสาขาที่ใกล้บ้านได้เอง</span></div>
-              <div className="card stat"><b>1 ชั่วโมง</b><span>ทีมขายโทรยืนยันนัดทดลองขับกลับภายใน 1 ชั่วโมง (เวลาทำการ)</span></div>
+              <div className="card stat"><b>25 นาที</b><span>ทีมขายโทรยืนยันนัดทดลองขับกลับภายใน 25 นาที (เวลาทำการ)</span></div>
               {!settings.deliveredCount ? <div className="card stat"><b>ฟรี</b><span>ทดลองขับทุกรุ่น ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</span></div> : null}
             </div>
           </div>

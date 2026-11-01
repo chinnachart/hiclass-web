@@ -78,7 +78,7 @@ export default async function ContactPage() {
             <Link className="card svc" href="/test-drive">
               <span className="branch-ico"><Icon name="wheel" size={20} /></span>
               <h3>นัดทดลองขับ</h3>
-              <p>กรอกฟอร์ม 1 นาที ทีมขายโทรกลับภายใน 1 ชั่วโมง</p>
+              <p>กรอกฟอร์ม 1 นาที ทีมขายโทรกลับภายใน 25 นาที</p>
               <span className="more">จองทดลองขับฟรี <Icon name="arrow" size={14} /></span>
             </Link>
             </div>

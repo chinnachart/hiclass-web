@@ -61,7 +61,7 @@ export default async function DeliveryPage() {
           <div className="card" style={{ padding: 24, textAlign: 'center' }}>
             <h2>เราพร้อมให้บริการ</h2>
             <p className="mute" style={{ marginTop: 8 }}>
-              นัดทดลองขับฟรีทุกรุ่น เลือกสาขาที่สะดวก ทีมขายโทรยืนยันคิวภายใน 1 ชั่วโมง
+              นัดทดลองขับฟรีทุกรุ่น เลือกสาขาที่สะดวก ทีมขายโทรยืนยันคิวภายใน 25 นาที
             </p>
             <div className="hero-cta" style={{ justifyContent: 'center', marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               <Link className="btn btn-red btn-lg" href="/test-drive">

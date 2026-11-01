@@ -88,7 +88,7 @@ export default async function TestDrivePage({
         <div className="container">
           <p className="kicker"><Icon name="wheel" size={14} />ทดลองขับฟรี ทุกรุ่น</p>
           <h1>นัดทดลองขับฟรี กรอกแค่ชื่อกับเบอร์</h1>
-          <p className="lead">เซลส์โทรกลับนัดให้ภายใน 1 ชั่วโมง (เวลาทำการ) ฟรี ไม่มีข้อผูกมัด</p>
+          <p className="lead">เซลส์โทรกลับนัดให้ภายใน 25 นาที (เวลาทำการ) ฟรี ไม่มีข้อผูกมัด</p>
           <div className="td-trust">
             {settings.deliveredCount ? (
               <div><b>{settings.deliveredCount.toLocaleString('th-TH')}+ คัน</b>ส่งมอบให้ลูกค้าแล้ว</div>

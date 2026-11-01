@@ -94,7 +94,7 @@ export function defaultFaq({ m, branches, perMonth, defaultDown, defaultTerm, ye
 
   items.push({
     question: `ทดลองขับ BYD ${m.name} ได้ที่ไหน`,
-    answer: `ทดลองขับฟรีได้ที่ Hi-Class ทั้ง ${bn} สาขา${branchNames ? ` (${branchNames})` : ''} กรอกชื่อกับเบอร์ในหน้านี้ ทีมขายโทรยืนยันคิวภายใน 1 ชั่วโมงในเวลาทำการ ไม่มีข้อผูกมัด`,
+    answer: `ทดลองขับฟรีได้ที่ Hi-Class ทั้ง ${bn} สาขา${branchNames ? ` (${branchNames})` : ''} กรอกชื่อกับเบอร์ในหน้านี้ ทีมขายโทรยืนยันคิวภายใน 25 นาทีในเวลาทำการ ไม่มีข้อผูกมัด`,
   })
 
   items.push({

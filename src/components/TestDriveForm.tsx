@@ -103,7 +103,7 @@ export default function TestDriveForm({ models, branches, settings, defaultModel
         </span>
         <h3 style={{ fontSize: 22 }}>รับนัดเรียบร้อยแล้ว</h3>
         <p className="mute">
-          ทีมขายสาขาที่คุณเลือกได้รับแจ้งแล้ว จะโทรยืนยันวันเวลาให้ภายใน 1 ชั่วโมงในเวลาทำการ
+          ทีมขายสาขาที่คุณเลือกได้รับแจ้งแล้ว จะโทรยืนยันวันเวลาให้ภายใน 25 นาทีในเวลาทำการ
           ระหว่างนี้ถ้าอยากคุยเลย โทรหาสาขาได้ทันที
         </p>
         <CallPicker branches={branches} label="โทรหาสาขา" title="โทรคุยกับทีมขาย — เลือกสาขา" />

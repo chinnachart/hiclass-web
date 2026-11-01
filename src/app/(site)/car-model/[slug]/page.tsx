@@ -126,7 +126,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
         <section className="section" id="test-drive" style={{ scrollMarginTop: 80 }}>
           <div className="card" style={{ padding: 20, maxWidth: 640 }}>
             <h2 style={{ fontSize: 22, marginBottom: 4 }}>นัดทดลองขับ {m.name} ฟรี</h2>
-            <p className="small mute" style={{ marginBottom: 14 }}>กรอกแค่ชื่อกับเบอร์ ทีมขายโทรยืนยันภายใน 1 ชั่วโมง (เวลาทำการ) ไม่มีข้อผูกมัด</p>
+            <p className="small mute" style={{ marginBottom: 14 }}>กรอกแค่ชื่อกับเบอร์ ทีมขายโทรยืนยันภายใน 25 นาที (เวลาทำการ) ไม่มีข้อผูกมัด</p>
             <TestDriveForm models={models} branches={branches} settings={settings} defaultModel={m.name} compact />
           </div>
         </section>
