@@ -32,7 +32,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const description = modelDescription(m, perMonth)
   const img = mediaOf(m.heroImage)?.url
   return {
-    title,
+    // absolute = ไม่ต่อท้าย template ของ layout (แบรนด์อยู่ใน modelTitle แล้ว)
+    title: { absolute: title },
     description,
     alternates: { canonical: `/car-model/${m.slug}` },
     openGraph: { title, description, type: 'website', ...(img ? { images: [img] } : {}) },

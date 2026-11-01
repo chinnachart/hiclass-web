@@ -12,9 +12,12 @@ export function seoYear(now = new Date()): number {
   return Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric' }).format(now))
 }
 
-/** Google ตัดหัวข้อที่ ~60 ตัวอักษร — วางคำที่คนค้นไว้หน้าสุด แบรนด์ไว้ท้าย */
+/**
+ * Google ตัดหัวข้อที่ ~60 ตัวอักษร — วางคำที่คนค้นไว้หน้าสุด แบรนด์ไว้ท้าย
+ * ★ 1 พ.ย. 2026 เดิมยาว ~93 ตัว (ต่อท้าย template "| BYD Hi-Class EV Car" อีกรอบ → Hi-Class ซ้ำ) — หน้ารุ่นใช้ title.absolute
+ */
 export function modelTitle(m: CarModel, year = seoYear()): string {
-  return `BYD ${m.name} ${year} ราคา ตารางผ่อน สเปค สี | Hi-Class ทดลองขับฟรี 5 สาขา`
+  return `BYD ${m.name} ${year} ราคา ตารางผ่อน สเปค สี | Hi-Class`
 }
 
 export function modelDescription(m: CarModel, perMonth: number, year = seoYear()): string {
@@ -24,7 +27,8 @@ export function modelDescription(m: CarModel, perMonth: number, year = seoYear()
       : ` วิ่งได้ ${m.rangeKm.toLocaleString('th-TH')} กม./ชาร์จ`
     : ''
   const colors = m.colors?.length ? ` ${m.colors.length} สี` : m.colorsCount ? ` ${m.colorsCount} สี` : ''
-  return `BYD ${m.name} ${year} ราคาเริ่ม ${baht(m.priceFrom)} บาท ผ่อนเริ่ม ${baht(perMonth)} บาท/เดือน${range}${colors} ดูสเปคทุกรุ่นย่อย ตารางผ่อนทุกดาวน์ โปรเดือนนี้ และนัดทดลองขับฟรีที่ Hi-Class 5 สาขาทั่วกรุงเทพฯ`
+  // ★ 1 พ.ย. 2026 Google ตัดคำอธิบายที่ ~155 ตัว (เดิม ~190) — ตัวเลขสำคัญไว้หน้า ข้อความชวนกดไว้ท้าย
+  return `BYD ${m.name} ${year} ราคาเริ่ม ${baht(m.priceFrom)} บาท ผ่อน ${baht(perMonth)}/เดือน${range}${colors} ดูสเปค ตารางผ่อน นัดทดลองขับฟรี Hi-Class 5 สาขา`
 }
 
 /** ข้อมูลสีที่จะแสดง — ใช้ของหลังบ้านก่อน ถ้าไม่มีค่อยถอยไปใช้จำนวนสี */
