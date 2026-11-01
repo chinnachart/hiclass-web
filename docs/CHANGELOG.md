@@ -1,3 +1,4 @@
 # CHANGELOG — hiclass-web
 
 2026-11-01 · ทดลองขับ: ทีมขายโทรกลับภายใน 25 นาที (เดิม 1 ชั่วโมง) · หน้า test-drive, ฟอร์มทดลองขับ, หน้ารุ่นรถ+FAQ, หน้าแรก, delivery, awards, contact · tsc + next build ผ่าน
+2026-11-01 · หน้าแรก: hero เปลี่ยนจากสไลด์ข้อเสนอเป็นการ์ดรถปัดดูทุกรุ่น "เลือก BYD ที่ใช่ รับดีลพิเศษ Motor Expo" · Atto 3 / Sealion 6 / Sealion 7 ขึ้นก่อน (HERO_FIRST ใน page.tsx) · tsc + next build ผ่าน

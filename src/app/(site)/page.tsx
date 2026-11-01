@@ -7,10 +7,9 @@ import { BranchRow, NewsCard, PromoGrid } from '@/components/Cards'
 import Jsonld, { dealerLd, organizationLd, webSiteLd } from '@/components/Jsonld'
 import { AwardsStrip } from '@/components/Awards'
 import HomePopup from '@/components/HomePopup'
-import HeroSlider from '@/components/HeroSlider'
+import ModelCarousel from '@/components/ModelCarousel'
 import ShowroomSlider from '@/components/ShowroomSlider'
 import { mediaOf } from '@/components/CarImage'
-import { heroSlidesFrom } from '@/lib/heroSlides'
 import { SVC_PHOTO } from '@/lib/serviceMedia'
 import { getSiteData, getDeliveryPhotos, getReviews } from '@/lib/data'
 import { ReviewGrid } from '@/components/Reviews'
@@ -21,13 +20,23 @@ export const dynamic = 'force-dynamic'
 export const metadata = { alternates: { canonical: '/' } }
 
 
+// รุ่นที่ให้ขึ้นการ์ดแรกๆ ของ hero (ตามลำดับ) — แก้ตรงนี้ถ้าอยากเปลี่ยน
+const HERO_FIRST = ['atto-3', 'sealion-6', 'sealion-7']
+const rank = (slug: string) => {
+  const i = HERO_FIRST.indexOf(slug)
+  return i < 0 ? HERO_FIRST.length : i
+}
+
 export default async function HomePage() {
   const { models, branches, promotions, news, settings } = await getSiteData()
   const deliveryPhotos = await getDeliveryPhotos(8)
   // รีวิวที่อนุมัติแล้ว 6 อันล่าสุด — DB ล่ม/ยังไม่มีตาราง = ซ่อน section ไม่ให้หน้าแรกพัง (zip #35)
   const reviews = await getReviews(6).catch(() => [])
-  // สไลด์ hero: เอาจากหลังบ้านก่อน ถ้ายังไม่มีใช้ค่าตั้งต้นในโค้ด (zip #32)
-  const heroSlides = heroSlidesFrom(settings.heroSlides)
+  // Hero: การ์ดรถทุกรุ่น — รุ่นใน HERO_FIRST ขึ้นก่อน ที่เหลือตามลำดับในหลังบ้าน
+  const heroModels = [...models].sort((a, b) => rank(a.slug) - rank(b.slug)).map((m) => {
+    const img = mediaOf(m.heroImage)
+    return { name: m.name, slug: m.slug, tagline: m.tagline, priceFrom: m.priceFrom, rangeKm: m.rangeKm, powertrain: m.powertrain, img: img?.url, alt: img?.alt }
+  })
   // สไลด์โชว์รูม: รูปแรกของแต่ละสาขาที่อัปรูปไว้แล้ว — สาขาไหนยังไม่มีรูปก็แค่ไม่อยู่ในสไลด์ (zip #29)
   const showroomSlides = branches
     .map((b) => ({ b, pic: mediaOf((b.photos || [])[0]) }))
@@ -64,8 +73,8 @@ export default async function HomePage() {
       <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
       <Jsonld data={webSiteLd()} />
 
-      {/* ---------- Hero: วิดีโอพื้นหลัง + สไลด์ข้อเสนอ 4 ใบ (zip #31) ---------- */}
-      <HeroSlider slides={heroSlides} lineUrl={settings.lineUrl} branchCount={branches.length} models={models.map((m) => ({ name: m.name, slug: m.slug }))} />
+      {/* ---------- Hero: การ์ดรถปัดดูทุกรุ่น (แทนสไลด์ข้อเสนอเดิม) ---------- */}
+      <ModelCarousel models={heroModels} lineUrl={settings.lineUrl} />
 
       <main className="container">
         {/* ---------- รางวัล ---------- */}
