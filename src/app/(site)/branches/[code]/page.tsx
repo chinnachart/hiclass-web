@@ -95,6 +95,11 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
               <h3 style={{ fontSize: 17 }}>เวลาทำการ</h3>
               <p className="mute" style={{ marginTop: 6 }}>{b.openHours || 'เปิดทุกวัน'}</p>
               {b.address ? <><h3 style={{ fontSize: 17, marginTop: 16 }}>ที่อยู่</h3><p className="mute" style={{ marginTop: 6, whiteSpace: 'pre-line' }}>{b.address}</p></> : null}
+              {b.mapUrl ? (
+                <p style={{ marginTop: 16 }}>
+                  <a className="more" href={b.mapUrl} target="_blank" rel="noopener noreferrer">ดูรีวิวสาขา{b.name}บน Google <Icon name="arrow" size={14} /></a>
+                </p>
+              ) : null}
             </div>
           </div>
         </section>
