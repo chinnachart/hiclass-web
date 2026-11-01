@@ -10,6 +10,8 @@ type Props = {
   branches: Pick<Branch, 'id' | 'name' | 'phone' | 'openHours' | 'lineUrl'>[]
   /** 'line' = เลือกสาขาแล้วเปิด LINE ของสาขานั้น (ใช้ตอนยังไม่ได้ตั้ง LINE กลางในหลังบ้าน) */
   kind?: 'call' | 'line'
+  /** ไม่ใส่ไอคอนบนปุ่ม (ปุ่มที่ดีไซน์เป็นข้อความล้วน เช่น การ์ดรถหน้าแรก) */
+  noIcon?: boolean
   /** ข้อความบนปุ่ม (ค่าเริ่มต้น "โทร") */
   label?: string
   className?: string
@@ -21,7 +23,7 @@ type Props = {
 }
 
 /** ปุ่ม "โทร" → เปิดหน้าต่างให้เลือกสาขา → กดแล้วโทรหาสาขานั้น (ลิงก์ tel: ปกติ ระบบนับคลิกโทรยังทำงาน) */
-export default function CallPicker({ branches, kind = 'call', label = 'โทร', className = 'btn btn-outline', title, iconSize = 18, ariaLabel }: Props) {
+export default function CallPicker({ branches, kind = 'call', noIcon, label = 'โทร', className = 'btn btn-outline', title, iconSize = 18, ariaLabel }: Props) {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const isLine = kind === 'line'
@@ -48,7 +50,7 @@ export default function CallPicker({ branches, kind = 'call', label = 'โทร
   return (
     <>
       <button type="button" className={className} onClick={() => setOpen(true)} aria-haspopup="dialog" aria-label={ariaLabel || undefined}>
-        <Icon name={icon} size={iconSize} color={isLine ? '#fff' : undefined} />{label}
+        {noIcon ? null : <Icon name={icon} size={iconSize} color={isLine ? '#fff' : undefined} />}{label}
       </button>
       {open && mounted
         ? createPortal(

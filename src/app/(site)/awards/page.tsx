@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Icon from '@/components/Icons'
 import { mediaOf } from '@/components/CarImage'
 import Jsonld, { SITE } from '@/components/Jsonld'
+import CallPicker from '@/components/CallPicker'
 import { AWARDS, AWARD_STATS, LEVEL_LABEL } from '@/lib/awards'
 import { getPageContent, getSiteData } from '@/lib/data'
 import type { AwardItem, Media } from '@/lib/types'
@@ -54,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AwardsPage() {
-  const [{ settings }, pc] = await Promise.all([getSiteData(), getPageContent()])
+  const [{ settings, branches }, pc] = await Promise.all([getSiteData(), getPageContent()])
 
   const items: AwardItem[] = (pc.awItems?.length ? pc.awItems : AWARDS).map((a) => ({ ...a, year: Number(a.year) }))
   const years = [...new Set(items.map((a) => a.year))].sort((a, b) => b - a)
@@ -208,6 +209,8 @@ export default async function AwardsPage() {
               <Link className="btn btn-red btn-lg" href="/test-drive"><Icon name="wheel" size={20} color="#fff" />นัดทดลองขับฟรี</Link>
               {settings.lineUrl ? (
                 <a className="btn btn-green btn-lg" href={settings.lineUrl} target="_blank" rel="noopener noreferrer"><Icon name="chat" size={20} color="#fff" />แอด LINE</a>
+              ) : branches.some((b) => b.lineUrl) ? (
+                <CallPicker branches={branches} kind="line" label="แอด LINE" className="btn btn-green btn-lg" iconSize={20} />
               ) : (
                 <Link className="btn btn-outline btn-lg" href="/service"><Icon name="wrench" size={20} />ศูนย์บริการ</Link>
               )}

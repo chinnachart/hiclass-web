@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import s from './ModelCarousel.module.css'
+import CallPicker from './CallPicker'
+import type { Branch } from '@/lib/types'
 
 export type CarouselModel = {
   name: string
@@ -17,7 +19,7 @@ export type CarouselModel = {
 }
 
 /** Hero หน้าแรก: การ์ดรถปัดซ้าย-ขวาทุกรุ่น (แทนสไลด์ข้อเสนอเดิม · 1 พ.ย. 2026) */
-export default function ModelCarousel({ models, lineUrl }: { models: CarouselModel[]; lineUrl?: string | null }) {
+export default function ModelCarousel({ models, lineUrl, branches = [] }: { models: CarouselModel[]; lineUrl?: string | null; branches?: Branch[] }) {
   const track = useRef<HTMLDivElement>(null)
   const chips = useRef<HTMLDivElement>(null)
   const [cur, setCur] = useState(0)
@@ -98,7 +100,12 @@ export default function ModelCarousel({ models, lineUrl }: { models: CarouselMod
             </div>
             <div className={s.btns}>
               <Link className={`${s.btn} ${s.btnRed}`} href={`/test-drive?model=${encodeURIComponent(m.name)}`}>ทดลองขับ</Link>
-              <a className={`${s.btn} ${s.btnLine}`} href={line} target={lineUrl ? '_blank' : undefined} rel="noopener">ทักแชทรับดีล</a>
+              {!lineUrl && branches.some((b) => b.lineUrl) ? (
+                // ไม่มี LINE กลาง → ให้เลือก LINE สาขา (เดิมพาไปหน้าติดต่อเรา)
+                <CallPicker branches={branches} kind="line" noIcon label="ทักแชทรับดีล" className={`${s.btn} ${s.btnLine}`} />
+              ) : (
+                <a className={`${s.btn} ${s.btnLine}`} href={line} target={lineUrl ? '_blank' : undefined} rel="noopener">ทักแชทรับดีล</a>
+              )}
             </div>
             <div className={s.deal}>มีดีลพิเศษเฉพาะรายคัน ถามในแชทได้</div>
           </article>

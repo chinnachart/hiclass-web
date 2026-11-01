@@ -74,7 +74,7 @@ export default async function HomePage() {
       <Jsonld data={webSiteLd()} />
 
       {/* ---------- Hero: การ์ดรถปัดดูทุกรุ่น (แทนสไลด์ข้อเสนอเดิม) ---------- */}
-      <ModelCarousel models={heroModels} lineUrl={settings.lineUrl} />
+      <ModelCarousel models={heroModels} lineUrl={settings.lineUrl} branches={branches} />
 
       <main className="container">
         {/* ---------- รางวัล ---------- */}

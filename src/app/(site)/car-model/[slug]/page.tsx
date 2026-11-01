@@ -6,6 +6,7 @@ import Icon from '@/components/Icons'
 import CarImage, { mediaOf } from '@/components/CarImage'
 import PaymentCalculator from '@/components/PaymentCalculator'
 import TestDriveForm from '@/components/TestDriveForm'
+import CallPicker from '@/components/CallPicker'
 import { BranchRow, Faq } from '@/components/Cards'
 import { ModelCard } from '@/components/ModelGrid'
 import Jsonld, { carLd, faqLd, breadcrumbLd } from '@/components/Jsonld'
@@ -99,6 +100,8 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                 <a className="btn btn-green" href={settings.lineUrl} target="_blank" rel="noopener noreferrer">
                   <Icon name="chat" size={20} color="#fff" />สอบถามทาง LINE
                 </a>
+              ) : branches.some((b) => b.lineUrl) ? (
+                <CallPicker branches={branches} kind="line" label="สอบถามทาง LINE" className="btn btn-green" iconSize={20} />
               ) : (
                 <Link className="btn btn-outline" href="/contact"><Icon name="chat" size={20} />สอบถาม</Link>
               )}
