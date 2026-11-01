@@ -22,6 +22,9 @@ export default function MobileBar({ settings, branches, model }: { settings: Sit
           <Icon name="chat" size={18} color="#fff" />
           แอด LINE
         </a>
+      ) : branches.some((b) => b.lineUrl) ? (
+        // ยังไม่ได้ตั้ง LINE กลาง → ให้เลือก LINE ของสาขา (เดิมพาไปหน้าติดต่อเรา ลูกค้าต้องกดอีกหลายต่อ)
+        <CallPicker branches={branches} kind="line" label="แอด LINE" className="btn btn-green" />
       ) : (
         <Link className="btn btn-green" href="/contact">
           <Icon name="chat" size={18} color="#fff" />

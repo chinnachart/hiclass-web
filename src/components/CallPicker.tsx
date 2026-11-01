@@ -7,7 +7,9 @@ import { telHref } from '@/lib/format'
 import type { Branch } from '@/lib/types'
 
 type Props = {
-  branches: Pick<Branch, 'id' | 'name' | 'phone' | 'openHours'>[]
+  branches: Pick<Branch, 'id' | 'name' | 'phone' | 'openHours' | 'lineUrl'>[]
+  /** 'line' = เลือกสาขาแล้วเปิด LINE ของสาขานั้น (ใช้ตอนยังไม่ได้ตั้ง LINE กลางในหลังบ้าน) */
+  kind?: 'call' | 'line'
   /** ข้อความบนปุ่ม (ค่าเริ่มต้น "โทร") */
   label?: string
   className?: string
@@ -19,10 +21,13 @@ type Props = {
 }
 
 /** ปุ่ม "โทร" → เปิดหน้าต่างให้เลือกสาขา → กดแล้วโทรหาสาขานั้น (ลิงก์ tel: ปกติ ระบบนับคลิกโทรยังทำงาน) */
-export default function CallPicker({ branches, label = 'โทร', className = 'btn btn-outline', title = 'เลือกสาขาที่ต้องการโทร', iconSize = 18, ariaLabel }: Props) {
+export default function CallPicker({ branches, kind = 'call', label = 'โทร', className = 'btn btn-outline', title, iconSize = 18, ariaLabel }: Props) {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const list = branches.filter((b) => b.phone)
+  const isLine = kind === 'line'
+  const list = branches.filter((b) => (isLine ? b.lineUrl : b.phone))
+  const heading = title || (isLine ? 'เลือกสาขาที่ต้องการแชท LINE' : 'เลือกสาขาที่ต้องการโทร')
+  const icon = isLine ? 'chat' : 'phone'
 
   useEffect(() => setMounted(true), [])
 
@@ -43,26 +48,31 @@ export default function CallPicker({ branches, label = 'โทร', className = 
   return (
     <>
       <button type="button" className={className} onClick={() => setOpen(true)} aria-haspopup="dialog" aria-label={ariaLabel || undefined}>
-        <Icon name="phone" size={iconSize} />{label}
+        <Icon name={icon} size={iconSize} color={isLine ? '#fff' : undefined} />{label}
       </button>
       {open && mounted
         ? createPortal(
             <>
               <div className="callpick-bg" onClick={() => setOpen(false)} />
-              <div className="callpick" role="dialog" aria-modal="true" aria-label={title}>
+              <div className="callpick" role="dialog" aria-modal="true" aria-label={heading}>
                 <div className="callpick-head">
-                  <strong>{title}</strong>
+                  <strong>{heading}</strong>
                   <button type="button" className="icon-btn" onClick={() => setOpen(false)} aria-label="ปิด">
                     <Icon name="x" size={20} />
                   </button>
                 </div>
                 <div className="callpick-list">
                   {list.map((b) => (
-                    <a key={b.id} href={telHref(b.phone)} onClick={() => setOpen(false)}>
-                      <span className="callpick-ico"><Icon name="phone" size={16} color="#fff" /></span>
+                    <a
+                      key={b.id}
+                      href={isLine ? b.lineUrl! : telHref(b.phone)}
+                      {...(isLine ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      onClick={() => setOpen(false)}
+                    >
+                      <span className="callpick-ico" style={isLine ? { background: 'var(--green)' } : undefined}><Icon name={icon} size={16} color="#fff" /></span>
                       <span className="callpick-txt">
                         <b>BYD Hi-Class {b.name}</b>
-                        <small>{b.phone}{b.openHours ? ` · ${b.openHours}` : ''}</small>
+                        <small>{isLine ? 'แชท LINE กับทีมขายสาขานี้' : b.phone}{b.openHours ? ` · ${b.openHours}` : ''}</small>
                       </span>
                     </a>
                   ))}

@@ -83,7 +83,9 @@ export default function MobileMenu({
               <Icon name="chat" size={18} color="#fff" />
               แอด LINE
             </a>
-          ) : null}
+          ) : (
+            <CallPicker branches={branches} kind="line" label="แอด LINE" className="btn btn-green" />
+          )}
           <CallPicker branches={branches} label="โทรหาสาขา" />
         </div>
       </div>

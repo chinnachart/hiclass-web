@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...listMonths().map((k, i) => ({ url: `${SITE}/promotion/${k}`, changeFrequency: (i === 0 ? 'weekly' : 'yearly') as 'weekly' | 'yearly', priority: i === 0 ? 0.7 : 0.3 })),
     { url: `${SITE}/branches`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/compare`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE}/faq`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE}/privacy`, changeFrequency: 'yearly', priority: 0.2 },
     { url: `${SITE}/service`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/reviews`, changeFrequency: 'weekly', priority: 0.6 },
