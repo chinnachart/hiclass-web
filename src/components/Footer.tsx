@@ -65,6 +65,7 @@ export default function Footer({
               <Link href="/reviews">รีวิวจากลูกค้า</Link>
               <Link href="/faq">คำถามที่พบบ่อย</Link>
               <Link href="/contact">ติดต่อเรา</Link>
+              <Link href="/careers">ร่วมงานกับเรา</Link>
             </div>
           </div>
         </div>

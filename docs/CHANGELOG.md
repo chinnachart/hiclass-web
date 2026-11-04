@@ -7,3 +7,4 @@
 2026-11-01 · ลิงก์รีวิว Google (Google Maps) ของแต่ละสาขา บนหน้า /reviews และหน้าสาขา · tsc + next build ผ่าน
 2026-11-01 · SEO หน้ารุ่นรถ: title เหลือ 45-52 ตัว (เดิม ~93, Hi-Class ซ้ำ) ใช้ title.absolute · description 126-135 ตัว (เดิม ~193) · tsc + next build ผ่าน
 2026-11-01 · หน้ารุ่นรถ: เพิ่ม "ภาพรวม" + "เหมาะกับใคร" + ตารางเทียบรุ่นใกล้เคียง + FAQ เพิ่ม (รุ่นย่อย / ชาร์จเร็ว / เทียบรุ่น) สร้างจากข้อมูลหลังบ้านล้วน · tsc + next build ผ่าน · ตรวจข้อความ 10 รุ่นก่อน push
+2026-11-04 · หน้าใหม่ /careers รับสมัครที่ปรึกษาการขายทุกสาขา (สวัสดิการ คุณสมบัติ ลักษณะงาน ฟอร์มสมัคร + แนบเรซูเม่ PDF/รูป ≤5MB, JobPosting schema) → Cinco job_applications (DB v319 ใน hiclass-portal) · API /api/careers, /api/careers/resume · ลิงก์ Footer "ร่วมงานกับเรา" + sitemap · เทสต์: tsc, next build
