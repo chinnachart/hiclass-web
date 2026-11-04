@@ -78,6 +78,13 @@ export default async function CareersPage() {
       </section>
 
       <main className="container">
+        <div style={{ marginTop: 20, borderRadius: 'var(--radius)', overflow: 'hidden', border: '3px solid #f5c542', position: 'relative' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/careers/team.jpg" alt="ทีมที่ปรึกษาการขาย BYD Hi-Class EV Car" width={976} height={358} style={{ display: 'block', width: '100%', height: 'auto' }} />
+          <span style={{ position: 'absolute', left: '50%', bottom: 12, transform: 'translateX(-50%)', background: '#f5c542', color: '#0b2350', fontWeight: 800, padding: '6px 18px', borderRadius: 999, fontSize: 15, whiteSpace: 'nowrap' }}>
+            ร่วมเป็นส่วนหนึ่งของทีมมืออาชีพ
+          </span>
+        </div>
         <section className="section" style={{ paddingTop: 24 }}>
           <h2>สวัสดิการและสิ่งที่คุณจะได้รับ</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 12, marginTop: 12 }}>
