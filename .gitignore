@@ -8,3 +8,4 @@ media/
 next-env.d.ts
 deploy/
 hiclass-web-deploy.zip
+*.tsbuildinfo
