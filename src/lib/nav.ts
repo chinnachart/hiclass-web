@@ -9,4 +9,6 @@ export const NAV = [
   { href: '/branches', label: 'สาขาของเรา', drop: 'branches' },
   { href: '/contact', label: 'ติดต่อเรา' },
   { href: '/news', label: 'ข่าวสารและกิจกรรม' },
+  // เมนูมือถือเท่านั้น (แถบบนจอคอมเต็มแล้ว · จอคอมมีลิงก์ที่ footer)
+  { href: '/careers', label: 'ร่วมงานกับเรา', mobileOnly: true },
 ] as const

@@ -29,7 +29,7 @@ export default function Header({
       <div className="container hdr-in">
         <Logo />
         <nav className="nav" aria-label="เมนูหลัก">
-          {NAV.map((item) => (
+          {NAV.filter((item) => !('mobileOnly' in item)).map((item) => (
             <div className="nav-item" key={item.href}>
               <Link href={item.href}>
                 {item.label}
