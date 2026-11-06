@@ -42,12 +42,15 @@ const ICON = {
   chat: 'M21 12a8 8 0 0 1-8 8H8l-4 3v-4.5A8 8 0 0 1 3 12a8 8 0 0 1 9-8 8 8 0 0 1 9 8z',
   pin: 'M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z M14.5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z',
   car: TAG_ICON.car,
+  fb: 'M15.5 3H13a4 4 0 0 0-4 4v14 M5.5 10.5h9',
+  trophy: 'M8 3h8v6a4 4 0 0 1-8 0V3z M8 5H4.5v1.5A3.5 3.5 0 0 0 8 10 M16 5h3.5v1.5A3.5 3.5 0 0 1 16 10 M12 13v4 M8 21h8 M9.5 17h5l.5 4h-6z',
 }
+const GOLD = '#f5c542'
 const STORE = 'hc_gencard_v1'
 const TOKEN = 'hc_gencard_token'
 
-type Form = { name: string; nickname: string; position: string; phone: string; lineId: string; branch: string; tagline: string; customTag: string }
-const EMPTY: Form = { name: '', nickname: '', position: 'Sales Consultant', phone: '', lineId: '', branch: 'รัชดา', tagline: TAGLINES[0], customTag: '' }
+type Form = { name: string; nickname: string; position: string; phone: string; lineId: string; fb: string; branch: string; tagline: string; customTag: string; award: boolean }
+const EMPTY: Form = { name: '', nickname: '', position: 'Sales Consultant', phone: '', lineId: '', fb: '', branch: 'รัชดา', tagline: TAGLINES[0], customTag: '', award: true }
 
 const fmtPhone = (s: string) => {
   const d = s.replace(/\D/g, '')
@@ -75,18 +78,53 @@ function fitFont(ctx: CanvasRenderingContext2D, text: string, weight: string, fa
   return size
 }
 
-function drawIcon(ctx: CanvasRenderingContext2D, d: string, cx: number, cy: number) {
+/** ชื่อเพจ Facebook จากลิงก์หรือข้อความที่พิมพ์ */
+const fbLabel = (s: string) => {
+  const t = s.trim()
+  const m = /facebook\.com\/(?:profile\.php\?id=\d+|([^/?#\s]+))/i.exec(t) || /fb\.com\/([^/?#\s]+)/i.exec(t)
+  if (m) return m[1] ? decodeURIComponent(m[1]) : 'Facebook'
+  return t.replace(/^@/, '')
+}
+
+/** วาดข้อความแบบเว้นระยะตัวอักษร จัดกึ่งกลางที่ cx · ขยายระยะให้กว้างเท่า width (ไม่เกิน maxGap) */
+function spacedCenter(ctx: CanvasRenderingContext2D, text: string, cx: number, y: number, width: number, maxGap: number) {
+  const chars = [...text]
+  const ws = chars.map((c) => ctx.measureText(c).width)
+  const base = ws.reduce((a, b) => a + b, 0)
+  const gap = chars.length > 1 ? Math.max(2, Math.min(maxGap, (width - base) / (chars.length - 1))) : 0
+  let x = cx - (base + gap * (chars.length - 1)) / 2
+  ctx.textAlign = 'left'
+  chars.forEach((c, i) => { ctx.fillText(c, x, y); x += ws[i] + gap })
+}
+
+/** ป้ายรางวัลบนรูป (พื้นเข้ม ขอบทอง) */
+function badge(ctx: CanvasRenderingContext2D, x: number, y: number, h: number, draw: (x: number) => number) {
+  ctx.save()
+  ctx.globalAlpha = 0
+  const w = draw(x) - x
+  ctx.restore()
+  ctx.save()
+  ctx.fillStyle = 'rgba(28,25,23,0.82)'
+  ctx.strokeStyle = GOLD
+  ctx.lineWidth = 2
+  ctx.beginPath(); ctx.roundRect(x, y, w + 28, h, h / 2); ctx.fill(); ctx.stroke()
+  ctx.restore()
+  draw(x)
+}
+
+function drawIcon(ctx: CanvasRenderingContext2D, d: string, cx: number, cy: number, r = 32, fill?: string, stroke = '#fff') {
   ctx.save()
   ctx.beginPath()
-  ctx.arc(cx, cy, 32, 0, Math.PI * 2)
-  const g = ctx.createLinearGradient(cx - 32, cy - 32, cx + 32, cy + 32)
-  g.addColorStop(0, RED)
-  g.addColorStop(1, RED_DARK)
+  ctx.arc(cx, cy, r, 0, Math.PI * 2)
+  const g = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r)
+  g.addColorStop(0, fill || RED)
+  g.addColorStop(1, fill || RED_DARK)
   ctx.fillStyle = g
   ctx.fill()
-  ctx.translate(cx - 17, cy - 17)
-  ctx.scale(34 / 24, 34 / 24)
-  ctx.strokeStyle = '#fff'
+  const k = r * 1.06
+  ctx.translate(cx - k / 2 - 0.0, cy - k / 2)
+  ctx.scale(k / 24, k / 24)
+  ctx.strokeStyle = stroke
   ctx.lineWidth = 2
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
@@ -208,6 +246,38 @@ export default function CardGenerator() {
     }
     ctx.restore()
 
+    // ป้ายรางวัล (บนรูป เหนือแถบล่าง)
+    if (f.award !== false) {
+      badge(ctx, 36, 600, 84, (x) => {
+        drawIcon(ctx, ICON.trophy, x + 42, 642, 28, GOLD, RED_DARK)
+        ctx.textAlign = 'left'
+        ctx.fillStyle = '#fff'
+        ctx.font = '600 28px Kanit'
+        const a = ctx.measureText('ดีลเลอร์ยอดเยี่ยม').width
+        ctx.fillText('ดีลเลอร์ยอดเยี่ยม', x + 84, 636)
+        ctx.fillStyle = GOLD
+        ctx.font = '600 18px Kanit'
+        ctx.save()
+        ;(ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '3px'
+        const b = ctx.measureText('KUNLUN AWARD 2025').width
+        ctx.fillText('KUNLUN AWARD 2025', x + 84, 666)
+        ctx.restore()
+        return x + 84 + Math.max(a, b)
+      })
+      badge(ctx, 36, 696, 56, (x) => {
+        ctx.textAlign = 'left'
+        ctx.fillStyle = '#fff'
+        ctx.font = '500 24px Kanit'
+        const a = ctx.measureText('ยอดขาย ').width
+        ctx.fillText('ยอดขาย ', x + 26, 733)
+        ctx.fillStyle = GOLD
+        ctx.font = '600 30px Kanit'
+        const b = ctx.measureText('10,000+').width
+        ctx.fillText('10,000+', x + 26 + a, 735)
+        return x + 24 + a + b
+      })
+    }
+
     // แถบแดงเฉียง
     const sg = ctx.createLinearGradient(560, 0, 760, H)
     sg.addColorStop(0, RED)
@@ -235,7 +305,7 @@ export default function CardGenerator() {
     ctx.font = '500 20px Kanit'
     ctx.save(); ctx.globalAlpha = 0.85
     ;(ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '6px'
-    ctx.fillText('SALES & SERVICE', 48, 866)
+    ctx.fillText((f.position.trim() || 'Sales Consultant').toUpperCase(), 48, 866)
     ctx.restore()
 
     // โลโก้ (ไฟล์ hiclass-logo มี BYD | HI-CLASS EV CAR อยู่ในรูปเดียวแล้ว)
@@ -246,11 +316,11 @@ export default function CardGenerator() {
     ctx.drawImage(assets.hc, lx, 58, hw, hh)
     ctx.fillStyle = RED_DARK
     ctx.textAlign = 'center'
-    ctx.font = '600 24px Kanit'
-    ctx.save()
-    ;(ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '6px'
-    ctx.fillText(br.en, lx + hw * 0.78, 150)
-    ctx.restore()
+    const hx0 = lx + hw * (631 / 1200)
+    const hx1 = lx + hw
+    fitFont(ctx, br.en, '600', 'Kanit', 24, 16, hx1 - hx0)
+    spacedCenter(ctx, br.en, (hx0 + hx1) / 2, 150, hx1 - hx0, 14)
+    ctx.textAlign = 'center'
 
     // ชื่อ ชื่อเล่น ตำแหน่ง
     ctx.fillStyle = INK
@@ -282,11 +352,13 @@ export default function CardGenerator() {
     const rows: { icon: string; text: string }[] = []
     if (f.phone.trim()) rows.push({ icon: ICON.phone, text: fmtPhone(f.phone) })
     if (f.lineId.trim()) rows.push({ icon: ICON.chat, text: `LINE : ${f.lineId.trim()}` })
+    if (fbLabel(f.fb || '')) rows.push({ icon: ICON.fb, text: `Facebook : ${fbLabel(f.fb || '')}` })
     rows.push({ icon: ICON.pin, text: `BYD HI-CLASS ${br.en}` })
     if (tag) rows.push({ icon: ICON.car, text: tag })
     const showQr = !!f.lineId.trim()
     const textW = showQr ? 440 : 660
     let y = 520
+    const step = rows.length > 4 ? 72 : 84
     ctx.textAlign = 'left'
     for (const r of rows) {
       drawIcon(ctx, r.icon, 806, y)
@@ -295,7 +367,7 @@ export default function CardGenerator() {
       ctx.textBaseline = 'middle'
       ctx.fillText(r.text, 856, y + 2)
       ctx.textBaseline = 'alphabetic'
-      y += 84
+      y += step
     }
 
     // QR แอด LINE
@@ -396,7 +468,7 @@ export default function CardGenerator() {
     setProfile(null)
   }
 
-  const set = (k: keyof Form, v: string) => setF((x) => ({ ...x, [k]: v }))
+  const set = (k: Exclude<keyof Form, 'award'>, v: string) => setF((x) => ({ ...x, [k]: v }))
 
   if (checking) return <p className="mute" style={{ textAlign: 'center', padding: 40 }}>กำลังตรวจสอบบัญชี…</p>
 
@@ -500,6 +572,19 @@ export default function CardGenerator() {
             <div className="field">
               <label htmlFor="gc-line">LINE ID</label>
               <input id="gc-line" type="text" value={f.lineId} onChange={(e) => set('lineId', e.target.value)} placeholder="ใส่แล้วจะมี QR แอด LINE" style={inp} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="field">
+              <label htmlFor="gc-fb">Facebook (ชื่อเพจ หรือ ลิงก์)</label>
+              <input id="gc-fb" type="text" value={f.fb || ''} onChange={(e) => set('fb', e.target.value)} placeholder="เช่น facebook.com/ชื่อเพจ" style={inp} />
+            </div>
+            <div className="field">
+              <span style={{ fontSize: 13, fontWeight: 600 }}>ป้ายรางวัลบนรูป</span>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 10, height: 44, fontSize: 15 }}>
+                <input type="checkbox" checked={f.award !== false} onChange={(e) => setF((x) => ({ ...x, award: e.target.checked }))} style={{ width: 20, height: 20 }} />
+                ดีลเลอร์ยอดเยี่ยม Kunlun Award 2025 · ยอดขาย 10,000+
+              </label>
             </div>
           </div>
           <div className="field">
