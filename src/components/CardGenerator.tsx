@@ -19,11 +19,11 @@ const INK = '#1c1917'
 const MUTE = '#57534e'
 
 const BRANCHES = [
-  { th: 'รัชดา', en: 'RATCHADA' },
-  { th: 'ลาดพร้าว', en: 'LADPRAO' },
-  { th: 'พระราม5', en: 'RAMA 5' },
-  { th: 'บองมาร์เช่', en: 'BON MARCHE' },
-  { th: 'กาญจนาภิเษก', en: 'KANCHANAPHISEK' },
+  { th: 'รัชดา', en: 'RATCHADA', label: 'สาขารัชดา' },
+  { th: 'ลาดพร้าว', en: 'LADPRAO', label: 'สาขาลาดพร้าว' },
+  { th: 'พระราม5', en: 'RAMA 5', label: 'สาขาพระราม 5' },
+  { th: 'บองมาร์เช่', en: 'BON MARCHE', label: 'สาขาบองมาร์เช่' },
+  { th: 'กาญจนาภิเษก', en: 'KANCHANAPHISEK', label: 'สาขากาญจนาภิเษก' },
 ]
 const POSITIONS = ['Sales Consultant', 'Sales Specialist', 'Senior Sales Specialist', 'Sales Supervisor', 'Sales Manager', 'Fleet Sales', 'Service Advisor']
 const TAGLINES = [
@@ -414,6 +414,10 @@ export default function CardGenerator() {
     const hx1 = lx + hw
     fitFont(ctx, br.en, '600', 'Kanit', 24, 16, hx1 - hx0)
     spacedCenter(ctx, br.en, (hx0 + hx1) / 2, 150, hx1 - hx0, 14)
+    // ชื่อสาขาภาษาไทย ใต้ชื่ออังกฤษ
+    ctx.fillStyle = MUTE
+    fitFont(ctx, br.label, '500', 'Kanit', 24, 16, hx1 - hx0)
+    fillCenter(ctx, br.label, (hx0 + hx1) / 2, 182)
     ctx.textAlign = 'center'
 
     // ชื่อ ชื่อเล่น ตำแหน่ง
