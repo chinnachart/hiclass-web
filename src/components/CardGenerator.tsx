@@ -479,7 +479,15 @@ export default function CardGenerator() {
   function fileName() {
     return `นามบัตร-${(f.nickname || f.name || 'hiclass').replace(/[^\p{L}\p{N}]+/gu, '')}.png`
   }
+  // บันทึกว่าสร้างนามบัตรแล้ว (ใคร/เมื่อไร เท่านั้น ไม่ส่งรูป) — พลาดก็ไม่กระทบการดาวน์โหลด
+  function track(action: 'download' | 'share') {
+    let token = ''
+    try { token = sessionStorage.getItem(TOKEN) || '' } catch {}
+    if (!token) return
+    fetch('/api/gen-card/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, action }), keepalive: true }).catch(() => {})
+  }
   function download() {
+    track('download')
     canvas.current?.toBlob((b) => {
       if (!b) return
       const a = document.createElement('a')
@@ -496,6 +504,7 @@ export default function CardGenerator() {
     const file = new File([b], fileName(), { type: 'image/png' })
     const nav = navigator as Navigator & { canShare?: (d: { files: File[] }) => boolean }
     if (nav.canShare?.({ files: [file] })) {
+      track('share')
       try { await navigator.share({ files: [file], title: 'นามบัตร BYD Hi-Class' }) } catch {}
     } else download()
   }

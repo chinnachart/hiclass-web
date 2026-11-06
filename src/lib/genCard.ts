@@ -36,7 +36,7 @@ export async function loginWithPassword(email: string, password: string): Promis
 }
 
 /** access token (จากการล็อกอิน หรือส่งมาจาก Cinco) → ข้อมูลพนักงาน */
-export async function profileFromToken(token: string): Promise<{ ok: boolean; profile?: CardProfile; reason?: string }> {
+export async function profileFromToken(token: string): Promise<{ ok: boolean; profile?: CardProfile; userId?: string; reason?: string }> {
   const e = env()
   if (!e) return { ok: false, reason: 'not-configured' }
   const u = await fetch(`${e.url}/auth/v1/user`, {
@@ -58,6 +58,7 @@ export async function profileFromToken(token: string): Promise<{ ok: boolean; pr
   const s = sr.ok ? ((await sr.json().catch(() => [])) as { full_name?: string; nickname?: string; branch?: string; position?: string }[])[0] : undefined
   return {
     ok: true,
+    userId: user.id,
     profile: {
       name: (s?.full_name || p.display_name || '').replace(/\s+/g, ' ').trim(),
       nickname: (s?.nickname || '').trim(),
@@ -66,4 +67,19 @@ export async function profileFromToken(token: string): Promise<{ ok: boolean; pr
       role: p.role || '',
     },
   }
+}
+
+/** บันทึกว่าใครกด ดาวน์โหลด/แชร์ นามบัตร → public.gen_card_logs (Cinco แท็บ 📇 นามบัตรออนไลน์ · admin เห็น) */
+export async function logCard(token: string, action: 'download' | 'share'): Promise<{ ok: boolean; reason?: string }> {
+  const e = env()
+  if (!e) return { ok: false, reason: 'not-configured' }
+  const p = await profileFromToken(token)
+  if (!p.ok || !p.profile || !p.userId) return { ok: false, reason: p.reason || 'bad-token' }
+  const r = await fetch(`${e.url}/rest/v1/gen_card_logs`, {
+    method: 'POST',
+    headers: { apikey: e.key, Authorization: `Bearer ${e.key}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+    body: JSON.stringify({ user_id: p.userId, user_name: p.profile.name || null, user_role: p.profile.role || null, user_branch: p.profile.branch || null, action }),
+    cache: 'no-store',
+  })
+  return r.ok ? { ok: true } : { ok: false, reason: `insert-${r.status}` }
 }
