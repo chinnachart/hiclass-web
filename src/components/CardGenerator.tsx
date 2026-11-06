@@ -66,12 +66,40 @@ function loadImg(src: string): Promise<HTMLImageElement> {
   })
 }
 
+/**
+ * ความกว้างตัวอักษร — Safari (iPad/iPhone) วัดภาษาไทยฟอนต์ Kanit ใน canvas ผิด (ได้ค่าเล็กเกิน)
+ * → ชื่อที่จัดกึ่งกลางเลยเยื้องไปขวาและล้นกรอบ · วัดซ้ำด้วย <span> ใน DOM แล้วเอาค่าที่มากกว่า
+ */
+let measureEl: HTMLSpanElement | null = null
+function tw(ctx: CanvasRenderingContext2D, text: string) {
+  const a = ctx.measureText(text).width
+  if (typeof document === 'undefined') return a
+  if (!measureEl) {
+    measureEl = document.createElement('span')
+    Object.assign(measureEl.style, { position: 'absolute', left: '-99999px', top: '0', visibility: 'hidden', whiteSpace: 'pre', pointerEvents: 'none' })
+    document.body.appendChild(measureEl)
+  }
+  measureEl.style.font = ctx.font
+  measureEl.textContent = text
+  return Math.max(a, measureEl.getBoundingClientRect().width)
+}
+
+/** เขียนข้อความกึ่งกลางที่ cx โดยคำนวณตำแหน่งเอง (ไม่พึ่ง textAlign=center ของ Safari) */
+function fillCenter(ctx: CanvasRenderingContext2D, text: string, cx: number, y: number) {
+  const w = tw(ctx, text)
+  const al = ctx.textAlign
+  ctx.textAlign = 'left'
+  ctx.fillText(text, cx - w / 2, y)
+  ctx.textAlign = al
+  return w
+}
+
 /** ตัดตัวอักษรให้พอดีความกว้าง โดยลดขนาดฟอนต์ลงจนพอ */
 function fitFont(ctx: CanvasRenderingContext2D, text: string, weight: string, family: string, max: number, min: number, width: number) {
   let size = max
   while (size > min) {
     ctx.font = `${weight} ${size}px ${family}`
-    if (ctx.measureText(text).width <= width) break
+    if (tw(ctx, text) <= width) break
     size -= 2
   }
   ctx.font = `${weight} ${size}px ${family}`
@@ -89,7 +117,7 @@ const fbLabel = (s: string) => {
 /** วาดข้อความแบบเว้นระยะตัวอักษร จัดกึ่งกลางที่ cx · ขยายระยะให้กว้างเท่า width (ไม่เกิน maxGap) */
 function spacedCenter(ctx: CanvasRenderingContext2D, text: string, cx: number, y: number, width: number, maxGap: number) {
   const chars = [...text]
-  const ws = chars.map((c) => ctx.measureText(c).width)
+  const ws = chars.map((c) => tw(ctx, c))
   const base = ws.reduce((a, b) => a + b, 0)
   const gap = chars.length > 1 ? Math.max(2, Math.min(maxGap, (width - base) / (chars.length - 1))) : 0
   let x = cx - (base + gap * (chars.length - 1)) / 2
@@ -265,7 +293,7 @@ export default function CardGenerator() {
       ctx.fillStyle = '#a8a29e'
       ctx.font = '500 40px Kanit'
       ctx.textAlign = 'center'
-      ctx.fillText('อัปโหลดรูปของคุณ', 320, H / 2)
+      fillCenter(ctx, 'อัปโหลดรูปของคุณ', 320, H / 2)
     }
     ctx.restore()
 
@@ -293,7 +321,7 @@ export default function CardGenerator() {
       ctx.textAlign = 'center'
       ctx.fillStyle = '#fff'
       ctx.font = '600 25px Kanit'
-      ctx.fillText('ดีลเลอร์ยอดเยี่ยม', ax, ay + 6)
+      fillCenter(ctx, 'ดีลเลอร์ยอดเยี่ยม', ax, ay + 6)
       ctx.fillStyle = GOLD
       ctx.font = '600 24px Kanit'
       spacedCenter(ctx, '2025', ax, ay + 40, 70, 8)
@@ -363,12 +391,11 @@ export default function CardGenerator() {
     ctx.textAlign = 'center'
     const name = f.name.trim() || 'ชื่อ นามสกุล'
     fitFont(ctx, name, '600', 'Kanit', 84, 44, 800)
-    ctx.fillText(name, cx, 280)
+    fillCenter(ctx, name, cx, 280)
     if (f.nickname.trim()) {
       ctx.font = '500 44px Kanit'
       ctx.fillStyle = MUTE
-      const nw = ctx.measureText(f.nickname.trim()).width
-      ctx.fillText(f.nickname.trim(), cx, 346)
+      const nw = fillCenter(ctx, f.nickname.trim(), cx, 346)
       ctx.fillStyle = '#a8a29e'
       ctx.fillRect(cx - nw / 2 - 110, 330, 86, 2)
       ctx.fillRect(cx + nw / 2 + 24, 330, 86, 2)
@@ -433,7 +460,7 @@ export default function CardGenerator() {
       ctx.fillStyle = MUTE
       ctx.textAlign = 'center'
       ctx.font = '400 20px "Noto Sans Thai"'
-      ctx.fillText('สแกนเพื่อแอด LINE', qx + qs / 2, qy + qs + 46)
+      fillCenter(ctx, 'สแกนเพื่อแอด LINE', qx + qs / 2, qy + qs + 46)
     }
 
     // ลายน้ำ
