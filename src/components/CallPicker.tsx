@@ -74,7 +74,7 @@ export default function CallPicker({ branches, kind = 'call', noIcon, label = '�
                       <span className="callpick-ico" style={isLine ? { background: 'var(--green)' } : undefined}><Icon name={icon} size={16} color="#fff" /></span>
                       <span className="callpick-txt">
                         <b>BYD Hi-Class {b.name}</b>
-                        <small>{isLine ? 'แชท LINE กับทีมขายสาขานี้' : b.phone}{b.openHours ? ` · ${b.openHours}` : ''}</small>
+                        <small>{isLine ? 'แชทได้ตลอด 24 ชม. · ทีมขายสาขานี้ดูแลโดยตรง' : `${b.phone}${b.openHours ? ` · ${b.openHours}` : ''}`}</small>
                       </span>
                     </a>
                   ))}
