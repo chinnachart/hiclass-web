@@ -97,19 +97,42 @@ function spacedCenter(ctx: CanvasRenderingContext2D, text: string, cx: number, y
   chars.forEach((c, i) => { ctx.fillText(c, x, y); x += ws[i] + gap })
 }
 
-/** ป้ายรางวัลบนรูป (พื้นเข้ม ขอบทอง) */
-function badge(ctx: CanvasRenderingContext2D, x: number, y: number, h: number, draw: (x: number) => number) {
+/** ช่อมะกอก (laurel) สีทอง สองข้าง รอบจุด cx,cy */
+function laurel(ctx: CanvasRenderingContext2D, cx: number, cy: number, rx: number, ry: number) {
   ctx.save()
-  ctx.globalAlpha = 0
-  const w = draw(x) - x
-  ctx.restore()
-  ctx.save()
-  ctx.fillStyle = 'rgba(28,25,23,0.82)'
+  ctx.fillStyle = GOLD
   ctx.strokeStyle = GOLD
-  ctx.lineWidth = 2
-  ctx.beginPath(); ctx.roundRect(x, y, w + 28, h, h / 2); ctx.fill(); ctx.stroke()
+  ctx.lineWidth = 2.5
+  for (const side of [-1, 1]) {
+    ctx.beginPath()
+    for (let i = 0; i <= 20; i++) {
+      const t = (-58 + (i / 20) * 118) * (Math.PI / 180)
+      const x = cx + side * rx * Math.cos(t)
+      const y = cy + ry * Math.sin(t)
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y)
+    }
+    ctx.stroke()
+    for (let i = 0; i < 6; i++) {
+      const deg = -52 + i * 20
+      const t = deg * (Math.PI / 180)
+      const x = cx + side * rx * Math.cos(t)
+      const y = cy + ry * Math.sin(t)
+      // ทิศขึ้นตามกิ่ง แล้วแตกใบเรียวสองข้าง
+      const up = Math.atan2(-ry * Math.cos(t), side * rx * Math.sin(t))
+      for (const k of [-1, 1]) {
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.rotate(up + k * 0.6)
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.quadraticCurveTo(10, -6, 22, 0)
+        ctx.quadraticCurveTo(10, 6, 0, 0)
+        ctx.fill()
+        ctx.restore()
+      }
+    }
+  }
   ctx.restore()
-  draw(x)
 }
 
 function drawIcon(ctx: CanvasRenderingContext2D, d: string, cx: number, cy: number, r = 32, fill?: string, stroke = '#fff') {
@@ -246,36 +269,49 @@ export default function CardGenerator() {
     }
     ctx.restore()
 
-    // ป้ายรางวัล (บนรูป เหนือแถบล่าง)
+    // รางวัล (บนรูป เหนือแถบล่าง) — ไล่เงาเข้มให้อ่านออก + ช่อมะกอกทอง ไม่มีกล่อง
     if (f.award !== false) {
-      badge(ctx, 36, 600, 84, (x) => {
-        drawIcon(ctx, ICON.trophy, x + 42, 642, 28, GOLD, RED_DARK)
-        ctx.textAlign = 'left'
-        ctx.fillStyle = '#fff'
-        ctx.font = '600 28px Kanit'
-        const a = ctx.measureText('ดีลเลอร์ยอดเยี่ยม').width
-        ctx.fillText('ดีลเลอร์ยอดเยี่ยม', x + 84, 636)
-        ctx.fillStyle = GOLD
-        ctx.font = '600 18px Kanit'
-        ctx.save()
-        ;(ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '3px'
-        const b = ctx.measureText('KUNLUN AWARD 2025').width
-        ctx.fillText('KUNLUN AWARD 2025', x + 84, 666)
-        ctx.restore()
-        return x + 84 + Math.max(a, b)
-      })
-      badge(ctx, 36, 696, 56, (x) => {
-        ctx.textAlign = 'left'
-        ctx.fillStyle = '#fff'
-        ctx.font = '500 24px Kanit'
-        const a = ctx.measureText('ยอดขาย ').width
-        ctx.fillText('ยอดขาย ', x + 26, 733)
-        ctx.fillStyle = GOLD
-        ctx.font = '600 30px Kanit'
-        const b = ctx.measureText('10,000+').width
-        ctx.fillText('10,000+', x + 26 + a, 735)
-        return x + 24 + a + b
-      })
+      ctx.save()
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(700, 0); ctx.lineTo(560, H); ctx.lineTo(0, H); ctx.closePath(); ctx.clip()
+      const sh = ctx.createLinearGradient(0, 520, 0, 770)
+      sh.addColorStop(0, 'rgba(12,10,9,0)')
+      sh.addColorStop(1, 'rgba(12,10,9,0.72)')
+      ctx.fillStyle = sh
+      ctx.fillRect(0, 520, 700, 250)
+      ctx.restore()
+
+      const ax = 158
+      const ay = 686
+      laurel(ctx, ax, ay, 134, 66)
+      ctx.save()
+      ctx.shadowColor = 'rgba(0,0,0,0.45)'
+      ctx.shadowBlur = 6
+      ctx.textAlign = 'center'
+      ctx.fillStyle = GOLD
+      ctx.font = '600 15px Kanit'
+      spacedCenter(ctx, 'KUNLUN AWARD', ax, ay - 30, 120, 4)
+      ctx.textAlign = 'center'
+      ctx.fillStyle = '#fff'
+      ctx.font = '600 25px Kanit'
+      ctx.fillText('ดีลเลอร์ยอดเยี่ยม', ax, ay + 6)
+      ctx.fillStyle = GOLD
+      ctx.font = '600 24px Kanit'
+      spacedCenter(ctx, '2025', ax, ay + 40, 70, 8)
+
+      ctx.fillStyle = 'rgba(245,197,66,0.6)'
+      ctx.shadowBlur = 0
+      ctx.fillRect(318, 636, 2, 100)
+      ctx.textAlign = 'left'
+      ctx.shadowBlur = 6
+      ctx.fillStyle = GOLD
+      ctx.font = '500 20px Kanit'
+      ;(ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '2px'
+      ctx.fillText('ยอดขาย', 344, 664)
+      ;(ctx as CanvasRenderingContext2D & { letterSpacing?: string }).letterSpacing = '0px'
+      ctx.fillStyle = '#fff'
+      ctx.font = '600 56px Kanit'
+      ctx.fillText('10,000+', 340, 726)
+      ctx.restore()
     }
 
     // แถบแดงเฉียง
