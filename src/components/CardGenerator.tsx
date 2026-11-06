@@ -68,9 +68,37 @@ function loadImg(src: string): Promise<HTMLImageElement> {
 
 /**
  * ความกว้างตัวอักษร — Safari (iPad/iPhone) วัดภาษาไทยฟอนต์ Kanit ใน canvas ผิด (ได้ค่าเล็กเกิน)
- * → ชื่อที่จัดกึ่งกลางเลยเยื้องไปขวาและล้นกรอบ · วัดซ้ำด้วย <span> ใน DOM แล้วเอาค่าที่มากกว่า
+ * → ชื่อที่จัดกึ่งกลางเลยเยื้องไปขวาและล้นกรอบ · วัดซ้ำด้วย <span> ใน DOM และนับพิกเซลจริง แล้วเอาค่าที่มากที่สุด
  */
 let measureEl: HTMLSpanElement | null = null
+let pixCanvas: HTMLCanvasElement | null = null
+const pixCache = new Map<string, number>()
+/** วัดจากพิกเซลจริง: วาดข้อความลง canvas ลับ แล้วหาคอลัมน์ขวาสุดที่มีสี — ถูกต้องทุกเบราว์เซอร์ */
+function pixelWidth(font: string, text: string) {
+  const key = font + '|' + text
+  const hit = pixCache.get(key)
+  if (hit !== undefined) return hit
+  if (!pixCanvas) pixCanvas = document.createElement('canvas')
+  const size = Number(/(\d+(?:\.\d+)?)px/.exec(font)?.[1] || 40)
+  const w = Math.min(4000, Math.ceil(size * (text.length + 2) * 1.3))
+  const h = Math.ceil(size * 2.2)
+  pixCanvas.width = w
+  pixCanvas.height = h
+  const c = pixCanvas.getContext('2d', { willReadFrequently: true } as CanvasRenderingContext2DSettings)
+  if (!c) return 0
+  c.font = font
+  c.textAlign = 'left'
+  c.textBaseline = 'alphabetic'
+  c.fillStyle = '#000'
+  const x0 = Math.ceil(size * 0.6)
+  c.fillText(text, x0, Math.ceil(size * 1.5))
+  const d = c.getImageData(0, 0, w, h).data
+  let right = -1
+  for (let x = w - 1; x >= 0 && right < 0; x--) for (let y = 0; y < h; y++) if (d[(y * w + x) * 4 + 3] > 8) { right = x; break }
+  const out = right < 0 ? 0 : right + 1 - x0
+  pixCache.set(key, out)
+  return out
+}
 function tw(ctx: CanvasRenderingContext2D, text: string) {
   const a = ctx.measureText(text).width
   if (typeof document === 'undefined') return a
@@ -81,7 +109,9 @@ function tw(ctx: CanvasRenderingContext2D, text: string) {
   }
   measureEl.style.font = ctx.font
   measureEl.textContent = text
-  return Math.max(a, measureEl.getBoundingClientRect().width)
+  let p = 0
+  try { p = pixelWidth(ctx.font, text) } catch {}
+  return Math.max(a, measureEl.getBoundingClientRect().width, p)
 }
 
 /** เขียนข้อความกึ่งกลางที่ cx โดยคำนวณตำแหน่งเอง (ไม่พึ่ง textAlign=center ของ Safari) */
@@ -320,7 +350,7 @@ export default function CardGenerator() {
       spacedCenter(ctx, 'KUNLUN AWARD', ax, ay - 30, 120, 4)
       ctx.textAlign = 'center'
       ctx.fillStyle = '#fff'
-      ctx.font = '600 25px Kanit'
+      fitFont(ctx, 'ดีลเลอร์ยอดเยี่ยม', '600', 'Kanit', 25, 16, 196)   // ให้อยู่ในช่อมะกอกเสมอ ไม่ทับ 10,000+
       fillCenter(ctx, 'ดีลเลอร์ยอดเยี่ยม', ax, ay + 6)
       ctx.fillStyle = GOLD
       ctx.font = '600 24px Kanit'
