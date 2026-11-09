@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ month: st
   const current = month === monthKey()
   return {
     title: `โปรโมชั่น BYD เดือน${pm.labelBE} ทุกรุ่น ดอกเบี้ย ของแถม ส่วนลด`,
-    description: `รวมโปรโมชั่นรถยนต์ไฟฟ้า BYD เดือน${pm.labelBE} จาก Hi-Class EV Car 5 สาขากรุงเทพฯ — ดอกเบี้ยพิเศษ ของแถม ส่วนลด เทิร์นรถเก่า พร้อมราคาเริ่มต้นและค่างวดทุกรุ่น${current ? ' อัปเดตล่าสุด' : ''}`,
+    description: `รวมโปรโมชั่นรถยนต์ไฟฟ้า BYD เดือน${pm.labelBE} จาก Hi-Class EV Car 6 สาขากรุงเทพฯ — ดอกเบี้ยพิเศษ ของแถม ส่วนลด เทิร์นรถเก่า พร้อมราคาเริ่มต้นและค่างวดทุกรุ่น${current ? ' อัปเดตล่าสุด' : ''}`,
     alternates: { canonical: `/promotion/${month}` },
   }
 }

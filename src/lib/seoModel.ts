@@ -28,7 +28,7 @@ export function modelDescription(m: CarModel, perMonth: number, year = seoYear()
     : ''
   const colors = m.colors?.length ? ` ${m.colors.length} สี` : m.colorsCount ? ` ${m.colorsCount} สี` : ''
   // ★ 1 พ.ย. 2026 Google ตัดคำอธิบายที่ ~155 ตัว (เดิม ~190) — ตัวเลขสำคัญไว้หน้า ข้อความชวนกดไว้ท้าย
-  return `BYD ${m.name} ${year} ราคาเริ่ม ${baht(m.priceFrom)} บาท ผ่อน ${baht(perMonth)}/เดือน${range}${colors} ดูสเปค ตารางผ่อน นัดทดลองขับฟรี Hi-Class 5 สาขา`
+  return `BYD ${m.name} ${year} ราคาเริ่ม ${baht(m.priceFrom)} บาท ผ่อน ${baht(perMonth)}/เดือน${range}${colors} ดูสเปค ตารางผ่อน นัดทดลองขับฟรี Hi-Class 6 สาขา`
 }
 
 /**

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'โปรโมชั่น BYD เดือนนี้',
-  description: 'โปรโมชั่นรถยนต์ไฟฟ้า BYD ล่าสุดจาก Hi-Class EV Car ทั้ง 5 สาขาในกรุงเทพฯ ดอกเบี้ยพิเศษ ของแถม และข้อเสนอเทิร์นรถเก่า',
+  description: 'โปรโมชั่นรถยนต์ไฟฟ้า BYD ล่าสุดจาก Hi-Class EV Car ทั้ง 6 สาขาในกรุงเทพฯ ดอกเบี้ยพิเศษ ของแถม และข้อเสนอเทิร์นรถเก่า',
   alternates: { canonical: '/promotion' },
 }
 

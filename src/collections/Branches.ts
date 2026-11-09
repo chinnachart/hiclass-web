@@ -31,7 +31,7 @@ export const Branches: CollectionConfig = {
           label: 'รหัสสาขา',
           admin: {
             width: '33%',
-            description: 'ต้องตรงกับรหัสในระบบ CRM: ratchada, ladprao, rama5, bonmarche, kanchana',
+            description: 'ต้องตรงกับรหัสในระบบ CRM: ratchada, ladprao, rama5, bonmarche, kanchana, mengjai',
           },
         },
       ],

@@ -19,3 +19,4 @@
 2026-11-06 · /gen-card ป้าย "ดีลเลอร์ยอดเยี่ยม" ยังเยื้องบน iPad → วัดความกว้างจากพิกเซลจริง (canvas ลับ) เพิ่มอีกชั้น + บีบข้อความให้อยู่ในช่อมะกอกเสมอ · เทสต์: tsc, next build, เรนเดอร์ปกติ + จำลองบั๊ก Safari
 2026-11-06 · /gen-card เพิ่มชื่อสาขาภาษาไทย (สาขารัชดา/ลาดพร้าว/พระราม 5/บองมาร์เช่/กาญจนาภิเษก) ใต้ชื่ออังกฤษมุมขวาบน · เทสต์: tsc, next build, เรนเดอร์ Chromium
 2026-11-09 · หน้า /awards: ลิงก์สาขาในเครือ ไฮคลาสชลบุรี (bydhiclass.com) ใต้ตัวเลขสถิติ + กล่องก่อน CTA · เจ้าของขอ · tsc + next build ผ่าน
+- 2026-11-09 · เพิ่มสาขาเหม่งจ๋าย (code mengjai) ใน cms.branches (published=false รอเบอร์/ที่อยู่/แผนที่/LINE) · ข้อความ '5 สาขา' → '6 สาขา' ทั้งโค้ด (SEO title/description 12 หน้า, hero chips, SiteSettings default) และ DB (hero_sub, popup_alt, hero_slides.chips, rt_seo_desc) · CardGenerator + Branches admin + seed เพิ่มเหม่งจ๋าย · เทสต์ tsc + next build ผ่าน

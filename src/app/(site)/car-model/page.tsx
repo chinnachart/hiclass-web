@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'BYD ทุกรุ่น 2026 ราคา ตารางผ่อน สเปค | Atto 1 Atto 2 Atto 3 Dolphin Seal Sealion M6',
-  description: 'รวมราคา BYD ทุกรุ่นล่าสุด ทั้ง EV และไฮบริด DM-i พร้อมค่างวดเริ่มต้น ระยะทางต่อการชาร์จ สีที่มี และสเปคเต็ม เทียบรุ่นได้ในหน้าเดียว นัดทดลองขับฟรีที่ Hi-Class 5 สาขาทั่วกรุงเทพฯ',
+  description: 'รวมราคา BYD ทุกรุ่นล่าสุด ทั้ง EV และไฮบริด DM-i พร้อมค่างวดเริ่มต้น ระยะทางต่อการชาร์จ สีที่มี และสเปคเต็ม เทียบรุ่นได้ในหน้าเดียว นัดทดลองขับฟรีที่ Hi-Class 6 สาขาทั่วกรุงเทพฯ',
   alternates: { canonical: '/car-model' },
 }
 

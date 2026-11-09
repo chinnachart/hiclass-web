@@ -21,7 +21,7 @@
 - Claude รัน DDL เองได้ด้วย Supabase MCP `apply_migration` (ทดสอบ BEGIN…ROLLBACK ก่อน · ใส่ rollback SQL ในรายงาน) · ไม่มี MCP → บอกเจ้าของรันใน SQL Editor
 
 ## สัญญากับ Cinco (ห้ามเปลี่ยนรูปแบบโดยไม่แก้ทั้งสองฝั่ง)
-- ลีดเข้า `public.crm_leads`: seller_name 'เว็บไซต์ - รอรับ' · lead_source 'Website' · branch/model ไม่มีเว้นวรรค (พระราม5 กาญจนาภิเษก ลาดพร้าว รัชดา บองมาร์เช่) · contact_info เบอร์ล้วน · **ห้ามส่ง** seller_id / seller_ref / phone_digits
+- ลีดเข้า `public.crm_leads`: seller_name 'เว็บไซต์ - รอรับ' · lead_source 'Website' · branch/model ไม่มีเว้นวรรค (พระราม5 กาญจนาภิเษก ลาดพร้าว รัชดา บองมาร์เช่ เหม่งจ๋าย) · contact_info เบอร์ล้วน · **ห้ามส่ง** seller_id / seller_ref / phone_digits
 - /test-drive: interest Hot · test_drive true · appointment_date/slot · notes เริ่ม `สะดวก: …` (Cinco อ่านด้วย regex หยุดที่ `·`)
 - /register: interest Warm · test_drive false · notes `อีเมล: … · LINE ID: … · หมายเหตุ: …`
 - ทั้งสอง: notes ต่อท้าย `ที่มา: … · gclid:… · หน้าแรกที่เข้า:…`

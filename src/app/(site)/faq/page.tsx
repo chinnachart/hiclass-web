@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'คำถามที่พบบ่อย ซื้อ BYD ทดลองขับ ผ่อน เทิร์นรถ ศูนย์บริการ | Hi-Class',
   description:
-    'รวมคำถามที่ลูกค้าถามบ่อยก่อนซื้อ BYD กับ Hi-Class EV Car ทั้งการนัดทดลองขับ ค่างวด เทิร์นรถเก่า เช่ารถ และศูนย์บริการ 5 สาขาในกรุงเทพฯ',
+    'รวมคำถามที่ลูกค้าถามบ่อยก่อนซื้อ BYD กับ Hi-Class EV Car ทั้งการนัดทดลองขับ ค่างวด เทิร์นรถเก่า เช่ารถ และศูนย์บริการ 6 สาขาในกรุงเทพฯ',
   alternates: { canonical: '/faq' },
 }
 

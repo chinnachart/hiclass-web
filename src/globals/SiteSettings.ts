@@ -128,7 +128,7 @@ export const SiteSettings: GlobalConfig = {
               fields: [
                 { name: 'heroHeadline', type: 'text', required: true, label: 'พาดหัวใหญ่ (เดิม)', defaultValue: 'ลองขับ BYD ใกล้บ้าน' },
                 { name: 'heroHeadline2', type: 'text', label: 'พาดหัวบรรทัดที่สอง (เดิม)', defaultValue: 'วันนี้ ฟรี' },
-                { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง (เดิม)', defaultValue: '5 สาขาในกรุงเทพฯ นัดออนไลน์ 1 นาที ทีมขายโทรยืนยันภายใน 1 ชั่วโมง' },
+                { name: 'heroSub', type: 'textarea', label: 'ข้อความรอง (เดิม)', defaultValue: '6 สาขาในกรุงเทพฯ นัดออนไลน์ 1 นาที ทีมขายโทรยืนยันภายใน 1 ชั่วโมง' },
                 { name: 'heroBlurb', type: 'textarea', label: 'ย่อหน้าแนะนำบริษัท (เดิม)' },
               ],
             },
@@ -187,7 +187,7 @@ export const SiteSettings: GlobalConfig = {
                 { name: 'googleRating', type: 'number', min: 0, max: 5, label: 'คะแนนรีวิว Google (เช่น 4.8)', admin: { width: '34%', step: 0.1 } },
               ],
             },
-            { name: 'trustNote', type: 'text', label: 'ประโยคเสริมความมั่นใจ', admin: { description: 'เช่น ศูนย์บริการมาตรฐาน BYD ครบทั้ง 5 สาขา ช่างผ่านการอบรมจากโรงงาน' } },
+            { name: 'trustNote', type: 'text', label: 'ประโยคเสริมความมั่นใจ', admin: { description: 'เช่น ศูนย์บริการมาตรฐาน BYD ครบทั้ง 6 สาขา ช่างผ่านการอบรมจากโรงงาน' } },
           ],
         },
         {

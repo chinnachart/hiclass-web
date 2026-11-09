@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'ภาพส่งมอบรถ BYD — ลูกค้าจริงจาก BYD Hi-Class EV Car',
   description:
-    'ภาพบรรยากาศวันรับมอบรถ BYD ของลูกค้า BYD Hi-Class EV Car ทั้ง 5 สาขาในกรุงเทพฯ ส่งมอบแล้วกว่า 10,000 คัน พร้อมทีมดูแลตั้งแต่วันจองจนถึงหลังการขาย',
+    'ภาพบรรยากาศวันรับมอบรถ BYD ของลูกค้า BYD Hi-Class EV Car ทั้ง 6 สาขาในกรุงเทพฯ ส่งมอบแล้วกว่า 10,000 คัน พร้อมทีมดูแลตั้งแต่วันจองจนถึงหลังการขาย',
   alternates: { canonical: '/delivery' },
 }
 

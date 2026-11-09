@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'ติดต่อเรา — BYD Hi-Class EV Car',
-  description: 'ติดต่อ BYD Hi-Class EV Car โทร แอด LINE หรือแวะที่สาขาใกล้บ้าน 5 สาขาในกรุงเทพฯ และปริมณฑล',
+  description: 'ติดต่อ BYD Hi-Class EV Car โทร แอด LINE หรือแวะที่สาขาใกล้บ้าน 6 สาขาในกรุงเทพฯ และปริมณฑล',
   alternates: { canonical: '/contact' },
 }
 

@@ -6,8 +6,8 @@ import { getSiteData } from '@/lib/data'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'สาขา BYD Hi-Class ทั้ง 5 สาขาในกรุงเทพฯ',
-  description: 'เลือกสาขา BYD Hi-Class ที่ใกล้บ้าน รัชดา ลาดพร้าว พระราม 5 บองมาร์เช่ กาญจนาภิเษก โทร แอด LINE นำทาง หรือนัดทดลองขับที่สาขานั้นได้ทันที',
+  title: 'สาขา BYD Hi-Class ทั้ง 6 สาขาในกรุงเทพฯ',
+  description: 'เลือกสาขา BYD Hi-Class ที่ใกล้บ้าน รัชดา ลาดพร้าว พระราม 5 บองมาร์เช่ กาญจนาภิเษก เหม่งจ๋าย โทร แอด LINE นำทาง หรือนัดทดลองขับที่สาขานั้นได้ทันที',
   alternates: { canonical: '/branches' },
 }
 

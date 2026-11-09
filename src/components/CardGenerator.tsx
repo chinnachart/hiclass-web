@@ -24,6 +24,7 @@ const BRANCHES = [
   { th: 'พระราม5', en: 'RAMA 5', label: 'สาขาพระราม 5' },
   { th: 'บองมาร์เช่', en: 'BON MARCHE', label: 'สาขาบองมาร์เช่' },
   { th: 'กาญจนาภิเษก', en: 'KANCHANAPHISEK', label: 'สาขากาญจนาภิเษก' },
+  { th: 'เหม่งจ๋าย', en: 'MENG JAI', label: 'สาขาเหม่งจ๋าย' },
 ]
 const POSITIONS = ['Sales Consultant', 'Sales Specialist', 'Senior Sales Specialist', 'Sales Supervisor', 'Sales Manager', 'Fleet Sales', 'Service Advisor']
 const TAGLINES = [

@@ -26,6 +26,7 @@ const BRANCHES = [
   { code: 'rama5',    name: 'พระราม 5',     nameEn: 'Rama 5',         phone: '095-048-9555', domain: 'bydhiclassrama5.com',    sortOrder: 30 },
   { code: 'bonmarche',name: 'บองมาร์เช่',   nameEn: 'Bon Marche',     phone: '083-117-8176', domain: '',                       sortOrder: 40 },
   { code: 'kanchana', name: 'กาญจนาภิเษก',  nameEn: 'Kanchanaphisek', phone: '02-454-8545',  domain: '',                       sortOrder: 50 },
+  { code: 'mengjai',  name: 'เหม่งจ๋าย',    nameEn: 'Meng Jai',       phone: '',              domain: '',                       sortOrder: 60 },
 ]
 
 const run = async () => {
@@ -57,7 +58,7 @@ const run = async () => {
     },
     {
       question: `ทดลองขับ BYD ${name} ได้ที่ไหน`,
-      answer: 'นัดทดลองขับฟรีได้ที่ทั้ง 5 สาขาในกรุงเทพฯ และปริมณฑล กรอกฟอร์มบนเว็บแล้วทีมขายติดต่อกลับเพื่อยืนยันวันเวลา',
+      answer: 'นัดทดลองขับฟรีได้ที่ทั้ง 6 สาขาในกรุงเทพฯ และปริมณฑล กรอกฟอร์มบนเว็บแล้วทีมขายติดต่อกลับเพื่อยืนยันวันเวลา',
     },
   ]
 

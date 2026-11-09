@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const downs = [...ft.downs].sort((a, b) => a - b)
   return {
     title: `ตารางผ่อน BYD ${m.name} ${YEAR_EN} ราคา ดาวน์ ค่างวดต่อเดือน`,
-    description: `ตารางผ่อน BYD ${m.name} ${YEAR_EN} ราคาเริ่มต้น ${baht(m.priceFrom)} บาท ผ่อนเริ่มต้นประมาณ ${baht(perMonth)} บาท/เดือน ดูค่างวดทุกเงินดาวน์ ${downs[0]}–${downs[downs.length - 1]}% และทุกจำนวนงวด พร้อมนัดทดลองขับฟรีที่ 5 สาขาในกรุงเทพฯ`,
+    description: `ตารางผ่อน BYD ${m.name} ${YEAR_EN} ราคาเริ่มต้น ${baht(m.priceFrom)} บาท ผ่อนเริ่มต้นประมาณ ${baht(perMonth)} บาท/เดือน ดูค่างวดทุกเงินดาวน์ ${downs[0]}–${downs[downs.length - 1]}% และทุกจำนวนงวด พร้อมนัดทดลองขับฟรีที่ 6 สาขาในกรุงเทพฯ`,
     alternates: { canonical: `/price/${m.slug}` },
   }
 }
