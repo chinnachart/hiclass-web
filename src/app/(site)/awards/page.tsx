@@ -33,6 +33,8 @@ const D = {
     'ช่างที่ดูแลรถของคุณในทุกสาขา คือทีมเดียวกับที่ผ่านการแข่งขันทักษะระดับประเทศของ BYD — ตรวจเช็กระยะ ซ่อมตัวถัง และวิเคราะห์แบตเตอรี่ตามมาตรฐานเดียวกันทั้งกลุ่ม',
   techSrc: '/awards/techstar-2024-2025.webp',
   techAlt: 'โล่รางวัล BYD Thailand Tech Star and Skill Contest 2024 และ 2025',
+  /** สาขาในเครือ Hi-Class Group นอกกรุงเทพฯ (เว็บแยก) */
+  sister: { name: 'ไฮคลาสชลบุรี', url: 'https://bydhiclass.com/', title: 'อยู่ภาคตะวันออก? ไปที่ไฮคลาสชลบุรี', sub: 'ดีลเลอร์ BYD ในเครือ Hi-Class Group ดูรถ ทดลองขับ และเข้าศูนย์บริการได้ใกล้บ้าน' },
   ctaTitle: 'ทดลองขับกับดีลเลอร์ที่ BYD มอบรางวัล Dealer of the Year',
   ctaSub: 'เลือกสาขาที่สะดวก ทีมขายโทรยืนยันกลับภายใน 25 นาทีในเวลาทำการ',
   seoTitle: 'รางวัล BYD Dealer of the Year 2025 — Hi-Class Group ดีลเลอร์ BYD ยอดขายอันดับ 1',
@@ -108,7 +110,10 @@ export default async function AwardsPage() {
                 ))}
               </div>
             ) : null}
-            <p className="aw-asof">{pc.awAsOf || D.asOf}</p>
+            <p className="aw-asof">
+              {pc.awAsOf || D.asOf} · สาขาในเครือ:{' '}
+              <a href={D.sister.url} target="_blank" rel="noopener">{D.sister.name}</a>
+            </p>
           </div>
           <div className="aw-hero-photo">
             <Image
@@ -197,6 +202,17 @@ export default async function AwardsPage() {
             </div>
           </section>
         ) : null}
+
+        {/* ---------- สาขาในเครือ (ชลบุรี) ---------- */}
+        <section className="section aw-sister-wrap">
+          <a className="card aw-sister" href={D.sister.url} target="_blank" rel="noopener">
+            <div>
+              <h2>{D.sister.title}</h2>
+              <p className="mute">{D.sister.sub}</p>
+            </div>
+            <span className="btn btn-outline">ไปเว็บ{D.sister.name} →</span>
+          </a>
+        </section>
 
         {/* ---------- CTA ---------- */}
         <section className="section">

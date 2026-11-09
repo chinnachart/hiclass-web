@@ -539,6 +539,13 @@ input[type="range"] { width: 100%; height: 28px; margin: 0; accent-color: var(--
 .aw-figure { margin: 0; padding: 12px; overflow: hidden; }
 .aw-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-sm); }
 .aw-note { font-size: 13px; line-height: 1.6; margin-top: 12px; }
+.aw-asof a { color: var(--ink); text-decoration: underline; }
+.aw-sister-wrap { padding-bottom: 0; }
+.aw-sister { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; color: inherit; text-decoration: none; }
+.aw-sister:hover { border-color: var(--ink); }
+.aw-sister h2 { font-size: 18px; }
+.aw-sister .mute { font-size: 13px; margin-top: 4px; }
+.aw-sister .btn { align-self: flex-start; }
 .aw-cta { display: flex; flex-direction: column; gap: 14px; padding: 20px; }
 .aw-cta h2 { font-size: 20px; }
 .aw-cta .mute { font-size: 13px; margin-top: 4px; }
@@ -564,6 +571,8 @@ input[type="range"] { width: 100%; height: 28px; margin: 0; accent-color: var(--
   .aw-item { padding: 18px; }
   .aw-item h3 { font-size: 18px; }
   .aw-cta { flex-direction: row; align-items: center; justify-content: space-between; padding: 28px; }
+  .aw-sister { flex-direction: row; align-items: center; justify-content: space-between; padding: 22px 28px; }
+  .aw-sister .btn { align-self: center; }
   .aw-cta h2 { font-size: 24px; }
   .aw-cta-btns .btn { flex: 0 0 auto; }
   .aw-strip-in { gap: 24px; padding: 18px 24px; }
