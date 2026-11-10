@@ -411,14 +411,16 @@ export default function CardGenerator() {
     ctx.drawImage(assets.hc, lx, 58, hw, hh)
     ctx.fillStyle = RED_DARK
     ctx.textAlign = 'center'
-    const hx0 = lx + hw * (631 / 1200)
-    const hx1 = lx + hw
-    fitFont(ctx, br.en, '600', 'Kanit', 24, 16, hx1 - hx0)
-    spacedCenter(ctx, br.en, (hx0 + hx1) / 2, 150, hx1 - hx0, 14)
+    // จัดชื่อสาขาให้ตรงกึ่งกลางคำ "EV CAR" ในโลโก้ (วัดจากพิกเซลไฟล์ 1200×107: EV CAR อยู่ x 775–965 → กลาง 870)
+    // เดิมใช้กลางคำ HI-CLASS (x 915) เลยเยื้องขวา ~26px · ความกว้างสูงสุดสมมาตรรอบจุดกลาง ไม่ล้นเลยขอบโลโก้
+    const evc = lx + hw * (870 / 1200)
+    const half = hw * (239 / 1200)
+    fitFont(ctx, br.en, '600', 'Kanit', 24, 16, half * 2)
+    spacedCenter(ctx, br.en, evc, 150, half * 2, 14)
     // ชื่อสาขาภาษาไทย ใต้ชื่ออังกฤษ
     ctx.fillStyle = MUTE
-    fitFont(ctx, br.label, '500', 'Kanit', 24, 16, hx1 - hx0)
-    fillCenter(ctx, br.label, (hx0 + hx1) / 2, 182)
+    fitFont(ctx, br.label, '500', 'Kanit', 24, 16, half * 2)
+    fillCenter(ctx, br.label, evc, 182)
     ctx.textAlign = 'center'
 
     // ชื่อ ชื่อเล่น ตำแหน่ง
