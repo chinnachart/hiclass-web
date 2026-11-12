@@ -8,6 +8,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import QRCode from 'qrcode'
+import { cardPositionsFor, resolveCardPosition } from '@/lib/cardPositions'
 
 type Profile = { name: string; nickname: string; branch: string; position: string; role: string }
 
@@ -26,7 +27,6 @@ const BRANCHES = [
   { th: 'กาญจนาภิเษก', en: 'KANCHANAPHISEK', label: 'สาขากาญจนาภิเษก' },
   { th: 'เหม่งจ๋าย', en: 'MENG JAI', label: 'สาขาเหม่งจ๋าย' },
 ]
-const POSITIONS = ['Sales Consultant', 'Sales Specialist', 'Senior Sales Specialist', 'Sales Supervisor', 'Sales Manager', 'Fleet Sales', 'Service Advisor']
 const TAGLINES = [
   'รับประเมินราคารถคันเก่า',
   'นัดทดลองขับฟรี',
@@ -241,7 +241,8 @@ export default function CardGenerator() {
       let saved: Partial<Form> = {}
       try { saved = JSON.parse(localStorage.getItem(STORE) || '{}') } catch {}
       const br = BRANCHES.find((b) => b.th === p.branch)?.th
-      return { ...x, ...saved, name: saved.name || p.name, nickname: saved.nickname || p.nickname, branch: saved.branch || br || x.branch }
+      // ตำแหน่ง: ใช้ได้เฉพาะที่ตรงกับสิทธิ์ใน Cinco — ค่าที่จำไว้ถ้าไม่อยู่ในรายการจะถูกแทนด้วยตัวเลือกแรก
+      return { ...x, ...saved, name: saved.name || p.name, nickname: saved.nickname || p.nickname, branch: saved.branch || br || x.branch, position: resolveCardPosition(p.role, p.position, saved.position || '') }
     })
   }, [])
 
@@ -548,7 +549,7 @@ export default function CardGenerator() {
     let token = ''
     try { token = sessionStorage.getItem(TOKEN) || '' } catch {}
     if (!token) return
-    fetch('/api/gen-card/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, action }), keepalive: true }).catch(() => {})
+    fetch('/api/gen-card/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, action, position: f.position }), keepalive: true }).catch(() => {})
   }
   function download() {
     track('download')
@@ -602,6 +603,7 @@ export default function CardGenerator() {
       </div>
     )
   }
+  const pos = cardPositionsFor(profile.role, profile.position)
 
   const inp = { height: 44 }
   return (
@@ -663,8 +665,19 @@ export default function CardGenerator() {
           <div className="row">
             <div className="field">
               <label htmlFor="gc-pos">ตำแหน่ง</label>
-              <input id="gc-pos" type="text" list="gc-pos-list" value={f.position} onChange={(e) => set('position', e.target.value)} style={inp} />
-              <datalist id="gc-pos-list">{POSITIONS.map((p) => <option key={p} value={p} />)}</datalist>
+              {/* เลือกได้เฉพาะตำแหน่งที่ตรงกับสิทธิ์ใน Cinco (src/lib/cardPositions.ts) · ผู้บริหาร/แอดมินพิมพ์เองได้ */}
+              <div role="group" aria-label="ตำแหน่ง" style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {pos.list.map((p) => (
+                  <button key={p} type="button" aria-pressed={f.position === p} onClick={() => set('position', p)}
+                    style={{ padding: '8px 12px', borderRadius: 999, fontSize: 14, fontWeight: 600, cursor: 'pointer', border: `1.5px solid ${f.position === p ? RED : '#d6d3d1'}`, background: f.position === p ? RED : '#fff', color: f.position === p ? '#fff' : INK }}>
+                    {p}
+                  </button>
+                ))}
+              </div>
+              {pos.free && (
+                <input id="gc-pos" type="text" value={f.position} maxLength={40} placeholder="หรือพิมพ์ตำแหน่งเอง" onChange={(e) => set('position', e.target.value)} style={{ ...inp, marginTop: 6 }} />
+              )}
+              {!pos.free && <span className="mute" style={{ fontSize: 12, display: 'block', marginTop: 4 }}>ตำแหน่งอิงจากสิทธิ์ใน Cinco · ถ้าไม่ตรง แจ้งผู้ดูแลระบบ</span>}
             </div>
             <div className="field">
               <label htmlFor="gc-br">สาขา</label>

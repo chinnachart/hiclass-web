@@ -5,6 +5,8 @@
  * ทำงานฝั่งเซิร์ฟเวอร์เท่านั้น — service key ห้ามหลุดไปฝั่งเบราว์เซอร์
  */
 
+import { resolveCardPosition } from './cardPositions'
+
 export type CardProfile = {
   name: string
   nickname: string
@@ -70,15 +72,19 @@ export async function profileFromToken(token: string): Promise<{ ok: boolean; pr
 }
 
 /** บันทึกว่าใครกด ดาวน์โหลด/แชร์ นามบัตร → public.gen_card_logs (Cinco แท็บ 📇 นามบัตรออนไลน์ · admin เห็น) */
-export async function logCard(token: string, action: 'download' | 'share'): Promise<{ ok: boolean; reason?: string }> {
+export async function logCard(token: string, action: 'download' | 'share', position = ''): Promise<{ ok: boolean; reason?: string }> {
   const e = env()
   if (!e) return { ok: false, reason: 'not-configured' }
   const p = await profileFromToken(token)
   if (!p.ok || !p.profile || !p.userId) return { ok: false, reason: p.reason || 'bad-token' }
+  const w = String(position || '').replace(/\s+/g, ' ').trim().slice(0, 40)
+  const okPos = resolveCardPosition(p.profile.role, p.profile.position, w)
+  const cardPos = !w ? null : okPos === w ? w : `${w} (ไม่ตรงสิทธิ์)`
   const r = await fetch(`${e.url}/rest/v1/gen_card_logs`, {
     method: 'POST',
     headers: { apikey: e.key, Authorization: `Bearer ${e.key}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-    body: JSON.stringify({ user_id: p.userId, user_name: p.profile.name || null, user_role: p.profile.role || null, user_branch: p.profile.branch || null, action }),
+    // ตำแหน่งบนนามบัตร: ถ้าเบราว์เซอร์ส่งค่าที่ไม่ตรงกับสิทธิ์ (ถูกแก้ฝั่งผู้ใช้) จะติดป้าย "ไม่ตรงสิทธิ์" ให้แอดมินเห็นใน Cinco
+    body: JSON.stringify({ user_id: p.userId, user_name: p.profile.name || null, user_role: p.profile.role || null, user_branch: p.profile.branch || null, action, card_position: cardPos }),
     cache: 'no-store',
   })
   return r.ok ? { ok: true } : { ok: false, reason: `insert-${r.status}` }
