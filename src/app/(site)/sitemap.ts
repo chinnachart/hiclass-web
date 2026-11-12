@@ -18,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/test-drive`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/register`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE}/trade-in`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE}/ev-care`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE}/promotion`, changeFrequency: 'weekly', priority: 0.7 },
     // zip #40 — หน้าโปรรายเดือน (เดือนนี้ + ย้อนหลัง)
     ...listMonths().map((k, i) => ({ url: `${SITE}/promotion/${k}`, changeFrequency: (i === 0 ? 'weekly' : 'yearly') as 'weekly' | 'yearly', priority: i === 0 ? 0.7 : 0.3 })),

@@ -10,5 +10,6 @@ export const NAV = [
   { href: '/contact', label: 'ติดต่อเรา' },
   { href: '/news', label: 'ข่าวสารและกิจกรรม' },
   // เมนูมือถือเท่านั้น (แถบบนจอคอมเต็มแล้ว · จอคอมมีลิงก์ที่ footer)
+  { href: '/ev-care', label: 'Hi-Class EV Care', mobileOnly: true },
   { href: '/careers', label: 'ร่วมงานกับเรา', mobileOnly: true },
 ] as const

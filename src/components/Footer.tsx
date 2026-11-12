@@ -59,6 +59,7 @@ export default function Footer({
               <Link href="/promotion">โปรโมชั่น</Link>
               <Link href="/service">ศูนย์บริการ</Link>
               <Link href="/rental">บริการรถให้เช่า</Link>
+              <Link href="/ev-care">Hi-Class EV Care ประกันภัยรถยนต์</Link>
               <Link href="/news">ข่าวสารและกิจกรรม</Link>
               <Link href="/awards">รางวัลของเรา</Link>
               <Link href="/delivery">ภาพส่งมอบรถ</Link>
