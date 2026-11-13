@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import Icon from '@/components/Icons'
 import { Faq } from '@/components/Cards'
@@ -58,6 +59,9 @@ const TIERS = [
   { key: 'day30' as const, head: '30 วัน' },
 ]
 
+/** รูปส่งมอบรถเช่าจริง จากเพจ Hi-Class EV Car Rent (ปิดหน้าลูกค้า · เบลอทะเบียนแล้ว) — ไฟล์ใน public/rental/ */
+const RT_PHOTOS = [1, 2, 3, 4, 5].map((n) => ({ src: `/rental/delivery-${n}.webp`, alt: `ส่งมอบรถเช่า BYD ให้ลูกค้า Hi-Class EV Car Rent รูปที่ ${n}` }))
+
 export default async function RentalPage() {
   const [{ models, branches, settings }, pc] = await Promise.all([getSiteData(), getPageContent()])
   const faq = pc.rtFaq?.length ? pc.rtFaq : D.faq
@@ -80,13 +84,18 @@ export default async function RentalPage() {
     <>
       {faq.length > 0 ? <Jsonld data={faqLd(faq)} /> : null}
       <section className="page-head">
-        <div className="container">
-          <p className="kicker">{pc.rtKicker || D.kicker}</p>
-          <h1>{fillTokens(pc.rtTitle || D.title, branches.length)}</h1>
-          <p className="lead">{fillTokens(pc.rtLead || D.lead, branches.length)}</p>
+        <div className="container svc-head">
+          <div>
+            <p className="kicker">{pc.rtKicker || D.kicker}</p>
+            <h1>{fillTokens(pc.rtTitle || D.title, branches.length)}</h1>
+            <p className="lead">{fillTokens(pc.rtLead || D.lead, branches.length)}</p>
+          </div>
+          <div className="svc-head-img rt-head-img">
+            <Image src={RT_PHOTOS[2].src} alt={RT_PHOTOS[2].alt} fill priority sizes="(max-width: 900px) 100vw, 520px" style={{ objectFit: 'cover' }} />
+          </div>
         </div>
       </section>
-      <main className="container">
+      <main className="container rt-main">
         <section className="section" style={{ paddingTop: 20 }}>
           {rows.length > 0 ? (
             <>
@@ -143,6 +152,16 @@ export default async function RentalPage() {
           <div className="grid-2" style={{ marginTop: 14 }}>
             <a className="btn btn-red btn-lg" href={telHref(settings.mainPhone)}><Icon name="phone" size={20} color="#fff" />โทรสอบถามค่าเช่า</a>
             <Link className="btn btn-outline btn-lg" href="/branches"><Icon name="pin" size={20} />ดูสาขาที่รับรถได้</Link>
+          </div>
+        </section>
+        <section className="section rt-gallery-sec" style={{ paddingTop: 0 }}>
+          <div className="sec-head"><div><h2>ส่งมอบรถเช่าจริง</h2><p>ภาพส่งมอบรถให้ลูกค้าจากเพจ Hi-Class EV Car Rent</p></div></div>
+          <div className="rt-gallery">
+            {RT_PHOTOS.map((ph) => (
+              <div className="rt-photo" key={ph.src}>
+                <Image src={ph.src} alt={ph.alt} fill sizes="(max-width: 700px) 70vw, 300px" style={{ objectFit: 'cover' }} />
+              </div>
+            ))}
           </div>
         </section>
         {faq.length > 0 ? (
