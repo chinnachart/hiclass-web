@@ -154,7 +154,7 @@ export default async function RentalPage() {
             <Link className="btn btn-outline btn-lg" href="/branches"><Icon name="pin" size={20} />ดูสาขาที่รับรถได้</Link>
           </div>
         </section>
-        <section className="section rt-gallery-sec" style={{ paddingTop: 0 }}>
+        <section className="section rt-gallery-sec" style={{ paddingTop: 8 }}>
           <div className="sec-head"><div><h2>ส่งมอบรถเช่าจริง</h2><p>ภาพส่งมอบรถให้ลูกค้าจากเพจ Hi-Class EV Car Rent</p></div></div>
           <div className="rt-gallery">
             {RT_PHOTOS.map((ph) => (
