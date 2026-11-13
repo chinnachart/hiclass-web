@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Icon from '@/components/Icons'
 import { mediaOf } from '@/components/CarImage'
 import { BranchCard } from '@/components/Cards'
+import { BRANCH_MAPS } from '@/lib/branchMaps'
 import ShowroomSlider from '@/components/ShowroomSlider'
 import { SERVICE_BRANCH_CODES } from '@/lib/serviceAppt'
 import { BRANCH_SERVICE_SLIDES } from '@/lib/serviceMedia'
@@ -103,6 +104,18 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
             </div>
           </div>
         </section>
+
+        {BRANCH_MAPS[b.code] ? (
+          <section className="section" style={{ paddingTop: 0 }}>
+            <div className="sec-head"><div><h2>แผนที่การเดินทาง</h2><p>แผนที่อย่างง่ายของสาขา{b.name} — กดนำทางเพื่อเปิดเส้นทางจริงใน Google Maps</p></div></div>
+            <div className="branch-map">
+              <div dangerouslySetInnerHTML={{ __html: BRANCH_MAPS[b.code] }} />
+              {b.mapUrl ? (
+                <a className="btn btn-red btn-lg" style={{ marginTop: 12, width: '100%' }} href={b.mapUrl} target="_blank" rel="noopener noreferrer"><Icon name="pin" size={20} color="#fff" />นำทางด้วย Google Maps</a>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
 
         {rest.length > 0 ? (
           <section className="section">

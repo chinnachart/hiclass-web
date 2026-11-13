@@ -62,12 +62,10 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
   return (
     <section className={s.hero}>
       <div className={s.kicker}>BYD Hi-Class EV Car · ยอดส่งมอบทั้งกรุ๊ป 10,000+ คัน</div>
+      {/* เจ้าของสั่ง 13 พ.ย. 2569: เหลือหัวข้อบรรทัดเดียว ตัด "เลือก BYD ที่ใช่" และบรรทัดรอง */}
       <h1 className={s.title}>
-        เลือก BYD ที่ใช่
-        <br />
         <em>รับดีลพิเศษ Motor Expo</em>
       </h1>
-      <p className={s.sub}>ราคาเริ่มต้น ระยะวิ่ง นัดทดลองขับ จบในหน้าเดียว</p>
 
       <div className={s.chips} ref={chips}>
         {models.map((m, i) => (

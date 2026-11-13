@@ -98,8 +98,9 @@ export default async function TradeInPage() {
           </div>
         </div>
       </section>
-      <main className="container">
-        <section className="section" style={{ paddingTop: 20, paddingBottom: 0 }}>
+      <main className="container ti-main">
+        {/* จอคอม: 3 ขั้นตอนอยู่เหนือฟอร์ม · มือถือ: ย้ายไปใต้ฟอร์ม (CSS order) ให้ฟอร์มอยู่ใกล้หัวหน้า */}
+        <section className="section ti-steps-sec" style={{ paddingTop: 20, paddingBottom: 0 }}>
           <ol className="ti-steps">
             {TI_STEPS.map((st, i) => (
               <li className="card ti-step" key={st.title}>
@@ -121,7 +122,7 @@ export default async function TradeInPage() {
           </div>
         </section>
         {faq.length > 0 ? (
-          <section className="section">
+          <section className="section ti-faq-sec">
             <h2>คำถามที่พบบ่อยเรื่องเทิร์นรถ</h2>
             <div className="faq">
               {faq.map((f) => (
