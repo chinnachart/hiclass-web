@@ -24,3 +24,4 @@
 - 2026-11-12 · /gen-card ตำแหน่งบนนามบัตรเลือกได้เฉพาะที่ตรงกับสิทธิ์ใน Cinco (ปุ่มเลือก · src/lib/cardPositions.ts) · owner/admin พิมพ์เองได้ · บันทึกตำแหน่งลง gen_card_logs.card_position (ไม่ตรงสิทธิ์ = ติดป้าย)
 - 2026-11-12 · หน้าใหม่ /ev-care Hi-Class EV Care (พาร์ทเนอร์ Coronet Brokers) + ฟอร์มขอใบเสนอราคาประกัน → Cinco insurance_leads (admin เท่านั้น) · เมนูมือถือ + footer + sitemap · migration v362_insurance_leads รันแล้ว
 - 2026-11-13 · หน้าเทิร์นรถ: ภาพหัว + 3 ขั้นตอนลายเส้น (มือถืออยู่ใต้ฟอร์ม) · หน้าแรก: หัวข้อเหลือ "รับดีลพิเศษ Motor Expo" บรรทัดเดียว · หน้าสาขา: แผนที่ผังอย่างง่ายทั้ง 6 สาขา (scripts/gen-branch-maps.py → src/lib/branchMaps.ts · รัชดายืนยันแล้ว อีก 5 สาขารอเจ้าของตรวจ) · tsc + next build ผ่าน
+- 2026-11-13 · หน้าสาขา: เอาแผนที่ผังอย่างง่ายออกทั้ง 6 สาขา (เจ้าของ: ปุ่มนำทาง Google Maps บนการ์ดสาขาตอบโจทย์แล้ว) · ลบ src/lib/branchMaps.ts + scripts/gen-branch-maps.py · tsc + next build ผ่าน
