@@ -9,7 +9,7 @@ import { baht } from '@/lib/format'
 
 export const metadata: Metadata = {
   title: 'นัดทดลองขับ BYD ฟรี ทุกรุ่น',
-  description: 'กรอกแค่ชื่อกับเบอร์ เซลส์สาขาที่สะดวกโทรกลับนัดวันเวลาให้ ทดลองขับฟรี ไม่มีข้อผูกมัด · รีวิวและภาพส่งมอบจากลูกค้าจริง BYD Hi-Class EV Car',
+  description: 'กรอกแค่ชื่อกับเบอร์ เซลส์สาขาที่สะดวกโทรกลับนัดวันเวลาให้ ทดลองขับฟรี ไม่มีข้อผูกมัด | รีวิวและภาพส่งมอบจากลูกค้าจริง BYD Hi-Class EV Car',
   alternates: { canonical: '/test-drive' },
 }
 
@@ -70,7 +70,7 @@ export default async function TestDrivePage({
   ])
   const offerNote =
     sp.monthly && sp.term
-      ? `จากเครื่องคำนวณ: ดาวน์ ${sp.down}% · ${sp.term} งวด · ประมาณ ${baht(Number(sp.monthly))} บาท/เดือน`
+      ? `จากเครื่องคำนวณ: ดาวน์ ${sp.down}% | ${sp.term} งวด | ประมาณ ${baht(Number(sp.monthly))} บาท/เดือน`
       : ''
   // รูปส่งมอบ: 5 รูปแรกไว้ข้างฟอร์ม ที่เหลือเป็นแกลเลอรีด้านล่าง · รีวิว: อันแรกเป็นคำพูดเด่น ที่เหลือเป็นการ์ด
   const sidePhotos = photos.slice(0, 5)
@@ -131,8 +131,8 @@ export default async function TestDrivePage({
                     <blockquote>“{topReview.message}”</blockquote>
                     <figcaption>
                       <b>{topReview.name}</b>
-                      {topReview.model ? ` · BYD ${topReview.model}` : ''}
-                      {topReview.branch ? ` · สาขา${topReview.branch}` : ''}
+                      {topReview.model ? ` | BYD ${topReview.model}` : ''}
+                      {topReview.branch ? ` | สาขา${topReview.branch}` : ''}
                     </figcaption>
                   </figure>
                 ) : null}

@@ -55,7 +55,7 @@ export default async function PromotionMonthPage({ params }: { params: Promise<{
       <Jsonld data={breadcrumbLd([{ name: 'โปรโมชั่น', path: '/promotion' }, { name: pm.labelBE, path: `/promotion/${month}` }])} />
       <section className="page-head">
         <div className="container">
-          <p className="kicker">Promotion · {pm.labelBE}</p>
+          <p className="kicker">Promotion | {pm.labelBE}</p>
           <h1>โปรโมชั่น BYD เดือน{pm.labelBE}</h1>
           <p className="lead">
             {isPast

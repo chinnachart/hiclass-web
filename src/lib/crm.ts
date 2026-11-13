@@ -92,7 +92,7 @@ export async function createLead(input: LeadInput): Promise<{ ok: boolean; reaso
     isRegister ? 'ลงทะเบียนความสนใจจากฟอร์มบนเว็บไซต์' : 'บันทึกอัตโนมัติจากฟอร์มบนเว็บไซต์',
   ]
     .filter(Boolean)
-    .join(' · ')
+    .join(' | ')
 
   const row = {
     seller_name: input.holderName,
@@ -158,14 +158,14 @@ async function notifyBranch(
     kind: 'web_lead',
     tab: 'mktleads',
     ref: String(p.leadId),
-    title: `🌐 ลีดใหม่จากเว็บ — ${p.customerName} · กดรับก่อนได้โทรก่อน`,
+    title: `🌐 ลีดใหม่จากเว็บ — ${p.customerName} | กดรับก่อนได้โทรก่อน`,
     body: [
       `BYD ${p.model || 'ไม่ระบุรุ่น'}`,
       `สาขา${p.branch}`,
       p.kind === 'register' ? 'ลงทะเบียนความสนใจ' : p.apptText ? `นัด ${p.apptText}` : null,
     ]
       .filter(Boolean)
-      .join(' · '),
+      .join(' | '),
   }))
   const ins = await rest(env, 'notifications', { method: 'POST', body: JSON.stringify(rows), prefer: 'return=minimal' })
   if (!ins.ok) throw new Error(`notifications ${ins.status} ${(await ins.text().catch(() => '')).slice(0, 200)}`)

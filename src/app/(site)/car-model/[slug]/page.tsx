@@ -86,14 +86,14 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               <small>บาท</small>
             </div>
             <p className="small mute">
-              หรือผ่อนเริ่มต้นประมาณ <b style={{ color: 'var(--ink)' }}>{baht(perMonth)} บาท/เดือน</b> · ดาวน์ {ft.defaultDown}% · {ft.defaultTerm} งวด ·{' '}
+              หรือผ่อนเริ่มต้นประมาณ <b style={{ color: 'var(--ink)' }}>{baht(perMonth)} บาท/เดือน</b> | ดาวน์ {ft.defaultDown}% | {ft.defaultTerm} งวด |{' '}
               <Link href={`/price/${m.slug}`} style={{ color: 'var(--red)', fontWeight: 600 }}>ดูตารางผ่อนเต็ม</Link>
             </p>
             {m.variants && m.variants.length > 0 ? (
               <div className="stack" style={{ gap: 6, marginTop: 12 }}>
                 {m.variants.map((v) => (
                   <div key={v.name} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 12px', border: '1px solid var(--line)', borderRadius: 10, background: 'var(--paper)', fontSize: 14 }}>
-                    <span><b>{v.name}</b>{v.note ? <span className="mute"> · {v.note}</span> : null}</span>
+                    <span><b>{v.name}</b>{v.note ? <span className="mute"> | {v.note}</span> : null}</span>
                     <b className="display">{baht(v.price)} ฿</b>
                   </div>
                 ))}
@@ -120,7 +120,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           {colors.length > 0 ? (
             <div className="colors" style={{ gridColumn: '1 / -1' }} aria-label={`สี BYD ${m.name}`}>
               {colors.slice(0, 8).map((c) => <span key={c.name} title={c.name} style={{ background: c.hex }} />)}
-              <span className="small mute" style={{ width: 'auto', height: 'auto', boxShadow: 'none', border: 0, marginLeft: 4 }}>{colors.length} สี · <a href="#colors" style={{ color: 'inherit' }}>ดูชื่อสี</a></span>
+              <span className="small mute" style={{ width: 'auto', height: 'auto', boxShadow: 'none', border: 0, marginLeft: 4 }}>{colors.length} สี | <a href="#colors" style={{ color: 'inherit' }}>ดูชื่อสี</a></span>
             </div>
           ) : m.colorsCount ? (
             <div className="colors" style={{ gridColumn: '1 / -1' }}>
@@ -146,7 +146,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           <div className="sec-head">
             <div>
               <h2>ราคา BYD {m.name} {year}</h2>
-              <p>ราคาตามแคมเปญ BYD ประเทศไทย อัปเดตโดยทีม Hi-Class · ผ่อน {ft.defaultTerm} งวด ดอกเบี้ย {ft.rate(ft.defaultDown, ft.defaultTerm)}%</p>
+              <p>ราคาตามแคมเปญ BYD ประเทศไทย อัปเดตโดยทีม Hi-Class | ผ่อน {ft.defaultTerm} งวด ดอกเบี้ย {ft.rate(ft.defaultDown, ft.defaultTerm)}%</p>
             </div>
             <Link className="sec-link" href={`/price/${m.slug}`}>ตารางผ่อนเต็ม <Icon name="chev" size={16} /></Link>
           </div>
@@ -164,7 +164,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               <tbody>
                 {priceRows.map((v) => (
                   <tr key={v.name} style={{ borderTop: '1px solid var(--line)' }}>
-                    <td style={{ padding: '10px 12px' }}><b>{v.name}</b>{v.note ? <span className="small mute"> · {v.note}</span> : null}</td>
+                    <td style={{ padding: '10px 12px' }}><b>{v.name}</b>{v.note ? <span className="small mute"> | {v.note}</span> : null}</td>
                     <td style={{ padding: '10px 12px', textAlign: 'right' }}><b className="display">{baht(v.price)}</b></td>
                     {miniDowns.map((d) => (
                       <td key={d} style={{ padding: '10px 12px', textAlign: 'right' }}>{baht(ft.pay(v.price, d, ft.defaultTerm).perMonth)}</td>
@@ -268,7 +268,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
             <div className="sec-head">
               <div>
                 <h2>เทียบ BYD {m.name} กับรุ่นใกล้เคียง</h2>
-                <p>ราคา ค่างวด ({ft.defaultDown}% · {ft.defaultTerm} งวด) และระยะทาง เทียบกับรุ่นที่ราคาและตัวถังใกล้กัน</p>
+                <p>ราคา ค่างวด ({ft.defaultDown}% | {ft.defaultTerm} งวด) และระยะทาง เทียบกับรุ่นที่ราคาและตัวถังใกล้กัน</p>
               </div>
               <Link className="sec-link" href={`/compare?m=${cmpRows.map((x) => x.slug).join(',')}`}>เทียบละเอียด <Icon name="chev" size={16} /></Link>
             </div>
@@ -317,7 +317,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
             <div className="sec-head">
               <div>
                 <h2>รีวิวจากลูกค้า{ownReviews.length > 0 ? ` BYD ${m.name}` : ''}</h2>
-                {settings.googleRating ? <p>คะแนนรีวิวบน Google {settings.googleRating.toFixed(1)} ★{settings.trustNote ? ` · ${settings.trustNote}` : ''}</p> : null}
+                {settings.googleRating ? <p>คะแนนรีวิวบน Google {settings.googleRating.toFixed(1)} ★{settings.trustNote ? ` | ${settings.trustNote}` : ''}</p> : null}
               </div>
               <Link className="sec-link" href="/reviews">รีวิวทั้งหมด <Icon name="chev" size={16} /></Link>
             </div>

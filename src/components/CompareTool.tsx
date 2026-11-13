@@ -50,7 +50,7 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
           </button>
         ))}
       </div>
-      <p className="small mute">เลือกได้สูงสุด {MAX} รุ่น · กดซ้ำเพื่อเอาออก</p>
+      <p className="small mute">เลือกได้สูงสุด {MAX} รุ่น | กดซ้ำเพื่อเอาออก</p>
 
       {chosen.length < 2 ? (
         <div className="notice warn">เลือกอย่างน้อย 2 รุ่นเพื่อเปรียบเทียบ</div>
@@ -73,10 +73,10 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
             <Row label="ราคาเริ่มต้น" cols={cols}>
               {chosen.map((m) => <Cell key={m.id} hi={m.priceFrom === cheapest}>{baht(m.priceFrom)} ฿</Cell>)}
             </Row>
-            <Row label={`ผ่อน/เดือน (ดาวน์ ${down}% · ${term} งวด)`} cols={cols}>
+            <Row label={`ผ่อน/เดือน (ดาวน์ ${down}% | ${term} งวด)`} cols={cols}>
               {chosen.map((m) => <Cell key={m.id} hi={m.priceFrom === cheapest}>≈ {baht(ft.pay(m.priceFrom, down, term).perMonth)} ฿</Cell>)}
             </Row>
-            <Row label="ระยะทาง (EV = ต่อการชาร์จ · DM-i = รวม)" cols={cols}>
+            <Row label="ระยะทาง (EV = ต่อการชาร์จ | DM-i = รวม)" cols={cols}>
               {chosen.map((m) => <Cell key={m.id} hi={!!m.rangeKm && m.rangeKm === longest}>{m.rangeKm ? `${m.rangeKm} กม.${m.powertrain === 'phev' ? ' (รวม)' : ''}` : '—'}</Cell>)}
             </Row>
             <Row label="จำนวนสี" cols={cols}>
@@ -86,7 +86,7 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
               {chosen.map((m) => (
                 <Cell key={m.id}>
                   {m.variants && m.variants.length > 0
-                    ? m.variants.map((v) => <div key={v.name} style={{ fontSize: 13 }}>{v.name} · {baht(v.price)}</div>)
+                    ? m.variants.map((v) => <div key={v.name} style={{ fontSize: 13 }}>{v.name} | {baht(v.price)}</div>)
                     : '—'}
                 </Cell>
               ))}
@@ -97,7 +97,7 @@ export default function CompareTool({ models, settings, initialSlugs }: { models
               </Row>
             ))}
             <Row label="ให้เช่า" cols={cols}>
-              {chosen.map((m) => <Cell key={m.id}>{m.rentalAvailable && (m.rentalDaily || m.rentalMonthly) ? `มี · ${m.rentalDaily ? baht(m.rentalDaily) + '/วัน' : ''}` : '—'}</Cell>)}
+              {chosen.map((m) => <Cell key={m.id}>{m.rentalAvailable && (m.rentalDaily || m.rentalMonthly) ? `มี | ${m.rentalDaily ? baht(m.rentalDaily) + '/วัน' : ''}` : '—'}</Cell>)}
             </Row>
             <div style={{ display: 'grid', gridTemplateColumns: cols }}>
               <div style={{ padding: 14 }} />

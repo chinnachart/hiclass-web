@@ -42,7 +42,7 @@ export default function PriceTable({ models, settings }: { models: CarModel[]; s
             </div>
           </div>
         </div>
-        <p className="fineprint">ดอกเบี้ยคงที่ {rate}% ต่อปี (ดาวน์ {down}% · {term} งวด) · ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นกับสถาบันการเงิน</p>
+        <p className="fineprint">ดอกเบี้ยคงที่ {rate}% ต่อปี (ดาวน์ {down}% | {term} งวด) | ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นกับสถาบันการเงิน</p>
       </div>
 
       <div className="price-table">

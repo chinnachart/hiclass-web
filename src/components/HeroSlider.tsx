@@ -131,7 +131,7 @@ export default function HeroSlider({
         {/* 3 ต.ค. แบบ 4 — แนะนำแบรนด์ + ชื่อรุ่นทั้งหมด แทน kicker (Private Offer ฯลฯ) · คงที่ทุกสไลด์ ทุกจอ */}
         <div className="hs-intro">
           <p className="hs-brand">BYD Hi-Class EV Car</p>
-          <p className="hs-brand-sub">ตัวแทนจำหน่าย BYD ประเทศไทย · จำหน่ายทุกรุ่น · ยอดส่งมอบทั้งกรุ๊ป <b>10,000+</b> คัน</p>
+          <p className="hs-brand-sub">ตัวแทนจำหน่าย BYD ประเทศไทย | จำหน่ายทุกรุ่น | ยอดส่งมอบทั้งกรุ๊ป <b>10,000+</b> คัน</p>
           {models.length ? (
             <nav className="hs-models" aria-label="รุ่นรถ BYD">
               {models.map((m) => (

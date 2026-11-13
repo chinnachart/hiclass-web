@@ -47,7 +47,7 @@ export default async function CareersPage() {
     '@context': 'https://schema.org',
     '@type': 'JobPosting',
     title: 'ที่ปรึกษาการขาย (Sales Consultant) BYD',
-    description: `<p>${DUTIES.join('</p><p>')}</p><p>คุณสมบัติ: ${QUALIFICATIONS.join(' · ')}</p>`,
+    description: `<p>${DUTIES.join('</p><p>')}</p><p>คุณสมบัติ: ${QUALIFICATIONS.join(' | ')}</p>`,
     datePosted: today.toISOString().slice(0, 10),
     validThrough,
     employmentType: 'FULL_TIME',
@@ -65,7 +65,7 @@ export default async function CareersPage() {
       <Jsonld data={jobLd} />
       <section className="page-head" style={{ background: '#0b2350', color: '#fff' }}>
         <div className="container">
-          <p className="kicker" style={{ color: '#f5c542' }}><Icon name="bolt" size={14} color="#f5c542" />We are hiring · ทุกสาขา</p>
+          <p className="kicker" style={{ color: '#f5c542' }}><Icon name="bolt" size={14} color="#f5c542" />We are hiring | ทุกสาขา</p>
           <h1 style={{ color: '#fff' }}>เปิดรับสมัคร ที่ปรึกษาการขาย</h1>
           <p className="lead" style={{ color: 'rgba(255,255,255,.85)' }}>
             ร่วมเป็นส่วนหนึ่งของทีมขายมืออาชีพ BYD Hi-Class EV Car {branches.length ? `${branches.length} สาขา` : ''} รายได้สูงตามความสามารถ

@@ -19,7 +19,7 @@ export function AwardsStrip() {
           <p className="kicker">BYD Dealer of the Year {s.dealerOfYear}</p>
           <h2>กลุ่มดีลเลอร์ BYD ยอดขายอันดับ 1 ของประเทศ</h2>
           <p className="mute">
-            ส่งมอบแล้วกว่า {s.deliveredUnits.toLocaleString('th-TH')} คัน · {s.nationalAwardsLatest} รางวัลระดับประเทศปี {s.dealerOfYear} · {s.techAwardsTotal} รางวัลทีมช่างเทคนิค
+            ส่งมอบแล้วกว่า {s.deliveredUnits.toLocaleString('th-TH')} คัน | {s.nationalAwardsLatest} รางวัลระดับประเทศปี {s.dealerOfYear} | {s.techAwardsTotal} รางวัลทีมช่างเทคนิค
           </p>
           <span className="sec-link">ดูรางวัลทั้งหมด <Icon name="chev" size={16} /></span>
         </div>

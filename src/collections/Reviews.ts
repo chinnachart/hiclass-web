@@ -14,7 +14,7 @@ export const Reviews: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'status', 'model', 'branch', 'createdAt'],
     description:
-      'ลูกค้าเขียนรีวิวที่หน้า /reviews → เข้ามาเป็น "รออนุมัติ" · อ่านแล้วเปลี่ยนสถานะเป็น "อนุมัติ" กด Save จึงจะขึ้นเว็บ · ไม่เหมาะสมให้เลือก "ไม่แสดง"',
+      'ลูกค้าเขียนรีวิวที่หน้า /reviews → เข้ามาเป็น "รออนุมัติ" | อ่านแล้วเปลี่ยนสถานะเป็น "อนุมัติ" กด Save จึงจะขึ้นเว็บ | ไม่เหมาะสมให้เลือก "ไม่แสดง"',
     listSearchableFields: ['name', 'message'],
   },
   access: {

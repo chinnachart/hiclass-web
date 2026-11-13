@@ -67,7 +67,7 @@ export default async function BranchPage({ params }: { params: Promise<{ code: s
       <Jsonld data={breadcrumbLd([{ name: 'สาขาของเรา', path: '/branches' }, { name: `BYD Hi-Class ${b.name}`, path: `/branches/${b.code}` }])} />
       <section className="page-head">
         <div className="container">
-          <p className="kicker"><Icon name="pin" size={14} />สาขา{b.name}{b.nameEn ? ` · ${b.nameEn}` : ''}</p>
+          <p className="kicker"><Icon name="pin" size={14} />สาขา{b.name}{b.nameEn ? ` | ${b.nameEn}` : ''}</p>
           <h1>BYD Hi-Class {b.name}</h1>
           {b.intro ? <p className="lead">{b.intro}</p> : null}
         </div>

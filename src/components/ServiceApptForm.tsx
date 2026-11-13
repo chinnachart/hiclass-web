@@ -119,7 +119,7 @@ export default function ServiceApptForm({ models, branches, settings, defaultBra
           <p className="mute" style={{ fontSize: 13 }}>ส่งเมื่อ {summary.at}</p>
         </div>
         <div className="notice warn">
-          <strong>กรุณาแคปหน้าจอนี้ไว้</strong> เพื่อใช้ยืนยันกับเจ้าหน้าที่ · {CALLBACK_NOTE}
+          <strong>กรุณาแคปหน้าจอนี้ไว้</strong> เพื่อใช้ยืนยันกับเจ้าหน้าที่ | {CALLBACK_NOTE}
           <br />
           {CONFIRM_NOTE}
         </div>

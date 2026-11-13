@@ -54,7 +54,7 @@ export const Branches: CollectionConfig = {
     {
       type: 'collapsible',
       label: 'ช่องทางโซเชียลของสาขานี้',
-      admin: { description: 'ลูกค้ากดจากหน้าสาขาไปเพจของสาขานี้ได้ตรง ไม่ต้องผ่าน Linktree · เว้นว่างช่องไหน ปุ่มนั้นจะไม่ขึ้น' },
+      admin: { description: 'ลูกค้ากดจากหน้าสาขาไปเพจของสาขานี้ได้ตรง ไม่ต้องผ่าน Linktree | เว้นว่างช่องไหน ปุ่มนั้นจะไม่ขึ้น' },
       fields: [
         {
           type: 'row',

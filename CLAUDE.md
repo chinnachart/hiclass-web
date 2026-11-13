@@ -24,9 +24,9 @@
 
 ## สัญญากับ Cinco (ห้ามเปลี่ยนรูปแบบโดยไม่แก้ทั้งสองฝั่ง)
 - ลีดเข้า `public.crm_leads`: seller_name 'เว็บไซต์ - รอรับ' · lead_source 'Website' · branch/model ไม่มีเว้นวรรค (พระราม5 กาญจนาภิเษก ลาดพร้าว รัชดา บองมาร์เช่ เหม่งจ๋าย) · contact_info เบอร์ล้วน · **ห้ามส่ง** seller_id / seller_ref / phone_digits
-- /test-drive: interest Hot · test_drive true · appointment_date/slot · notes เริ่ม `สะดวก: …` (Cinco อ่านด้วย regex หยุดที่ `·`)
-- /register: interest Warm · test_drive false · notes `อีเมล: … · LINE ID: … · หมายเหตุ: …`
-- ทั้งสอง: notes ต่อท้าย `ที่มา: … · gclid:… · หน้าแรกที่เข้า:…`
+- /test-drive: interest Hot · test_drive true · appointment_date/slot · notes เริ่ม `สะดวก: …` · ตั้งแต่ 13 พ.ย. 2026 ส่วนต่างๆ ของ notes คั่นด้วยขีดตั้ง ` | ` (เดิมจุดกลาง) — CNC v369 อ่านด้วย regex ที่หยุดได้ทั้งจุดกลางและขีดตั้ง
+- /register: interest Warm · test_drive false · notes `อีเมล: … | LINE ID: … | หมายเหตุ: …`
+- ทั้งสอง: notes ต่อท้าย `ที่มา: … | gclid:… | หน้าแรกที่เข้า:…`
 - กระดิ่ง `notifications` kind 'web_lead' tab 'mktleads' ref = lead id · body ห้ามมีเบอร์
 - /trade-in → `trade_in_requests` · /service#appointment → `service_appointments` (ไม่ใช่ลีด)
 - รุ่นบนเว็บ 10 รุ่น (ไม่มี Seal, E6, T3)

@@ -24,7 +24,7 @@ const faqArray = (name: string) => ({
   labels: { singular: 'คำถาม', plural: 'คำถาม' },
   admin: {
     description:
-      'มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ',
+      'มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง | ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ',
   },
   fields: FAQ_FIELDS,
 })
@@ -33,7 +33,7 @@ const seoFields = (titleName: string, descName: string) => [
   {
     type: 'collapsible' as const,
     label: 'หัวข้อและคำอธิบายสำหรับ Google',
-    admin: { description: 'ข้อความที่ขึ้นในหน้าผลค้นหา Google และตอนแชร์ลิงก์ · เว้นว่าง = ใช้ค่าเดิมที่ตั้งไว้ตอนสร้างเว็บ' },
+    admin: { description: 'ข้อความที่ขึ้นในหน้าผลค้นหา Google และตอนแชร์ลิงก์ | เว้นว่าง = ใช้ค่าเดิมที่ตั้งไว้ตอนสร้างเว็บ' },
     fields: [
       { name: titleName, type: 'text' as const, label: 'หัวข้อ (title)', admin: { description: 'ยาวไม่เกิน ~60 ตัวอักษร ใส่คำที่ลูกค้าเสิร์ชจริงไว้ต้นประโยค' } },
       { name: descName, type: 'textarea' as const, label: 'คำอธิบาย (description)', admin: { description: 'ยาวไม่เกิน ~155 ตัวอักษร' } },
@@ -47,7 +47,7 @@ export const PageContent: GlobalConfig = {
   admin: {
     group: 'เนื้อหาเว็บ',
     description:
-      'แก้ข้อความบนหน้า รางวัล · รถเช่า · ศูนย์บริการ · เทิร์นรถเก่า ได้ที่นี่ทั้งหมด — ช่องไหนเว้นว่างจะใช้ข้อความเดิมที่ตั้งไว้ให้',
+      'แก้ข้อความบนหน้า รางวัล | รถเช่า | ศูนย์บริการ | เทิร์นรถเก่า ได้ที่นี่ทั้งหมด — ช่องไหนเว้นว่างจะใช้ข้อความเดิมที่ตั้งไว้ให้',
   },
   access: { read: () => true },
   hooks: { afterChange: [revalidateSite] },
@@ -75,7 +75,7 @@ export const PageContent: GlobalConfig = {
               ],
             },
             { name: 'awLead', type: 'textarea', label: 'ย่อหน้านำ' },
-            { name: 'awHeroImage', type: 'upload', relationTo: 'media', label: 'รูปใหญ่ด้านขวา (ถือโล่รางวัล)', admin: { description: `แนวตั้ง 3:4 · ${IMG.portrait34}` } },
+            { name: 'awHeroImage', type: 'upload', relationTo: 'media', label: 'รูปใหญ่ด้านขวา (ถือโล่รางวัล)', admin: { description: `แนวตั้ง 3:4 | ${IMG.portrait34}` } },
             {
               name: 'awStats',
               type: 'array',
@@ -98,7 +98,7 @@ export const PageContent: GlobalConfig = {
               type: 'array',
               label: 'รายการรางวัล',
               labels: { singular: 'รางวัล', plural: 'รางวัล' },
-              admin: { description: 'เรียงตามปีให้อัตโนมัติ ปีล่าสุดขึ้นก่อน · ใส่ "จำนวนรางวัล" เฉพาะรางวัลทีมช่าง (จะไปอยู่ในบล็อกทีมช่างแทน)' },
+              admin: { description: 'เรียงตามปีให้อัตโนมัติ ปีล่าสุดขึ้นก่อน | ใส่ "จำนวนรางวัล" เฉพาะรางวัลทีมช่าง (จะไปอยู่ในบล็อกทีมช่างแทน)' },
               fields: [
                 {
                   type: 'row',

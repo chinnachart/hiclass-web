@@ -61,7 +61,7 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
 
   return (
     <section className={s.hero}>
-      <div className={s.kicker}>BYD Hi-Class EV Car · ยอดส่งมอบทั้งกรุ๊ป 10,000+ คัน</div>
+      <div className={s.kicker}>BYD Hi-Class EV Car | ยอดส่งมอบทั้งกรุ๊ป 10,000+ คัน</div>
       {/* เจ้าของสั่ง 13 พ.ย. 2569: เหลือหัวข้อบรรทัดเดียว ตัด "เลือก BYD ที่ใช่" และบรรทัดรอง */}
       <h1 className={s.title}>
         <em>รับดีลพิเศษ Motor Expo</em>

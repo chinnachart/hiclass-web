@@ -91,7 +91,7 @@ export const CarModels: CollectionConfig = {
           type: 'number',
           min: 0,
           label: 'ระยะทาง (กม.)',
-          admin: { width: '33%', description: 'EV = ต่อการชาร์จ · DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน)' },
+          admin: { width: '33%', description: 'EV = ต่อการชาร์จ | DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน)' },
         },
         {
           name: 'colorsCount',
@@ -129,7 +129,7 @@ export const CarModels: CollectionConfig = {
       labels: { singular: 'สี', plural: 'สี' },
       admin: {
         description:
-          'zip #39 — คนค้น "atto 1 สี" / "atto 3 สีขาว" เยอะ ใส่ชื่อสีจริงตามโบรชัวร์ BYD แล้วหน้ารุ่นจะขึ้นชื่อสี + จุดสี + รูป (ถ้ามี) และ Google จะจับคำว่าสีได้ · ถ้าใส่ที่นี่ ช่อง "จำนวนสีให้เลือก" ด้านบนจะไม่ถูกใช้',
+          'zip #39 — คนค้น "atto 1 สี" / "atto 3 สีขาว" เยอะ ใส่ชื่อสีจริงตามโบรชัวร์ BYD แล้วหน้ารุ่นจะขึ้นชื่อสี + จุดสี + รูป (ถ้ามี) และ Google จะจับคำว่าสีได้ | ถ้าใส่ที่นี่ ช่อง "จำนวนสีให้เลือก" ด้านบนจะไม่ถูกใช้',
       },
       fields: [
         {
@@ -147,7 +147,7 @@ export const CarModels: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       label: 'รูปหลักของรุ่นนี้',
-      admin: { description: `รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น · ${IMG.hero169} · พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด` },
+      admin: { description: `รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น | ${IMG.hero169} | พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด` },
     },
     {
       name: 'gallery',
@@ -155,7 +155,7 @@ export const CarModels: CollectionConfig = {
       relationTo: 'media',
       hasMany: true,
       label: 'รูปเพิ่มเติม',
-      admin: { description: `รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด · ${IMG.gallery43}` },
+      admin: { description: `รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด | ${IMG.gallery43}` },
     },
     {
       name: 'specs',
@@ -198,7 +198,7 @@ export const CarModels: CollectionConfig = {
           labels: { singular: 'รุ่นย่อย', plural: 'รุ่นย่อย' },
           admin: {
             description:
-              'ราคาต่อวัน รวม VAT แล้ว · ยิ่งเช่านานยิ่งถูกลง ใส่ครบทั้ง 4 ช่อง (1 / 3 / 7 / 30 วัน) แล้วหน้าเช่ารถจะขึ้นเป็นตารางให้อัตโนมัติ ถ้าเว้นว่างจะใช้ค่าเช่ารายวัน/รายเดือนด้านบนแทน',
+              'ราคาต่อวัน รวม VAT แล้ว | ยิ่งเช่านานยิ่งถูกลง ใส่ครบทั้ง 4 ช่อง (1 / 3 / 7 / 30 วัน) แล้วหน้าเช่ารถจะขึ้นเป็นตารางให้อัตโนมัติ ถ้าเว้นว่างจะใช้ค่าเช่ารายวัน/รายเดือนด้านบนแทน',
           },
           fields: [
             {

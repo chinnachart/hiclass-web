@@ -111,7 +111,7 @@ export default async function AwardsPage() {
               </div>
             ) : null}
             <p className="aw-asof">
-              {pc.awAsOf || D.asOf} · สาขาในเครือ:{' '}
+              {pc.awAsOf || D.asOf} | สาขาในเครือ:{' '}
               <a href={D.sister.url} target="_blank" rel="noopener">{D.sister.name}</a>
             </p>
           </div>

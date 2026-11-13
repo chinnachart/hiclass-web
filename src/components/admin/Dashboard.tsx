@@ -105,7 +105,7 @@ export async function Dashboard(props: AdminViewServerProps) {
             {promoNoImage.length > 0 ? (
               <div className="hc-note hc-note--amber"><strong>{promoNoImage.length} โปรโมชั่น</strong> ยังไม่ได้ใส่รูปประกอบ — การ์ดจะเป็นตัวหนังสือล้วน</div>
             ) : null}
-            <div className="hc-note hc-note--gray">รุ่นรถ {models.docs.length} · โปรโมชั่นทั้งหมด {promos.docs.length} · รูปในคลัง {mediaCount.totalDocs}</div>
+            <div className="hc-note hc-note--gray">รุ่นรถ {models.docs.length} | โปรโมชั่นทั้งหมด {promos.docs.length} | รูปในคลัง {mediaCount.totalDocs}</div>
             <a className="hc-btn hc-btn--ghost" href={siteUrl} target="_blank" rel="noopener noreferrer" style={{ marginTop: 6 }}>
               <Ic name="eye" size={14} /> เปิดดูเว็บจริง
             </a>

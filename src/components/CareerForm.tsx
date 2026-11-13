@@ -180,7 +180,7 @@ export default function CareerForm({ branches }: Props) {
         <textarea id="intro" name="intro" rows={4} maxLength={1500} />
       </div>
       <div className="field">
-        <span style={{ fontSize: 13, fontWeight: 600 }}>แนบเรซูเม่ (PDF หรือรูป ไม่เกิน 5MB · ไม่บังคับ)</span>
+        <span style={{ fontSize: 13, fontWeight: 600 }}>แนบเรซูเม่ (PDF หรือรูป ไม่เกิน 5MB | ไม่บังคับ)</span>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
           <button type="button" className="chip" onClick={() => fileInput.current?.click()} style={{ height: 44 }}>
             {file ? 'เปลี่ยนไฟล์' : '+ เลือกไฟล์'}

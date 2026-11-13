@@ -89,7 +89,7 @@ export default async function NewsArticle({ params }: { params: Promise<{ slug: 
             <div className="card" style={{ padding: 16, marginTop: 28, display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
               <b>รุ่นที่กล่าวถึงในบทความ</b>
               {mentioned.map((m) => (
-                <Link key={m.id} className="btn btn-outline" href={`/car-model/${m.slug}`}>BYD {m.name} ราคา·ตารางผ่อน</Link>
+                <Link key={m.id} className="btn btn-outline" href={`/car-model/${m.slug}`}>BYD {m.name} ราคาและตารางผ่อน</Link>
               ))}
               <Link className="btn btn-primary" href="/test-drive">นัดทดลองขับ</Link>
             </div>

@@ -57,7 +57,7 @@ export default async function ModelPricePage({ params }: { params: Promise<{ slu
     },
     {
       question: 'ออกรถ BYD ต้องใช้เอกสารอะไรบ้าง',
-      answer: 'พนักงานประจำ: บัตรประชาชน ทะเบียนบ้าน สลิปเงินเดือน 3 เดือน และรายการเดินบัญชี 6 เดือน · เจ้าของกิจการ: เพิ่มหนังสือรับรองบริษัทหรือทะเบียนพาณิชย์ · อาชีพอิสระ: รายการเดินบัญชี 6–12 เดือน ทีมขายแนะนำเอกสารให้ครบก่อนยื่น',
+      answer: 'พนักงานประจำ: บัตรประชาชน ทะเบียนบ้าน สลิปเงินเดือน 3 เดือน และรายการเดินบัญชี 6 เดือน | เจ้าของกิจการ: เพิ่มหนังสือรับรองบริษัทหรือทะเบียนพาณิชย์ | อาชีพอิสระ: รายการเดินบัญชี 6–12 เดือน ทีมขายแนะนำเอกสารให้ครบก่อนยื่น',
     },
   ]
 
@@ -69,10 +69,10 @@ export default async function ModelPricePage({ params }: { params: Promise<{ slu
 
       <section className="page-head">
         <div className="container">
-          <p className="kicker">ตารางผ่อน · อัปเดต {YEAR_EN}</p>
+          <p className="kicker">ตารางผ่อน | อัปเดต {YEAR_EN}</p>
           <h1>ตารางผ่อน BYD {m.name} {YEAR_EN}</h1>
           <p className="lead">
-            ราคาเริ่มต้น <strong style={{ color: 'var(--ink)' }}>{baht(m.priceFrom)} บาท</strong> · ดอกเบี้ยคงที่ {rateTxt} ต่อปีตามเงินดาวน์และจำนวนงวด · ค่างวดทุกเงินดาวน์และทุกจำนวนงวดอยู่ในตารางด้านล่าง เลื่อนปรับเองได้ในเครื่องคำนวณ
+            ราคาเริ่มต้น <strong style={{ color: 'var(--ink)' }}>{baht(m.priceFrom)} บาท</strong> | ดอกเบี้ยคงที่ {rateTxt} ต่อปีตามเงินดาวน์และจำนวนงวด | ค่างวดทุกเงินดาวน์และทุกจำนวนงวดอยู่ในตารางด้านล่าง เลื่อนปรับเองได้ในเครื่องคำนวณ
           </p>
         </div>
       </section>
@@ -111,7 +111,7 @@ export default async function ModelPricePage({ params }: { params: Promise<{ slu
             <div className="sec-head">
               <div>
                 <h2>{m.variants?.length ? `${m.name} ${v.name}` : `BYD ${m.name}`} — {baht(v.price)} บาท</h2>
-                <p>ค่างวดต่อเดือน (บาท) ตามเงินดาวน์และจำนวนงวด · <span style={{ color: 'var(--red)' }}>ตัวเลขสีแดง = ดอกเบี้ยคงที่ต่อปี</span></p>
+                <p>ค่างวดต่อเดือน (บาท) ตามเงินดาวน์และจำนวนงวด | <span style={{ color: 'var(--red)' }}>ตัวเลขสีแดง = ดอกเบี้ยคงที่ต่อปี</span></p>
               </div>
             </div>
             <div className="price-table" style={{ display: 'block' }}>

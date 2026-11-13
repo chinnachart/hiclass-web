@@ -26,7 +26,7 @@ export default async function RegisterPage({
         <div className="container">
           <p className="kicker"><Icon name="wheel" size={14} />Register your Interest</p>
           <h1>ลงทะเบียนความสนใจ รถยนต์ BYD</h1>
-          <p className="lead">รับดีลลับ BYD Seal 5 · Sealion 5 ก่อนใคร กรอกแค่ 1 นาที ทีมขายสาขาที่เลือกจะติดต่อกลับในเวลาทำการ</p>
+          <p className="lead">รับดีลลับ BYD Seal 5 | Sealion 5 ก่อนใคร กรอกแค่ 1 นาที ทีมขายสาขาที่เลือกจะติดต่อกลับในเวลาทำการ</p>
         </div>
       </section>
       <main className="container">

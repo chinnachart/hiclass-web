@@ -134,7 +134,7 @@ export function attributionText(): string {
     a.gclid ? `gclid:${a.gclid}` : a.gbraid ? `gbraid:${a.gbraid}` : a.wbraid ? `wbraid:${a.wbraid}` : a.fbclid ? `fbclid:${a.fbclid}` : '',
     a.landing && a.landing !== '/' ? `หน้าแรกที่เข้า:${a.landing}` : '',
   ].filter(Boolean)
-  return parts.join(' · ').slice(0, 400)
+  return parts.join(' | ').slice(0, 400)
 }
 
 function hostOf(u: string) {

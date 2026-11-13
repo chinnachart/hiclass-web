@@ -75,7 +75,7 @@ export default async function AiCourseResults({ searchParams }: { searchParams: 
         <div className="container">
           <p className="kicker">เฉพาะผู้ดูแล — ห้ามแชร์ลิงก์นี้</p>
           <h1>ผลแบบสำรวจคอร์ส AI</h1>
-          <p className="lead">ตอบแล้ว {all.length} คน{branch ? ` · กรองสาขา ${branch}: ${total} คน` : ''}</p>
+          <p className="lead">ตอบแล้ว {all.length} คน{branch ? ` | กรองสาขา ${branch}: ${total} คน` : ''}</p>
         </div>
       </section>
       <main className="container">
@@ -110,7 +110,7 @@ export default async function AiCourseResults({ searchParams }: { searchParams: 
                   <span className="mute" style={{ fontSize: 13 }}>{col('วันที่ส่ง', r)}</span>
                 </div>
                 <div style={{ fontSize: 14 }}>
-                  {r.home_branch} · {r.position} · <a href={`tel:${r.phone.replace(/[^\d+]/g, '')}`}>{col('เบอร์โทร', r)}</a>
+                  {r.home_branch} | {r.position} | <a href={`tel:${r.phone.replace(/[^\d+]/g, '')}`}>{col('เบอร์โทร', r)}</a>
                 </div>
                 {field('ระดับ', r.ai_level)}
                 {field('AI ที่รู้จัก', col('AI ที่รู้จัก', r))}

@@ -153,9 +153,9 @@ async function pushLine(e: Env, p: { id?: number; row: Record<string, unknown> }
   const fmt = (n: unknown) => (typeof n === 'number' ? n.toLocaleString('th-TH') : '-')
   const text = [
     `🚗 รถเทิร์นใหม่ #${p.id ?? '-'}`,
-    `${r.customer_name} · ${String(r.phone).replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}`,
+    `${r.customer_name} | ${String(r.phone).replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}`,
     `${r.brand} ${r.model}${r.sub_model ? ' ' + r.sub_model : ''}${r.year ? ' ' + r.year : ''}`,
-    `ไมล์ ${fmt(r.mileage)} กม. · ราคาที่คาดหวัง ${fmt(r.expected_price)} บ.`,
+    `ไมล์ ${fmt(r.mileage)} กม. | ราคาที่คาดหวัง ${fmt(r.expected_price)} บ.`,
     r.interested_model ? `สนใจ BYD ${r.interested_model}` : null,
     `รูป ${(r.photos as string[]).length} ใบ — ดูใน Cinco แท็บ รถเทิร์น`,
   ]

@@ -20,7 +20,7 @@ export default async function PrivacyPage() {
         <div className="container" style={{ maxWidth: 820 }}>
           <p className="kicker">PDPA</p>
           <h1>นโยบายความเป็นส่วนตัว</h1>
-          <p className="lead">มีผลตั้งแต่ 1 กันยายน 2569 · Hi-Class EV Car ("เรา") ผู้จำหน่ายรถยนต์ BYD {branches.length} สาขาในกรุงเทพฯ และปริมณฑล</p>
+          <p className="lead">มีผลตั้งแต่ 1 กันยายน 2569 | Hi-Class EV Car ("เรา") ผู้จำหน่ายรถยนต์ BYD {branches.length} สาขาในกรุงเทพฯ และปริมณฑล</p>
         </div>
       </section>
       <main className="container" style={{ maxWidth: 820 }}>
@@ -50,7 +50,7 @@ export default async function PrivacyPage() {
           <P>หากมีการแก้ไข เราจะประกาศฉบับใหม่ที่หน้านี้พร้อมวันที่มีผล</P>
 
           <p className="small mute" style={{ marginTop: 24 }}>
-            ผู้ควบคุมข้อมูลส่วนบุคคล: Hi-Class EV Car · โทร {settings.mainPhone}
+            ผู้ควบคุมข้อมูลส่วนบุคคล: Hi-Class EV Car | โทร {settings.mainPhone}
           </p>
         </article>
       </main>

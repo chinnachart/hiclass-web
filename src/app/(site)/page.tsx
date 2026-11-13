@@ -125,7 +125,7 @@ export default async function HomePage() {
           <div className="sec-head">
             <div>
               <h2>เลือกรุ่นที่ใช่</h2>
-              <p>{models.length} รุ่น ทั้ง EV และ DM-i · ราคาเริ่มต้นและค่างวดอัปเดตล่าสุด</p>
+              <p>{models.length} รุ่น ทั้ง EV และ DM-i | ราคาเริ่มต้นและค่างวดอัปเดตล่าสุด</p>
             </div>
             <Link className="sec-link" href="/car-model">ทุกรุ่น <Icon name="chev" size={16} /></Link>
           </div>
@@ -148,7 +148,7 @@ export default async function HomePage() {
                 <div className="card stat"><b>{settings.deliveredCount.toLocaleString('th-TH')}+ คัน</b><span>ส่งมอบให้ลูกค้าแล้ว{settings.yearsOpen ? ` ตลอด ${settings.yearsOpen} ปีที่เปิดให้บริการ` : ''}</span></div>
               ) : null}
               {settings.googleRating ? (
-                <div className="card stat"><b>{settings.googleRating.toFixed(1)} ★</b><span>คะแนนรีวิวจากลูกค้าบน Google{settings.trustNote ? ` · ${settings.trustNote}` : ''}</span></div>
+                <div className="card stat"><b>{settings.googleRating.toFixed(1)} ★</b><span>คะแนนรีวิวจากลูกค้าบน Google{settings.trustNote ? ` | ${settings.trustNote}` : ''}</span></div>
               ) : null}
               <div className="card stat"><b>{branches.length} สาขา</b><span>ในกรุงเทพฯ และปริมณฑล เลือกสาขาที่ใกล้บ้านได้เอง</span></div>
               <div className="card stat"><b>25 นาที</b><span>ทีมขายโทรยืนยันนัดทดลองขับกลับภายใน 25 นาที (เวลาทำการ)</span></div>

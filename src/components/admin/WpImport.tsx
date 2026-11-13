@@ -153,7 +153,7 @@ export function WpImport({ defaultDomain }: { defaultDomain: string }) {
         <>
           <div className="hc-wp__tools">
             <span className="hc-wp__count">
-              พบ {total.toLocaleString('th-TH')} รูป · หน้า {page}/{totalPages} · เลือกแล้ว {picked.size}
+              พบ {total.toLocaleString('th-TH')} รูป | หน้า {page}/{totalPages} | เลือกแล้ว {picked.size}
             </span>
             <button
               type="button"
@@ -184,8 +184,8 @@ export function WpImport({ defaultDomain }: { defaultDomain: string }) {
             <div className="hc-panel hc-wp__done">
               <b>
                 <Ic name="check" size={16} /> นำเข้าสำเร็จ {result.created} รูป
-                {result.skipped ? ` · มีอยู่แล้ว ${result.skipped} รูป` : ''}
-                {result.failed.length ? ` · ไม่สำเร็จ ${result.failed.length} รูป` : ''}
+                {result.skipped ? ` | มีอยู่แล้ว ${result.skipped} รูป` : ''}
+                {result.failed.length ? ` | ไม่สำเร็จ ${result.failed.length} รูป` : ''}
               </b>
               {result.failed.length ? (
                 <ul>

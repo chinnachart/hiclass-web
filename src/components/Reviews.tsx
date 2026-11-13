@@ -14,7 +14,7 @@ export function Stars() {
 }
 
 export function ReviewCard({ r }: { r: Review }) {
-  const meta = [r.model ? `BYD ${r.model}` : null, r.branch ? `สาขา${r.branch}` : null].filter(Boolean).join(' · ')
+  const meta = [r.model ? `BYD ${r.model}` : null, r.branch ? `สาขา${r.branch}` : null].filter(Boolean).join(' | ')
   return (
     <figure className="card rv-card">
       <Stars />

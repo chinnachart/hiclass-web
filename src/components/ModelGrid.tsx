@@ -24,7 +24,7 @@ export function ModelCard({ m }: { m: CarModel }) {
         <Link href={`/car-model/${m.slug}`} className="model-name">{m.name}</Link>
         <div className="model-type">
           {m.tagline}
-          {m.rangeKm ? ` · ${m.rangeKm} กม.` : ''}
+          {m.rangeKm ? ` | ${m.rangeKm} กม.` : ''}
         </div>
       </div>
       <div className="model-price">

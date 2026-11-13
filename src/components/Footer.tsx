@@ -23,7 +23,7 @@ export default function Footer({
             </p>
             <p style={{ marginTop: 10 }}>
               {settings.lineUrl ? <><a href={settings.lineUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>LINE</a></> : null}
-              {settings.facebookUrl ? <> · <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>Facebook</a></> : null}
+              {settings.facebookUrl ? <> | <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>Facebook</a></> : null}
             </p>
             {settings.contactEmail ? (
               <p style={{ marginTop: 4 }}>
@@ -71,7 +71,7 @@ export default function Footer({
           </div>
         </div>
         <div className="fine" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', justifyContent: 'space-between' }}>
-          <span>© {new Date().getFullYear()} Hi-Class EV Car · BYD เป็นเครื่องหมายการค้าของ BYD Auto</span>
+          <span>© {new Date().getFullYear()} Hi-Class EV Car | BYD เป็นเครื่องหมายการค้าของ BYD Auto</span>
           <Link href="/privacy">นโยบายความเป็นส่วนตัว</Link>
         </div>
       </div>

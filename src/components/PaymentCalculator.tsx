@@ -57,7 +57,7 @@ export default function PaymentCalculator({
       <div className="field">
         <div className="range-head">
           <span style={{ fontSize: 13, fontWeight: 600 }}>เงินดาวน์</span>
-          <b>{down}% · {baht(r.down)} บาท</b>
+          <b>{down}% | {baht(r.down)} บาท</b>
         </div>
         <div className="terms" role="group" aria-label="เงินดาวน์" style={{ gridTemplateColumns: `repeat(${downOpts.length}, minmax(0, 1fr))` }}>
           {downOpts.map((d) => (
@@ -97,7 +97,7 @@ export default function PaymentCalculator({
         นัดทดลองขับ {model.name}
       </Link>
       <p className="fineprint">
-        ดอกเบี้ยคงที่ {r.rate}% ต่อปี ตามเงินดาวน์และจำนวนงวดที่เลือก · {settings.financeNote || 'ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับสถาบันการเงิน'}
+        ดอกเบี้ยคงที่ {r.rate}% ต่อปี ตามเงินดาวน์และจำนวนงวดที่เลือก | {settings.financeNote || 'ตัวเลขเป็นการประมาณเบื้องต้น เงื่อนไขจริงขึ้นอยู่กับสถาบันการเงิน'}
       </p>
     </div>
   )

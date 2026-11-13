@@ -100,7 +100,7 @@ export function PriceEditor({ rows, rate, downPercent, term }: { rows: PriceRow[
         <div>
           <h1 className="hc-dash__title">รุ่นรถ &amp; ราคา</h1>
           <p className="hc-dash__sub">
-            พิมพ์ตัวเลขในช่องแล้วกดบันทึก ค่างวดคำนวณให้อัตโนมัติ (ดาวน์ {downPercent}% · {term} งวด · {rate}%)
+            พิมพ์ตัวเลขในช่องแล้วกดบันทึก ค่างวดคำนวณให้อัตโนมัติ (ดาวน์ {downPercent}% | {term} งวด | {rate}%)
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -141,7 +141,7 @@ export function PriceEditor({ rows, rate, downPercent, term }: { rows: PriceRow[
             <div className={`hc-tr${dirty ? ' hc-tr--dirty' : ''}${showRental ? ' hc-tr--rental' : ''}`} key={r.id}>
               <span className="hc-td-name">
                 <Link href={`/admin/collections/car-models/${r.id}`}>{r.name}</Link>
-                <small>{r.tagline}{!r.hasImage ? ' · ยังไม่มีรูป' : ''}</small>
+                <small>{r.tagline}{!r.hasImage ? ' | ยังไม่มีรูป' : ''}</small>
               </span>
               <span>
                 <input
@@ -186,7 +186,7 @@ export function PriceEditor({ rows, rate, downPercent, term }: { rows: PriceRow[
         })}
       </div>
       <p className="hc-muted" style={{ marginTop: 12 }}>
-        กรอกตัวเลขล้วน ไม่ต้องใส่ลูกน้ำ · ต้องการแก้สเปก รูป หรือคำถามที่พบบ่อยของรุ่นไหน กดที่ชื่อรุ่น
+        กรอกตัวเลขล้วน ไม่ต้องใส่ลูกน้ำ | ต้องการแก้สเปก รูป หรือคำถามที่พบบ่อยของรุ่นไหน กดที่ชื่อรุ่น
       </p>
     </div>
   )

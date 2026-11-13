@@ -128,7 +128,7 @@ export function extraFaq(m: CarModel, models: CarModel[]): { question: string; a
       question: `BYD ${m.name} แต่ละรุ่นย่อยต่างกันยังไง`,
       answer: `${m.name} มี ${variants.length} รุ่นย่อย: ${variants
         .map((v) => `${v.name} ${baht(v.price)} บาท${v.price > lo ? ` (แพงกว่ารุ่นเริ่มต้น ${baht(v.price - lo)} บาท)` : ''}${v.note ? ` — ${v.note}` : ''}`)
-        .join(' · ')} ทีมขายช่วยเทียบออปชันจริงของแต่ละรุ่นย่อยให้ได้ที่สาขา`,
+        .join(' | ')} ทีมขายช่วยเทียบออปชันจริงของแต่ละรุ่นย่อยให้ได้ที่สาขา`,
     })
   }
   const charge = (m.specs || []).find((s) => /ชาร์จ/.test(s.label))

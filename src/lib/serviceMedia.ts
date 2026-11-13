@@ -35,7 +35,7 @@ export const BP_STEPS: (ServicePhoto & { title: string; body: string })[] = [
 
 /** สไลด์ "ศูนย์บริการและอู่สี" บนหน้าสาขาที่มีศูนย์บริการ — 16:9 */
 export const BRANCH_SERVICE_SLIDES: (ServicePhoto & { caption: string; href: string })[] = [
-  { ...SVC_PHOTO.lift, caption: 'ศูนย์บริการ · เช็กระยะ', href: '/service' },
+  { ...SVC_PHOTO.lift, caption: 'ศูนย์บริการ | เช็กระยะ', href: '/service' },
   { ...SVC_PHOTO.bodyWide, caption: 'อู่สีและซ่อมตัวถัง', href: '/service#body-paint' },
   { ...SVC_PHOTO.booth, caption: 'งานสีเสร็จพร้อมส่งมอบ', href: '/service#body-paint' },
   { ...SVC_PHOTO.qcWide, caption: 'ตรวจคุณภาพงานสี', href: '/service#body-paint' },

@@ -586,7 +586,7 @@ export default function CardGenerator() {
     return (
       <div className="card" style={{ padding: 24, maxWidth: 420, margin: '20px auto' }}>
         <h1 style={{ fontSize: 24, marginBottom: 4 }}>สร้างนามบัตรออนไลน์</h1>
-        <p className="mute" style={{ marginTop: 0, fontSize: 14 }}>สำหรับพนักงาน BYD Hi-Class · เข้าสู่ระบบด้วยบัญชี Cinco</p>
+        <p className="mute" style={{ marginTop: 0, fontSize: 14 }}>สำหรับพนักงาน BYD Hi-Class | เข้าสู่ระบบด้วยบัญชี Cinco</p>
         <form className="form" onSubmit={onLogin}>
           <div className="field">
             <label htmlFor="email">อีเมล Cinco</label>
@@ -611,7 +611,7 @@ export default function CardGenerator() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <div>
           <h1 style={{ fontSize: 26, margin: 0 }}>สร้างนามบัตรออนไลน์</h1>
-          <p className="mute" style={{ margin: '4px 0 0', fontSize: 14 }}>สวัสดี {profile.nickname || profile.name} · ใช้แนะนำตัวใน Facebook / LINE · รูปไม่ถูกเก็บไว้ที่ไหน</p>
+          <p className="mute" style={{ margin: '4px 0 0', fontSize: 14 }}>สวัสดี {profile.nickname || profile.name} | ใช้แนะนำตัวใน Facebook / LINE | รูปไม่ถูกเก็บไว้ที่ไหน</p>
         </div>
         <button type="button" className="chip" onClick={logout}>ออกจากระบบ</button>
       </div>
@@ -642,7 +642,7 @@ export default function CardGenerator() {
             <span style={{ fontSize: 13, fontWeight: 600 }}>รูปของคุณ</span>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
               <button type="button" className="chip" onClick={() => fileInput.current?.click()} style={{ height: 44 }}>{photo ? 'เปลี่ยนรูป' : '+ อัปโหลดรูป'}</button>
-              <span className="mute" style={{ fontSize: 13 }}>แนะนำรูปครึ่งตัว ยืนหน้าโชว์รูม · ลากที่รูปเพื่อเลื่อนตำแหน่ง</span>
+              <span className="mute" style={{ fontSize: 13 }}>แนะนำรูปครึ่งตัว ยืนหน้าโชว์รูม | ลากที่รูปเพื่อเลื่อนตำแหน่ง</span>
             </div>
             <input ref={fileInput} type="file" accept="image/*" hidden onChange={(e) => pickPhoto(e.target.files)} />
             {photo ? (
@@ -677,7 +677,7 @@ export default function CardGenerator() {
               {pos.free && (
                 <input id="gc-pos" type="text" value={f.position} maxLength={40} placeholder="หรือพิมพ์ตำแหน่งเอง" onChange={(e) => set('position', e.target.value)} style={{ ...inp, marginTop: 6 }} />
               )}
-              {!pos.free && <span className="mute" style={{ fontSize: 12, display: 'block', marginTop: 4 }}>ตำแหน่งอิงจากสิทธิ์ใน Cinco · ถ้าไม่ตรง แจ้งผู้ดูแลระบบ</span>}
+              {!pos.free && <span className="mute" style={{ fontSize: 12, display: 'block', marginTop: 4 }}>ตำแหน่งอิงจากสิทธิ์ใน Cinco | ถ้าไม่ตรง แจ้งผู้ดูแลระบบ</span>}
             </div>
             <div className="field">
               <label htmlFor="gc-br">สาขา</label>
@@ -705,7 +705,7 @@ export default function CardGenerator() {
               <span style={{ fontSize: 13, fontWeight: 600 }}>ป้ายรางวัลบนรูป</span>
               <label style={{ display: 'flex', alignItems: 'center', gap: 10, height: 44, fontSize: 15 }}>
                 <input type="checkbox" checked={f.award !== false} onChange={(e) => setF((x) => ({ ...x, award: e.target.checked }))} style={{ width: 20, height: 20 }} />
-                ดีลเลอร์ยอดเยี่ยม Kunlun Award 2025 · ยอดขาย 10,000+
+                ดีลเลอร์ยอดเยี่ยม Kunlun Award 2025 | ยอดขาย 10,000+
               </label>
             </div>
           </div>
