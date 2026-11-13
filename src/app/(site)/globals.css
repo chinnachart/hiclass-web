@@ -618,7 +618,9 @@ button.icon-btn { cursor: pointer; }
 @media (min-width: 800px) { .ti-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
 @media (max-width: 799px) { .ti-main { display: flex; flex-direction: column; } .ti-steps-sec { order: 1; padding-top: 0 !important; padding-bottom: 8px !important; } .ti-faq-sec { order: 2; } }
 .branch-map { max-width: 720px; }
-.branch-map svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 20px; }
+.branch-map { overflow: hidden; }
+/* เจาะจงเฉพาะ svg ของแผนที่ — ไม่ให้โดนไอคอนในปุ่มนำทาง (เคยทำให้มือถือล้นจอ) */
+.branch-map > div > svg { display: block; width: 100%; height: auto; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; }
 .ti-step { display: flex; gap: 14px; align-items: flex-start; padding: 16px; }
 .ti-art { flex: none; display: inline-flex; color: var(--ink); background: var(--soft); border-radius: 14px; padding: 8px; }
 .ti-no { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: .5px; }
