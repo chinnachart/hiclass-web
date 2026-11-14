@@ -1,5 +1,5 @@
 .hero{background:radial-gradient(120% 70% at 50% 0%,#2a2f38 0%,#0d0f13 72%);color:#fff;padding:22px 0 26px;transition:background .5s}
-.kicker{padding:0 20px;font-size:12px;letter-spacing:1.5px;color:#e9b949;text-transform:uppercase}
+.kicker{margin:0;padding:0 20px;font-family:var(--font-body);font-weight:400;line-height:1.55;font-size:12px;letter-spacing:1.5px;color:#e9b949;text-transform:uppercase}
 .title{margin:0;padding:4px 20px 0;font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.2;color:#fff}
 .title em{font-style:normal;color:#e9b949}
 .sub{padding:6px 20px 0;font-size:14px;color:#c9ccd3;line-height:1.5;margin:0}

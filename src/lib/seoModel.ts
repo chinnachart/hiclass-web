@@ -135,6 +135,19 @@ export function extraFaq(m: CarModel, models: CarModel[]): { question: string; a
   if (charge && charge.value) {
     items.push({ question: `BYD ${m.name} ชาร์จเร็วใช้เวลาเท่าไหร่`, answer: `${charge.label}: ${charge.value} (ตามข้อมูลผู้ผลิต เวลาจริงขึ้นกับกำลังของตู้ชาร์จและอุณหภูมิแบตเตอรี่)` })
   }
+  // 14 พ.ย. 2569: คำถามจากคำค้นจริงใน Search Console (แบต / แรงม้า) — ตอบจากสเปกที่กรอกในหลังบ้านเท่านั้น ไม่มีข้อมูลก็ไม่แสดง
+  const batt = (m.specs || []).find((s) => /แบต/.test(s.label))
+  if (batt && batt.value) {
+    items.push({ question: `BYD ${m.name} แบตเตอรี่ขนาดเท่าไหร่`, answer: `BYD ${m.name} ใช้แบตเตอรี่ขนาด ${batt.value} (ตามข้อมูลผู้ผลิต บางรุ่นย่อยอาจต่างกัน สอบถามสเปกของรุ่นย่อยที่สนใจกับสาขาได้)` })
+  }
+  const power = (m.specs || []).find((s) => /แรงม้า|กำลังสูงสุด|มอเตอร์/.test(s.label))
+  const accel = (m.specs || []).find((s) => /อัตราเร่ง|0.100/.test(s.label))
+  if (power && power.value) {
+    items.push({
+      question: `BYD ${m.name} กี่แรงม้า`,
+      answer: `BYD ${m.name} ${power.value}${accel && accel.value ? ` อัตราเร่ง 0-100 กม./ชม. ${accel.value}` : ''} (ตามข้อมูลผู้ผลิต บางรุ่นย่อยอาจต่างกัน)`,
+    })
+  }
   const near = nearestModels(m, models, 1)[0]
   if (near) {
     const diff = near.priceFrom - m.priceFrom

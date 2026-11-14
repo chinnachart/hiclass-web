@@ -61,11 +61,12 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
 
   return (
     <section className={s.hero}>
-      <div className={s.kicker}>BYD Hi-Class EV Car | ยอดส่งมอบทั้งกรุ๊ป 10,000+ คัน</div>
+      {/* 14 พ.ย. 2569: บรรทัดนี้เป็น h1 ของหน้าแรก (มีคำว่า BYD สำหรับ Google) หน้าตาเหมือนเดิม ส่วนหัวข้อใหญ่ด้านล่างเป็น p */}
+      <h1 className={s.kicker}>BYD Hi-Class EV Car | ยอดส่งมอบทั้งกรุ๊ป 10,000+ คัน</h1>
       {/* เจ้าของสั่ง 13 พ.ย. 2569: เหลือหัวข้อบรรทัดเดียว ตัด "เลือก BYD ที่ใช่" และบรรทัดรอง */}
-      <h1 className={s.title}>
+      <p className={s.title}>
         <em>รับดีลพิเศษ Motor Expo</em>
-      </h1>
+      </p>
 
       <div className={s.chips} ref={chips}>
         {models.map((m, i) => (
