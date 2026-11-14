@@ -101,6 +101,8 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
 
   return (
     <section className={s.hero}>
+      {/* 14 พ.ย. 2569: เนื้อหาอยู่ในกรอบกลางกว้างเท่าส่วนอื่นของหน้า (พื้นดำยังเต็มจอ) ให้ขอบซ้ายขวาตรงกันทั้งหน้า */}
+      <div className={s.in}>
       {/* 14 พ.ย. 2569: บรรทัดนี้เป็น h1 ของหน้าแรก (มีคำว่า BYD สำหรับ Google) หน้าตาเหมือนเดิม ส่วนหัวข้อใหญ่ด้านล่างเป็น p */}
       <div className={s.head}>
         <div>
@@ -110,11 +112,6 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
             <em>รับดีลพิเศษ Motor Expo</em>
           </p>
         </div>
-        {/* 14 พ.ย. 2569: ป้ายรางวัลด้านขวาของหัวกระดาษ ลิงก์ไปหน้ารางวัล */}
-        <Link href="/awards" className={s.award}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" /><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7M10 17h4" /></svg>
-          <span><b>BYD Dealer of the Year 2025</b><small>ดูรางวัลทั้งหมด</small></span>
-        </Link>
       </div>
 
       <div className={s.chips} ref={chips}>
@@ -168,6 +165,7 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
         <div className={s.hint}>ปัดเพื่อดูรุ่นอื่น →</div>
       </div>
       <Link className={s.all} href="/car-model">ดูรุ่นและราคาทั้งหมด</Link>
+      </div>
     </section>
   )
 }

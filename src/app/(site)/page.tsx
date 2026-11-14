@@ -76,9 +76,10 @@ export default async function HomePage() {
       {/* ---------- Hero: การ์ดรถปัดดูทุกรุ่น (แทนสไลด์ข้อเสนอเดิม) ---------- */}
       <ModelCarousel models={heroModels} lineUrl={settings.lineUrl} branches={branches} />
 
+      {/* ---------- รางวัล: แถบเต็มความกว้างจอ ต่อจากแถบรถ ---------- */}
+      <AwardsStrip />
+
       <main className="container">
-        {/* ---------- รางวัล ---------- */}
-        <AwardsStrip />
 
         {/* ---------- โปรโมชั่น ---------- */}
         {promotions.length > 0 ? (

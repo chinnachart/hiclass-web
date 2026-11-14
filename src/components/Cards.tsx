@@ -88,7 +88,7 @@ export function PromoGrid({ promotions, limit = 3 }: { promotions: Promotion[]; 
   const list = (featured ? [featured, ...rest] : rest).slice(0, limit)
   if (list.length === 0) return null
   return (
-    <div className={`promos${featured ? ' has-lead' : ''}`}>
+    <div className={`promos${featured ? ' has-lead' : ''}${list.length === 1 ? ' solo' : ''}`}>
       {list.map((p) => <PromoCard key={p.id} p={p} />)}
     </div>
   )

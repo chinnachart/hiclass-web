@@ -1,11 +1,7 @@
-.hero{background:radial-gradient(120% 70% at 50% 0%,#2a2f38 0%,#0d0f13 72%);color:#fff;padding:22px 0 28px;transition:background .5s;border-radius:0 0 26px 26px}
+.hero{background:radial-gradient(120% 70% at 50% 0%,#2a2f38 0%,#0d0f13 72%);color:#fff;padding:22px 0 28px;transition:background .5s;border-radius:0 0 26px 26px;position:relative;z-index:1}
+.in{width:100%;max-width:var(--container);margin:0 auto}
+@media (min-width:1100px){.card{max-width:calc((100% - 24px)/3)}}
 .head{display:flex;flex-direction:column;gap:12px}
-.award{align-self:flex-start;margin:0 20px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#f3d68a;border:1px solid rgba(233,185,73,.35);background:rgba(233,185,73,.08);border-radius:14px;padding:8px 14px}
-.award span{display:flex;flex-direction:column;line-height:1.25}
-.award b{font-size:13px;font-weight:600;color:#fff}
-.award small{font-size:11px;color:#d9c48a}
-@media (max-width:899px){.award{padding:6px 12px;border-radius:999px}.award small{display:none}.award b{font-size:12px}}
-@media (min-width:900px){.head{flex-direction:row;align-items:flex-end;justify-content:space-between}.award{align-self:auto}}
 .kicker{margin:0;padding:0 20px;font-family:var(--font-body);font-weight:400;line-height:1.55;font-size:12px;letter-spacing:1.5px;color:#e9b949;text-transform:uppercase}
 .title{margin:0;padding:4px 20px 0;font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.2;color:#fff}
 .title em{font-style:normal;color:#e9b949}
