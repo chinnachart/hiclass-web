@@ -1,25 +1,44 @@
-.hero{background:radial-gradient(120% 70% at 50% 0%,#2a2f38 0%,#0d0f13 72%);color:#fff;padding:22px 0 26px;transition:background .5s}
+.hero{background:radial-gradient(120% 70% at 50% 0%,#2a2f38 0%,#0d0f13 72%);color:#fff;padding:22px 0 28px;transition:background .5s;border-radius:0 0 26px 26px}
+.head{display:flex;flex-direction:column;gap:12px}
+.award{align-self:flex-start;margin:0 20px;display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#f3d68a;border:1px solid rgba(233,185,73,.35);background:rgba(233,185,73,.08);border-radius:14px;padding:8px 14px}
+.award span{display:flex;flex-direction:column;line-height:1.25}
+.award b{font-size:13px;font-weight:600;color:#fff}
+.award small{font-size:11px;color:#d9c48a}
+@media (max-width:899px){.award{padding:6px 12px;border-radius:999px}.award small{display:none}.award b{font-size:12px}}
+@media (min-width:900px){.head{flex-direction:row;align-items:flex-end;justify-content:space-between}.award{align-self:auto}}
 .kicker{margin:0;padding:0 20px;font-family:var(--font-body);font-weight:400;line-height:1.55;font-size:12px;letter-spacing:1.5px;color:#e9b949;text-transform:uppercase}
 .title{margin:0;padding:4px 20px 0;font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.2;color:#fff}
 .title em{font-style:normal;color:#e9b949}
 .sub{padding:6px 20px 0;font-size:14px;color:#c9ccd3;line-height:1.5;margin:0}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:16px 20px 4px;scrollbar-width:none}
 .chips::-webkit-scrollbar,.track::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;font-size:14px;color:#ddd;background:transparent;font-family:inherit;cursor:pointer;transition:.2s}
+.chip{flex:none;display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;font-size:14px;color:#ddd;background:transparent;font-family:inherit;cursor:pointer;transition:.2s}
 .chipOn{background:#fff;color:#111;border-color:#fff;font-weight:600}
+.cdot{width:7px;height:7px;border-radius:50%;background:#2fd47a;flex:none}
+.cdotPhev{background:#e9b949}
 .track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 20px 6px;scrollbar-width:none;scroll-padding:0 20px}
-.card{flex:none;width:86%;max-width:420px;scroll-snap-align:start;border-radius:22px;padding:16px 16px 14px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14)}
+.card{--acc:#b8c0cc;flex:none;width:86%;max-width:420px;scroll-snap-align:start;border-radius:22px;padding:16px 16px 14px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);transition:border-color .4s,box-shadow .4s}
+.cardOn{border-color:color-mix(in srgb,var(--acc) 40%,rgba(255,255,255,.16));box-shadow:0 22px 46px -30px var(--acc)}
 .top{display:flex;justify-content:space-between;align-items:flex-start}
 .tag{font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(6,199,85,.2);color:#7ff0ad}
 .tagPhev{background:rgba(233,185,73,.2);color:#f5d27e}
 .count{font-size:12px;color:#9aa0aa}
 .name{font-family:var(--font-display);font-weight:700;font-size:30px;margin-top:6px;line-height:1.1}
 .tl{font-size:13px;color:#c0c4cc}
-.car{display:block;position:relative;aspect-ratio:800/396;margin:6px -6px 0;filter:drop-shadow(0 12px 12px rgba(0,0,0,.45))}
+.car{display:block;position:relative;aspect-ratio:800/396;margin:6px -6px 0;filter:drop-shadow(0 12px 12px rgba(0,0,0,.45));transform:translateX(10px) scale(.965);opacity:.86;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s}
+.cardOn .car{transform:none;opacity:1}
+/* แสงเรืองใต้รถตามสีรุ่น + เส้นพื้นเวที */
+.stage{position:absolute;left:4%;right:4%;bottom:0;height:46%;background:radial-gradient(50% 58% at 50% 78%,color-mix(in srgb,var(--acc) 62%,transparent) 0%,transparent 72%);filter:blur(16px);opacity:.25;transition:opacity .6s;pointer-events:none}
+.cardOn .stage{opacity:.95}
+.car::after{content:"";position:absolute;left:10%;right:10%;bottom:9%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);pointer-events:none}
+.scene{position:absolute;inset:-4% -2% 0;border-radius:16px;background-size:cover;background-position:center 62%;opacity:.0;transition:opacity .6s;pointer-events:none;-webkit-mask-image:radial-gradient(ellipse 62% 60% at 50% 55%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 50% 55%,#000 45%,transparent 100%)}
+.carScene .scene{opacity:.55}
+.cardOn .carScene .scene,.cardOn.card .scene{opacity:.9}
+@media (prefers-reduced-motion:reduce){.car,.stage,.scene,.card{transition:none}.car{transform:none;opacity:1}}
 .specs{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin-top:8px}
 .spec{background:rgba(0,0,0,.28);border-radius:12px;padding:8px 10px}
 .spec small{display:block;font-size:11px;color:#9aa0aa}
-.spec b{font-family:var(--font-display);font-weight:600;font-size:18px}
+.spec b{font-family:var(--font-display);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .btn{text-decoration:none;display:block;border-radius:12px;padding:11px 6px;font-weight:600;font-size:14px;color:#fff;text-align:center}
 .btnRed{background:#c8102e}.btnLine{background:#06c755}
