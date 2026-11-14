@@ -114,7 +114,7 @@ input, select, textarea { font: inherit; color: inherit; }
   .icon-btn.menu { display: none; }
   .icon-btn.tel { display: none; }
 }
-@media (min-width: 1160px) and (max-width: 1330px) {
+@media (min-width: 1160px) and (max-width: 1399px) {
   .nav-item > a { padding: 0 8px; font-size: 13px; }
   .hdr-tel { display: none; }
 }
