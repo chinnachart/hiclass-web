@@ -68,7 +68,8 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
   const go = (i: number) => {
     const t = track.current
     const c = t?.children[i] as HTMLElement | undefined
-    if (t && c) t.scrollTo({ left: c.offsetLeft - 20, behavior: 'smooth' })
+    // 14 พ.ย. 2569: วัดตำแหน่งการ์ดเทียบกับแถวเลื่อนโดยตรง (เดิมใช้ offsetLeft ซึ่งเพี้ยนเมื่อแถวอยู่ในกรอบกลาง ทำให้กดชื่อรุ่นแล้วเลื่อนไปผิดการ์ด)
+    if (t && c) t.scrollTo({ left: c.getBoundingClientRect().left - t.getBoundingClientRect().left + t.scrollLeft - 20, behavior: 'smooth' })
   }
 
   useEffect(() => {
@@ -87,7 +88,7 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
   useEffect(() => {
     const c = chips.current?.children[cur] as HTMLElement | undefined
     const box = chips.current
-    if (c && box) box.scrollTo({ left: c.offsetLeft - box.clientWidth / 2 + c.offsetWidth / 2, behavior: 'smooth' })
+    if (c && box) box.scrollTo({ left: c.getBoundingClientRect().left - box.getBoundingClientRect().left + box.scrollLeft - box.clientWidth / 2 + c.offsetWidth / 2, behavior: 'smooth' })
   }, [cur])
 
   useEffect(() => {

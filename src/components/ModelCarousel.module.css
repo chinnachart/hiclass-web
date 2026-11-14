@@ -1,6 +1,5 @@
 .hero{background:radial-gradient(120% 70% at 50% 0%,#2a2f38 0%,#0d0f13 72%);color:#fff;padding:22px 0 28px;transition:background .5s;border-radius:0 0 26px 26px;position:relative;z-index:1}
 .in{width:100%;max-width:var(--container);margin:0 auto}
-@media (min-width:1100px){.card{max-width:calc((100% - 24px)/3)}}
 .head{display:flex;flex-direction:column;gap:12px}
 .kicker{margin:0;padding:0 20px;font-family:var(--font-body);font-weight:400;line-height:1.55;font-size:12px;letter-spacing:1.5px;color:#e9b949;text-transform:uppercase}
 .title{margin:0;padding:4px 20px 0;font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.2;color:#fff}
@@ -14,6 +13,8 @@
 .cdotPhev{background:#e9b949}
 .track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 20px 6px;scrollbar-width:none;scroll-padding:0 20px}
 .card{--acc:#b8c0cc;flex:none;width:86%;max-width:420px;scroll-snap-align:start;border-radius:22px;padding:16px 16px 14px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);transition:border-color .4s,box-shadow .4s}
+/* จอคอม: 3 การ์ดพอดีกรอบ (ต้องอยู่หลัง .card ไม่งั้นถูก max-width:420px ทับ) */
+@media (min-width:1100px){.card{max-width:calc((100% - 24px)/3)}}
 .cardOn{border-color:color-mix(in srgb,var(--acc) 40%,rgba(255,255,255,.16));box-shadow:0 22px 46px -30px var(--acc)}
 .top{display:flex;justify-content:space-between;align-items:flex-start}
 .tag{font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(6,199,85,.2);color:#7ff0ad}
