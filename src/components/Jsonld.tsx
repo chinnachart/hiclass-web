@@ -51,8 +51,10 @@ export const carLd = (m: {
   imageUrl?: string | null
 }) => ({
   '@context': 'https://schema.org',
-  '@type': 'Car',
+  // Product คู่กับ Car: ให้ Google อ่านราคาเป็นสินค้าได้ (ผลค้นหาแบบมีราคา)
+  '@type': ['Product', 'Car'],
   name: `BYD ${m.name}`,
+  description: `BYD ${m.name} ${m.tagline} ราคาเริ่มต้น ${m.priceFrom.toLocaleString('en-US')} บาท ที่ BYD Hi-Class EV Car`,
   brand: { '@type': 'Brand', name: 'BYD' },
   model: m.name,
   bodyType: m.tagline,
@@ -66,6 +68,8 @@ export const carLd = (m: {
     price: m.priceFrom,
     priceCurrency: 'THB',
     availability: 'https://schema.org/InStock',
+    itemCondition: 'https://schema.org/NewCondition',
+    url: `${SITE}/car-model/${m.slug}`,
     seller: { '@type': 'Organization', '@id': `${SITE}/#organization`, name: 'BYD Hi-Class EV Car', url: SITE },
   },
 })
