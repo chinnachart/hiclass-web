@@ -29,6 +29,7 @@
 - ทั้งสอง: notes ต่อท้าย `ที่มา: … | gclid:… | หน้าแรกที่เข้า:…`
 - กระดิ่ง `notifications` kind 'web_lead' tab 'mktleads' ref = lead id · body ห้ามมีเบอร์
 - /trade-in → `trade_in_requests` · /service#appointment → `service_appointments` (ไม่ใช่ลีด)
+- ลีดสาขาเหม่งจ๋าย (ยังไม่มีทีมขายประจำ): เว็บส่ง branch 'เหม่งจ๋าย' ตามเดิม แต่กระดิ่งไปทีมรัชดา (`POOL_HOME_BRANCH` ใน `src/lib/crm.ts`) และ CNC ใช้ `pool_home_branch()` ให้ทีมรัชดาเห็น กดรับ โยกได้ ต้องแก้สองฝั่งพร้อมกัน
 - รุ่นบนเว็บ 10 รุ่น (ไม่มี Seal, E6, T3)
 
 ## อื่นๆ

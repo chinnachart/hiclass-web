@@ -19,6 +19,8 @@ export { APPOINTMENT_SLOTS, isAppointmentSlot } from './appointment'
 
 export const LEAD_SOURCE = 'Website'
 const NOTIFY_ROLES = ['sales', 'sales_lead', 'sales_manager']
+/** ลีดสาขาเหม่งจ๋าย ให้ทีมรัชดารับ (เจ้าของสั่ง 18 พ.ย. 2569) — branch ของลีดยังส่งเป็น เหม่งจ๋าย ตามเดิม */
+const POOL_HOME_BRANCH: Record<string, string> = { เหม่งจ๋าย: 'รัชดา' }
 
 export type LeadKind = 'test_drive' | 'register'
 
@@ -144,10 +146,12 @@ async function notifyBranch(
   env: { url: string; key: string },
   p: { leadId: number; customerName: string; model: string | null; branch: string; apptText: string; kind: LeadKind },
 ) {
+  // สาขาที่ยังไม่มีทีมขายประจำ → กระดิ่งไปที่ทีมสาขาที่ดูแลแทน (ต้องตรงกับ pool_home_branch() ใน DB ของ CNC)
+  const team = POOL_HOME_BRANCH[p.branch] || p.branch
   const q =
     `profiles?select=id&is_active=eq.true` +
     `&role=in.(${NOTIFY_ROLES.join(',')})` +
-    `&or=(branch.eq.${encodeURIComponent(p.branch)},branch2.eq.${encodeURIComponent(p.branch)})&limit=500`
+    `&or=(branch.eq.${encodeURIComponent(team)},branch2.eq.${encodeURIComponent(team)})&limit=500`
   const r = await rest(env, q, { method: 'GET' })
   if (!r.ok) throw new Error(`profiles ${r.status}`)
   const users = (await r.json()) as { id: string }[]
