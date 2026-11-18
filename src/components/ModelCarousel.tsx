@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { SCENE_SLUGS } from '@/lib/scenes'
 import s from './ModelCarousel.module.css'
 import CallPicker from './CallPicker'
 import type { Branch } from '@/lib/types'
@@ -31,9 +32,7 @@ const ACCENT: Record<string, string> = {
 const ACCENT_DEFAULT = '#b8c0cc'
 
 /** ฉากหลังของการ์ด (ภาพสร้างด้วย AI ไม่มีรถ) — มีเฉพาะรุ่นที่ทำฉากแล้ว ไฟล์อยู่ใน public/scenes/ */
-const SCENES: Record<string, string> = Object.fromEntries(
-  ['atto-3', 'sealion-6', 'sealion-7', 'sealion-5', 'atto-2', 'atto-1', 'dolphin', 'seal-5', 'seal-6', 'm6'].map((x) => [x, `/scenes/${x}.webp`]),
-)
+const SCENES: Record<string, string> = Object.fromEntries(SCENE_SLUGS.map((x) => [x, `/scenes/${x}.webp`]))
 
 /** ราคาไล่ขึ้นสั้นๆ ตอนการ์ดถูกเลือก (ปิดเองถ้าเครื่องตั้งค่าลดการเคลื่อนไหว) */
 function CountUp({ value, active }: { value: number; active: boolean }) {
@@ -140,7 +139,7 @@ export default function ModelCarousel({ models, lineUrl, branches = [] }: { mode
                 // eslint-disable-next-line @next/next/no-img-element -- รูปจากโดเมนจริง (ใช้ในหน้าทดลองเท่านั้น)
                 <img src={m.img} alt={m.alt || `BYD ${m.name}`} loading={i < 2 ? 'eager' : 'lazy'} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
               ) : m.img ? (
-                <Image src={m.img} alt={m.alt || `BYD ${m.name}`} fill sizes="(max-width: 700px) 86vw, 420px" priority={i < 2} style={{ objectFit: 'contain' }} />
+                <Image src={m.img} alt={m.alt || `BYD ${m.name}`} fill sizes="(max-width: 700px) 86vw, 420px" priority={i < 1} style={{ objectFit: 'contain' }} />
               ) : null}
             </Link>
             <div className={s.specs}>

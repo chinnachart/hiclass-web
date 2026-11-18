@@ -27,7 +27,7 @@ export default async function PromotionPage() {
       <main className="container">
         <section className="section" style={{ paddingTop: 20 }}>
           {promotions.length > 0 ? (
-            <PromoGrid promotions={promotions} limit={20} />
+            <PromoGrid promotions={promotions} limit={20} priorityFirst />
           ) : (
             <div className="notice warn">ยังไม่มีโปรโมชั่นที่แสดงอยู่ในขณะนี้ — สอบถามข้อเสนอล่าสุดได้ที่สาขา</div>
           )}

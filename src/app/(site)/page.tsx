@@ -13,6 +13,7 @@ import { mediaOf } from '@/components/CarImage'
 import { SVC_PHOTO } from '@/lib/serviceMedia'
 import { getSiteData, getDeliveryPhotos, getReviews } from '@/lib/data'
 import { ReviewGrid } from '@/components/Reviews'
+import { sceneOf } from '@/lib/scenes'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,6 +38,7 @@ export default async function HomePage() {
     const img = mediaOf(m.heroImage)
     return { name: m.name, slug: m.slug, tagline: m.tagline, priceFrom: m.priceFrom, rangeKm: m.rangeKm, powertrain: m.powertrain, img: img?.url, alt: img?.alt }
   })
+  const heroScene = heroModels[0] ? sceneOf(heroModels[0].slug) : undefined
   // สไลด์โชว์รูม: รูปแรกของแต่ละสาขาที่อัปรูปไว้แล้ว — สาขาไหนยังไม่มีรูปก็แค่ไม่อยู่ในสไลด์ (zip #29)
   const showroomSlides = branches
     .map((b) => ({ b, pic: mediaOf((b.photos || [])[0]) }))
@@ -73,6 +75,8 @@ export default async function HomePage() {
       <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
       <Jsonld data={webSiteLd()} />
 
+      {/* ความเร็วมือถือ: ฉากหลังการ์ดใบแรกคือชิ้นใหญ่สุดบนจอ (LCP) แต่เป็น background ที่เบราว์เซอร์เจอช้า → สั่งโหลดล่วงหน้า */}
+      {heroScene ? <link rel="preload" as="image" href={heroScene} fetchPriority="high" /> : null}
       {/* ---------- Hero: การ์ดรถปัดดูทุกรุ่น (แทนสไลด์ข้อเสนอเดิม) ---------- */}
       <ModelCarousel models={heroModels} lineUrl={settings.lineUrl} branches={branches} />
 

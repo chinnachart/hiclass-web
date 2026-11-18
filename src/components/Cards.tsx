@@ -50,7 +50,7 @@ export function NewsCard({ n }: { n: NewsItem }) {
 }
 
 /** การ์ดโปรโมชั่น — โปรเด่นเป็นการ์ดใหญ่พื้นดำ */
-export function PromoCard({ p }: { p: Promotion }) {
+export function PromoCard({ p, priority = false }: { p: Promotion; priority?: boolean }) {
   const href = p.ctaHref || '/test-drive'
   const pic = mediaOf(p.image)
   const inner = (
@@ -62,6 +62,7 @@ export function PromoCard({ p }: { p: Promotion }) {
             alt={pic.alt || p.title}
             fill
             sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 420px"
+            priority={priority}
             style={{ objectFit: 'cover' }}
           />
         </span>
@@ -82,14 +83,14 @@ export function PromoCard({ p }: { p: Promotion }) {
   )
 }
 
-export function PromoGrid({ promotions, limit = 3 }: { promotions: Promotion[]; limit?: number }) {
+export function PromoGrid({ promotions, limit = 3, priorityFirst = false }: { promotions: Promotion[]; limit?: number; priorityFirst?: boolean }) {
   const featured = promotions.find((p) => p.featured)
   const rest = promotions.filter((p) => p !== featured)
   const list = (featured ? [featured, ...rest] : rest).slice(0, limit)
   if (list.length === 0) return null
   return (
     <div className={`promos${featured ? ' has-lead' : ''}${list.length === 1 ? ' solo' : ''}`}>
-      {list.map((p) => <PromoCard key={p.id} p={p} />)}
+      {list.map((p, i) => <PromoCard key={p.id} p={p} priority={priorityFirst && i === 0} />)}
     </div>
   )
 }
