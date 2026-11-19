@@ -14,6 +14,7 @@ import { Promotions } from './collections/Promotions'
 import { News } from './collections/News'
 import { Branches } from './collections/Branches'
 import { Reviews } from './collections/Reviews'
+import { SmartIssues } from './collections/SmartIssues'
 import { SiteSettings } from './globals/SiteSettings'
 import { PageContent } from './globals/PageContent'
 
@@ -52,7 +53,7 @@ export default buildConfig({
     fallbackLanguage: 'th',
     supportedLanguages: { th, en },
   },
-  collections: [CarModels, Promotions, News, Reviews, Branches, Media, Users],
+  collections: [CarModels, Promotions, News, Reviews, Branches, Media, SmartIssues, Users],
   globals: [SiteSettings, PageContent],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

@@ -13,6 +13,7 @@ import * as migration_20260914_120000_add_hero_slides from './20260914_120000_ad
 import * as migration_20260923_120000_add_reviews from './20260923_120000_add_reviews';
 import * as migration_20260928_010000_add_model_colors from './20260928_010000_add_model_colors';
 import * as migration_20261001_120000_add_news_promo_ends_at from './20261001_120000_add_news_promo_ends_at';
+import * as migration_20261119_120000_add_smart_issues from './20261119_120000_add_smart_issues';
 
 export const migrations = [
   {
@@ -89,5 +90,10 @@ export const migrations = [
     up: migration_20261001_120000_add_news_promo_ends_at.up,
     down: migration_20261001_120000_add_news_promo_ends_at.down,
     name: '20261001_120000_add_news_promo_ends_at',
+  },
+  {
+    up: migration_20261119_120000_add_smart_issues.up,
+    down: migration_20261119_120000_add_smart_issues.down,
+    name: '20261119_120000_add_smart_issues',
   },
 ];

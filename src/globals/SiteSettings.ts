@@ -300,6 +300,20 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
+          label: 'แจ้งปัญหา SMART',
+          fields: [
+            {
+              name: 'smartReportKey',
+              type: 'text',
+              label: 'รหัสหน้ารายการแจ้งปัญหา SMART',
+              admin: {
+                description:
+                  'พนักงานแจ้งปัญหาที่ hiclassevcar.com/smart-report (ไม่ต้องใช้รหัส) | ผู้ดูแลระบบ SMART ดูรายการที่ hiclassevcar.com/smart-report/list?key=รหัสนี้ | อย่างน้อย 8 ตัวอักษร เปลี่ยนรหัส = ลิงก์เดิมใช้ไม่ได้ทันที | เว้นว่าง = ปิดหน้ารายการ',
+              },
+            },
+          ],
+        },
+        {
           label: 'ลีดทดลองขับ',
           fields: [
             {

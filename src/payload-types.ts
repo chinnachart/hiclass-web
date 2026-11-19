@@ -73,6 +73,7 @@ export interface Config {
     reviews: Review;
     branches: Branch;
     media: Media;
+    'smart-issues': SmartIssue;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -87,6 +88,7 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     branches: BranchesSelect<false> | BranchesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'smart-issues': SmartIssuesSelect<false> | SmartIssuesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -166,7 +168,7 @@ export interface CarModel {
    */
   priceFrom: number;
   /**
-   * EV = ต่อการชาร์จ · DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน)
+   * EV = ต่อการชาร์จ | DM-i = ระยะทางรวม (ไฟฟ้า+น้ำมัน)
    */
   rangeKm?: number | null;
   colorsCount?: number | null;
@@ -188,7 +190,7 @@ export interface CarModel {
       }[]
     | null;
   /**
-   * zip #39 — คนค้น "atto 1 สี" / "atto 3 สีขาว" เยอะ ใส่ชื่อสีจริงตามโบรชัวร์ BYD แล้วหน้ารุ่นจะขึ้นชื่อสี + จุดสี + รูป (ถ้ามี) และ Google จะจับคำว่าสีได้ · ถ้าใส่ที่นี่ ช่อง "จำนวนสีให้เลือก" ด้านบนจะไม่ถูกใช้
+   * zip #39 — คนค้น "atto 1 สี" / "atto 3 สีขาว" เยอะ ใส่ชื่อสีจริงตามโบรชัวร์ BYD แล้วหน้ารุ่นจะขึ้นชื่อสี + จุดสี + รูป (ถ้ามี) และ Google จะจับคำว่าสีได้ | ถ้าใส่ที่นี่ ช่อง "จำนวนสีให้เลือก" ด้านบนจะไม่ถูกใช้
    */
   colors?:
     | {
@@ -208,11 +210,11 @@ export interface CarModel {
       }[]
     | null;
   /**
-   * รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น · ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน · พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด
+   * รูปที่ขึ้นบนการ์ดหน้าแรกและหัวหน้ารุ่น | ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน | พื้นหลังโล่งหรือ PNG พื้นหลังโปร่งใสจะสวยที่สุด
    */
   heroImage?: (number | null) | Media;
   /**
-   * รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด · ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * รูปในหน้ารายละเอียดรุ่น เพิ่มได้ไม่จำกัด | ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) | บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   gallery?: (number | Media)[] | null;
   /**
@@ -232,7 +234,7 @@ export interface CarModel {
   rentalDaily?: number | null;
   rentalMonthly?: number | null;
   /**
-   * ราคาต่อวัน รวม VAT แล้ว · ยิ่งเช่านานยิ่งถูกลง ใส่ครบทั้ง 4 ช่อง (1 / 3 / 7 / 30 วัน) แล้วหน้าเช่ารถจะขึ้นเป็นตารางให้อัตโนมัติ ถ้าเว้นว่างจะใช้ค่าเช่ารายวัน/รายเดือนด้านบนแทน
+   * ราคาต่อวัน รวม VAT แล้ว | ยิ่งเช่านานยิ่งถูกลง ใส่ครบทั้ง 4 ช่อง (1 / 3 / 7 / 30 วัน) แล้วหน้าเช่ารถจะขึ้นเป็นตารางให้อัตโนมัติ ถ้าเว้นว่างจะใช้ค่าเช่ารายวัน/รายเดือนด้านบนแทน
    */
   rentalRates?:
     | {
@@ -269,7 +271,7 @@ export interface CarModel {
   createdAt: string;
 }
 /**
- * อัปโหลดรูปครั้งเดียว นำไปใช้ซ้ำได้ทุกหน้า · ขนาดต้นฉบับควรกว้างอย่างน้อย 1600 px (รูปแบนเนอร์เต็มจอใช้ 1920 px) ระบบจะย่อเป็น 3 ขนาดให้เอง: 400 px สำหรับรูปเล็ก · 800 px สำหรับการ์ด · 1920 px สำหรับภาพเต็มจอ · ห้ามอัปโหลดรูปที่กว้างน้อยกว่า 800 px เพราะจะแตกบนจอคอม
+ * อัปโหลดรูปครั้งเดียว นำไปใช้ซ้ำได้ทุกหน้า | ขนาดต้นฉบับควรกว้างอย่างน้อย 1600 px (รูปแบนเนอร์เต็มจอใช้ 1920 px) ระบบจะย่อเป็น 3 ขนาดให้เอง: 400 px สำหรับรูปเล็ก | 800 px สำหรับการ์ด | 1920 px สำหรับภาพเต็มจอ | ห้ามอัปโหลดรูปที่กว้างน้อยกว่า 800 px เพราะจะแตกบนจอคอม
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -277,7 +279,7 @@ export interface CarModel {
 export interface Media {
   id: number;
   /**
-   * อธิบายสั้นๆ ว่ารูปนี้คืออะไร เช่น "BYD Sealion 7 สีขาว มุมหน้า" — Google ใช้ข้อความนี้ · เว้นว่างได้ ระบบจะเติมจากชื่อไฟล์ให้ก่อน แต่เขียนเองจะได้อันดับดีกว่า
+   * อธิบายสั้นๆ ว่ารูปนี้คืออะไร เช่น "BYD Sealion 7 สีขาว มุมหน้า" — Google ใช้ข้อความนี้ | เว้นว่างได้ ระบบจะเติมจากชื่อไฟล์ให้ก่อน แต่เขียนเองจะได้อันดับดีกว่า
    */
   alt?: string | null;
   updatedAt: string;
@@ -348,7 +350,7 @@ export interface Promotion {
    */
   endDate?: string | null;
   /**
-   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) | บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   image?: (number | null) | Media;
   ctaLabel?: string | null;
@@ -375,7 +377,7 @@ export interface Branch {
   name: string;
   nameEn?: string | null;
   /**
-   * ต้องตรงกับรหัสในระบบ CRM: ratchada, ladprao, rama5, bonmarche, kanchana
+   * ต้องตรงกับรหัสในระบบ CRM: ratchada, ladprao, rama5, bonmarche, kanchana, mengjai
    */
   code: string;
   /**
@@ -417,7 +419,7 @@ export interface Branch {
    */
   intro?: string | null;
   /**
-   * ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) | บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   photos?: (number | Media)[] | null;
   team?:
@@ -426,7 +428,7 @@ export interface Branch {
         role?: string | null;
         phone?: string | null;
         /**
-         * ขนาดที่ต้องการ 800 × 800 px (จัตุรัส 1:1) · ถ่ายครึ่งตัว หน้าอยู่กลางภาพ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+         * ขนาดที่ต้องการ 800 × 800 px (จัตุรัส 1:1) | ถ่ายครึ่งตัว หน้าอยู่กลางภาพ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
          */
         photo?: (number | null) | Media;
         id?: string | null;
@@ -451,7 +453,7 @@ export interface News {
   category?: ('news' | 'event' | 'guide' | 'service') | null;
   publishedAt: string;
   /**
-   * หลังวันนี้ หน้าจะขึ้นป้าย "โปรนี้สิ้นสุดแล้ว" ชี้ไปหน้าโปรเดือนนี้ และถอดออกจาก Google (noindex) อัตโนมัติ — เนื้อหายังเปิดอ่านได้ ลิงก์ที่แชร์ไว้ไม่เสีย · ข่าว/ความรู้ทั่วไปเว้นว่าง
+   * หลังวันนี้ หน้าจะขึ้นป้าย "โปรนี้สิ้นสุดแล้ว" ชี้ไปหน้าโปรเดือนนี้ และถอดออกจาก Google (noindex) อัตโนมัติ — เนื้อหายังเปิดอ่านได้ ลิงก์ที่แชร์ไว้ไม่เสีย | ข่าว/ความรู้ทั่วไปเว้นว่าง
    */
   promoEndsAt?: string | null;
   /**
@@ -459,7 +461,7 @@ export interface News {
    */
   excerpt: string;
   /**
-   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) | บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   coverImage?: (number | null) | Media;
   content?: {
@@ -482,7 +484,7 @@ export interface News {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * ลูกค้าเขียนรีวิวที่หน้า /reviews → เข้ามาเป็น "รออนุมัติ" · อ่านแล้วเปลี่ยนสถานะเป็น "อนุมัติ" กด Save จึงจะขึ้นเว็บ · ไม่เหมาะสมให้เลือก "ไม่แสดง"
+ * ลูกค้าเขียนรีวิวที่หน้า /reviews → เข้ามาเป็น "รออนุมัติ" | อ่านแล้วเปลี่ยนสถานะเป็น "อนุมัติ" กด Save จึงจะขึ้นเว็บ | ไม่เหมาะสมให้เลือก "ไม่แสดง"
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
@@ -497,6 +499,36 @@ export interface Review {
    * แก้คำผิดได้ แต่ไม่ควรเปลี่ยนความหมายของลูกค้า
    */
   message: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * พนักงานแจ้งที่ /smart-report | ผู้ดูแลระบบ SMART ดูที่ /smart-report/list?key=รหัส (ตั้งรหัสที่ ตั้งค่าเว็บไซต์ แท็บ แจ้งปัญหา SMART)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "smart-issues".
+ */
+export interface SmartIssue {
+  id: number;
+  status: 'new' | 'in_progress' | 'need_info' | 'done';
+  dept: 'sales' | 'service';
+  title: string;
+  reporterName: string;
+  contact?: string | null;
+  branch?: string | null;
+  menu?: string | null;
+  detail: string;
+  photos?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  reply?: string | null;
+  repliedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -577,6 +609,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'smart-issues';
+        value: number | SmartIssue;
       } | null)
     | ({
         relationTo: 'users';
@@ -824,6 +860,25 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "smart-issues_select".
+ */
+export interface SmartIssuesSelect<T extends boolean = true> {
+  status?: T;
+  dept?: T;
+  title?: T;
+  reporterName?: T;
+  contact?: T;
+  branch?: T;
+  menu?: T;
+  detail?: T;
+  photos?: T;
+  reply?: T;
+  repliedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -895,7 +950,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface SiteSetting {
   id: number;
   /**
-   * 1 แถว = 1 ข้อความที่สลับบนหน้าแรก · แนะนำ 3–4 ใบ ถ้ามากกว่านั้นลูกค้าดูไม่ทัน · ลากจุดซ้ายมือเพื่อสลับลำดับ · ถ้าไม่มีแถวเลย หรือปิดสวิตช์หมดทุกแถว หน้าเว็บจะใช้ข้อความตั้งต้นที่เขียนไว้ในโค้ด (ไม่มีทางเกิดหน้าว่าง)
+   * 1 แถว = 1 ข้อความที่สลับบนหน้าแรก | แนะนำ 3–4 ใบ ถ้ามากกว่านั้นลูกค้าดูไม่ทัน | ลากจุดซ้ายมือเพื่อสลับลำดับ | ถ้าไม่มีแถวเลย หรือปิดสวิตช์หมดทุกแถว หน้าเว็บจะใช้ข้อความตั้งต้นที่เขียนไว้ในโค้ด (ไม่มีทางเกิดหน้าว่าง)
    */
   heroSlides?:
     | {
@@ -906,15 +961,15 @@ export interface SiteSetting {
         accent?: ('gold' | 'line' | 'red') | null;
         center?: boolean | null;
         /**
-         * เช่น Private Offer · Flash Deal เฉพาะเดือนนี้ — สั้นๆ ไม่เกิน 5 คำ
+         * เช่น Private Offer | Flash Deal เฉพาะเดือนนี้ — สั้นๆ ไม่เกิน 5 คำ
          */
         kicker?: string | null;
         /**
-         * กด Enter ขึ้นบรรทัดใหม่ได้ · อยากให้คำไหนเป็น "สีทอง" ให้ครอบด้วยเครื่องหมายดอกจัน เช่น ดีลที่ลงหน้าเว็บ *ไม่ได้* · ยาวไม่เกิน 2 บรรทัดกำลังสวยบนมือถือ
+         * กด Enter ขึ้นบรรทัดใหม่ได้ | อยากให้คำไหนเป็น "สีทอง" ให้ครอบด้วยเครื่องหมายดอกจัน เช่น ดีลที่ลงหน้าเว็บ *ไม่ได้* | ยาวไม่เกิน 2 บรรทัดกำลังสวยบนมือถือ
          */
         title?: string | null;
         /**
-         * กด Enter ขึ้นบรรทัดใหม่ได้ · ใช้ *คำ* ให้เป็นสีทองได้เหมือนกัน · 2 บรรทัดกำลังดี
+         * กด Enter ขึ้นบรรทัดใหม่ได้ | ใช้ *คำ* ให้เป็นสีทองได้เหมือนกัน | 2 บรรทัดกำลังดี
          */
         sub?: string | null;
         /**
@@ -922,7 +977,7 @@ export interface SiteSetting {
          */
         ctaLabel?: string | null;
         /**
-         * พิมพ์ line: เพื่อใช้ LINE กลาง (แท็บติดต่อ) · หรือใส่หน้าในเว็บ เช่น /test-drive, /trade-in, /register
+         * พิมพ์ line: เพื่อใช้ LINE กลาง (แท็บติดต่อ) | หรือใส่หน้าในเว็บ เช่น /test-drive, /trade-in, /register
          */
         ctaHref?: string | null;
         ctaKind?: ('gold' | 'line' | 'red') | null;
@@ -936,7 +991,7 @@ export interface SiteSetting {
          */
         note?: string | null;
         /**
-         * 1 บรรทัด = 1 ป้าย · ไม่เกิน 3 ป้าย · เว้นว่างได้
+         * 1 บรรทัด = 1 ป้าย | ไม่เกิน 3 ป้าย | เว้นว่างได้
          */
         chips?: string | null;
         id?: string | null;
@@ -951,11 +1006,11 @@ export interface SiteSetting {
    */
   popupEnabled?: boolean | null;
   /**
-   * ขนาดที่ต้องการ 1080 × 1350 px (แนวตั้ง 4:5) หรือจัตุรัส 1080 × 1080 px · ตัวหนังสือใหญ่พออ่านออกบนมือถือ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * ขนาดที่ต้องการ 1080 × 1350 px (แนวตั้ง 4:5) หรือจัตุรัส 1080 × 1080 px | ตัวหนังสือใหญ่พออ่านออกบนมือถือ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   popupImage?: (number | null) | Media;
   /**
-   * ใส่เป็นเส้นทางในเว็บ เช่น /test-drive · /promotion · /car-model/atto-2 (ใส่ลิงก์เต็ม https:// ได้ จะเปิดแท็บใหม่)
+   * ใส่เป็นเส้นทางในเว็บ เช่น /test-drive | /promotion | /car-model/atto-2 (ใส่ลิงก์เต็ม https:// ได้ จะเปิดแท็บใหม่)
    */
   popupHref?: string | null;
   /**
@@ -967,7 +1022,7 @@ export interface SiteSetting {
    */
   popupStart?: string | null;
   /**
-   * เว้นว่าง = เด้งไปเรื่อยๆ · ใส่วันสุดท้ายของแคมเปญไว้ จะได้ไม่ต้องกลับมาปิดเอง
+   * เว้นว่าง = เด้งไปเรื่อยๆ | ใส่วันสุดท้ายของแคมเปญไว้ จะได้ไม่ต้องกลับมาปิดเอง
    */
   popupEnd?: string | null;
   /**
@@ -977,7 +1032,7 @@ export interface SiteSetting {
   yearsOpen?: number | null;
   googleRating?: number | null;
   /**
-   * เช่น ศูนย์บริการมาตรฐาน BYD ครบทั้ง 5 สาขา ช่างผ่านการอบรมจากโรงงาน
+   * เช่น ศูนย์บริการมาตรฐาน BYD ครบทั้ง 6 สาขา ช่างผ่านการอบรมจากโรงงาน
    */
   trustNote?: string | null;
   /**
@@ -1027,7 +1082,7 @@ export interface SiteSetting {
    */
   financeRate: number;
   /**
-   * ลอกจากชีทไฟแนนซ์ของฝ่ายขาย · 1 แถว = 1 ระดับเงินดาวน์ · ใส่ดอกเบี้ยคงที่ต่อปี (%) ของแต่ละจำนวนงวด · หน้าเว็บแสดงเงินดาวน์ตามแถวที่มี เรียงมากไปน้อยให้เอง (30% อยู่บนสุด) และตัวเลื่อนในเครื่องคำนวณเลือกได้เฉพาะเงินดาวน์เหล่านี้ · ช่องไหนเว้นว่างจะใช้ "อัตราดอกเบี้ยสำรอง" ด้านบน
+   * ลอกจากชีทไฟแนนซ์ของฝ่ายขาย | 1 แถว = 1 ระดับเงินดาวน์ | ใส่ดอกเบี้ยคงที่ต่อปี (%) ของแต่ละจำนวนงวด | หน้าเว็บแสดงเงินดาวน์ตามแถวที่มี เรียงมากไปน้อยให้เอง (30% อยู่บนสุด) และตัวเลื่อนในเครื่องคำนวณเลือกได้เฉพาะเงินดาวน์เหล่านี้ | ช่องไหนเว้นว่างจะใช้ "อัตราดอกเบี้ยสำรอง" ด้านบน
    */
   financeRates?:
     | {
@@ -1049,6 +1104,10 @@ export interface SiteSetting {
   defaultTerm?: number | null;
   financeNote?: string | null;
   /**
+   * พนักงานแจ้งปัญหาที่ hiclassevcar.com/smart-report (ไม่ต้องใช้รหัส) | ผู้ดูแลระบบ SMART ดูรายการที่ hiclassevcar.com/smart-report/list?key=รหัสนี้ | อย่างน้อย 8 ตัวอักษร เปลี่ยนรหัส = ลิงก์เดิมใช้ไม่ได้ทันที | เว้นว่าง = ปิดหน้ารายการ
+   */
+  smartReportKey?: string | null;
+  /**
    * ค่านี้จะถูกเขียนลงช่อง lead_source ในระบบ CRM เพื่อให้แยกออกว่าลีดมาจากเว็บ
    */
   leadSourceLabel: string;
@@ -1060,7 +1119,7 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
- * แก้ข้อความบนหน้า รางวัล · รถเช่า · ศูนย์บริการ · เทิร์นรถเก่า ได้ที่นี่ทั้งหมด — ช่องไหนเว้นว่างจะใช้ข้อความเดิมที่ตั้งไว้ให้
+ * แก้ข้อความบนหน้า รางวัล | รถเช่า | ศูนย์บริการ | เทิร์นรถเก่า ได้ที่นี่ทั้งหมด — ช่องไหนเว้นว่างจะใช้ข้อความเดิมที่ตั้งไว้ให้
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "page-content".
@@ -1079,7 +1138,7 @@ export interface PageContent {
   awHeadline2?: string | null;
   awLead?: string | null;
   /**
-   * แนวตั้ง 3:4 · ขนาดที่ต้องการ 1200 × 1600 px (แนวตั้ง 3:4) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * แนวตั้ง 3:4 | ขนาดที่ต้องการ 1200 × 1600 px (แนวตั้ง 3:4) | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   awHeroImage?: (number | null) | Media;
   /**
@@ -1093,7 +1152,7 @@ export interface PageContent {
       }[]
     | null;
   /**
-   * เรียงตามปีให้อัตโนมัติ ปีล่าสุดขึ้นก่อน · ใส่ "จำนวนรางวัล" เฉพาะรางวัลทีมช่าง (จะไปอยู่ในบล็อกทีมช่างแทน)
+   * เรียงตามปีให้อัตโนมัติ ปีล่าสุดขึ้นก่อน | ใส่ "จำนวนรางวัล" เฉพาะรางวัลทีมช่าง (จะไปอยู่ในบล็อกทีมช่างแทน)
    */
   awItems?:
     | {
@@ -1119,7 +1178,7 @@ export interface PageContent {
     | {
         year: number;
         /**
-         * ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) · บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+         * ขนาดที่ต้องการ 1600 × 1200 px (แนวนอน 4:3) | บนมือถือภาพจะถูกครอบจากกึ่งกลาง — วางรถ/ข้อความสำคัญไว้กลางภาพ อย่าชิดขอบ | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
          */
         image: number | Media;
         id?: string | null;
@@ -1129,7 +1188,7 @@ export interface PageContent {
   awTechSub?: string | null;
   awTechNote?: string | null;
   /**
-   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) · ไฟล์ไม่เกิน 5 MB · JPG / PNG / WebP · ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
+   * ขนาดที่ต้องการ 1600 × 900 px (แนวนอน 16:9) | ไฟล์ไม่เกิน 5 MB | JPG / PNG / WebP | ระบบย่อและแปลงเป็น WebP ให้เองไม่ต้องย่อมาก่อน
    */
   awTechImage?: (number | null) | Media;
   awCtaTitle?: string | null;
@@ -1153,7 +1212,7 @@ export interface PageContent {
    */
   rtFineprint?: string | null;
   /**
-   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง | ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
    */
   rtFaq?:
     | {
@@ -1193,7 +1252,7 @@ export interface PageContent {
       }[]
     | null;
   /**
-   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง | ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
    */
   svFaq?:
     | {
@@ -1214,7 +1273,7 @@ export interface PageContent {
   tiTitle?: string | null;
   tiLead?: string | null;
   /**
-   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง · ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
+   * มีผลกับ Google โดยตรง — คำถามที่ใส่ที่นี่มีโอกาสขึ้นเป็นกล่องคำตอบในหน้าผลค้นหา เขียนคำถามให้เหมือนที่ลูกค้าพิมพ์จริง | ลบให้เหลือ 0 ข้อ = ซ่อนทั้งบล็อกจากหน้าเว็บ
    */
   tiFaq?:
     | {
@@ -1297,6 +1356,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   defaultDownPercent?: T;
   defaultTerm?: T;
   financeNote?: T;
+  smartReportKey?: T;
   leadSourceLabel?: T;
   leadHolderName?: T;
   updatedAt?: T;
