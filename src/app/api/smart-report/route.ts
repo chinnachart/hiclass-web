@@ -38,11 +38,13 @@ export async function POST(req: Request) {
   const dept = s('dept', 20)
   const title = s('title', 150)
   const reporterName = s('reporterName', 80)
+  const position = s('position', 80)
   const detail = String(body.detail ?? '').trim().slice(0, 4000)
   const photos = Array.isArray(body.photos) ? body.photos.map(String).filter(isPhotoPath).slice(0, MAX_PHOTOS) : []
 
   if (!isDept(dept)) return bad('กรุณาเลือกฝ่าย')
   if (reporterName.length < 2) return bad('กรุณากรอกชื่อผู้แจ้ง')
+  if (position.length < 2) return bad('กรุณากรอกตำแหน่ง')
   if (title.length < 3) return bad('กรุณากรอกปัญหาที่พบ')
   if (detail.length < 5) return bad('กรุณาอธิบายปัญหาเพิ่มเติม')
 
@@ -55,6 +57,7 @@ export async function POST(req: Request) {
         dept,
         title,
         reporterName,
+        position,
         contact: s('contact', 60) || undefined,
         branch: s('branch', 40) || undefined,
         menu: s('menu', 150) || undefined,

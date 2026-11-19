@@ -101,6 +101,7 @@ export default async function SmartReportList({ searchParams }: { searchParams: 
               <h2 style={{ fontSize: 19, margin: 0 }}>{d.title}</h2>
               <div className="mute" style={{ fontSize: 14 }}>
                 {d.reporterName}
+                {d.position ? ` (${d.position})` : ''}
                 {d.branch ? ` | สาขา${d.branch}` : ''}
                 {d.contact ? ` | ${d.contact}` : ''}
               </div>

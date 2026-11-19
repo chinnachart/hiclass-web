@@ -52,9 +52,10 @@ export const SmartIssues: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'reporterName', type: 'text', required: true, label: 'ผู้แจ้ง', admin: { width: '34%' } },
-        { name: 'contact', type: 'text', label: 'เบอร์/LINE ผู้แจ้ง', admin: { width: '33%' } },
-        { name: 'branch', type: 'text', label: 'สาขา', admin: { width: '33%' } },
+        { name: 'reporterName', type: 'text', required: true, label: 'ผู้แจ้ง', admin: { width: '25%' } },
+        { name: 'position', type: 'text', label: 'ตำแหน่ง', admin: { width: '25%' } },
+        { name: 'contact', type: 'text', label: 'เบอร์/LINE ผู้แจ้ง', admin: { width: '25%' } },
+        { name: 'branch', type: 'text', label: 'สาขา', admin: { width: '25%' } },
       ],
     },
     { name: 'menu', type: 'text', label: 'เมนู/หน้าจอที่พบปัญหา' },

@@ -42,7 +42,7 @@ const newDraftId = () =>
         return (ch === 'x' ? r : (r & 0x3) | 0x8).toString(16)
       })
 
-type Me = { reporterName?: string; contact?: string; branch?: string; dept?: string }
+type Me = { reporterName?: string; position?: string; contact?: string; branch?: string; dept?: string }
 
 export default function SmartReportForm({ branches }: { branches: string[] }) {
   const [dept, setDept] = useState('')
@@ -123,6 +123,7 @@ export default function SmartReportForm({ branches }: { branches: string[] }) {
       const data = {
         dept,
         reporterName: String(fd.get('reporterName') || ''),
+        position: String(fd.get('position') || ''),
         contact: String(fd.get('contact') || ''),
         branch: String(fd.get('branch') || ''),
         title: fd.get('title'),
@@ -135,7 +136,7 @@ export default function SmartReportForm({ branches }: { branches: string[] }) {
       const r = await fetch('/api/smart-report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
       const j = await r.json().catch(() => ({}))
       if (!r.ok) throw new Error(j?.message || 'ส่งไม่สำเร็จ')
-      const keep: Me = { reporterName: data.reporterName, contact: data.contact, branch: data.branch, dept }
+      const keep: Me = { reporterName: data.reporterName, position: data.position, contact: data.contact, branch: data.branch, dept }
       try {
         localStorage.setItem(REMEMBER, JSON.stringify(keep))
       } catch {}
@@ -194,6 +195,12 @@ export default function SmartReportForm({ branches }: { branches: string[] }) {
           <input id="reporterName" name="reporterName" type="text" required minLength={2} maxLength={80} defaultValue={me.reporterName || ''} key={`n${me.reporterName || ''}`} placeholder="ชื่อ หรือ ชื่อเล่น" />
         </div>
         <div className="field">
+          <label htmlFor="position">ตำแหน่ง</label>
+          <input id="position" name="position" type="text" required minLength={2} maxLength={80} defaultValue={me.position || ''} key={`p${me.position || ''}`} placeholder="เช่น ที่ปรึกษาการขาย, SA, ธุรการ" />
+        </div>
+      </div>
+      <div className="row">
+        <div className="field">
           <label htmlFor="branch">สาขา</label>
           <select id="branch" name="branch" defaultValue={me.branch || ''} key={`b${me.branch || ''}`}>
             <option value="">ไม่ระบุ</option>
@@ -204,10 +211,10 @@ export default function SmartReportForm({ branches }: { branches: string[] }) {
             ))}
           </select>
         </div>
-      </div>
-      <div className="field">
-        <label htmlFor="contact">เบอร์โทร หรือ LINE (ไม่บังคับ)</label>
-        <input id="contact" name="contact" type="text" maxLength={60} defaultValue={me.contact || ''} key={`c${me.contact || ''}`} placeholder="ไว้ให้ผู้ดูแลระบบติดต่อกลับ" />
+        <div className="field">
+          <label htmlFor="contact">เบอร์โทร หรือ LINE (ไม่บังคับ)</label>
+          <input id="contact" name="contact" type="text" maxLength={60} defaultValue={me.contact || ''} key={`c${me.contact || ''}`} placeholder="ไว้ให้ผู้ดูแลระบบติดต่อกลับ" />
+        </div>
       </div>
       <div className="field">
         <label htmlFor="title">ปัญหาที่พบ</label>

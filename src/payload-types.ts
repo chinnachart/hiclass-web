@@ -514,6 +514,7 @@ export interface SmartIssue {
   dept: 'sales' | 'service';
   title: string;
   reporterName: string;
+  position?: string | null;
   contact?: string | null;
   branch?: string | null;
   menu?: string | null;
@@ -867,6 +868,7 @@ export interface SmartIssuesSelect<T extends boolean = true> {
   dept?: T;
   title?: T;
   reporterName?: T;
+  position?: T;
   contact?: T;
   branch?: T;
   menu?: T;
