@@ -160,6 +160,23 @@ export default async function ServicePage() {
             </div>
           </div>
         </section>
+
+        {/* ทางเข้าโครงการประกัน Hi-Class EV Care — ลูกค้าเก่าที่เข้าศูนย์คือกลุ่มที่ประกันใกล้ต่ออายุ */}
+        <section className="section" id="insurance" style={{ paddingTop: 0, scrollMarginTop: 90 }}>
+          <Link href="/ev-care#quote" className="card" style={{ padding: 20, display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', justifyContent: 'space-between', background: '#0f172a', color: '#fff' }}>
+            <span style={{ display: 'flex', gap: 14, alignItems: 'center', minWidth: 0, flex: '1 1 320px' }}>
+              <span style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(201,162,75,.18)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                <Icon name="shield" size={24} color="#c9a24b" />
+              </span>
+              <span style={{ minWidth: 0 }}>
+                <span style={{ display: 'block', fontWeight: 600, fontSize: 19 }}>ประกันรถยนต์ใกล้ครบกำหนดต่ออายุ?</span>
+                <span style={{ display: 'block', fontSize: 14, color: 'rgba(255,255,255,.8)', marginTop: 2 }}>ขอใบเสนอราคาประกันรถยนต์ไฟฟ้า BYD จากโครงการ Hi-Class EV Care ได้ฟรี ไม่มีข้อผูกมัด</span>
+              </span>
+            </span>
+            <span className="btn" style={{ background: '#c9a24b', color: '#0f172a', flexShrink: 0 }}>ขอใบเสนอราคาประกัน <Icon name="arrow" size={16} color="#0f172a" /></span>
+          </Link>
+        </section>
+
         <section className="section">
           <div className="sec-head"><div><h2>เลือกสาขาที่จะเข้ารับบริการ</h2></div></div>
           <div className="branch-list">

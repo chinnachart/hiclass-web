@@ -141,6 +141,12 @@ export default function ServiceApptForm({ models, branches, settings, defaultBra
             นัดหมายอีกรายการ
           </button>
         </div>
+        {/* ทางเข้าโครงการประกัน หลังนัดหมายเสร็จ — ส่งรุ่นรถไปเลือกในฟอร์มให้ */}
+        <a href={`/ev-care${summary.model ? `?model=${encodeURIComponent(summary.model)}` : ''}#quote`} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '12px 14px', borderRadius: 12, background: '#0f172a', color: '#fff', fontSize: 14 }}>
+          <Icon name="shield" size={20} color="#c9a24b" />
+          <span style={{ flex: 1, minWidth: 0 }}>ประกันรถยนต์ใกล้ครบกำหนดต่ออายุ? ขอใบเสนอราคาจากโครงการ Hi-Class EV Care ได้ฟรี</span>
+          <Icon name="arrow" size={16} color="#c9a24b" />
+        </a>
       </div>
     )
   }
