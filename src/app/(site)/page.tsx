@@ -14,6 +14,7 @@ import { SVC_PHOTO } from '@/lib/serviceMedia'
 import { getSiteData, getDeliveryPhotos, getReviews } from '@/lib/data'
 import { ReviewGrid } from '@/components/Reviews'
 import { sceneOf } from '@/lib/scenes'
+import { TIKTOK_URL } from '@/components/Footer'
 
 export const dynamic = 'force-dynamic'
 
@@ -72,7 +73,7 @@ export default async function HomePage() {
         />
       ) : null}
       <Jsonld data={dealerLd(branches, models.map((m) => m.priceFrom))} />
-      <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
+      <Jsonld data={organizationLd({ phone: settings.mainPhone, email: settings.contactEmail, sameAs: [settings.facebookUrl, settings.lineUrl, TIKTOK_URL, ...branches.flatMap((b) => [b.facebookUrl, b.instagramUrl, b.tiktokUrl, b.youtubeUrl])] })} />
       <Jsonld data={webSiteLd()} />
 
       {/* ความเร็วมือถือ: ฉากหลังการ์ดใบแรกคือชิ้นใหญ่สุดบนจอ (LCP) แต่เป็น background ที่เบราว์เซอร์เจอช้า → สั่งโหลดล่วงหน้า */}

@@ -2,6 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Branch, CarModel, SiteSettings } from '@/lib/types'
 
+/** TikTok ช่องหลักของบริษัท (หลังบ้านมีช่องตั้งเฉพาะ Facebook — ถ้าเปลี่ยนช่อง แก้ที่นี่) */
+export const TIKTOK_URL = 'https://www.tiktok.com/@bydhiclassevcar'
+
 export default function Footer({
   models,
   branches,
@@ -22,9 +25,15 @@ export default function Footer({
                 `ผู้จำหน่ายรถยนต์ BYD อย่างเป็นทางการ ${branches.length} สาขาในกรุงเทพฯ และปริมณฑล ดูแลตั้งแต่เลือกรุ่น จัดไฟแนนซ์ ส่งมอบ ไปจนถึงศูนย์บริการ`}
             </p>
             <p style={{ marginTop: 10 }}>
-              {settings.lineUrl ? <><a href={settings.lineUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>LINE</a></> : null}
-              {settings.lineUrl && settings.facebookUrl ? ' | ' : null}
-              {settings.facebookUrl ? <><a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>Facebook</a></> : null}
+              {/* ลิงก์โซเชียล — คั่นด้วยขีดตั้งเฉพาะระหว่างรายการที่มีจริง */}
+              {([['LINE', settings.lineUrl], ['Facebook', settings.facebookUrl], ['TikTok', TIKTOK_URL]] as [string, string | null | undefined][])
+                .filter(([, url]) => !!url)
+                .map(([label, url], i) => (
+                  <span key={label}>
+                    {i > 0 ? ' | ' : null}
+                    <a href={url as string} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', fontWeight: 600 }}>{label}</a>
+                  </span>
+                ))}
             </p>
             {settings.contactEmail ? (
               <p style={{ marginTop: 4 }}>
