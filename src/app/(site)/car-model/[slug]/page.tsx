@@ -256,6 +256,17 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           </div>
         </section>
 
+        {/* ประกันภัย Hi-Class EV Care — ทางเข้าจากหน้ารุ่นรถ เลือกรุ่นในฟอร์มให้เลย */}
+        <section className="section" id="insurance" style={{ paddingTop: 0 }}>
+          <Link href={`/ev-care?model=${encodeURIComponent(m.name)}#quote`} className="card" style={{ padding: 18, display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', justifyContent: 'space-between', background: '#0f172a', color: '#fff' }}>
+            <span style={{ minWidth: 0 }}>
+              <span style={{ display: 'block', fontWeight: 600, fontSize: 18 }}>ประกันรถยนต์ไฟฟ้าสำหรับ BYD {m.name}</span>
+              <span style={{ display: 'block', fontSize: 14, color: 'rgba(255,255,255,.8)', marginTop: 2 }}>โครงการ Hi-Class EV Care ขอใบเสนอราคาเบี้ยประกันได้ฟรี ไม่มีข้อผูกมัด</span>
+            </span>
+            <span className="btn" style={{ background: '#c9a24b', color: '#0f172a', flexShrink: 0 }}>ขอใบเสนอราคาประกัน <Icon name="arrow" size={16} color="#0f172a" /></span>
+          </Link>
+        </section>
+
         {faq.length > 0 ? (
           <section className="section" id="faq">
             <div className="sec-head"><div><h2>คำถามที่พบบ่อยเกี่ยวกับ BYD {m.name}</h2></div></div>

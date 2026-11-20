@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import Icon from './Icons'
 
-type Props = { models: string[]; partnerName: string; lineUrl: string }
+type Props = { models: string[]; partnerName: string; lineUrl: string; defaultModel?: string }
 
 /** ฟอร์มขอใบเสนอราคาประกันภัย Hi-Class EV Care → /api/ev-care → Cinco (แท็บลีดประกันภัย · admin เท่านั้น) */
-export default function EvCareForm({ models, partnerName, lineUrl }: Props) {
+export default function EvCareForm({ models, partnerName, lineUrl, defaultModel }: Props) {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const [message, setMessage] = useState('')
   const thisYear = new Date().getFullYear()
@@ -73,7 +73,7 @@ export default function EvCareForm({ models, partnerName, lineUrl }: Props) {
       <div className="row">
         <div className="field">
           <label htmlFor="ec-model">รุ่นรถ</label>
-          <select id="ec-model" name="carModel" defaultValue="">
+          <select id="ec-model" name="carModel" defaultValue={defaultModel ? `BYD ${defaultModel}` : ''}>
             <option value="">เลือกรุ่นรถ</option>
             {models.map((m) => (
               <option key={m} value={`BYD ${m}`}>BYD {m}</option>

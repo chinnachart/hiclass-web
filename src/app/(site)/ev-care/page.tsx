@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Icon from '@/components/Icons'
-import Jsonld, { faqLd } from '@/components/Jsonld'
+import Jsonld, { faqLd, breadcrumbLd, SITE } from '@/components/Jsonld'
 import EvCareForm from '@/components/EvCareForm'
 import { getSiteData } from '@/lib/data'
 import { EV_CARE } from '@/lib/evcare'
@@ -46,23 +46,51 @@ const FAQ = [
   },
 ]
 
+const PAGE_TITLE = 'ประกันรถยนต์ไฟฟ้า BYD | Hi-Class EV Care ขอใบเสนอราคาออนไลน์'
+const PAGE_DESC =
+  'ประกันรถยนต์ไฟฟ้า BYD โดยโครงการ Hi-Class EV Care สำหรับลูกค้า BYD Hi-Class EV Car ให้บริการโดยพาร์ทเนอร์อย่างเป็นทางการ บริษัท โคโรเนท โบรกเกอร์ จำกัด กรอกฟอร์มขอใบเสนอราคาเบี้ยประกันได้ฟรี ไม่มีข้อผูกมัด'
+const BANNER_ALT = 'Hi-Class EV Care และ Coronet ประกันภัยรถยนต์ไฟฟ้า ครบครัน มั่นใจทุกเส้นทาง'
+
 export const metadata: Metadata = {
-  title: 'Hi-Class EV Care ประกันภัยรถยนต์ไฟฟ้า สำหรับลูกค้า BYD Hi-Class',
-  description:
-    'Hi-Class EV Care โครงการประกันภัยรถยนต์ไฟฟ้าสำหรับลูกค้า BYD Hi-Class EV Car ให้บริการโดยพาร์ทเนอร์อย่างเป็นทางการ บริษัท โคโรเนท โบรกเกอร์ จำกัด ขอใบเสนอราคาเบี้ยประกันออนไลน์ได้ที่นี่',
+  title: PAGE_TITLE,
+  description: PAGE_DESC,
   alternates: { canonical: '/ev-care' },
+  // รูปตอนแชร์ลิงก์ใน LINE / Facebook = แบนเนอร์โครงการ (เดิมใช้รูปกลางของเว็บ)
+  openGraph: { title: PAGE_TITLE, description: PAGE_DESC, url: '/ev-care', images: [{ url: EV_CARE.banner, width: 1920, height: 1080, alt: BANNER_ALT }] },
+  twitter: { card: 'summary_large_image', title: PAGE_TITLE, description: PAGE_DESC, images: [EV_CARE.banner] },
 }
 
-export default async function EvCarePage() {
+/** schema บริการ — บอก Google ว่าหน้านี้คือบริการประกันภัยรถยนต์ไฟฟ้า ใครเป็นผู้ให้บริการ ใครเป็นผู้แนะนำ */
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Hi-Class EV Care ประกันรถยนต์ไฟฟ้า BYD',
+  serviceType: 'ประกันภัยรถยนต์ไฟฟ้า',
+  description: PAGE_DESC,
+  url: `${SITE}/ev-care`,
+  image: `${SITE}${EV_CARE.banner}`,
+  areaServed: { '@type': 'Country', name: 'Thailand' },
+  provider: { '@type': 'Organization', name: EV_CARE.partnerName, alternateName: EV_CARE.partnerNameEn, url: EV_CARE.partnerUrl },
+  broker: { '@id': `${SITE}/#organization` },
+  audience: { '@type': 'Audience', audienceType: 'เจ้าของรถยนต์ไฟฟ้าและรถยนต์ไฮบริด BYD' },
+  potentialAction: { '@type': 'QuoteAction', name: 'ขอใบเสนอราคาประกันภัย', target: `${SITE}/ev-care#quote` },
+}
+
+export default async function EvCarePage({ searchParams }: { searchParams: Promise<{ model?: string }> }) {
   const { models } = await getSiteData()
+  // มาจากปุ่มในหน้ารุ่นรถ (/ev-care?model=Atto 3#quote) → เลือกรุ่นในฟอร์มให้เลย
+  const want = String((await searchParams)?.model || '').trim().toLowerCase()
+  const preset = want ? models.find((m) => m.name.toLowerCase() === want)?.name : undefined
 
   return (
     <>
       <Jsonld data={faqLd(FAQ)} />
+      <Jsonld data={serviceLd} />
+      <Jsonld data={breadcrumbLd([{ name: 'ประกันรถยนต์ไฟฟ้า Hi-Class EV Care', path: '/ev-care' }])} />
       <section className="page-head" style={{ background: NAVY, color: '#fff' }}>
         <div className="container">
           <p className="kicker" style={{ color: GOLD }}><Icon name="shield" size={14} color={GOLD} />โครงการประกันภัยรถยนต์ไฟฟ้า</p>
-          <h1 style={{ color: '#fff' }}>Hi-Class EV Care</h1>
+          <h1 style={{ color: '#fff' }}>ประกันรถยนต์ไฟฟ้า BYD <span style={{ display: 'block', color: GOLD, fontSize: '0.62em', marginTop: 6 }}>Hi-Class EV Care</span></h1>
           <p className="lead" style={{ color: 'rgba(255,255,255,.85)' }}>
             โครงการประกันภัยรถยนต์ไฟฟ้าสำหรับลูกค้า BYD Hi-Class EV Car ให้บริการโดยพาร์ทเนอร์อย่างเป็นทางการของเรา {EV_CARE.partnerName}
           </p>
@@ -75,7 +103,7 @@ export default async function EvCarePage() {
       <main className="container">
         <div style={{ marginTop: 20, borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid var(--line)' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={EV_CARE.banner} alt="Hi-Class EV Care และ Coronet ประกันภัยรถยนต์ไฟฟ้า ครบครัน มั่นใจทุกเส้นทาง" width={1920} height={1080} style={{ display: 'block', width: '100%', height: 'auto' }} />
+          <img src={EV_CARE.banner} alt={BANNER_ALT} width={1920} height={1080} style={{ display: 'block', width: '100%', height: 'auto' }} />
         </div>
 
         <section className="section" style={{ paddingTop: 24 }}>
@@ -137,7 +165,7 @@ export default async function EvCarePage() {
           <h2>ขอใบเสนอราคาประกันภัย</h2>
           <p className="mute" style={{ margin: '4px 0 12px', fontSize: 14 }}>กรอกข้อมูลสั้นๆ เจ้าหน้าที่โครงการ Hi-Class EV Care จะติดต่อกลับพร้อมใบเสนอราคา ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</p>
           <div className="card" style={{ padding: 20, maxWidth: 640, position: 'relative' }}>
-            <EvCareForm models={models.map((m) => m.name)} partnerName={EV_CARE.partnerName} lineUrl={EV_CARE.lineUrl} />
+            <EvCareForm models={models.map((m) => m.name)} partnerName={EV_CARE.partnerName} lineUrl={EV_CARE.lineUrl} defaultModel={preset} />
           </div>
         </section>
 
