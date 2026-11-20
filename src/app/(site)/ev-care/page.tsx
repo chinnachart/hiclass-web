@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Icon from '@/components/Icons'
 import Jsonld, { faqLd, breadcrumbLd, SITE } from '@/components/Jsonld'
 import EvCareForm from '@/components/EvCareForm'
@@ -102,8 +103,7 @@ export default async function EvCarePage({ searchParams }: { searchParams: Promi
 
       <main className="container">
         <div style={{ marginTop: 20, borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid var(--line)' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={EV_CARE.banner} alt={BANNER_ALT} width={1920} height={1080} style={{ display: 'block', width: '100%', height: 'auto' }} />
+          <Image src={EV_CARE.banner} alt={BANNER_ALT} width={1920} height={1080} priority sizes="(max-width: 1200px) 100vw, 1160px" style={{ display: 'block', width: '100%', height: 'auto' }} />
         </div>
 
         <section className="section" style={{ paddingTop: 24 }}>

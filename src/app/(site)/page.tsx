@@ -202,7 +202,7 @@ export default async function HomePage() {
           <div className="grid-2">
             <div className="card svc has-photo">
               <Link className="svc-photo" href="/service" tabIndex={-1} aria-hidden="true">
-                <Image src={SVC_PHOTO.lift.src} alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+                <Image src={SVC_PHOTO.lift.src} alt="" fill sizes="(max-width: 700px) 66vw, 540px" style={{ objectFit: 'cover' }} />
               </Link>
               <span className="branch-ico"><Icon name="wrench" size={20} /></span>
               <h3>ศูนย์บริการ</h3>
@@ -211,7 +211,7 @@ export default async function HomePage() {
             </div>
             <div className="card svc has-photo">
               <Link className="svc-photo" href="/service#body-paint" tabIndex={-1} aria-hidden="true">
-                <Image src={SVC_PHOTO.booth.src} alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+                <Image src={SVC_PHOTO.booth.src} alt="" fill sizes="(max-width: 700px) 66vw, 540px" style={{ objectFit: 'cover' }} />
               </Link>
               <span className="branch-ico"><Icon name="shield" size={20} /></span>
               <h3>อู่สีและซ่อมตัวถัง</h3>
@@ -220,7 +220,7 @@ export default async function HomePage() {
             </div>
             <div className="card svc has-photo">
               <Link className="svc-photo" href="/ev-care" tabIndex={-1} aria-hidden="true">
-                <Image src="/partners/hiclass-ev-care.jpg" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+                <Image src="/partners/hiclass-ev-care.jpg" alt="" fill sizes="(max-width: 700px) 66vw, 540px" style={{ objectFit: 'cover' }} />
               </Link>
               <span className="branch-ico"><Icon name="shield" size={20} /></span>
               <h3>ประกันรถยนต์ไฟฟ้า Hi-Class EV Care</h3>
@@ -229,7 +229,7 @@ export default async function HomePage() {
             </div>
             <div className="card svc has-photo">
               <Link className="svc-photo" href="/rental" tabIndex={-1} aria-hidden="true">
-                <Image src="/rental/home-card.webp" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+                <Image src="/rental/home-card.webp" alt="" fill sizes="(max-width: 700px) 66vw, 540px" style={{ objectFit: 'cover' }} />
               </Link>
               <span className="branch-ico"><Icon name="key" size={20} /></span>
               <h3>บริการรถให้เช่า</h3>
@@ -238,7 +238,7 @@ export default async function HomePage() {
             </div>
             <div className="card svc has-photo">
               <Link className="svc-photo" href="/trade-in" tabIndex={-1} aria-hidden="true">
-                <Image src="/brand/trade-in-hero.webp" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+                <Image src="/brand/trade-in-hero.webp" alt="" fill sizes="(max-width: 700px) 66vw, 540px" style={{ objectFit: 'cover' }} />
               </Link>
               <span className="branch-ico"><Icon name="swap" size={20} /></span>
               <h3>เทิร์นรถเก่า</h3>
