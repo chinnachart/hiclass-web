@@ -229,7 +229,7 @@ export default async function HomePage() {
             </div>
             <div className="card svc has-photo">
               <Link className="svc-photo" href="/rental" tabIndex={-1} aria-hidden="true">
-                <Image src="/rental/delivery-3.webp" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover', objectPosition: 'center 75%' }} />
+                <Image src="/rental/home-card.webp" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
               </Link>
               <span className="branch-ico"><Icon name="key" size={20} /></span>
               <h3>บริการรถให้เช่า</h3>
