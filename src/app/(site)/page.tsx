@@ -218,13 +218,28 @@ export default async function HomePage() {
               <p>ศูนย์ซ่อมสีและตัวถังมาตรฐาน BYD อะไหล่แท้ ประสานงานเคลมประกันให้</p>
               <Link className="more" href="/service#body-paint">ดูรายละเอียด <Icon name="chev" size={14} /></Link>
             </div>
-            <div className="card svc">
+            <div className="card svc has-photo">
+              <Link className="svc-photo" href="/ev-care" tabIndex={-1} aria-hidden="true">
+                <Image src="/partners/hiclass-ev-care.jpg" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+              </Link>
+              <span className="branch-ico"><Icon name="shield" size={20} /></span>
+              <h3>ประกันรถยนต์ไฟฟ้า Hi-Class EV Care</h3>
+              <p>ประกันภัยรถยนต์ไฟฟ้าสำหรับรถ BYD ร่วมกับ Coronet Brokers กรอกข้อมูลรับใบเสนอราคาเบี้ยประกันได้ฟรี</p>
+              <Link className="more" href="/ev-care">ขอใบเสนอราคา <Icon name="chev" size={14} /></Link>
+            </div>
+            <div className="card svc has-photo">
+              <Link className="svc-photo" href="/rental" tabIndex={-1} aria-hidden="true">
+                <Image src="/rental/delivery-3.webp" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover', objectPosition: 'center 75%' }} />
+              </Link>
               <span className="branch-ico"><Icon name="key" size={20} /></span>
               <h3>บริการรถให้เช่า</h3>
               <p>รถเช่าระหว่างซ่อม และเช่าระยะสั้น–ยาว สำหรับลูกค้าบุคคลและองค์กร</p>
               <Link className="more" href="/rental">ดูรายละเอียด <Icon name="chev" size={14} /></Link>
             </div>
-            <div className="card svc">
+            <div className="card svc has-photo">
+              <Link className="svc-photo" href="/trade-in" tabIndex={-1} aria-hidden="true">
+                <Image src="/brand/trade-in-hero.webp" alt="" fill sizes="(max-width: 700px) 100vw, 540px" style={{ objectFit: 'cover' }} />
+              </Link>
               <span className="branch-ico"><Icon name="swap" size={20} /></span>
               <h3>เทิร์นรถเก่า</h3>
               <p>ประเมินราคาให้ก่อนเข้าโชว์รูม ใช้เป็นเงินดาวน์คันใหม่ได้ทันที</p>
