@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { isBotSubmit } from '@/lib/antibot'
 import { createApplication, isResumePath } from '@/lib/careers'
 import { canon } from '@/lib/crm'
+import { ALL_POSITIONS } from '@/lib/jobs'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -27,7 +28,7 @@ const num = (v: unknown, min: number, max: number) => {
 }
 const yesNo = (v: unknown) => (v === 'yes' || v === true ? true : v === 'no' || v === false ? false : null)
 
-const POSITIONS = ['ที่ปรึกษาการขาย']
+const POSITIONS = ALL_POSITIONS
 
 export async function POST(req: Request) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown'
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
   const fullName = str(body.fullName, 120)
   const phone = str(body.phone, 30)
   const email = str(body.email, 120)
-  const position = POSITIONS.includes(str(body.position, 60)) ? str(body.position, 60) : POSITIONS[0]
+  const position = POSITIONS.includes(str(body.position, 120)) ? str(body.position, 120) : POSITIONS[0]
   const branchRaw = str(body.branch, 60)
   const resumePath = str(body.resumePath, 120)
 

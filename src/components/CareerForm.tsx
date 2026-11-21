@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import BotTrap from './BotTrap'
 import Icon from './Icons'
+import { ALL_POSITIONS, JOBS, SALES_POSITION } from '@/lib/jobs'
 
 type Props = { branches: { name: string; phone: string }[] }
 
@@ -26,6 +27,21 @@ export default function CareerForm({ branches }: Props) {
   const [progress, setProgress] = useState('')
   const [message, setMessage] = useState('')
   const fileInput = useRef<HTMLInputElement>(null)
+  // 21 พ.ย. 2569 เลือกตำแหน่งได้ (เดิมมีแต่ที่ปรึกษาการขาย) | มาจากปุ่ม "สมัครตำแหน่งนี้" = ?job=<id> เลือกตำแหน่งและสาขาให้เลย
+  const [pos, setPos] = useState<string>(SALES_POSITION)
+  const [branch, setBranch] = useState('any')
+  const isSales = pos === SALES_POSITION
+  function choosePos(title: string) {
+    setPos(title)
+    const j = JOBS.find((x) => x.title === title)
+    if (j && branches.some((b) => b.name === j.branch)) setBranch(j.branch)
+  }
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('job')
+    const j = id ? JOBS.find((x) => x.id === id) : null
+    if (j) choosePos(j.title)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function pick(list: FileList | null) {
     setFileErr('')
@@ -59,7 +75,7 @@ export default function CareerForm({ branches }: Props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          position: 'ที่ปรึกษาการขาย',
+          position: pos,
           fullName: fd.get('fullName'),
           nickname: fd.get('nickname'),
           phone: fd.get('phone'),
@@ -106,6 +122,19 @@ export default function CareerForm({ branches }: Props) {
   return (
     <form className="form" onSubmit={onSubmit} style={{ position: 'relative' }}>
       <BotTrap />
+      <div className="field">
+        <label htmlFor="position">ตำแหน่งที่สมัคร *</label>
+        <select id="position" name="position" value={pos} onChange={(e) => choosePos(e.target.value)}>
+          {ALL_POSITIONS.map((t) => {
+            const j = JOBS.find((x) => x.title === t)
+            return (
+              <option key={t} value={t}>
+                {t}{j ? ` | สาขา${j.branch}` : ' | ทุกสาขา'}
+              </option>
+            )
+          })}
+        </select>
+      </div>
       <div className="row">
         <div className="field">
           <label htmlFor="fullName">ชื่อ-นามสกุล *</label>
@@ -138,7 +167,7 @@ export default function CareerForm({ branches }: Props) {
       </div>
       <div className="field">
         <label htmlFor="branch">สาขาที่ต้องการทำงาน</label>
-        <select id="branch" name="branch" defaultValue="any">
+        <select id="branch" name="branch" value={branch} onChange={(e) => setBranch(e.target.value)}>
           <option value="any">สาขาไหนก็ได้</option>
           {branches.map((b) => (
             <option key={b.name} value={b.name}>
@@ -149,14 +178,15 @@ export default function CareerForm({ branches }: Props) {
       </div>
       <div className="row">
         <div className="field">
-          <label htmlFor="expYears">ประสบการณ์ขายรถ (ปี)</label>
+          <label htmlFor="expYears">{isSales ? 'ประสบการณ์ขายรถ (ปี)' : 'ประสบการณ์ทำงานในสายงานนี้ (ปี)'}</label>
           <input id="expYears" name="expYears" type="number" inputMode="decimal" min={0} max={50} step={0.5} placeholder="0 ถ้ายังไม่เคย" />
         </div>
         <div className="field">
-          <label htmlFor="expBrands">เคยขายแบรนด์ / ที่ไหน</label>
-          <input id="expBrands" name="expBrands" type="text" placeholder="เช่น Toyota 3 ปี, MG 1 ปี" />
+          <label htmlFor="expBrands">{isSales ? 'เคยขายแบรนด์ / ที่ไหน' : 'เคยทำงานที่ไหน / ตำแหน่งอะไร'}</label>
+          <input id="expBrands" name="expBrands" type="text" placeholder={isSales ? 'เช่น Toyota 3 ปี, MG 1 ปี' : 'เช่น ศูนย์บริการ Honda 2 ปี'} />
         </div>
       </div>
+      {isSales ? (
       <div className="row">
         <div className="field">
           <label htmlFor="hasLicense">มีใบขับขี่รถยนต์</label>
@@ -175,6 +205,7 @@ export default function CareerForm({ branches }: Props) {
           </select>
         </div>
       </div>
+      ) : null}
       <div className="field">
         <label htmlFor="intro">แนะนำตัว / ทำไมอยากร่วมงานกับเรา</label>
         <textarea id="intro" name="intro" rows={4} maxLength={1500} />

@@ -3,6 +3,7 @@ import Icon from '@/components/Icons'
 import Jsonld from '@/components/Jsonld'
 import CareerForm from '@/components/CareerForm'
 import { getSiteData } from '@/lib/data'
+import { JOBS, JOB_BENEFITS } from '@/lib/jobs'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,9 +34,9 @@ const DUTIES = [
 ]
 
 export const metadata: Metadata = {
-  title: 'สมัครงาน ที่ปรึกษาการขาย BYD',
+  title: 'สมัครงาน BYD Hi-Class | ที่ปรึกษาการขาย ช่าง EV Admin Sale',
   description:
-    'BYD Hi-Class EV Car เปิดรับสมัครที่ปรึกษาการขายทุกสาขา รายได้สูง ฐานเงินเดือน + คอมมิชชั่น หยุดสัปดาห์ละ 2 วัน ประกันสังคม + ประกันกลุ่ม มีลีดออนไลน์ส่งให้ทุกวัน สมัครออนไลน์ได้ทันที',
+    'BYD Hi-Class EV Car เปิดรับสมัครที่ปรึกษาการขายทุกสาขา และตำแหน่งประจำสาขาเหม่งจ๋าย: ช่างเทคนิครถยนต์ไฟฟ้า เจ้าหน้าที่รับประกันคุณภาพ ลูกค้าสัมพันธ์ Admin Sale และอะไหล่ สมัครออนไลน์ได้เลย',
   alternates: { canonical: '/careers' },
 }
 
@@ -59,20 +60,42 @@ export default async function CareersPage() {
     })),
     directApply: true,
   }
+  // 21 พ.ย. 2569 ตำแหน่งอื่นที่เปิดรับ (สาขาเหม่งจ๋าย) — ข้อมูลจาก src/lib/jobs.ts
+  const jobBranch = (name: string) => branches.find((b) => b.name === name)
+  const moreLd = JOBS.map((j) => ({
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    title: j.title,
+    description: `<p>หน้าที่: ${j.duties.join(' | ')}</p><p>คุณสมบัติ: ${j.qualifications.join(' | ')}</p><p>สวัสดิการ: ${JOB_BENEFITS.join(' | ')}</p>`,
+    datePosted: today.toISOString().slice(0, 10),
+    validThrough,
+    employmentType: 'FULL_TIME',
+    hiringOrganization: { '@type': 'Organization', name: 'BYD Hi-Class EV Car', sameAs: SITE, logo: `${SITE}/brand/hiclass-logo.png` },
+    jobLocation: {
+      '@type': 'Place',
+      name: `BYD Hi-Class ${j.branch}`,
+      address: { '@type': 'PostalAddress', streetAddress: jobBranch(j.branch)?.address || j.place, addressRegion: 'กรุงเทพมหานคร', addressCountry: 'TH' },
+    },
+    directApply: true,
+  }))
 
   return (
     <>
       <Jsonld data={jobLd} />
+      {moreLd.map((d) => <Jsonld key={d.title} data={d} />)}
       <section className="page-head" style={{ background: '#0b2350', color: '#fff' }}>
         <div className="container">
           <p className="kicker" style={{ color: '#f5c542' }}><Icon name="bolt" size={14} color="#f5c542" />We are hiring | ทุกสาขา</p>
           <h1 style={{ color: '#fff' }}>เปิดรับสมัคร ที่ปรึกษาการขาย</h1>
           <p className="lead" style={{ color: 'rgba(255,255,255,.85)' }}>
             ร่วมเป็นส่วนหนึ่งของทีมขายมืออาชีพ BYD Hi-Class EV Car {branches.length ? `${branches.length} สาขา` : ''} รายได้สูงตามความสามารถ
-            มีลีดจากออนไลน์ส่งให้ทุกวัน สมัครออนไลน์ได้ในไม่กี่นาที
+            มีลีดจากออนไลน์ส่งให้ทุกวัน สมัครออนไลน์ได้ในไม่กี่นาที | สาขาเหม่งจ๋ายเปิดรับเพิ่มอีก {JOBS.length} ตำแหน่ง
           </p>
           <a className="btn btn-red" href="#apply" style={{ marginTop: 16, background: '#f5c542', color: '#0b2350' }}>
             สมัครเลย <Icon name="arrow" size={18} color="#0b2350" />
+          </a>
+          <a className="btn" href="#jobs" style={{ marginTop: 16, marginLeft: 10, border: '1px solid rgba(255,255,255,.6)', color: '#fff' }}>
+            ดูตำแหน่งที่เปิดรับทั้งหมด
           </a>
         </div>
       </section>
@@ -86,7 +109,7 @@ export default async function CareersPage() {
           </span>
         </div>
         <section className="section" style={{ paddingTop: 24 }}>
-          <h2>สวัสดิการและสิ่งที่คุณจะได้รับ</h2>
+          <h2>ที่ปรึกษาการขาย | สวัสดิการและสิ่งที่คุณจะได้รับ</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 12, marginTop: 12 }}>
             {PERKS.map((p) => (
               <div key={p.title} className="card" style={{ padding: 18, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
@@ -128,6 +151,49 @@ export default async function CareersPage() {
                 ))}
               </ul>
             </div>
+          </div>
+        </section>
+
+        <section className="section" id="jobs" style={{ scrollMarginTop: 80 }}>
+          <h2>ตำแหน่งอื่นที่เปิดรับ | สาขาเหม่งจ๋าย</h2>
+          <p className="mute" style={{ marginTop: 4 }}>
+            ปฏิบัติงานที่สาขาเหม่งจ๋าย ถ.ประชาอุทิศ เขตวังทองหลาง กรุงเทพมหานคร | งานประจำ | เงินเดือนตามตกลง | กดที่ตำแหน่งเพื่อดูรายละเอียด
+          </p>
+          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+            {JOBS.map((j) => (
+              <details key={j.id} className="card" style={{ padding: 0 }}>
+                <summary style={{ padding: '16px 18px', cursor: 'pointer', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10 }}>
+                  <b style={{ fontSize: 17, flex: '1 1 240px' }}>{j.title}</b>
+                  <span className="mute" style={{ fontSize: 14 }}>{j.openings} | วุฒิ {j.education} | อายุ {j.age}</span>
+                </summary>
+                <div style={{ padding: '0 18px 18px', display: 'grid', gap: 14 }}>
+                  <p className="mute" style={{ margin: 0, fontSize: 14 }}>
+                    วันทำงาน {j.workDays} | เวลา {j.hours} | ประสบการณ์ {j.experience}
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                    <div>
+                      <h3 style={{ fontSize: 16, margin: '0 0 8px' }}>หน้าที่และความรับผิดชอบ</h3>
+                      <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6 }}>{j.duties.map((d) => <li key={d}>{d}</li>)}</ul>
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: 16, margin: '0 0 8px' }}>คุณสมบัติ</h3>
+                      <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gap: 6 }}>{j.qualifications.map((q) => <li key={q}>{q}</li>)}</ul>
+                    </div>
+                  </div>
+                  <div>
+                    <a className="btn btn-red" href={`/careers?job=${j.id}#apply`}>
+                      สมัครตำแหน่งนี้ <Icon name="arrow" size={16} color="#fff" />
+                    </a>
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+          <div className="card" style={{ padding: 18, marginTop: 12 }}>
+            <h3 style={{ fontSize: 16, margin: '0 0 8px' }}>สวัสดิการของตำแหน่งสาขาเหม่งจ๋าย</h3>
+            <ul style={{ margin: 0, paddingLeft: 20, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '6px 24px' }}>
+              {JOB_BENEFITS.map((b) => <li key={b}>{b}</li>)}
+            </ul>
           </div>
         </section>
 
