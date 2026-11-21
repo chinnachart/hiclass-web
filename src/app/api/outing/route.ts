@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { isBotSubmit } from '@/lib/antibot'
-import { ALCOHOL, ALCOHOL_TYPES, TRANSPORTS } from '@/lib/outing'
+import { ALCOHOL, ALCOHOL_TYPES, BEER_AMOUNTS, LIQUOR_AMOUNTS, MIXERS, TRANSPORTS } from '@/lib/outing'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -20,6 +20,7 @@ function rateLimited(ip: string) {
 const str = (v: unknown, max: number) => String(v ?? '').trim().slice(0, max)
 const bad = (message: string) => NextResponse.json({ message }, { status: 400 })
 const oneOf = (v: string, list: readonly string[]) => list.includes(v)
+const pickList = (v: unknown, allowed: readonly string[]) => (Array.isArray(v) ? [...new Set(v.map((x) => String(x)).filter((x) => allowed.includes(x)))] : [])
 
 /** แบบสำรวจเข้าร่วม Outing ปีใหม่ 2570 (/outing-2570) → public.outing_survey */
 export async function POST(req: Request) {
@@ -50,15 +51,21 @@ export async function POST(req: Request) {
     const foodLimit = str(body.foodLimit, 500)
     const transport = str(body.transport, 30)
     const alcohol = str(body.alcohol, 20)
-    const alcoholType = str(body.alcoholType, 20)
+    const drinks = alcohol === 'ดื่ม'
+    const types = drinks ? pickList(body.alcoholTypes, ALCOHOL_TYPES) : []
+    const beerAmount = types.includes('เบียร์') ? str(body.beerAmount, 80) : ''
+    const liquorAmount = types.includes('เหล้า') ? str(body.liquorAmount, 80) : ''
+    const mixers = types.includes('เหล้า') ? pickList(body.mixers, MIXERS) : []
     if (!religion) return bad('กรุณาเลือกศาสนา')
     if (!foodLimit) return bad('กรุณาตอบเรื่องแพ้อาหารหรือข้อจำกัดด้านอาหาร (ไม่มีให้พิมพ์ว่า ไม่มี)')
     if (!oneOf(transport, TRANSPORTS)) return bad('กรุณาเลือกวิธีเดินทาง')
     if (!oneOf(alcohol, ALCOHOL)) return bad('กรุณาเลือกว่าดื่มเครื่องดื่มแอลกอฮอล์หรือไม่')
-    if (alcohol === 'ดื่ม' && !oneOf(alcoholType, ALCOHOL_TYPES)) return bad('กรุณาเลือกประเภทของแอลกอฮอล์')
+    if (drinks && !types.length) return bad('กรุณาเลือกประเภทของแอลกอฮอล์อย่างน้อย 1 อย่าง')
+    if (types.includes('เบียร์') && !oneOf(beerAmount, BEER_AMOUNTS)) return bad('กรุณาเลือกปริมาณเบียร์ที่ทานได้')
+    if (types.includes('เหล้า') && !oneOf(liquorAmount, LIQUOR_AMOUNTS)) return bad('กรุณาเลือกปริมาณเหล้าที่ทานได้')
     if (body.ackNoOutsider !== true) return bad('กรุณากดรับทราบเรื่องไม่นำบุคคลภายนอกร่วมกิจกรรม')
     if (body.ackCost !== true) return bad('กรุณากดรับทราบและยินยอมข้อตกลง')
-    row = { ...row, religion, food_limit: foodLimit, transport, alcohol, alcohol_type: alcohol === 'ดื่ม' ? alcoholType : null, ack_no_outsider: true, ack_cost: true }
+    row = { ...row, religion, food_limit: foodLimit, transport, alcohol, alcohol_type: drinks ? types.join(', ') : null, alcohol_types: drinks ? types : null, beer_amount: beerAmount || null, liquor_amount: liquorAmount || null, mixers: mixers.length ? mixers : null, ack_no_outsider: true, ack_cost: true }
   } else {
     const reason = str(body.absentReason, 1000)
     if (body.ackAbsent !== true) return bad('กรุณากดรับทราบและยินยอมเงื่อนไขของบริษัท')

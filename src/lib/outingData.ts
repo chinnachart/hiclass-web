@@ -17,6 +17,10 @@ export type OutingRow = {
   transport: string | null
   alcohol: string | null
   alcohol_type: string | null
+  alcohol_types: string[] | null
+  beer_amount: string | null
+  liquor_amount: string | null
+  mixers: string[] | null
   ack_no_outsider: boolean | null
   ack_cost: boolean | null
   ack_absent: boolean | null
@@ -35,6 +39,9 @@ export const OUTING_COLS: [string, (r: OutingRow) => string][] = [
   ['เดินทางโดย', (r) => r.transport || ''],
   ['แอลกอฮอล์', (r) => r.alcohol || ''],
   ['ประเภทแอลกอฮอล์', (r) => r.alcohol_type || ''],
+  ['เบียร์ที่ทานได้', (r) => r.beer_amount || ''],
+  ['เหล้าที่ทานได้', (r) => r.liquor_amount || ''],
+  ['ทานเหล้ากับ', (r) => (r.mixers || []).join(', ')],
   ['รับทราบห้ามนำบุคคลภายนอก', (r) => (r.ack_no_outsider ? 'รับทราบ' : '')],
   ['ยินยอมค่าใช้จ่ายกรณีไม่ไป', (r) => (r.ack_cost ? 'รับทราบและยินยอม' : '')],
   ['ยินยอมเงื่อนไขไม่เข้าร่วม', (r) => (r.ack_absent ? 'รับทราบและยินยอม' : '')],
@@ -57,7 +64,7 @@ export async function fetchOutingRows(): Promise<OutingRow[] | null> {
   const sk = process.env.CRM_SUPABASE_SERVICE_KEY
   if (!url || !sk) return null
   const res = await fetch(
-    `${url}/rest/v1/outing_survey?select=id,created_at,full_name,department,position,branch,attend,religion,food_limit,transport,alcohol,alcohol_type,ack_no_outsider,ack_cost,ack_absent,absent_reason&order=created_at.asc&limit=5000`,
+    `${url}/rest/v1/outing_survey?select=id,created_at,full_name,department,position,branch,attend,religion,food_limit,transport,alcohol,alcohol_type,alcohol_types,beer_amount,liquor_amount,mixers,ack_no_outsider,ack_cost,ack_absent,absent_reason&order=created_at.asc&limit=5000`,
     { headers: { apikey: sk, Authorization: `Bearer ${sk}` }, cache: 'no-store' },
   )
   if (!res.ok) return null

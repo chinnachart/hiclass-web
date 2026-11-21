@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Icon from './Icons'
 import BotTrap from './BotTrap'
 import {
-  ABSENT, ACK_COST, ACK_OUTSIDER, ALCOHOL, ALCOHOL_TYPES, ATTEND_HELP, ATTEND_NO, ATTEND_YES,
+  ABSENT, ACK_COST, ACK_OUTSIDER, ALCOHOL, ALCOHOL_TYPES, ATTEND_HELP, ATTEND_NO, ATTEND_YES, BEER_AMOUNTS, LIQUOR_AMOUNTS, MIXERS,
   DEPARTMENTS, OTHER, OUTING_BRANCHES, RELIGIONS, TRANSPORTS,
 } from '@/lib/outing'
 
@@ -50,6 +50,8 @@ export default function OutingForm() {
   const [religion, setReligion] = useState('')
   const [religionOther, setReligionOther] = useState('')
   const [alcohol, setAlcohol] = useState('')
+  const [types, setTypes] = useState<string[]>([])
+  const togType = (x: string) => setTypes((t) => (t.includes(x) ? t.filter((y) => y !== x) : [...t, x]))
   const [sentAttend, setSentAttend] = useState(false)
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -57,6 +59,11 @@ export default function OutingForm() {
     if (state === 'sending') return
     const fd = new FormData(e.currentTarget)
     const pick = (v: string, o: string) => (v === OTHER ? o.trim() : v)
+    if (attend === 'yes' && alcohol === 'ดื่ม' && !types.length) {
+      setState('error')
+      setMessage('เลือกประเภทของแอลกอฮอล์อย่างน้อย 1 อย่าง')
+      return
+    }
     setState('sending')
     setMessage('')
     try {
@@ -73,7 +80,10 @@ export default function OutingForm() {
           foodLimit: fd.get('foodLimit'),
           transport: fd.get('transport'),
           alcohol,
-          alcoholType: fd.get('alcoholType'),
+          alcoholTypes: types,
+          beerAmount: fd.get('beerAmount'),
+          liquorAmount: fd.get('liquorAmount'),
+          mixers: fd.getAll('mixers'),
           ackNoOutsider: fd.get('ackNoOutsider') === 'on',
           ackCost: fd.get('ackCost') === 'on',
           ackAbsent: fd.get('ackAbsent') === 'on',
@@ -171,16 +181,58 @@ export default function OutingForm() {
             </div>
           </div>
           {alcohol === 'ดื่ม' ? (
-            <div className="field">
-              <span style={groupTitle}>ประเภทของแอลกอฮอล์ {req}</span>
-              <div style={checks}>
-                {ALCOHOL_TYPES.map((x) => (
-                  <label key={x} className="check" style={opt}>
-                    <input type="radio" name="alcoholType" value={x} required />
-                    <span>{x}</span>
-                  </label>
-                ))}
+            <div style={box}>
+              <span className="mute" style={{ fontSize: 13 }}>ตอบตามจริง เพื่อให้ฝ่ายจัดงานเตรียมเครื่องดื่มได้พอดี ไม่ขาดและไม่เหลือ</span>
+              <div className="field">
+                <span style={groupTitle}>ประเภทของแอลกอฮอล์ที่ดื่ม (เลือกได้หลายข้อ) {req}</span>
+                <div style={checks}>
+                  {ALCOHOL_TYPES.map((x) => (
+                    <label key={x} className="check" style={opt}>
+                      <input type="checkbox" name="alcoholTypes" value={x} checked={types.includes(x)} onChange={() => togType(x)} />
+                      <span>{x}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
+              {types.includes('เบียร์') ? (
+                <div className="field">
+                  <span style={groupTitle}>ทานเบียร์ได้สูงสุดประมาณเท่าไร {req}</span>
+                  <div style={checks}>
+                    {BEER_AMOUNTS.map((x) => (
+                      <label key={x} className="check" style={opt}>
+                        <input type="radio" name="beerAmount" value={x} required />
+                        <span>{x}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {types.includes('เหล้า') ? (
+                <>
+                  <div className="field">
+                    <span style={groupTitle}>ทานเหล้าได้สูงสุดประมาณเท่าไร {req}</span>
+                    <div style={checks}>
+                      {LIQUOR_AMOUNTS.map((x) => (
+                        <label key={x} className="check" style={opt}>
+                          <input type="radio" name="liquorAmount" value={x} required />
+                          <span>{x}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="field">
+                    <span style={groupTitle}>ปกติทานเหล้ากับอะไร (เลือกได้หลายข้อ)</span>
+                    <div style={checks}>
+                      {MIXERS.map((x) => (
+                        <label key={x} className="check" style={opt}>
+                          <input type="checkbox" name="mixers" value={x} />
+                          <span>{x}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : null}
             </div>
           ) : null}
 
