@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import OutingDeleteButton from '@/components/OutingDeleteButton'
 import { fetchOutingRows, latestPerPerson, outingKeyOk, OUTING_COLS, type OutingRow } from '@/lib/outingData'
 
 // หน้าดูผลแบบสำรวจ Outing 2570 — เข้าได้เฉพาะลิงก์ที่มี ?key= ถูกต้อง (คีย์ผิด = 404)
@@ -111,14 +112,15 @@ export default async function OutingResults({ searchParams }: { searchParams: Pr
         )}
       </div>
       <div className="card" style={{ padding: 16, overflowX: 'auto' }}>
-        <h3 style={{ fontSize: 16, marginBottom: 8 }}>รายชื่อทั้งหมด ({list.length} คน)</h3>
+        <h3 style={{ fontSize: 16, marginBottom: 4 }}>รายชื่อทั้งหมด ({list.length} คน)</h3>
+        <p className="mute" style={{ fontSize: 13, marginBottom: 8 }}>คำตอบทดสอบหรือคำตอบที่กรอกผิด กดปุ่มลบหน้าแถวได้ ลบแล้วกู้คืนไม่ได้</p>
         <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: 900 }}>
           <thead>
-            <tr>{OUTING_COLS.map(([h]) => <th key={h} style={th}>{h}</th>)}</tr>
+            <tr><th style={th}>ลบ</th>{OUTING_COLS.map(([h]) => <th key={h} style={th}>{h}</th>)}</tr>
           </thead>
           <tbody>
             {list.map((r) => (
-              <tr key={r.id}>{OUTING_COLS.map(([h, f]) => <td key={h} style={td}>{f(r)}</td>)}</tr>
+              <tr key={r.id}><td style={td}><OutingDeleteButton id={r.id} name={r.full_name} accessKey={key} /></td>{OUTING_COLS.map(([h, f]) => <td key={h} style={td}>{f(r)}</td>)}</tr>
             ))}
           </tbody>
         </table>
